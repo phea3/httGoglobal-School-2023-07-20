@@ -11,6 +11,45 @@
 		09FEBC5128B704E400E8B5B7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC5028B704E400E8B5B7 /* ContentView.swift */; };
 		09FEBC5328B704E500E8B5B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09FEBC5228B704E500E8B5B7 /* Assets.xcassets */; };
 		09FEBC5628B704E500E8B5B7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09FEBC5528B704E500E8B5B7 /* Preview Assets.xcassets */; };
+		09FEBC5E28B705F200E8B5B7 /* ACarousel in Frameworks */ = {isa = PBXBuildFile; productRef = 09FEBC5D28B705F200E8B5B7 /* ACarousel */; };
+		09FEBC6128B7060800E8B5B7 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 09FEBC6028B7060800E8B5B7 /* SDWebImageSwiftUI */; };
+		09FEBC6428B7061F00E8B5B7 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 09FEBC6328B7061F00E8B5B7 /* Apollo */; };
+		09FEBC6728B7067D00E8B5B7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 09FEBC6628B7067D00E8B5B7 /* Alamofire */; };
+		09FEBC6A28B706D700E8B5B7 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 09FEBC6928B706D700E8B5B7 /* KeychainSwift */; };
+		09FEBC7228B7070500E8B5B7 /* Bayon-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09FEBC6D28B7070500E8B5B7 /* Bayon-Regular.ttf */; };
+		09FEBC7328B7070500E8B5B7 /* Kantumruy-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09FEBC6F28B7070500E8B5B7 /* Kantumruy-Bold.ttf */; };
+		09FEBC7428B7070500E8B5B7 /* Kantumruy-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09FEBC7028B7070500E8B5B7 /* Kantumruy-Light.ttf */; };
+		09FEBC7528B7070500E8B5B7 /* Kantumruy-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09FEBC7128B7070500E8B5B7 /* Kantumruy-Regular.ttf */; };
+		09FEBC7728B7078500E8B5B7 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 09FEBC7628B7078500E8B5B7 /* schema.json */; };
+		09FEBC7928B707B100E8B5B7 /* query.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 09FEBC7828B707B100E8B5B7 /* query.graphql */; };
+		09FEBC7B28B707CB00E8B5B7 /* login.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 09FEBC7A28B707CB00E8B5B7 /* login.graphql */; };
+		09FEBC7D28B707D700E8B5B7 /* upload.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 09FEBC7C28B707D700E8B5B7 /* upload.graphql */; };
+		09FEBC8028B7090500E8B5B7 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC7F28B7090500E8B5B7 /* API.swift */; };
+		09FEBC8428B709A300E8B5B7 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC8328B709A300E8B5B7 /* Network.swift */; };
+		09FEBC8628B709D600E8B5B7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC8528B709D600E8B5B7 /* LoginViewModel.swift */; };
+		09FEBC8828B709FE00E8B5B7 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC8728B709FE00E8B5B7 /* ListViewModel.swift */; };
+		09FEBC8A28B70A1E00E8B5B7 /* ListStudentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC8928B70A1E00E8B5B7 /* ListStudentViewModel.swift */; };
+		09FEBC8C28B70A4700E8B5B7 /* ListAttendanceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC8B28B70A4700E8B5B7 /* ListAttendanceViewModel.swift */; };
+		09FEBC8E28B70A5D00E8B5B7 /* ListScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC8D28B70A5D00E8B5B7 /* ListScheduleViewModel.swift */; };
+		09FEBC9028B70A7500E8B5B7 /* UpdateMobileUserProfileImg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC8F28B70A7500E8B5B7 /* UpdateMobileUserProfileImg.swift */; };
+		09FEBC9228B70A8C00E8B5B7 /* MobileUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC9128B70A8C00E8B5B7 /* MobileUserViewModel.swift */; };
+		09FEBC9428B70AA600E8B5B7 /* AnnouncementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC9328B70AA600E8B5B7 /* AnnouncementViewModel.swift */; };
+		09FEBC9628B70B4500E8B5B7 /* Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC9528B70B4500E8B5B7 /* Function.swift */; };
+		09FEBC9828B70B6B00E8B5B7 /* ResponsiveContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC9728B70B6B00E8B5B7 /* ResponsiveContainer.swift */; };
+		09FEBC9A28B70B8500E8B5B7 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC9928B70B8500E8B5B7 /* TabView.swift */; };
+		09FEBC9C28B70BAE00E8B5B7 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC9B28B70BAE00E8B5B7 /* Home.swift */; };
+		09FEBC9E28B70BCE00E8B5B7 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC9D28B70BCE00E8B5B7 /* RoundedCorners.swift */; };
+		09FEBCA028B70BEE00E8B5B7 /* HalfSheetHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC9F28B70BEE00E8B5B7 /* HalfSheetHelper.swift */; };
+		09FEBCA228B70C0600E8B5B7 /* CustomDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCA128B70C0600E8B5B7 /* CustomDatePicker.swift */; };
+		09FEBCA428B70C3E00E8B5B7 /* Attendant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCA328B70C3E00E8B5B7 /* Attendant.swift */; };
+		09FEBCA628B70C5600E8B5B7 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCA528B70C5600E8B5B7 /* ImagePicker.swift */; };
+		09FEBCA828B70C6F00E8B5B7 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCA728B70C6F00E8B5B7 /* Schedule.swift */; };
+		09FEBCAA28B70C9100E8B5B7 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCA928B70C9100E8B5B7 /* Dashboard.swift */; };
+		09FEBCAC28B70CA600E8B5B7 /* Education.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCAB28B70CA600E8B5B7 /* Education.swift */; };
+		09FEBCAE28B70CBD00E8B5B7 /* Grade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCAD28B70CBD00E8B5B7 /* Grade.swift */; };
+		09FEBCB028B70CD600E8B5B7 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCAF28B70CD600E8B5B7 /* Calendar.swift */; };
+		09FEBCB228B70CEC00E8B5B7 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCB128B70CEC00E8B5B7 /* Profile.swift */; };
+		09FEBCB428B70D0000E8B5B7 /* Choosing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCB328B70D0000E8B5B7 /* Choosing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +58,41 @@
 		09FEBC5028B704E400E8B5B7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		09FEBC5228B704E500E8B5B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		09FEBC5528B704E500E8B5B7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		09FEBC6D28B7070500E8B5B7 /* Bayon-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bayon-Regular.ttf"; sourceTree = "<group>"; };
+		09FEBC6F28B7070500E8B5B7 /* Kantumruy-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kantumruy-Bold.ttf"; sourceTree = "<group>"; };
+		09FEBC7028B7070500E8B5B7 /* Kantumruy-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kantumruy-Light.ttf"; sourceTree = "<group>"; };
+		09FEBC7128B7070500E8B5B7 /* Kantumruy-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kantumruy-Regular.ttf"; sourceTree = "<group>"; };
+		09FEBC7628B7078500E8B5B7 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
+		09FEBC7828B707B100E8B5B7 /* query.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = query.graphql; sourceTree = "<group>"; };
+		09FEBC7A28B707CB00E8B5B7 /* login.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = login.graphql; sourceTree = "<group>"; };
+		09FEBC7C28B707D700E8B5B7 /* upload.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = upload.graphql; sourceTree = "<group>"; };
+		09FEBC7F28B7090500E8B5B7 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		09FEBC8328B709A300E8B5B7 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		09FEBC8528B709D600E8B5B7 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		09FEBC8728B709FE00E8B5B7 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
+		09FEBC8928B70A1E00E8B5B7 /* ListStudentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListStudentViewModel.swift; sourceTree = "<group>"; };
+		09FEBC8B28B70A4700E8B5B7 /* ListAttendanceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListAttendanceViewModel.swift; sourceTree = "<group>"; };
+		09FEBC8D28B70A5D00E8B5B7 /* ListScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListScheduleViewModel.swift; sourceTree = "<group>"; };
+		09FEBC8F28B70A7500E8B5B7 /* UpdateMobileUserProfileImg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateMobileUserProfileImg.swift; sourceTree = "<group>"; };
+		09FEBC9128B70A8C00E8B5B7 /* MobileUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileUserViewModel.swift; sourceTree = "<group>"; };
+		09FEBC9328B70AA600E8B5B7 /* AnnouncementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementViewModel.swift; sourceTree = "<group>"; };
+		09FEBC9528B70B4500E8B5B7 /* Function.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Function.swift; sourceTree = "<group>"; };
+		09FEBC9728B70B6B00E8B5B7 /* ResponsiveContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsiveContainer.swift; sourceTree = "<group>"; };
+		09FEBC9928B70B8500E8B5B7 /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
+		09FEBC9B28B70BAE00E8B5B7 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		09FEBC9D28B70BCE00E8B5B7 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
+		09FEBC9F28B70BEE00E8B5B7 /* HalfSheetHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfSheetHelper.swift; sourceTree = "<group>"; };
+		09FEBCA128B70C0600E8B5B7 /* CustomDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePicker.swift; sourceTree = "<group>"; };
+		09FEBCA328B70C3E00E8B5B7 /* Attendant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attendant.swift; sourceTree = "<group>"; };
+		09FEBCA528B70C5600E8B5B7 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		09FEBCA728B70C6F00E8B5B7 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
+		09FEBCA928B70C9100E8B5B7 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
+		09FEBCAB28B70CA600E8B5B7 /* Education.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Education.swift; sourceTree = "<group>"; };
+		09FEBCAD28B70CBD00E8B5B7 /* Grade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grade.swift; sourceTree = "<group>"; };
+		09FEBCAF28B70CD600E8B5B7 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
+		09FEBCB128B70CEC00E8B5B7 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		09FEBCB328B70D0000E8B5B7 /* Choosing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Choosing.swift; sourceTree = "<group>"; };
+		09FEBCB728B70E7600E8B5B7 /* Goglobal-School-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Goglobal-School-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +100,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09FEBC6128B7060800E8B5B7 /* SDWebImageSwiftUI in Frameworks */,
+				09FEBC6728B7067D00E8B5B7 /* Alamofire in Frameworks */,
+				09FEBC6A28B706D700E8B5B7 /* KeychainSwift in Frameworks */,
+				09FEBC6428B7061F00E8B5B7 /* Apollo in Frameworks */,
+				09FEBC5E28B705F200E8B5B7 /* ACarousel in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,8 +130,40 @@
 		09FEBC4D28B704E400E8B5B7 /* Goglobal School */ = {
 			isa = PBXGroup;
 			children = (
+				09FEBCB728B70E7600E8B5B7 /* Goglobal-School-Info.plist */,
+				09FEBC7628B7078500E8B5B7 /* schema.json */,
+				09FEBC7F28B7090500E8B5B7 /* API.swift */,
 				09FEBC4E28B704E400E8B5B7 /* Goglobal_SchoolApp.swift */,
 				09FEBC5028B704E400E8B5B7 /* ContentView.swift */,
+				09FEBC9B28B70BAE00E8B5B7 /* Home.swift */,
+				09FEBC9D28B70BCE00E8B5B7 /* RoundedCorners.swift */,
+				09FEBC7828B707B100E8B5B7 /* query.graphql */,
+				09FEBC7A28B707CB00E8B5B7 /* login.graphql */,
+				09FEBC7C28B707D700E8B5B7 /* upload.graphql */,
+				09FEBC8328B709A300E8B5B7 /* Network.swift */,
+				09FEBC8528B709D600E8B5B7 /* LoginViewModel.swift */,
+				09FEBC8728B709FE00E8B5B7 /* ListViewModel.swift */,
+				09FEBC8F28B70A7500E8B5B7 /* UpdateMobileUserProfileImg.swift */,
+				09FEBCB128B70CEC00E8B5B7 /* Profile.swift */,
+				09FEBCAB28B70CA600E8B5B7 /* Education.swift */,
+				09FEBCB328B70D0000E8B5B7 /* Choosing.swift */,
+				09FEBCAF28B70CD600E8B5B7 /* Calendar.swift */,
+				09FEBCAD28B70CBD00E8B5B7 /* Grade.swift */,
+				09FEBCA928B70C9100E8B5B7 /* Dashboard.swift */,
+				09FEBC9F28B70BEE00E8B5B7 /* HalfSheetHelper.swift */,
+				09FEBCA328B70C3E00E8B5B7 /* Attendant.swift */,
+				09FEBCA128B70C0600E8B5B7 /* CustomDatePicker.swift */,
+				09FEBCA528B70C5600E8B5B7 /* ImagePicker.swift */,
+				09FEBCA728B70C6F00E8B5B7 /* Schedule.swift */,
+				09FEBC8928B70A1E00E8B5B7 /* ListStudentViewModel.swift */,
+				09FEBC9128B70A8C00E8B5B7 /* MobileUserViewModel.swift */,
+				09FEBC8B28B70A4700E8B5B7 /* ListAttendanceViewModel.swift */,
+				09FEBC9528B70B4500E8B5B7 /* Function.swift */,
+				09FEBC9328B70AA600E8B5B7 /* AnnouncementViewModel.swift */,
+				09FEBC9928B70B8500E8B5B7 /* TabView.swift */,
+				09FEBC9728B70B6B00E8B5B7 /* ResponsiveContainer.swift */,
+				09FEBC8D28B70A5D00E8B5B7 /* ListScheduleViewModel.swift */,
+				09FEBC6B28B7070500E8B5B7 /* Fonts */,
 				09FEBC5228B704E500E8B5B7 /* Assets.xcassets */,
 				09FEBC5428B704E500E8B5B7 /* Preview Content */,
 			);
@@ -67,6 +178,33 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		09FEBC6B28B7070500E8B5B7 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				09FEBC6C28B7070500E8B5B7 /* Bayon */,
+				09FEBC6E28B7070500E8B5B7 /* Kantumruy */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		09FEBC6C28B7070500E8B5B7 /* Bayon */ = {
+			isa = PBXGroup;
+			children = (
+				09FEBC6D28B7070500E8B5B7 /* Bayon-Regular.ttf */,
+			);
+			path = Bayon;
+			sourceTree = "<group>";
+		};
+		09FEBC6E28B7070500E8B5B7 /* Kantumruy */ = {
+			isa = PBXGroup;
+			children = (
+				09FEBC6F28B7070500E8B5B7 /* Kantumruy-Bold.ttf */,
+				09FEBC7028B7070500E8B5B7 /* Kantumruy-Light.ttf */,
+				09FEBC7128B7070500E8B5B7 /* Kantumruy-Regular.ttf */,
+			);
+			path = Kantumruy;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -77,12 +215,20 @@
 				09FEBC4728B704E400E8B5B7 /* Sources */,
 				09FEBC4828B704E400E8B5B7 /* Frameworks */,
 				09FEBC4928B704E400E8B5B7 /* Resources */,
+				09FEBC7E28B7080D00E8B5B7 /* Generate Apollo Graphql API */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "Goglobal School";
+			packageProductDependencies = (
+				09FEBC5D28B705F200E8B5B7 /* ACarousel */,
+				09FEBC6028B7060800E8B5B7 /* SDWebImageSwiftUI */,
+				09FEBC6328B7061F00E8B5B7 /* Apollo */,
+				09FEBC6628B7067D00E8B5B7 /* Alamofire */,
+				09FEBC6928B706D700E8B5B7 /* KeychainSwift */,
+			);
 			productName = "Goglobal School";
 			productReference = 09FEBC4B28B704E400E8B5B7 /* Goglobal School.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +257,13 @@
 				Base,
 			);
 			mainGroup = 09FEBC4228B704E400E8B5B7;
+			packageReferences = (
+				09FEBC5C28B705F200E8B5B7 /* XCRemoteSwiftPackageReference "ACarousel" */,
+				09FEBC5F28B7060800E8B5B7 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				09FEBC6228B7061F00E8B5B7 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				09FEBC6528B7067D00E8B5B7 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				09FEBC6828B706D700E8B5B7 /* XCRemoteSwiftPackageReference "keychain-swift" */,
+			);
 			productRefGroup = 09FEBC4C28B704E400E8B5B7 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -125,12 +278,41 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09FEBC7B28B707CB00E8B5B7 /* login.graphql in Resources */,
+				09FEBC7928B707B100E8B5B7 /* query.graphql in Resources */,
+				09FEBC7728B7078500E8B5B7 /* schema.json in Resources */,
+				09FEBC7528B7070500E8B5B7 /* Kantumruy-Regular.ttf in Resources */,
+				09FEBC7428B7070500E8B5B7 /* Kantumruy-Light.ttf in Resources */,
+				09FEBC7328B7070500E8B5B7 /* Kantumruy-Bold.ttf in Resources */,
 				09FEBC5628B704E500E8B5B7 /* Preview Assets.xcassets in Resources */,
 				09FEBC5328B704E500E8B5B7 /* Assets.xcassets in Resources */,
+				09FEBC7D28B707D700E8B5B7 /* upload.graphql in Resources */,
+				09FEBC7228B7070500E8B5B7 /* Bayon-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		09FEBC7E28B7080D00E8B5B7 /* Generate Apollo Graphql API */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Apollo Graphql API";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n# Don't run this during index builds\nif [ $ACTION = \"indexbuild\" ]; then exit 0; fi\n\n# Go to the build root and search up the chain to find the Derived Data Path where the source packages are checked out.\nDERIVED_DATA_CANDIDATE=\"${BUILD_ROOT}\"\n\nwhile ! [ -d \"${DERIVED_DATA_CANDIDATE}/SourcePackages\" ]; do\n  if [ \"${DERIVED_DATA_CANDIDATE}\" = / ]; then\n    echo >&2 \"error: Unable to locate SourcePackages directory from BUILD_ROOT: '${BUILD_ROOT}'\"\n    exit 1\n  fi\n\n  DERIVED_DATA_CANDIDATE=\"$(dirname \"${DERIVED_DATA_CANDIDATE}\")\"\ndone\n\n# Grab a reference to the directory where scripts are checked out\nSCRIPT_PATH=\"${DERIVED_DATA_CANDIDATE}/SourcePackages/checkouts/apollo-ios/scripts\"\n\nif [ -z \"${SCRIPT_PATH}\" ]; then\n    echo >&2 \"error: Couldn't find the CLI script in your checked out SPM packages; make sure to add the framework to your project.\"\n    exit 1\nfi\n\ncd \"${SRCROOT}/Goglobal School\"\n\"${SCRIPT_PATH}\"/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/*.graphql --localSchemaFile=\"schema.json\" API.swift\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		09FEBC4728B704E400E8B5B7 /* Sources */ = {
@@ -138,7 +320,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				09FEBC5128B704E400E8B5B7 /* ContentView.swift in Sources */,
+				09FEBCA428B70C3E00E8B5B7 /* Attendant.swift in Sources */,
+				09FEBCA828B70C6F00E8B5B7 /* Schedule.swift in Sources */,
+				09FEBC8E28B70A5D00E8B5B7 /* ListScheduleViewModel.swift in Sources */,
+				09FEBCA628B70C5600E8B5B7 /* ImagePicker.swift in Sources */,
+				09FEBCA228B70C0600E8B5B7 /* CustomDatePicker.swift in Sources */,
+				09FEBC9628B70B4500E8B5B7 /* Function.swift in Sources */,
+				09FEBC9028B70A7500E8B5B7 /* UpdateMobileUserProfileImg.swift in Sources */,
+				09FEBC8028B7090500E8B5B7 /* API.swift in Sources */,
+				09FEBCB028B70CD600E8B5B7 /* Calendar.swift in Sources */,
+				09FEBC8A28B70A1E00E8B5B7 /* ListStudentViewModel.swift in Sources */,
+				09FEBC8828B709FE00E8B5B7 /* ListViewModel.swift in Sources */,
+				09FEBC9828B70B6B00E8B5B7 /* ResponsiveContainer.swift in Sources */,
+				09FEBC8428B709A300E8B5B7 /* Network.swift in Sources */,
+				09FEBC9E28B70BCE00E8B5B7 /* RoundedCorners.swift in Sources */,
+				09FEBCAC28B70CA600E8B5B7 /* Education.swift in Sources */,
+				09FEBC9228B70A8C00E8B5B7 /* MobileUserViewModel.swift in Sources */,
+				09FEBC9A28B70B8500E8B5B7 /* TabView.swift in Sources */,
+				09FEBC8628B709D600E8B5B7 /* LoginViewModel.swift in Sources */,
+				09FEBCAE28B70CBD00E8B5B7 /* Grade.swift in Sources */,
+				09FEBC9428B70AA600E8B5B7 /* AnnouncementViewModel.swift in Sources */,
 				09FEBC4F28B704E400E8B5B7 /* Goglobal_SchoolApp.swift in Sources */,
+				09FEBC9C28B70BAE00E8B5B7 /* Home.swift in Sources */,
+				09FEBCB428B70D0000E8B5B7 /* Choosing.swift in Sources */,
+				09FEBCAA28B70C9100E8B5B7 /* Dashboard.swift in Sources */,
+				09FEBCA028B70BEE00E8B5B7 /* HalfSheetHelper.swift in Sources */,
+				09FEBCB228B70CEC00E8B5B7 /* Profile.swift in Sources */,
+				09FEBC8C28B70A4700E8B5B7 /* ListAttendanceViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,12 +472,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Goglobal School/Preview Content\"";
-				DEVELOPMENT_TEAM = 74YS48ZLZ4;
+				DEVELOPMENT_TEAM = HZ73GSKF9X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Goglobal-School-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -282,6 +492,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Second.dayofSwift.Goglobal-School";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -293,12 +504,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Goglobal School/Preview Content\"";
-				DEVELOPMENT_TEAM = 74YS48ZLZ4;
+				DEVELOPMENT_TEAM = HZ73GSKF9X;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Goglobal-School-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -311,6 +524,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Second.dayofSwift.Goglobal-School";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -339,6 +553,77 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		09FEBC5C28B705F200E8B5B7 /* XCRemoteSwiftPackageReference "ACarousel" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JWAutumn/ACarousel";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		09FEBC5F28B7060800E8B5B7 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		09FEBC6228B7061F00E8B5B7 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		09FEBC6528B7067D00E8B5B7 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		09FEBC6828B706D700E8B5B7 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/evgenyneu/keychain-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		09FEBC5D28B705F200E8B5B7 /* ACarousel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 09FEBC5C28B705F200E8B5B7 /* XCRemoteSwiftPackageReference "ACarousel" */;
+			productName = ACarousel;
+		};
+		09FEBC6028B7060800E8B5B7 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 09FEBC5F28B7060800E8B5B7 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+		09FEBC6328B7061F00E8B5B7 /* Apollo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 09FEBC6228B7061F00E8B5B7 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = Apollo;
+		};
+		09FEBC6628B7067D00E8B5B7 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 09FEBC6528B7067D00E8B5B7 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		09FEBC6928B706D700E8B5B7 /* KeychainSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 09FEBC6828B706D700E8B5B7 /* XCRemoteSwiftPackageReference "keychain-swift" */;
+			productName = KeychainSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 09FEBC4328B704E400E8B5B7 /* Project object */;
 }

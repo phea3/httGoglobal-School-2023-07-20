@@ -1,0 +1,89 @@
+
+query GetEvents {
+  getEvents {
+    _id
+    eventName
+    eventNameKhmer
+    eventDate
+  }
+}
+
+query GetStudentsByParents($parentId: ID) {
+  getStudentsByParents(parentId: $parentId) {
+    _id
+    firstName
+    lastName
+    enrollments {
+      _id
+      programId {
+        _id
+        programmName
+      }
+      academicYearId {
+        _id
+        academicYear
+      }
+      gradeId {
+        _id
+        gradeName
+      }
+      startDate
+      endDate
+      classId {
+        _id
+        className
+      }
+      className
+    }
+    profileImg
+  }
+}
+
+query GetAttendanceByStudentId($studentId: ID!) {
+  getAttendanceByStudentId(studentId: $studentId) {
+    attendanceId
+    attendanceDate
+    status
+  }
+}
+
+query GetSectionShiftById($sectionShiftId: ID!) {
+  getSectionShiftById(sectionShiftId: $sectionShiftId) {
+    sections {
+      _id
+      leadTeacherId {
+        _id
+        role
+        firstName
+        lastName
+      }
+      startTime
+      endTime
+      dayOfWeek
+      subjectId {
+        subjectName
+      }
+      breakTime
+    }
+  }
+}
+
+query GetMobileUserById($mobileUserId: ID) {
+  getMobileUserById(mobileUserId: $mobileUserId) {
+    _id
+    email
+    password
+    profileImage
+  }
+}
+
+query GetAnnouncement {
+  getAnnouncement {
+    _id
+    title
+    description
+    picture
+    date
+  }
+}
+

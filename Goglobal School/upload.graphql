@@ -1,0 +1,8 @@
+
+
+mutation UpdateMobileUserProfileImg($mobileUserId: ID, $profileImage: String) {
+  updateMobileUserProfileImg(mobileUserId: $mobileUserId, profileImage: $profileImage) {
+    success
+    message
+  }
+}
