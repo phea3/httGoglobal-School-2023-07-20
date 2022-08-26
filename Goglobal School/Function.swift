@@ -175,7 +175,6 @@ extension View{
     func widgetStu(ImageStudent: String, Firstname: String, Lastname: String,prop:Properties) -> some View {
         
         VStack(alignment: .center, spacing: 0){
-            
             AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(ImageStudent)"), scale: 2){image in
                 
                 switch  image {

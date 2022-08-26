@@ -212,10 +212,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 09FEBC5928B704E500E8B5B7 /* Build configuration list for PBXNativeTarget "Goglobal School" */;
 			buildPhases = (
+				09FEBC7E28B7080D00E8B5B7 /* Generate Apollo Graphql API */,
 				09FEBC4728B704E400E8B5B7 /* Sources */,
 				09FEBC4828B704E400E8B5B7 /* Frameworks */,
 				09FEBC4928B704E400E8B5B7 /* Resources */,
-				09FEBC7E28B7080D00E8B5B7 /* Generate Apollo Graphql API */,
 			);
 			buildRules = (
 			);
@@ -489,8 +489,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Second.dayofSwift.Goglobal-School";
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Second-dayofSwift-Testing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -521,8 +521,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Second.dayofSwift.Goglobal-School";
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Second-dayofSwift-Testing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

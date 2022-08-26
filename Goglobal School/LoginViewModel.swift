@@ -26,13 +26,12 @@ class LoginViewModel: ObservableObject{
                     keychain.set(token, forKey: LoginViewModel.loginKeychainKey)
                     DispatchQueue.main.async {
                         self?.isAuthenticated = true
-                        print(token)
-                    }
+                        print(token)                    }
                 }
                 if let userId = graphQLResult.data?.login?.user?.parentId?._id{
                     DispatchQueue.main.async {
                         self?.userId = userId
-//                        print(userId)
+                        print(userId)
                     }
                 }
             case .failure(let error):

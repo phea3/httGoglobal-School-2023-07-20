@@ -27,8 +27,8 @@ struct Grade: View {
     var btnBack : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()
     }) {
-            backButtonView(prop: prop, barTitle: barTitle)
-        }
+        backButtonView(prop: prop, barTitle: barTitle)
+    }
     }
     
     var body: some View {
@@ -46,7 +46,7 @@ struct Grade: View {
                 .frame(width: .infinity, height: .infinity, alignment: .leading)
                 VStack(spacing: 0){
                     List(Array(Enrollment.enumerated()), id: \.element.id){ index, item in
-                        Choose(Grade: item.GradeId.GradeName , Class: item.ClassName, Programme: item.ProgramId.ProgramName, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, color: index % 2 == 0 ? colorOrg: colorBlue,prop:prop)
+                        Choose(Grade: item.GradeId.GradeName , Class: item.ClassName, Year: item.AcademicYearId.AcademicYear, Programme: item.ProgramId.ProgramName, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, color: index % 2 == 0 ? colorOrg: colorBlue,prop:prop)
                             .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
                             .backgroundRemover()
                     }
@@ -86,6 +86,7 @@ struct Choose: View {
     @State var showsheet: Bool = false
     @State var Grade: String
     @State var Class: String
+    @State var Year: String
     @State var Programme: String
     @Binding var chose: Chose
     @Binding var isShow: Bool
@@ -96,16 +97,16 @@ struct Choose: View {
     var body: some View {
         
         HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-//            if !(prop.isiPad && (!prop.isLandscape)){
-                Circle()
-                    .frame(width: 49, height: 49, alignment: .center)
-                    .overlay(
-                        Image(systemName: "graduationcap.circle.fill")
-                            .font(.system(size: 50))
-                            .frame(width: 50, height: 50, alignment: .center)
-                            .foregroundColor(.white)
-                    )
-//            }
+            //            if !(prop.isiPad && (!prop.isLandscape)){
+            Circle()
+                .frame(width: 49, height: 49, alignment: .center)
+                .overlay(
+                    Image(systemName: "graduationcap.circle.fill")
+                        .font(.system(size: 50))
+                        .frame(width: 50, height: 50, alignment: .center)
+                        .foregroundColor(.white)
+                )
+            //            }
             VStack(alignment: .leading){
                 HStack(spacing: prop.isiPhoneS ? 3 : prop.isiPhoneM ? 4 : 5){
                     Text(Grade)
@@ -116,10 +117,14 @@ struct Choose: View {
                         .listRowBackground(Color.yellow)
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                 }
-                
-                Text(Programme)
-                    .listRowBackground(Color.yellow)
-                    .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                HStack{
+                    Text(Programme)
+                        .listRowBackground(Color.yellow)
+                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                    Text(Year)
+                        .listRowBackground(Color.yellow)
+                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                }
             }
         }
         .padding()
@@ -140,8 +145,8 @@ struct Choose: View {
                             .foregroundColor(Color("Blue"))
                         TabButton(title: "កាលវិភាគសិក្សា", image: "calendar.badge.clock", chose: .attendance, selection: "attendance")
                         TabButton(title: "វត្តមានសិស្ស", image: "checklist", chose: .absence, selection: "absence")
-//                        TabButton(title: "ប្រតិបត្តិពន្ទុ", image: "newspaper.fill", chose: .score, selection: "score")
-//                        TabButton(title: "តម្លៃសិក្សា", image: "dollarsign.square.fill", chose: .payment, selection: "payment")
+                        //                        TabButton(title: "ប្រតិបត្តិពន្ទុ", image: "newspaper.fill", chose: .score, selection: "score")
+                        //                        TabButton(title: "តម្លៃសិក្សា", image: "dollarsign.square.fill", chose: .payment, selection: "payment")
                         Spacer()
                     }
                     .padding(.horizontal)

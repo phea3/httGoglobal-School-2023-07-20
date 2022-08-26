@@ -115,7 +115,7 @@ struct Dashboard: View {
                                                             } label: {
                                                             image
                                                                 .resizable()
-                                                                .aspectRatio(contentMode: .fill)
+                                                                .aspectRatio(contentMode: .fit)
                                                                 .frame(maxHeight: .infinity)
                                                                 .cornerRadius(30)
                                                             }
