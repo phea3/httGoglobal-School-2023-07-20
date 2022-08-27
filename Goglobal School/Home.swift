@@ -16,18 +16,21 @@ struct Home: View {
     @State var currentTab: Tab = .dashboard
     @State var animationFinished: Bool = false
     @State var animationStarted: Bool = false
-    @State var gmail: String = "loklundy@gmail.com"
-    @State var password: String = "123456789"
-//    @State var gmail: String = ""
-//    @State var password: String = ""
+//    @State var gmail: String = "loklundy@gmail.com"
+//    @State var password: String = "123456789"
+    @State var forget: Bool = false
+    @State var isempty: Bool = false
+        @State var gmail: String = ""
+        @State var password: String = ""
     @State var isLoading: Bool = false
+    @State var showContact: Bool = false
     let lightGrayColor = Color.white
     
     
     var body: some View {
         ResponsiveView{ prop in
             ZStack{
-               ImageBackgroundSignIn()
+                ImageBackgroundSignIn()
                 if loginVM.isAuthenticated{
                     MainView(prop: prop)
                 }else{
@@ -46,11 +49,11 @@ struct Home: View {
                 // MARK: Need to Apply BG For Each Tab View
                 Dashboard(isLoading: $isLoading, parentId: loginVM.userId, prop: prop)
                     .tag(Tab.dashboard)
-                Education(parentId: loginVM.userId, prop: prop)
+                Education(isLoading: $isLoading, parentId: loginVM.userId, prop: prop)
                     .tag(Tab.education)
-                Calendar(prop: prop)
+                Calendar(isLoading: $isLoading, prop: prop)
                     .tag(Tab.bag)
-                Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), prop: prop)
+                Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, prop: prop)
                     .tag(Tab.book)
             }
             // MARK: Custom to Bar
@@ -86,6 +89,7 @@ struct Home: View {
     
     @ViewBuilder
     func LoginView(prop: Properties)-> some View{
+        
         ZStack{
             VStack{
                 Spacer()
@@ -105,7 +109,7 @@ struct Home: View {
                             self.gmail = $0.lowercased()
                         })
                         TextField("បញ្ជូលអ៊ីម៉ែលរបស់អ្នក", text: binding)
-//                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .body))
+                        //                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .body))
                             .padding(prop.isiPhoneS ? 13 : prop.isiPhoneM ? 15 : prop.isiPhoneL ? 20 : 20)
                             .cornerRadius(10)
                             .overlay(
@@ -117,8 +121,8 @@ struct Home: View {
                     VStack(alignment: .leading, spacing: prop.isiPhoneS ? 4 : prop.isiPhoneM ? 6 : prop.isiPhoneL ? 8 : 10) {
                         Text("ពាក្យសម្ងាត់")
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .body))
-                        SecureField("បញ្ជូលពាក្យសម្ងាត់របស់នាក់", text: $password)
-//                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .body))
+                        SecureField("បញ្ជូលពាក្យសម្ងាត់របស់អ្នក", text: $password)
+                        //                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .body))
                             .padding(prop.isiPhoneS ? 13 : prop.isiPhoneM ? 17 : prop.isiPhoneL ? 19 : 20)
                             .cornerRadius(10)
                             .overlay(
@@ -131,12 +135,13 @@ struct Home: View {
                         loginVM.login(email: gmail, password: password)
                         self.isLoading = true
                         if self.gmail.isEmpty || password.isEmpty {
-                            print("no value")
+                            self.isempty = true
                             self.isLoading = false
                         }else{
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3){
                                 if !loginVM.isAuthenticated{
                                     self.isLoading = false
+                                    self.forget = true
                                 }
                             }
                         }
@@ -152,7 +157,25 @@ struct Home: View {
                     }
                 }
                 .frame(maxWidth: prop.isiPad ? 400 : prop.isiPhoneL ? 400 : .infinity )
+                if isempty{
+                    Text("សូមសរសេរអ៊ីម៉ែល & ពាក្យសម្ងាត់")
+                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .body))
+                        .foregroundColor(Color("Blue"))
+                }
+                
                 Spacer()
+                
+                if forget{
+                    Button {
+                        self.showContact = true
+                    } label: {
+                        Text("ភ្លេចពាក្យសម្ងាត់?")
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 22, relativeTo: .body))
+                    }
+                    .sheet(isPresented: $showContact) {
+                        SheetContact(prop: prop)
+                    }
+                }
                 footer(prop: prop)
             }
             .padding()
@@ -181,4 +204,3 @@ struct Home_Previews: PreviewProvider {
         ContentView()
     }
 }
-

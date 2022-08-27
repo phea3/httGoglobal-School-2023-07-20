@@ -12,6 +12,7 @@ struct Calendar: View {
     @StateObject var academiclist: ListViewModel = ListViewModel()
     @State var colorBlue: String = "LightBlue"
     @State var colorOrg: String = "LightOrange"
+    @Binding var isLoading: Bool
     let gradient = Color("BG")
     var prop: Properties
     @State var axcessPadding: CGFloat = 0
@@ -59,6 +60,7 @@ struct Calendar: View {
                                     .setBackgroundRow(color: index % 2 == 0 ? colorOrg : colorBlue)
                                 }
                             }
+                            .padding(.bottom,60)
                         }
                         .padding(.top)
                         .padding(.horizontal)
@@ -70,6 +72,9 @@ struct Calendar: View {
             .applyBG()
             .onAppear {
                 academiclist.populateAllContinent()
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                }
             }
         }
         .phoneOnlyStackNavigationView()
@@ -83,7 +88,7 @@ struct Calendar: View {
 struct Calendar_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Calendar(prop: prop)
+        Calendar(isLoading: .constant(false), prop: prop)
     }
 }
 

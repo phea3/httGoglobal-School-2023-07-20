@@ -21,7 +21,7 @@ class ListScheduleViewModel: ObservableObject{
     }
     
     func getSchedule(sectionShiftId: String){
-        Network.shared.apollo.fetch(query: GetSectionShiftByIdQuery(sectionShiftId: "621c3c65e7970cc70c792a07")){
+        Network.shared.apollo.fetch(query: GetSectionShiftByIdQuery(sectionShiftId: sectionShiftId)){
             [weak self] result in
             
             switch result{

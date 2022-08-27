@@ -119,6 +119,13 @@ struct CustomDatePicker: View {
                     }
                     //                .padding()
                     //                .padding(.top,25)
+                    
+                    VStack{
+                        Text("ថ្ងៃពណ៍ក្រហមជាថ្ងៃឈប់")
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .callout).bold())
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(.red)
+                    }
                 }
             }
         }

@@ -70,16 +70,16 @@ extension View{
                     .foregroundColor(Color("Blue"))
                     .padding(.top, prop.isLandscape ? 10 : 0)
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack{
-                        Image("user7")
-                            .resizable()
-                            .clipShape(Circle())
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 26 : 28), alignment: .center)
-                    }
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    HStack{
+//                        Image("user7")
+//                            .resizable()
+//                            .clipShape(Circle())
+//                            .aspectRatio(contentMode: .fill)
+//                            .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 26 : 28), alignment: .center)
+//                    }
 //                    .padding(.top, prop.isLandscape ? 10 : 0)
-                }
+//                }
         }
     }
     func gradientView(prop:Properties, gradient: Color) -> some View {
@@ -172,45 +172,7 @@ extension View{
         self
             
     }
-    func widgetStu(ImageStudent: String, Firstname: String, Lastname: String,prop:Properties) -> some View {
-        
-        VStack(alignment: .center, spacing: 0){
-            AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(ImageStudent)"), scale: 2){image in
-                
-                switch  image {
-                    
-                case .empty:
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                case .success(let image):
-                    image
-                        .resizable()
-                        .clipShape(Circle())
-                        .aspectRatio(contentMode: .fit)
-                case .failure:
-                    Text("Failed fetching image. Make sure to check your data connection and try again.")
-                        .foregroundColor(.red)
-                @unknown default:
-                    fatalError()
-                }
-            }
-           
-            HStack{
-                Text(Lastname)
-                Text(Firstname)
-            }
-            .padding(5)
-            .font(.system(size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 :16))
-            .frame(maxWidth: prop.isiPhoneS ? 100 : prop.isiPhoneM ? 110 : prop.isiPhoneL ? 120 : 130)
-            .background(.blue)
-            .cornerRadius(5)
-            .padding(.bottom, 10)
-        }
-        .background(.clear)
-        .foregroundColor(.white)
-        .frame(width: prop.isiPhoneS ? 140 : prop.isiPhoneM ? 160 : prop.isiPhoneL ? 180 : 200, height: prop.isiPhoneS ? 160 : prop.isiPhoneM ? 180 : prop.isiPhoneL ? 220 : 220, alignment: .center)
-        .addBorder(.orange,width: 1, cornerRadius: 20)
-    }
+   
     public func addBorder<S>(_ content: S, width: CGFloat = 1, cornerRadius: CGFloat) -> some View where S : ShapeStyle {
              let roundedRect = RoundedRectangle(cornerRadius: cornerRadius)
              return clipShape(roundedRect)

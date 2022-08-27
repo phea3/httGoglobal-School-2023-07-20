@@ -64,7 +64,7 @@ struct Schedule: View {
         }
         .setBG()
         .onAppear {
-            Schedule.getSchedule(sectionShiftId: "62e4d39db2510d7e34f76682")
+            Schedule.getSchedule(sectionShiftId: "")
         }
     }
     

@@ -23,6 +23,7 @@ struct Profile: View {
     @State var imageURL: String = ""
     @State private var showSheet = false
     @State private var refresh: Bool = false
+    @Binding var Loading: Bool
     let gradient = Color("BG")
     var prop: Properties
     var btnBack : some View { btnBackView(prop: prop, title: "គណនី")}
@@ -40,12 +41,13 @@ struct Profile: View {
                                     VStack(spacing: 0){
                                         Image("BgNews")
                                             .resizable()
-                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: prop.isLandscape && prop.isiPhone ? 400 : .infinity)
                                             .cornerRadius(20)
                                         Rectangle()
                                             .foregroundColor(.clear)
                                             .frame(maxWidth: prop.isLandscape ? 400 : .infinity, maxHeight: 50, alignment: .leading)
                                     }
+                                    .frame(maxWidth: .infinity, maxHeight: 200, alignment: .center)
                                     VStack{
                                         if userProfile.userID.isEmpty{
                                             Image(uiImage: self.image)
@@ -238,6 +240,9 @@ struct Profile: View {
             .setBG()
             .onAppear{
                 userProfile.getProfileImage()
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                }
             }
         }
         .phoneOnlyStackNavigationView()
@@ -263,7 +268,7 @@ struct Profile: View {
 struct Profile_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Profile(logout: LoginViewModel(), uploadImg: UpdateMobileUserProfileImg(), prop: prop )
+        Profile(logout: LoginViewModel(), uploadImg: UpdateMobileUserProfileImg(), Loading: .constant(false ), prop: prop)
     }
 }
 
