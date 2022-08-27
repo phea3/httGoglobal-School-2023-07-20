@@ -94,7 +94,7 @@
 		09FEBCAF28B70CD600E8B5B7 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		09FEBCB128B70CEC00E8B5B7 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		09FEBCB328B70D0000E8B5B7 /* Choosing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Choosing.swift; sourceTree = "<group>"; };
-		09FEBCB728B70E7600E8B5B7 /* Goglobal-School-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Goglobal-School-Info.plist"; path = "Goglobal School/Config/Goglobal-School-Info.plist"; sourceTree = SOURCE_ROOT; };
+		09FEBCB728B70E7600E8B5B7 /* Goglobal-School-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Goglobal-School-Info.plist"; path = "Goglobal School/Goglobal-School-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,7 +113,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		09178C2828B9AA7D00A507EA /* ClassObservable */ = {
+		09178C2828B9AA7D00A507EA /* ClassObservables */ = {
 			isa = PBXGroup;
 			children = (
 				09FEBC8F28B70A7500E8B5B7 /* UpdateMobileUserProfileImg.swift */,
@@ -125,7 +125,7 @@
 				09FEBC9328B70AA600E8B5B7 /* AnnouncementViewModel.swift */,
 				09FEBC8D28B70A5D00E8B5B7 /* ListScheduleViewModel.swift */,
 			);
-			path = ClassObservable;
+			path = ClassObservables;
 			sourceTree = "<group>";
 		};
 		09178C2928B9AAD600A507EA /* Components */ = {
@@ -160,18 +160,6 @@
 			path = Screens;
 			sourceTree = "<group>";
 		};
-		09178C2B28B9AB6100A507EA /* Config */ = {
-			isa = PBXGroup;
-			children = (
-				09FEBCB728B70E7600E8B5B7 /* Goglobal-School-Info.plist */,
-				09FEBC7828B707B100E8B5B7 /* query.graphql */,
-				09FEBC7A28B707CB00E8B5B7 /* login.graphql */,
-				09FEBC7C28B707D700E8B5B7 /* upload.graphql */,
-				09FEBC7628B7078500E8B5B7 /* schema.json */,
-			);
-			path = Config;
-			sourceTree = "<group>";
-		};
 		09FEBC4228B704E400E8B5B7 = {
 			isa = PBXGroup;
 			children = (
@@ -191,13 +179,17 @@
 		09FEBC4D28B704E400E8B5B7 /* Goglobal School */ = {
 			isa = PBXGroup;
 			children = (
+				09FEBCB728B70E7600E8B5B7 /* Goglobal-School-Info.plist */,
 				09FEBC4E28B704E400E8B5B7 /* Goglobal_SchoolApp.swift */,
 				09FEBC5028B704E400E8B5B7 /* ContentView.swift */,
 				09FEBC9B28B70BAE00E8B5B7 /* Home.swift */,
-				09178C2B28B9AB6100A507EA /* Config */,
+				09FEBC7828B707B100E8B5B7 /* query.graphql */,
+				09FEBC7A28B707CB00E8B5B7 /* login.graphql */,
+				09FEBC7C28B707D700E8B5B7 /* upload.graphql */,
+				09FEBC7628B7078500E8B5B7 /* schema.json */,
 				09178C2A28B9AB1E00A507EA /* Screens */,
 				09178C2928B9AAD600A507EA /* Components */,
-				09178C2828B9AA7D00A507EA /* ClassObservable */,
+				09178C2828B9AA7D00A507EA /* ClassObservables */,
 				09FEBC6B28B7070500E8B5B7 /* Fonts */,
 				09FEBC5228B704E500E8B5B7 /* Assets.xcassets */,
 				09FEBC5428B704E500E8B5B7 /* Preview Content */,
