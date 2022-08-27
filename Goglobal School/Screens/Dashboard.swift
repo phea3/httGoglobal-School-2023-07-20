@@ -17,7 +17,7 @@ struct Dashboard: View {
     @State var ImageStudent: String = ""
     @State var NameStudent: String = ""
     @State var showingSheet: Bool = false
-    @State var detailId: String =  "123"
+    @State var detailId: String =  ""
     @Binding var isLoading: Bool
     let gradient = Color.clear
     var barTitle: String = "ទំព័រដើម"
@@ -184,74 +184,5 @@ struct Dashboard_Previews: PreviewProvider {
     }
 }
 
-struct Annoucements: View {
-    var prop: Properties
-    @Environment(\.dismiss) var dismiss
-    @Environment(\.presentationMode) var presentationMode
-    @Binding var postId: String
-    @StateObject var DetailAnnoucementList: AnnouncementViewModel = AnnouncementViewModel()
-   
-    var body: some View {
-        VStack{
-            Button {
-                presentationMode.wrappedValue.dismiss()
-            } label: {
-                Image(systemName: "x.circle.fill")
-                    .foregroundColor(.red)
-                    .padding()
-                    .font(.title)
-            }
-            .opacity(prop.isLandscape && prop.isiPhone ? 1:0)
-            .hTrailing()
-            if postId == "123"{
-                Text("")
-            }else{
-                VStack{
-                    ForEach(DetailAnnoucementList.Annouces, id: \.id){ Annouce in
-                        if self.postId == Annouce.id {
-                            
-                            AsyncImage(url: URL(string: Annouce.img ), scale: 2){image in
 
-                                switch  image {
-
-                                case .empty:
-                                    ProgressView()
-                                        .progressViewStyle(.circular)
-                                case .success(let image):
-                                    image
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .cornerRadius(20)
-                                        .padding()
-                                case .failure:
-                                    Text("Failed fetching image. Make sure to check your data connection and try again.")
-                                        .foregroundColor(.red)
-                                @unknown default:
-                                    fatalError()
-                                }
-                            }
-                            VStack{
-                                Text(Annouce.title)
-                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
-                                    .foregroundColor(.blue)
-                                    .padding(.horizontal)
-                                    .shadow(color: .white, radius: 5)
-                                    .frame(maxWidth:.infinity, alignment: .leading)
-                                Text(Annouce.description)
-                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
-                                    .foregroundColor(.blue)
-                                    .padding(.horizontal)
-                                    .shadow(color: .white, radius: 5)
-                                    .frame(maxWidth:.infinity, alignment: .leading)
-                            }
-                        }
-                    }
-                }
-                .onAppear{
-                    DetailAnnoucementList.getAnnoucement()
-                }
-            }
-        }
-    }
-}
 

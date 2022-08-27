@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09178C2728B9A43E00A507EA /* Annoucements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09178C2628B9A43E00A507EA /* Annoucements.swift */; };
 		09FEBC4F28B704E400E8B5B7 /* Goglobal_SchoolApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC4E28B704E400E8B5B7 /* Goglobal_SchoolApp.swift */; };
 		09FEBC5128B704E400E8B5B7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC5028B704E400E8B5B7 /* ContentView.swift */; };
 		09FEBC5328B704E500E8B5B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09FEBC5228B704E500E8B5B7 /* Assets.xcassets */; };
@@ -53,6 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		09178C2628B9A43E00A507EA /* Annoucements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annoucements.swift; sourceTree = "<group>"; };
 		09FEBC4B28B704E400E8B5B7 /* Goglobal School.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Goglobal School.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09FEBC4E28B704E400E8B5B7 /* Goglobal_SchoolApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goglobal_SchoolApp.swift; sourceTree = "<group>"; };
 		09FEBC5028B704E400E8B5B7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -92,7 +94,7 @@
 		09FEBCAF28B70CD600E8B5B7 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		09FEBCB128B70CEC00E8B5B7 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		09FEBCB328B70D0000E8B5B7 /* Choosing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Choosing.swift; sourceTree = "<group>"; };
-		09FEBCB728B70E7600E8B5B7 /* Goglobal-School-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Goglobal-School-Info.plist"; sourceTree = SOURCE_ROOT; };
+		09FEBCB728B70E7600E8B5B7 /* Goglobal-School-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Goglobal-School-Info.plist"; path = "Goglobal School/Config/Goglobal-School-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,65 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09178C2828B9AA7D00A507EA /* ClassObservable */ = {
+			isa = PBXGroup;
+			children = (
+				09FEBC8F28B70A7500E8B5B7 /* UpdateMobileUserProfileImg.swift */,
+				09FEBC8728B709FE00E8B5B7 /* ListViewModel.swift */,
+				09FEBC8528B709D600E8B5B7 /* LoginViewModel.swift */,
+				09FEBC8B28B70A4700E8B5B7 /* ListAttendanceViewModel.swift */,
+				09FEBC8928B70A1E00E8B5B7 /* ListStudentViewModel.swift */,
+				09FEBC9128B70A8C00E8B5B7 /* MobileUserViewModel.swift */,
+				09FEBC9328B70AA600E8B5B7 /* AnnouncementViewModel.swift */,
+				09FEBC8D28B70A5D00E8B5B7 /* ListScheduleViewModel.swift */,
+			);
+			path = ClassObservable;
+			sourceTree = "<group>";
+		};
+		09178C2928B9AAD600A507EA /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				09FEBC7F28B7090500E8B5B7 /* API.swift */,
+				09FEBC9D28B70BCE00E8B5B7 /* RoundedCorners.swift */,
+				09FEBC8328B709A300E8B5B7 /* Network.swift */,
+				09FEBC9F28B70BEE00E8B5B7 /* HalfSheetHelper.swift */,
+				09FEBCA528B70C5600E8B5B7 /* ImagePicker.swift */,
+				09FEBC9528B70B4500E8B5B7 /* Function.swift */,
+				09FEBC9928B70B8500E8B5B7 /* TabView.swift */,
+				09FEBC9728B70B6B00E8B5B7 /* ResponsiveContainer.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		09178C2A28B9AB1E00A507EA /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				09FEBCA928B70C9100E8B5B7 /* Dashboard.swift */,
+				09178C2628B9A43E00A507EA /* Annoucements.swift */,
+				09FEBCAB28B70CA600E8B5B7 /* Education.swift */,
+				09FEBCAF28B70CD600E8B5B7 /* Calendar.swift */,
+				09FEBCB128B70CEC00E8B5B7 /* Profile.swift */,
+				09FEBCB328B70D0000E8B5B7 /* Choosing.swift */,
+				09FEBCAD28B70CBD00E8B5B7 /* Grade.swift */,
+				09FEBCA728B70C6F00E8B5B7 /* Schedule.swift */,
+				09FEBCA328B70C3E00E8B5B7 /* Attendant.swift */,
+				09FEBCA128B70C0600E8B5B7 /* CustomDatePicker.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		09178C2B28B9AB6100A507EA /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				09FEBCB728B70E7600E8B5B7 /* Goglobal-School-Info.plist */,
+				09FEBC7828B707B100E8B5B7 /* query.graphql */,
+				09FEBC7A28B707CB00E8B5B7 /* login.graphql */,
+				09FEBC7C28B707D700E8B5B7 /* upload.graphql */,
+				09FEBC7628B7078500E8B5B7 /* schema.json */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		09FEBC4228B704E400E8B5B7 = {
 			isa = PBXGroup;
 			children = (
@@ -130,39 +191,13 @@
 		09FEBC4D28B704E400E8B5B7 /* Goglobal School */ = {
 			isa = PBXGroup;
 			children = (
-				09FEBCB728B70E7600E8B5B7 /* Goglobal-School-Info.plist */,
-				09FEBC7628B7078500E8B5B7 /* schema.json */,
-				09FEBC7F28B7090500E8B5B7 /* API.swift */,
 				09FEBC4E28B704E400E8B5B7 /* Goglobal_SchoolApp.swift */,
 				09FEBC5028B704E400E8B5B7 /* ContentView.swift */,
 				09FEBC9B28B70BAE00E8B5B7 /* Home.swift */,
-				09FEBC9D28B70BCE00E8B5B7 /* RoundedCorners.swift */,
-				09FEBC7828B707B100E8B5B7 /* query.graphql */,
-				09FEBC7A28B707CB00E8B5B7 /* login.graphql */,
-				09FEBC7C28B707D700E8B5B7 /* upload.graphql */,
-				09FEBC8328B709A300E8B5B7 /* Network.swift */,
-				09FEBC8528B709D600E8B5B7 /* LoginViewModel.swift */,
-				09FEBC8728B709FE00E8B5B7 /* ListViewModel.swift */,
-				09FEBC8F28B70A7500E8B5B7 /* UpdateMobileUserProfileImg.swift */,
-				09FEBCB128B70CEC00E8B5B7 /* Profile.swift */,
-				09FEBCAB28B70CA600E8B5B7 /* Education.swift */,
-				09FEBCB328B70D0000E8B5B7 /* Choosing.swift */,
-				09FEBCAF28B70CD600E8B5B7 /* Calendar.swift */,
-				09FEBCAD28B70CBD00E8B5B7 /* Grade.swift */,
-				09FEBCA928B70C9100E8B5B7 /* Dashboard.swift */,
-				09FEBC9F28B70BEE00E8B5B7 /* HalfSheetHelper.swift */,
-				09FEBCA328B70C3E00E8B5B7 /* Attendant.swift */,
-				09FEBCA128B70C0600E8B5B7 /* CustomDatePicker.swift */,
-				09FEBCA528B70C5600E8B5B7 /* ImagePicker.swift */,
-				09FEBCA728B70C6F00E8B5B7 /* Schedule.swift */,
-				09FEBC8928B70A1E00E8B5B7 /* ListStudentViewModel.swift */,
-				09FEBC9128B70A8C00E8B5B7 /* MobileUserViewModel.swift */,
-				09FEBC8B28B70A4700E8B5B7 /* ListAttendanceViewModel.swift */,
-				09FEBC9528B70B4500E8B5B7 /* Function.swift */,
-				09FEBC9328B70AA600E8B5B7 /* AnnouncementViewModel.swift */,
-				09FEBC9928B70B8500E8B5B7 /* TabView.swift */,
-				09FEBC9728B70B6B00E8B5B7 /* ResponsiveContainer.swift */,
-				09FEBC8D28B70A5D00E8B5B7 /* ListScheduleViewModel.swift */,
+				09178C2B28B9AB6100A507EA /* Config */,
+				09178C2A28B9AB1E00A507EA /* Screens */,
+				09178C2928B9AAD600A507EA /* Components */,
+				09178C2828B9AA7D00A507EA /* ClassObservable */,
 				09FEBC6B28B7070500E8B5B7 /* Fonts */,
 				09FEBC5228B704E500E8B5B7 /* Assets.xcassets */,
 				09FEBC5428B704E500E8B5B7 /* Preview Content */,
@@ -339,6 +374,7 @@
 				09FEBC9A28B70B8500E8B5B7 /* TabView.swift in Sources */,
 				09FEBC8628B709D600E8B5B7 /* LoginViewModel.swift in Sources */,
 				09FEBCAE28B70CBD00E8B5B7 /* Grade.swift in Sources */,
+				09178C2728B9A43E00A507EA /* Annoucements.swift in Sources */,
 				09FEBC9428B70AA600E8B5B7 /* AnnouncementViewModel.swift in Sources */,
 				09FEBC4F28B704E400E8B5B7 /* Goglobal_SchoolApp.swift in Sources */,
 				09FEBC9C28B70BAE00E8B5B7 /* Home.swift in Sources */,
@@ -480,6 +516,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Goglobal-School-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Go Global School";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -512,6 +549,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Goglobal-School-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Go Global School";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
