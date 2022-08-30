@@ -70,6 +70,9 @@ struct EnrollmentsViewModel {
     var GradeId: gradeViewModel {
         ( enrollment?.gradeId.map(gradeViewModel.init))!
     }
+    var classId: ClassIdModel{
+        (enrollment?.classId.map(ClassIdModel.init))!
+    }
 }
 
 struct programViewModel {
@@ -103,7 +106,7 @@ struct gradeViewModel {
     }
 }
 
-struct ClassId {
+struct ClassIdModel {
     let classId: GetStudentsByParentsQuery.Data.GetStudentsByParent.Enrollment.ClassId
     
     var Id: String {

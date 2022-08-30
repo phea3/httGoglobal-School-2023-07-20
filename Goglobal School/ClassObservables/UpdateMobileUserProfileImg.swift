@@ -24,7 +24,7 @@ class UpdateMobileUserProfileImg: ObservableObject{
                 }
                 if let message = graphQLResutl.data?.updateMobileUserProfileImg.message{
                     self?.message = message
-                  
+                    
                 }
             case .failure(let graphQLError):
                 print(graphQLError)

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Alamofire
+import PhotoSelectAndCrop
 
 struct Profile: View {
     
@@ -80,21 +81,26 @@ struct Profile: View {
                                                             ZStack{
                                                                 image
                                                                     .resizable()
+                                                                    .scaledToFill()
                                                                     .cornerRadius(50)
-                                                                    .frame(width: 125, height: 125)
+                                                                    .frame(width: 125, height: 125, alignment: .center)
+                                                                    .clipped()
                                                                     .background(Color.black.opacity(0.2))
-                                                                    .aspectRatio(contentMode: .fill)
                                                                     .clipShape(Circle())
+                                                                    .padding(-5)
                                                                 Image(uiImage: self.image)
                                                                     .resizable()
+                                                                    .scaledToFill()
                                                                     .cornerRadius(50)
-                                                                    .frame(width: 125, height: 125)
+                                                                    .frame(width: 125, height: 125, alignment: .center)
+                                                                    .clipped()
                                                                     .background(.clear)
-                                                                    .aspectRatio(contentMode: .fill)
                                                                     .clipShape(Circle())
+                                                                    .padding(-5)
                                                                     .onTapGesture {
                                                                         showSheet = true
                                                                     }
+                                                                   
                                                             }
                                                             
                                                         case .failure:
@@ -131,7 +137,7 @@ struct Profile: View {
                                         .font(.system(size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14))
                                         .foregroundColor(Color.gray)
                                 }
-                                
+                                .padding()
                             }
                             ZStack{
                                 HStack(spacing: 0){

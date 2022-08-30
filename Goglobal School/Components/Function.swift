@@ -51,7 +51,7 @@ extension View{
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(maxWidth:prop.isiPhoneS ? 120 : prop.isiPhoneM ? 130 : prop.isiPhoneL ? 140 : 150)
-
+        
     }
     func ImageBackgroundSignIn()->some View{
         Image("Background")
@@ -70,17 +70,17 @@ extension View{
                     .foregroundColor(Color("Blue"))
                     .padding(.top, prop.isLandscape ? 10 : 0)
                 }
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    HStack{
-//                        Image("user7")
-//                            .resizable()
-//                            .clipShape(Circle())
-//                            .aspectRatio(contentMode: .fill)
-//                            .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 26 : 28), alignment: .center)
-//                    }
-//                    .padding(.top, prop.isLandscape ? 10 : 0)
-//                }
-        }
+                //                ToolbarItem(placement: .navigationBarTrailing) {
+                //                    HStack{
+                //                        Image("user7")
+                //                            .resizable()
+                //                            .clipShape(Circle())
+                //                            .aspectRatio(contentMode: .fill)
+                //                            .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 26 : 28), alignment: .center)
+                //                    }
+                //                    .padding(.top, prop.isLandscape ? 10 : 0)
+                //                }
+            }
     }
     func gradientView(prop:Properties, gradient: Color) -> some View {
         gradient
@@ -113,19 +113,19 @@ extension View{
             .scaleEffect(prop.isiPhoneS ? 2 : prop.isiPhoneM ? 2.5:3)
     }
     @ViewBuilder func phoneOnlyStackNavigationView() -> some View {
-           if UIDevice.current.userInterfaceIdiom == .phone {
-               self.navigationViewStyle(.stack)
-           } else {
-               self
-           }
-       }
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            self.navigationViewStyle(.stack)
+        } else {
+            self
+        }
+    }
     @ViewBuilder func padOnlyStackNavigationView() -> some View {
         if UIDevice.current.userInterfaceIdiom == .pad {
-               self.navigationViewStyle(.stack)
-           } else {
-               self
-           }
-       }
+            self.navigationViewStyle(.stack)
+        } else {
+            self
+        }
+    }
     func applyBG()-> some View{
         self
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -170,14 +170,14 @@ extension View{
     
     func stuName(width: CGFloat)-> some View {
         self
-            
+        
     }
-   
+    
     public func addBorder<S>(_ content: S, width: CGFloat = 1, cornerRadius: CGFloat) -> some View where S : ShapeStyle {
-             let roundedRect = RoundedRectangle(cornerRadius: cornerRadius)
-             return clipShape(roundedRect)
-                  .overlay(roundedRect.strokeBorder(content, lineWidth: width))
-        }
+        let roundedRect = RoundedRectangle(cornerRadius: cornerRadius)
+        return clipShape(roundedRect)
+            .overlay(roundedRect.strokeBorder(content, lineWidth: width))
+    }
     //binding show variable...
     func halfSheet<SheetView: View>(showSheet: Binding<Bool>,@ViewBuilder sheetView: @escaping ()-> SheetView, onEnd: @escaping () -> ())-> some View {
         return self

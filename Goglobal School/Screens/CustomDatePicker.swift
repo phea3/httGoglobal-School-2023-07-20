@@ -121,10 +121,11 @@ struct CustomDatePicker: View {
                     //                .padding(.top,25)
                     
                     VStack{
-                        Text("ថ្ងៃពណ៍ក្រហមជាថ្ងៃឈប់")
+                        Text("ថ្ងៃពណ៍ក្រហមជាថ្ងៃអវត្តមាន")
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .callout).bold())
-                            .frame(maxWidth: .infinity)
+                            .frame(maxWidth: .infinity,alignment: .leading)
                             .foregroundColor(.red)
+                            .padding()
                     }
                 }
             }

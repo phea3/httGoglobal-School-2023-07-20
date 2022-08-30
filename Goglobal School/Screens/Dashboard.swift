@@ -101,63 +101,63 @@ struct Dashboard: View {
                                         progressingView(prop: prop)
                                     }else{
                                         ACarousel(AnnoucementList.Annouces, id: \.id,autoScroll: .active(5)) { item in
-
-                                                ZStack{
-                                                    AsyncImage(url: URL(string: item.img ), scale: 2){image in
-                                                       
-                                                        switch  image {
-                                                            
-                                                        case .empty:
-                                                            ProgressView()
-                                                                .progressViewStyle(.circular)
-                                                        case .success(let image):
-                                                            image
-                                                                .resizable()
-                                                                .aspectRatio(contentMode: .fill)
-                                                                .frame(maxHeight: .infinity)
-                                                                .cornerRadius(30)
-                                                        case .failure:
-                                                            Text("Not Found News")
-                                                                .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
-                                                                .foregroundColor(.pink)
-                                                        @unknown default:
-                                                            fatalError()
-                                                        }
+                                            
+                                            ZStack{
+                                                AsyncImage(url: URL(string: item.img ), scale: 2){image in
+                                                    
+                                                    switch  image {
+                                                        
+                                                    case .empty:
+                                                        ProgressView()
+                                                            .progressViewStyle(.circular)
+                                                    case .success(let image):
+                                                        image
+                                                            .resizable()
+                                                            .aspectRatio(contentMode: .fit)
+                                                            .frame(maxHeight: .infinity)
+                                                            .cornerRadius(30)
+                                                    case .failure:
+                                                        Text("Not Found News")
+                                                            .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
+                                                            .foregroundColor(.pink)
+                                                    @unknown default:
+                                                        fatalError()
                                                     }
-                                                    VStack(spacing: 0){
-                                                        HStack{
-                                                            Text(item.title)
-                                                                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
-                                                                .foregroundColor(.blue)
-                                                                .padding(.horizontal)
-                                                                .shadow(color: .white, radius: 5)
-                                                                .frame(maxWidth:.infinity, alignment: .leading)
-                                                            Spacer()
-                                                            Button {
-                                                                self.showingSheet.toggle()
-                                                                    detailId = item.id
-                                                            } label: {
+                                                }
+                                                VStack(spacing: 0){
+                                                    HStack{
+                                                        Text(item.title)
+                                                            .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
+                                                            .foregroundColor(.blue)
+                                                            .padding(.horizontal)
+                                                            .shadow(color: .white, radius: 5)
+                                                            .frame(maxWidth:.infinity, alignment: .leading)
+                                                        Spacer()
+                                                        Button {
+                                                            self.showingSheet.toggle()
+                                                            detailId = item.id
+                                                        } label: {
                                                             Text("see more>>>")
                                                                 .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
                                                                 .foregroundColor(.blue)
                                                                 .shadow(color: .white, radius: 5)
                                                                 .padding(.horizontal)
-                                                            }
-                                                            .sheet(isPresented: $showingSheet) {
-                                                                Annoucements(prop: prop, postId: $detailId)
-                                                            }
                                                         }
-                                                        .frame(maxWidth: .infinity)
-                                                        
-                                                        Text(item.description)
-                                                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
-                                                            .foregroundColor(.blue)
-                                                            .padding(.horizontal)
-                                                            .shadow(color: .white, radius: 5)
-                                                            .frame(maxWidth:.infinity, alignment: .leading)
+                                                        .sheet(isPresented: $showingSheet) {
+                                                            Annoucements(prop: prop, postId: $detailId)
+                                                        }
                                                     }
-                                                    .frame(maxWidth:.infinity, maxHeight: .infinity, alignment: .bottom)
+                                                    .frame(maxWidth: .infinity)
+                                                    
+                                                    Text(item.description)
+                                                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                                                        .foregroundColor(.blue)
+                                                        .padding(.horizontal)
+                                                        .shadow(color: .white, radius: 5)
+                                                        .frame(maxWidth:.infinity, alignment: .leading)
                                                 }
+                                                .frame(maxWidth:.infinity, maxHeight: .infinity, alignment: .bottom)
+                                            }
                                         }
                                         .frame(width: prop.isLandscape ? 400 : .infinity, height: prop.isiPad ? 500 : prop.isiPhoneS && prop.isLandscape ? 250 : prop.isiPhoneS ? 230 : prop.isiPhoneM && prop.isLandscape ?  260 : prop.isiPhoneM ? 240  : prop.isiPhoneL  ? 280 : 500)
                                     }
@@ -166,16 +166,16 @@ struct Dashboard: View {
                                 .padding(.bottom,60)
                             }
                         }
-                        
+                       
                     }
                     .setBG()
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbarView(prop: prop, barTitle: barTitle)
                     if imgLoading{
-                    ZStack{
-                        Color("BG")
-                            .ignoresSafeArea()
-                        progressingView(prop: prop)
+                        ZStack{
+                            Color("BG")
+                                .ignoresSafeArea()
+                            progressingView(prop: prop)
                         }
                     }
                 }
@@ -227,7 +227,7 @@ struct Dashboard: View {
                 }
             }
             .frame(height:  prop.isiPhoneS ? 130 : prop.isiPhoneM ? 150 : prop.isiPhoneL ? 170 : 180)
-           
+            
             HStack{
                 Text(Lastname)
                 Text(Firstname)

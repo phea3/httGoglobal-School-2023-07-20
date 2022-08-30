@@ -13,7 +13,7 @@ struct Annoucements: View {
     @Environment(\.presentationMode) var presentationMode
     @Binding var postId: String
     @StateObject var DetailAnnoucementList: AnnouncementViewModel = AnnouncementViewModel()
-   
+    
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack{
@@ -35,9 +35,9 @@ struct Annoucements: View {
                             if self.postId == Annouce.id {
                                 
                                 AsyncImage(url: URL(string: Annouce.img ), scale: 2){image in
-
+                                    
                                     switch  image {
-
+                                        
                                     case .empty:
                                         ProgressView()
                                             .progressViewStyle(.circular)

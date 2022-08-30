@@ -12,7 +12,7 @@ import KeychainSwift
 class Network {
     static let shared = Network()
     let url = "https://sms-endpoint.go-globalschool.com/graphql"
-//        let url = "http://localhost:2000/"
+    //        let url = "http://localhost:2000/"
     private(set) lazy var apollo: ApolloClient = {
         let client = URLSessionClient()
         let cache = InMemoryNormalizedCache()

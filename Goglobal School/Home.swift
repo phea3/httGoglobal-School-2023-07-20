@@ -16,12 +16,12 @@ struct Home: View {
     @State var currentTab: Tab = .dashboard
     @State var animationFinished: Bool = false
     @State var animationStarted: Bool = false
-//    @State var gmail: String = "loklundy@gmail.com"
-//    @State var password: String = "123456789"
+    @State var gmail: String = "loklundy@gmail.com"
+    @State var password: String = "123456789"
     @State var forget: Bool = false
     @State var isempty: Bool = false
-        @State var gmail: String = ""
-        @State var password: String = ""
+//    @State var gmail: String = ""
+//    @State var password: String = ""
     @State var isLoading: Bool = false
     @State var showContact: Bool = false
     let lightGrayColor = Color.white
@@ -39,6 +39,11 @@ struct Home: View {
                 FlashScreen(prop:prop)
             }
             .ignoresSafeArea()
+            .onAppear{
+                DispatchQueue.main.async{
+                    self.isLoading = false
+                }
+            }
         }
         .ignoresSafeArea(.container, edges: .leading)
     }
@@ -96,8 +101,9 @@ struct Home: View {
                 LogoGoglobal(prop: prop)
                 Spacer()
                 Text("ចូលប្រើកម្មវិធី")
-                    .font(.custom("Bayon", size: prop.isiPhoneS ? 26 : prop.isiPhoneM ? 28 : prop.isiPhoneL ? 30 : 40, relativeTo: .largeTitle))
+                    .font(.custom("Bayon", size: prop.isiPhoneS ? 26 : prop.isiPhoneM ? 28 : prop.isiPhoneL ? 30 : 400, relativeTo: .largeTitle))
                     .foregroundColor(Color("ColorTitle"))
+               
                 Spacer()
                 VStack(spacing:30){
                     VStack(alignment: .leading, spacing: prop.isiPhoneS ? 4 : prop.isiPhoneM ? 6 : prop.isiPhoneL ? 8 : 10) {

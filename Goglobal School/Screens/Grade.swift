@@ -24,6 +24,9 @@ struct Grade: View {
     var barTitle: String
     var prop: Properties
     let Student: String
+    @State var classId: String = ""
+    @State var academicYearId: String = ""
+    @State var programId: String = ""
     var btnBack : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()
     }) {
@@ -46,15 +49,18 @@ struct Grade: View {
                 .frame(width: .infinity, height: .infinity, alignment: .leading)
                 VStack(spacing: 0){
                     List(Array(Enrollment.enumerated()), id: \.element.id){ index, item in
-                        Choose(Grade: item.GradeId.GradeName , Class: item.ClassName, Year: item.AcademicYearId.AcademicYear, Programme: item.ProgramId.ProgramName, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, color: index % 2 == 0 ? colorOrg: colorBlue,prop:prop)
+                        Choose(Grade: item.GradeId.GradeName , Class: item.ClassName, Year: item.AcademicYearId.AcademicYear, Programme: item.ProgramId.ProgramName, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.classId.Id, academicYearId: item.AcademicYearId.Id, programId: item.ProgramId.Id, color: index % 2 == 0 ? colorOrg: colorBlue, prop:prop)
                             .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
                             .backgroundRemover()
+                        
                     }
                     .listStyle(GroupedListStyle())
-                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop), tag: "attendance", selection: $selection) { EmptyView() }
-                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop), tag: "absence", selection: $selection) { EmptyView() }
-                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop), tag: "payment", selection: $selection) { EmptyView() }
-                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop), tag: "score", selection: $selection) { EmptyView() }
+                    
+                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "attendance", selection: $selection) { EmptyView() }
+                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "absence", selection: $selection) { EmptyView() }
+                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "payment", selection: $selection) { EmptyView() }
+                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "score", selection: $selection) { EmptyView() }
+                    
                 }
                 .padding(.trailing)
                 
@@ -67,17 +73,17 @@ struct Grade: View {
         }
         .navigationBarItems(leading: btnBack)
         .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                HStack{
-                    Image("user7")
-                        .resizable()
-                        .clipShape(Circle())
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 26 : 28), alignment: .center)
-                }
-            }
-        }
+        //        .toolbar {
+        //            ToolbarItem(placement: .navigationBarTrailing) {
+        //                HStack{
+        //                    Image("user7")
+        //                        .resizable()
+        //                        .clipShape(Circle())
+        //                        .aspectRatio(contentMode: .fill)
+        //                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 26 : 28), alignment: .center)
+        //                }
+        //            }
+        //        }
     }
 }
 
@@ -92,12 +98,18 @@ struct Choose: View {
     @Binding var isShow: Bool
     @Binding var ChoseTitle: String
     @Binding var selection: String?
+    @Binding var ClassID: String
+    @Binding var AcademicID: String
+    @Binding var ProgrammeID: String
+    var classId: String
+    var academicYearId: String
+    var programId: String
     var color: String
     var prop: Properties
     var body: some View {
         
         HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-            //            if !(prop.isiPad && (!prop.isLandscape)){
+            
             Circle()
                 .frame(width: 49, height: 49, alignment: .center)
                 .overlay(
@@ -106,7 +118,7 @@ struct Choose: View {
                         .frame(width: 50, height: 50, alignment: .center)
                         .foregroundColor(.white)
                 )
-            //            }
+            
             VStack(alignment: .leading){
                 HStack(spacing: prop.isiPhoneS ? 3 : prop.isiPhoneM ? 4 : 5){
                     Text(Grade)
@@ -160,6 +172,9 @@ struct Choose: View {
     @ViewBuilder
     func TabButton(title: String, image: String, chose: Chose, selection: String) -> some View{
         Button {
+            self.ProgrammeID = self.programId
+            self.AcademicID = self.academicYearId
+            self.ClassID = self.classId
             self.chose = chose
             showsheet.toggle()
             self.isShow = true

@@ -41,7 +41,7 @@ struct ResponsiveView<Content: View>: View {
             return false
         }
         return screen.windows.first?.frame.size != UIScreen.main.bounds.size
-            
+        
     }
     func updateFraction(fraction: Double){
         NotificationCenter.default.post(name: NSNotification.Name("UPDATEFRACTION"), object: nil, userInfo: [
