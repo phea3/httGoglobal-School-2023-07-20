@@ -12,7 +12,7 @@ class ListAttendanceViewModel: ObservableObject {
     @Published var Attendances: [AttendanceViewModel] = []
     
     func GetAllAttendance(studentId: String){
-        Network.shared.apollo.fetch(query: GetAttendanceByStudentIdQuery(studentId: "6204ad568a628dd0c4e61e4d")){ [weak self] result in
+        Network.shared.apollo.fetch(query: GetAttendanceByStudentIdQuery(studentId: studentId)){ [weak self] result in
             switch result{
             case .success(let graphQLResult):
                 if let Attendances = graphQLResult.data?.getAttendanceByStudentId{

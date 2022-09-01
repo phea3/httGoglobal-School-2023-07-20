@@ -48,8 +48,9 @@ struct Annoucements: View {
                                             .cornerRadius(20)
                                             .padding()
                                     case .failure:
-                                        Text("Failed fetching image. Make sure to check your data connection and try again.")
+                                        Text("try again")
                                             .foregroundColor(.red)
+                                            .hCenter()
                                     @unknown default:
                                         fatalError()
                                     }

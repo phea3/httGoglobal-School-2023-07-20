@@ -42,7 +42,6 @@ struct AnnouncementModel{
     var img: String{
         announce?.picture ?? ""
     }
-    
     var date: String{
         announce?.date ?? ""
     }

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		09178C2728B9A43E00A507EA /* Annoucements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09178C2628B9A43E00A507EA /* Annoucements.swift */; };
 		09178C2D28B9B28500A507EA /* SheetContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09178C2C28B9B28500A507EA /* SheetContact.swift */; };
+		0930B7A428C069AA0030E582 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 0930B7A328C069AA0030E582 /* URLImage */; };
+		0930B7A628C069AA0030E582 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 0930B7A528C069AA0030E582 /* URLImageStore */; };
 		09A060F928BA17E400D1D1FA /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 09A060F828BA17E400D1D1FA /* schema.json */; };
 		09A060FB28BA18A200D1D1FA /* ScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A060FA28BA18A200D1D1FA /* ScheduleViewModel.swift */; };
 		09A060FD28BA199B00D1D1FA /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A060FC28BA199B00D1D1FA /* API.swift */; };
@@ -105,10 +107,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0930B7A628C069AA0030E582 /* URLImageStore in Frameworks */,
 				09FEBC6128B7060800E8B5B7 /* SDWebImageSwiftUI in Frameworks */,
 				09CB130E28BDCB6200CE2FEA /* PhotoSelectAndCrop in Frameworks */,
 				09FEBC6728B7067D00E8B5B7 /* Alamofire in Frameworks */,
 				09FEBC6A28B706D700E8B5B7 /* KeychainSwift in Frameworks */,
+				0930B7A428C069AA0030E582 /* URLImage in Frameworks */,
 				09FEBC6428B7061F00E8B5B7 /* Apollo in Frameworks */,
 				09FEBC5E28B705F200E8B5B7 /* ACarousel in Frameworks */,
 			);
@@ -261,6 +265,8 @@
 				09FEBC6628B7067D00E8B5B7 /* Alamofire */,
 				09FEBC6928B706D700E8B5B7 /* KeychainSwift */,
 				09CB130D28BDCB6200CE2FEA /* PhotoSelectAndCrop */,
+				0930B7A328C069AA0030E582 /* URLImage */,
+				0930B7A528C069AA0030E582 /* URLImageStore */,
 			);
 			productName = "Goglobal School";
 			productReference = 09FEBC4B28B704E400E8B5B7 /* Goglobal School.app */;
@@ -297,6 +303,7 @@
 				09FEBC6528B7067D00E8B5B7 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				09FEBC6828B706D700E8B5B7 /* XCRemoteSwiftPackageReference "keychain-swift" */,
 				09CB130C28BDCB6200CE2FEA /* XCRemoteSwiftPackageReference "PhotoSelectAndCrop" */,
+				0930B7A228C069AA0030E582 /* XCRemoteSwiftPackageReference "url-image" */,
 			);
 			productRefGroup = 09FEBC4C28B704E400E8B5B7 /* Products */;
 			projectDirPath = "";
@@ -593,6 +600,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0930B7A228C069AA0030E582 /* XCRemoteSwiftPackageReference "url-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dmytro-anokhin/url-image.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		09CB130C28BDCB6200CE2FEA /* XCRemoteSwiftPackageReference "PhotoSelectAndCrop" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Rillieux/PhotoSelectAndCrop.git";
@@ -644,6 +659,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0930B7A328C069AA0030E582 /* URLImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0930B7A228C069AA0030E582 /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImage;
+		};
+		0930B7A528C069AA0030E582 /* URLImageStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0930B7A228C069AA0030E582 /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImageStore;
+		};
 		09CB130D28BDCB6200CE2FEA /* PhotoSelectAndCrop */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 09CB130C28BDCB6200CE2FEA /* XCRemoteSwiftPackageReference "PhotoSelectAndCrop" */;

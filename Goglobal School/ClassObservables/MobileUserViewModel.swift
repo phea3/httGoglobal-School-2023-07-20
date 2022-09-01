@@ -13,8 +13,8 @@ class MobileUserViewModel: ObservableObject{
     @Published var gmail: String = ""
     @Published var password: String = ""
     
-    func getProfileImage(){
-        Network.shared.apollo.fetch(query: GetMobileUserByIdQuery(mobileUserId: "62da268e137c7e3a92e53a56")){ [weak self] result in
+    func getProfileImage(mobileUserId: String){
+        Network.shared.apollo.fetch(query: GetMobileUserByIdQuery(mobileUserId: mobileUserId)){ [weak self] result in
             switch result{
             case .success(let graphQLResult):
                 if let userID = graphQLResult.data?.getMobileUserById?._id{

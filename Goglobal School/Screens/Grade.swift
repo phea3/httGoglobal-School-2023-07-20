@@ -14,10 +14,11 @@ struct Grade: View {
     @State var chose: Chose = .attendance
     @State var isShow: Bool = false
     @State private var selection: String? = nil
-    @State var studentId: String = "6204ad568a628dd0c4e61e4d"
+    @State var studentId: String
     @State var colorBlue: String = "LightBlue"
     @State var colorOrg: String = "LightOrange"
     @State var axcessPadding: CGFloat = 0
+    @State var userProfileImg: String
     let gradient = Color("BG")
     let Enrollment: [EnrollmentsViewModel]
     var parentId: String
@@ -39,7 +40,7 @@ struct Grade: View {
             VStack(spacing: 0){
                 Divider()
                 HStack{
-                    Text("ថ្នាក់ រៀន \(Student)")
+                    Text("ថ្នាក់រៀន \(Student)")
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
                     Rectangle()
                         .frame(maxHeight: 1)
@@ -73,17 +74,43 @@ struct Grade: View {
         }
         .navigationBarItems(leading: btnBack)
         .navigationBarBackButtonHidden(true)
-        //        .toolbar {
-        //            ToolbarItem(placement: .navigationBarTrailing) {
-        //                HStack{
-        //                    Image("user7")
-        //                        .resizable()
-        //                        .clipShape(Circle())
-        //                        .aspectRatio(contentMode: .fill)
-        //                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 26 : 28), alignment: .center)
-        //                }
-        //            }
-        //        }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        HStack{
+                            AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(userProfileImg)"), scale: 2){image in
+                                
+                                switch  image {
+                                    
+                                case .empty:
+                                    ProgressView()
+                                        .progressViewStyle(.circular)
+                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                case .success(let image):
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .cornerRadius(50)
+                                        .clipped()
+                                        .background(Color.black.opacity(0.2))
+                                        .clipShape(Circle())
+                                        .padding(-5)
+                                        .frame(width: prop.isLandscape ? 24 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                case .failure:
+                                    Image(systemName: "person.fill")
+                                        .padding(2)
+                                        .font(.system(size:  prop.isLandscape ? 22 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20)))
+                                        .cornerRadius(50)
+                                        .background(Color.white)
+                                        .aspectRatio(contentMode: .fill)
+                                        .clipShape(Circle())
+                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                @unknown default:
+                                    fatalError()
+                                }
+                            }
+                        }
+                    }
+                }
     }
 }
 
@@ -123,19 +150,19 @@ struct Choose: View {
                 HStack(spacing: prop.isiPhoneS ? 3 : prop.isiPhoneM ? 4 : 5){
                     Text(Grade)
                         .listRowBackground(Color.yellow)
-                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                     
                     Text(Class)
                         .listRowBackground(Color.yellow)
-                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                 }
                 HStack{
                     Text(Programme)
                         .listRowBackground(Color.yellow)
-                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                     Text(Year)
                         .listRowBackground(Color.yellow)
-                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                 }
             }
         }
@@ -197,7 +224,7 @@ struct Grade_Previews: PreviewProvider {
     static var previews: some View {
         let EnrollmentVM = EnrollmentsViewModel(enrollment: GetStudentsByParentsQuery.Data.GetStudentsByParent.Enrollment(_id: ""))
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Grade(Enrollment: [EnrollmentVM], parentId: "", barTitle: "",prop: prop, Student: "")
+        Grade(studentId: "", userProfileImg: "", Enrollment: [EnrollmentVM], parentId: "", barTitle: "",prop: prop, Student: "")
     }
 }
 

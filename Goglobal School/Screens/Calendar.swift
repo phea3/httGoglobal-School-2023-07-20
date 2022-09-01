@@ -12,6 +12,7 @@ struct Calendar: View {
     @StateObject var academiclist: ListViewModel = ListViewModel()
     @State var colorBlue: String = "LightBlue"
     @State var colorOrg: String = "LightOrange"
+    @State var userProfileImg: String
     @Binding var isLoading: Bool
     let gradient = Color("BG")
     var prop: Properties
@@ -48,10 +49,10 @@ struct Calendar: View {
                                         graduatedLogo()
                                         VStack(alignment: .leading){
                                             datingEditer(inputCode: academic.date)
-                                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
+                                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
                                                 .listRowBackground(Color.yellow)
                                             Text(academic.eventnameKhmer)
-                                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
+                                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
                                                 .listRowBackground(Color.yellow)
                                         }
                                     }
@@ -66,7 +67,7 @@ struct Calendar: View {
                         .padding(.horizontal)
                     }
                     .navigationBarTitleDisplayMode(.inline)
-                    .toolbarView(prop: prop, barTitle: "ប្រតិទិនសិក្សា")
+                    .toolbarView(prop: prop, barTitle: "ប្រតិទិនសិក្សា", profileImg: userProfileImg)
                 }
             }
             .applyBG()
@@ -88,7 +89,7 @@ struct Calendar: View {
 struct Calendar_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Calendar(isLoading: .constant(false), prop: prop)
+        Calendar(userProfileImg: "", isLoading: .constant(false), prop: prop)
     }
 }
 

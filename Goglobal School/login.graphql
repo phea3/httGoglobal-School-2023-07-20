@@ -1,13 +1,40 @@
 
-
 mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
     token
     user {
+      _id
+      email
+      password
+      profileImage
       parentId {
         _id
+        qrId
+        role
+        permanentProvince
+        firstName
+        lastName
+        englishName
+        gender
+        tel
+        nationality
+        village
+        commune
+        district
+        province
+        dob
+        createdAt
+        customer
+        status {
+          isDropOut
+          isNewStudent
+          isReEnroll
+          isSuspendedStudy
+          isSchoolAge
+          isTransferFrom
+          isOldStudent
+        }
       }
     }
   }
 }
-

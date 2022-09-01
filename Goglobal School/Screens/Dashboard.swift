@@ -16,8 +16,9 @@ struct Dashboard: View {
     @State var colorOrg: String = "LightOrange"
     @State var ImageStudent: String = ""
     @State var NameStudent: String = ""
-    @State var showingSheet: Bool = false
     @State var detailId: String =  ""
+    @State var userProfileImg: String
+    @State var showingSheet: Bool = false
     @State var imgLoading: Bool = false
     @Binding var isLoading: Bool
     let gradient = Color.clear
@@ -28,7 +29,11 @@ struct Dashboard: View {
         NavigationView {
             ZStack{
                 if students.AllStudents.isEmpty || academiclist.academicYear.isEmpty{
-                    progressingView(prop: prop)
+                    ZStack{
+                        Color("BG")
+                            .ignoresSafeArea()
+                        progressingView(prop: prop)
+                    }
                 }else{
                     VStack(spacing:0){
                         Divider()
@@ -40,7 +45,7 @@ struct Dashboard: View {
                                         HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
                                             ForEach(students.AllStudents,id: \.Id) { student in
                                                 NavigationLink(
-                                                    destination: Grade(Enrollment: student.Enrollments, parentId: parentId, barTitle: barTitle,prop: prop, Student: "\(student.Lastname) \(student.Firstname)"),
+                                                    destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Enrollment: student.Enrollments, parentId: parentId, barTitle: barTitle,prop: prop, Student: "\(student.Lastname) \(student.Firstname)"),
                                                     label: {
                                                         widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
                                                     }
@@ -70,10 +75,10 @@ struct Dashboard: View {
                                             graduatedLogo()
                                             VStack(alignment: .leading){
                                                 datingEditer(inputCode: academic.date)
-                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
+                                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
                                                     .listRowBackground(Color.yellow)
                                                 Text(academic.eventnameKhmer)
-                                                    .font(.custom("Bayon", size: 15, relativeTo: .body))
+                                                    .font(.custom("Kantumruy", size: 15, relativeTo: .body))
                                                     .listRowBackground(Color.yellow)
                                             }
                                         }
@@ -86,7 +91,7 @@ struct Dashboard: View {
                             .hLeading()
                             VStack(spacing: prop.isLandscape ? 5 : 0){
                                 HStack(spacing: prop.isiPhoneS ? 2 : prop.isiPhoneM ? 3 : 5){
-                                    Image(systemName: "mic.fill")
+                                    Image(systemName: "speaker.wave.2")
                                         .font(.system(size:20))
                                         .foregroundColor(.pink)
                                         .padding(.bottom, 5)
@@ -100,83 +105,75 @@ struct Dashboard: View {
                                     if AnnoucementList.Annouces.isEmpty {
                                         progressingView(prop: prop)
                                     }else{
-                                        ACarousel(AnnoucementList.Annouces, id: \.id,autoScroll: .active(5)) { item in
-                                            
-                                            ZStack{
-                                                AsyncImage(url: URL(string: item.img ), scale: 2){image in
-                                                    
-                                                    switch  image {
-                                                        
-                                                    case .empty:
-                                                        ProgressView()
-                                                            .progressViewStyle(.circular)
-                                                    case .success(let image):
-                                                        image
-                                                            .resizable()
-                                                            .aspectRatio(contentMode: .fit)
-                                                            .frame(maxHeight: .infinity)
-                                                            .cornerRadius(30)
-                                                    case .failure:
-                                                        Text("Not Found News")
-                                                            .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
-                                                            .foregroundColor(.pink)
-                                                    @unknown default:
-                                                        fatalError()
-                                                    }
-                                                }
-                                                VStack(spacing: 0){
-                                                    HStack{
-                                                        Text(item.title)
-                                                            .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
-                                                            .foregroundColor(.blue)
-                                                            .padding(.horizontal)
-                                                            .shadow(color: .white, radius: 5)
-                                                            .frame(maxWidth:.infinity, alignment: .leading)
-                                                        Spacer()
-                                                        Button {
-                                                            self.showingSheet.toggle()
-                                                            detailId = item.id
-                                                        } label: {
-                                                            Text("see more>>>")
-                                                                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
-                                                                .foregroundColor(.blue)
-                                                                .shadow(color: .white, radius: 5)
-                                                                .padding(.horizontal)
+                                        VStack(alignment: .leading){
+                                            ForEach(AnnoucementList.Annouces, id: \.id) { item in
+                                               
+                                                Button {
+                                                    self.showingSheet.toggle()
+                                                    detailId = item.id
+                                                } label: {
+                                                    ZStack(alignment:.bottom){
+                                                        AsyncImage(url: URL(string: item.img ), scale: 2){image in
+                                                            
+                                                            switch  image {
+                                                                
+                                                            case .empty:
+                                                                ProgressView()
+                                                                    .progressViewStyle(.circular)
+                                                            case .success(let image):
+                                                                image
+                                                                    .resizable()
+                                                                    .aspectRatio(contentMode: .fill)
+                                                                    .frame(maxHeight: .infinity)
+                                                                    .cornerRadius(30)
+                                                            case .failure:
+                                                                Text("Not Found News")
+                                                                    .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
+                                                                    .foregroundColor(.pink)
+                                                            @unknown default:
+                                                                fatalError()
+                                                            }
                                                         }
-                                                        .sheet(isPresented: $showingSheet) {
-                                                            Annoucements(prop: prop, postId: $detailId)
+                                                        Rectangle()
+                                                            .frame(maxWidth: .infinity, maxHeight: prop.isiPhoneS ? 80 : prop.isiPhoneM ? 90 : prop.isiPhoneL ? 150 : 120)
+                                                            .foregroundColor(.clear)
+                                                            .overlay(
+                                                                getGradientOverlay()
+                                                                    .cornerRadius(30)
+                                                            )
+                                                        VStack(spacing: 0){
+                                                                Text(item.title)
+                                                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
+                                                                    .foregroundColor(.blue)
+                                                                    .padding()
+                                                                    .shadow(color: .white, radius: 5)
+                                                                    .frame(maxWidth:.infinity, alignment: .leading)
                                                         }
                                                     }
-                                                    .frame(maxWidth: .infinity)
-                                                    
-                                                    Text(item.description)
-                                                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
-                                                        .foregroundColor(.blue)
-                                                        .padding(.horizontal)
-                                                        .shadow(color: .white, radius: 5)
-                                                        .frame(maxWidth:.infinity, alignment: .leading)
                                                 }
-                                                .frame(maxWidth:.infinity, maxHeight: .infinity, alignment: .bottom)
+                                                .sheet(isPresented: $showingSheet) {
+                                                    Annoucements(prop: prop, postId: $detailId)
+                                                }
                                             }
                                         }
-                                        .frame(width: prop.isLandscape ? 400 : .infinity, height: prop.isiPad ? 500 : prop.isiPhoneS && prop.isLandscape ? 250 : prop.isiPhoneS ? 230 : prop.isiPhoneM && prop.isLandscape ?  260 : prop.isiPhoneM ? 240  : prop.isiPhoneL  ? 280 : 500)
                                     }
                                 }
                                 .padding(.horizontal)
                                 .padding(.bottom,60)
                             }
                         }
-                       
+                        
                     }
                     .setBG()
                     .navigationBarTitleDisplayMode(.inline)
-                    .toolbarView(prop: prop, barTitle: barTitle)
+                    .toolbarView(prop: prop, barTitle: barTitle, profileImg: userProfileImg)
                     if imgLoading{
                         ZStack{
                             Color("BG")
                                 .ignoresSafeArea()
                             progressingView(prop: prop)
                         }
+                        .ignoresSafeArea()
                     }
                 }
                 
@@ -249,7 +246,7 @@ struct Dashboard: View {
 struct Dashboard_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Dashboard(isLoading: .constant(false), parentId: "",prop: prop)
+        Dashboard(userProfileImg: "", isLoading: .constant(false), parentId: "",prop: prop)
     }
 }
 

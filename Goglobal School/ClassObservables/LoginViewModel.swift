@@ -12,6 +12,11 @@ class LoginViewModel: ObservableObject{
     
     @Published var isAuthenticated: Bool = false
     @Published var userId: String = ""
+    @Published var userprofileId: String = ""
+    @Published var userName: String = ""
+    @Published var userTel: String = ""
+    @Published var userNationality: String = ""
+    @Published var userProfileImg: String = ""
     static var loginID = ""
     static var loginKeychainKey = "login"
     
@@ -32,6 +37,31 @@ class LoginViewModel: ObservableObject{
                     DispatchQueue.main.async {
                         self?.userId = userId
                         print(userId)
+                    }
+                }
+                if let userprofileId = graphQLResult.data?.login?.user?._id{
+                    DispatchQueue.main.async {
+                        self?.userprofileId = userprofileId
+                    }
+                }
+                if let userName = graphQLResult.data?.login?.user?.parentId?.englishName{
+                    DispatchQueue.main.async {
+                        self?.userName = userName
+                    }
+                }
+                if let userTel =  graphQLResult.data?.login?.user?.parentId?.tel{
+                    DispatchQueue.main.async {
+                        self?.userTel = userTel
+                    }
+                }
+                if let userNationality = graphQLResult.data?.login?.user?.parentId?.nationality{
+                    DispatchQueue.main.async {
+                        self?.userNationality = userNationality
+                    }
+                }
+                if let userProfileImg = graphQLResult.data?.login?.user?.profileImage{
+                    DispatchQueue.main.async {
+                        self?.userProfileImg = userProfileImg
                     }
                 }
             case .failure(let error):

@@ -23,6 +23,16 @@ extension Date{
 }
 
 extension View{
+    func getGradientOverlay() -> some View {
+        LinearGradient(gradient:
+                        Gradient(stops: [
+                            .init(color: Color.white.opacity(0), location: 0),
+                            .init(color: Color.white.opacity(0.9), location: 1.0)
+                        ]),
+                       startPoint: .top,
+                       endPoint: .bottom
+        )
+    }
     func imageStuBG(width: CGFloat)->some View{
         Image("DashboadBg")
             .resizable()
@@ -44,13 +54,13 @@ extension View{
         Image("Footer")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(maxWidth:prop.isiPhoneS ? 100 : prop.isiPhoneM ? 120 : prop.isiPhoneL ? 130 : 140)
+            .frame(maxWidth:prop.isiPhoneS ? 90 : prop.isiPhoneM ? 120 : prop.isiPhoneL ? 130 : 140)
     }
     func LogoGoglobal(prop:Properties)->some View {
         Image("GoGlobalSchool")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(maxWidth:prop.isiPhoneS ? 120 : prop.isiPhoneM ? 130 : prop.isiPhoneL ? 140 : 150)
+            .frame(maxWidth:prop.isiPhoneS ? 100 : prop.isiPhoneM ? 130 : prop.isiPhoneL ? 140 : 150)
         
     }
     func ImageBackgroundSignIn()->some View{
@@ -58,7 +68,7 @@ extension View{
             .resizable()
             .ignoresSafeArea()
     }
-    func toolbarView(prop:Properties, barTitle: String)->some View {
+    func toolbarView(prop:Properties, barTitle: String, profileImg: String)->some View {
         self
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -70,16 +80,42 @@ extension View{
                     .foregroundColor(Color("Blue"))
                     .padding(.top, prop.isLandscape ? 10 : 0)
                 }
-                //                ToolbarItem(placement: .navigationBarTrailing) {
-                //                    HStack{
-                //                        Image("user7")
-                //                            .resizable()
-                //                            .clipShape(Circle())
-                //                            .aspectRatio(contentMode: .fill)
-                //                            .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 26 : 28), alignment: .center)
-                //                    }
-                //                    .padding(.top, prop.isLandscape ? 10 : 0)
-                //                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    HStack{
+                        AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(profileImg)"), scale: 2){image in
+                            
+                            switch  image {
+                                
+                            case .empty:
+                                ProgressView()
+                                    .progressViewStyle(.circular)
+                                    .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .cornerRadius(50)
+                                    .clipped()
+                                    .background(Color.black.opacity(0.2))
+                                    .clipShape(Circle())
+                                    .padding(-5)
+                                    .frame(width: prop.isLandscape ? 24 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                            case .failure:
+                                Image(systemName: "person.fill")
+                                    .padding(2)
+                                    .font(.system(size:  prop.isLandscape ? 22 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20)))
+                                    .cornerRadius(50)
+                                    .background(Color.white)
+                                    .aspectRatio(contentMode: .fill)
+                                    .clipShape(Circle())
+                                    .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                            @unknown default:
+                                fatalError()
+                            }
+                        }
+                    }
+                    .padding(.top, prop.isLandscape ? 10 : 0)
+                }
             }
     }
     func gradientView(prop:Properties, gradient: Color) -> some View {
@@ -108,9 +144,9 @@ extension View{
         }
     }
     func progressingView(prop:Properties) -> some View {
-        ProgressView()
-            .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-            .scaleEffect(prop.isiPhoneS ? 2 : prop.isiPhoneM ? 2.5:3)
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                .scaleEffect(prop.isiPhoneS ? 2 : prop.isiPhoneM ? 2.5:3)
     }
     @ViewBuilder func phoneOnlyStackNavigationView() -> some View {
         if UIDevice.current.userInterfaceIdiom == .phone {

@@ -12,6 +12,7 @@ struct Education: View {
     @StateObject var students: ListStudentViewModel = ListStudentViewModel()
     @State var axcessPadding: CGFloat = 0
     @State var imgLoading: Bool = false
+    @State var userProfileImg: String
     @Binding var isLoading: Bool
     let gradient = Color("BG")
     var parentId: String
@@ -40,7 +41,7 @@ struct Education: View {
                                             HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
                                                 ForEach(students.AllStudents,id: \.Id){ student in
                                                     NavigationLink(
-                                                        destination: Grade(Enrollment: student.Enrollments, parentId: parentId, barTitle: barTitle,prop: prop, Student: "\(student.Lastname) \(student.Firstname)"),
+                                                        destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Enrollment: student.Enrollments, parentId: parentId, barTitle: barTitle,prop: prop, Student: "\(student.Lastname) \(student.Firstname)"),
                                                         label: {
                                                             widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
                                                         }
@@ -57,7 +58,7 @@ struct Education: View {
                         }
                         .setBG()
                         .navigationBarTitleDisplayMode(.inline)
-                        .toolbarView(prop: prop, barTitle: barTitle)
+                        .toolbarView(prop: prop, barTitle: barTitle, profileImg: userProfileImg)
                     }
                 }
                 if imgLoading{
@@ -131,6 +132,6 @@ struct Education: View {
 struct Education_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false, isSplit: false, size: CGSize(width:  0.0, height:  0.0))
-        Education(isLoading: .constant(false), parentId: "", prop: prop)
+        Education(userProfileImg: "", isLoading: .constant(false), parentId: "", prop: prop)
     }
 }
