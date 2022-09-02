@@ -10,7 +10,7 @@ import KeychainSwift
 
 class LoginViewModel: ObservableObject{
     
-    @Published var isAuthenticated: Bool = false
+    @Published var isAuthenticated: Bool = UserDefaults.standard.bool(forKey: "isAuthenticated")
     @Published var userId: String = ""
     @Published var userprofileId: String = ""
     @Published var userName: String = ""
@@ -18,10 +18,10 @@ class LoginViewModel: ObservableObject{
     @Published var userNationality: String = ""
     @Published var userProfileImg: String = ""
     static var loginID = ""
-    static var loginKeychainKey = "login"
+    static var loginKeychainKey = ""
     
     // MARK: LogIn Button
-    func login(email: String, password: String) {
+    func login(email: String, password: String, checkState: Bool) {
         
         Network.shared.apollo.perform(mutation: LoginMutation(email: email, password: password)) { [weak self] result in
             switch result{
@@ -31,12 +31,16 @@ class LoginViewModel: ObservableObject{
                     keychain.set(token, forKey: LoginViewModel.loginKeychainKey)
                     DispatchQueue.main.async {
                         self?.isAuthenticated = true
-                        print(token)                    }
+                        if checkState{
+                            UserDefaults.standard.set(self?.isAuthenticated, forKey: "isAuthenticated")
+                        }
+                        print(token)
+                    }
                 }
                 if let userId = graphQLResult.data?.login?.user?.parentId?._id{
                     DispatchQueue.main.async {
                         self?.userId = userId
-                        print(userId)
+//                        print(userId)
                     }
                 }
                 if let userprofileId = graphQLResult.data?.login?.user?._id{

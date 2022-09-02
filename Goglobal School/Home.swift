@@ -11,14 +11,14 @@ import SDWebImageSwiftUI
 
 struct Home: View {
     
-    @StateObject var loginVM: LoginViewModel = LoginViewModel()
+    @ObservedObject var loginVM: LoginViewModel = LoginViewModel()
     // MARK: Hiding Native One
     init(){UITabBar.appearance().isHidden = true}
     @State var currentTab: Tab = .dashboard
     @State var animationFinished: Bool = false
     @State var animationStarted: Bool = false
-    @State var gmail: String = "loklundy@gmail.com"
-    @State var password: String = "123456789"
+    @State var gmail: String = (UserDefaults.standard.string(forKey: "Gmail") ?? "")
+    @State var password: String = (UserDefaults.standard.string(forKey: "Password") ?? "")
     //    @State var gmail: String = ""
     //    @State var password: String = ""
     @State var forget: Bool = false
@@ -26,6 +26,8 @@ struct Home: View {
     @State var isLoading: Bool = false
     @State var showContact: Bool = false
     @State var hideTab: Bool = false
+    @State var checkState: Bool = false
+    @State var loggedIn: Bool = false
     let lightGrayColor = Color.white
     
     var body: some View {
@@ -33,9 +35,31 @@ struct Home: View {
             ZStack{
                 ImageBackgroundSignIn()
                 if loginVM.isAuthenticated{
-                    MainView(prop: prop)
-                }else{
+                    ZStack{
+                        if !loggedIn{
+                            EmptyView()
+                        }else{
+                            MainView(prop: prop)
+                        }
+                    }
+                    .onAppear{
+                        loginVM.login(email: gmail, password: password, checkState: checkState)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            loggedIn = true
+                        }
+                    }
+                }
+                else if (!gmail.isEmpty && !gmail.isEmpty) && loginVM.isAuthenticated {
+                    EmptyView()
+                     .onAppear{
+                         loginVM.login(email: gmail, password: password, checkState: checkState)
+                         print("yahoo")
+                     }
+                    
+                }else if !loginVM.isAuthenticated{
                     LoginView(prop: prop)
+                }else{
+                    progressingView(prop: prop)
                 }
                 FlashScreen(prop:prop)
             }
@@ -61,7 +85,7 @@ struct Home: View {
                     .tag(Tab.education)
                 Calendar(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, prop: prop)
                     .tag(Tab.bag)
-                Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, hideTab: $hideTab, prop: prop)
+                Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, hideTab: $hideTab, checkState: $checkState, prop: prop)
                     .tag(Tab.book)
             }
             // MARK: Custom to Bar
@@ -110,9 +134,27 @@ struct Home: View {
                 Spacer()
                 LogoGoglobal(prop: prop)
                 Spacer()
-                Text("ចូលប្រើកម្មវិធី")
-                    .font(.custom("Bayon", size: prop.isiPhoneS ? 26 : prop.isiPhoneM ? 28 : prop.isiPhoneL ? 30 : 40, relativeTo: .largeTitle))
-                    .foregroundColor(Color("ColorTitle"))
+                VStack{
+                    Text("ចូលប្រើកម្មវិធី")
+                        .font(.custom("Bayon", size: prop.isiPhoneS ? 26 : prop.isiPhoneM ? 28 : prop.isiPhoneL ? 30 : 40, relativeTo: .largeTitle))
+                        .foregroundColor(Color("ColorTitle"))
+                    if isempty{
+                        Text("សូមសរសេរអ៊ីម៉ែល & ពាក្យសម្ងាត់")
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .body))
+                            .foregroundColor(Color("Blue"))
+                    }
+                    if forget{
+                        Button {
+                            self.showContact = true
+                        } label: {
+                            Text("ភ្លេចពាក្យសម្ងាត់មែនទេ?")
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 22, relativeTo: .body))
+                        }
+                        .sheet(isPresented: $showContact) {
+                            SheetContact(prop: prop)
+                        }
+                    }
+                }
                 Spacer()
                 VStack(spacing:30){
                     VStack(alignment: .leading, spacing: prop.isiPhoneS ? 4 : prop.isiPhoneM ? 6 : prop.isiPhoneL ? 8 : 10) {
@@ -124,6 +166,7 @@ struct Home: View {
                             self.gmail = $0.lowercased()
                         })
                         TextField("បញ្ជូលអ៊ីម៉ែលរបស់អ្នក", text: binding)
+                            .keyboardType(.emailAddress)
                             .padding(prop.isiPhoneS ? 13 : prop.isiPhoneM ? 15 : prop.isiPhoneL ? 20 : 20)
                             .cornerRadius(10)
                             .overlay(
@@ -136,6 +179,7 @@ struct Home: View {
                         Text("ពាក្យសម្ងាត់")
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .body))
                         SecureField("បញ្ជូលពាក្យសម្ងាត់របស់អ្នក", text: $password)
+                            .textContentType(.password)
                             .padding(prop.isiPhoneS ? 13 : prop.isiPhoneM ? 17 : prop.isiPhoneL ? 19 : 20)
                             .cornerRadius(10)
                             .overlay(
@@ -145,7 +189,7 @@ struct Home: View {
                     }
                     
                     Button {
-                        loginVM.login(email: gmail, password: password)
+                        loginVM.login(email: gmail, password: password, checkState: checkState)
                         self.isLoading = true
                         if self.gmail.isEmpty || password.isEmpty {
                             self.isempty = true
@@ -162,6 +206,11 @@ struct Home: View {
                                 }
                             }
                         }
+                        if checkState{
+                            UserDefaults.standard.set(self.gmail, forKey: "Gmail")
+                            UserDefaults.standard.set(self.password, forKey: "Password")
+                        }
+                      
                     } label: {
                         Text("ចូលកម្មវិធី")
                             .font(.custom("Bayon", size: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 24 : prop.isiPhoneL ? 26 : 30, relativeTo: .largeTitle))
@@ -174,25 +223,28 @@ struct Home: View {
                     }
                 }
                 .frame(maxWidth: prop.isiPad ? 400 : prop.isiPhoneL ? 400 : .infinity )
-                if isempty{
-                    Text("សូមសរសេរអ៊ីម៉ែល & ពាក្យសម្ងាត់")
-                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .body))
-                        .foregroundColor(Color("Blue"))
-                }
-                
                 Spacer()
-                
-                if forget{
-                    Button {
-                        self.showContact = true
-                    } label: {
-                        Text("ភ្លេចពាក្យសម្ងាត់?")
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 22, relativeTo: .body))
-                    }
-                    .sheet(isPresented: $showContact) {
-                        SheetContact(prop: prop)
-                    }
+                VStack(spacing: 0){
+                    Button(action:
+                       {
+                           //1. Save state
+                        self.checkState.toggle()
+                           print("State : \(self.checkState)")
+                           
+                           
+                   }) {
+                       HStack(alignment: .center, spacing: 10) {
+                                   //2. Will update according to state
+                           Image(systemName: self.checkState ?"checkmark.square": "square")
+                               .font(.system(size: 30))
+                                
+                              Text("ចងចាំពាក្យសម្ងាត់?")
+                               .font(.custom("Kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 22, relativeTo: .body))
+                       }
+                   }
+
                 }
+                Spacer()
                 footer(prop: prop)
             }
             .padding()
@@ -203,6 +255,7 @@ struct Home: View {
             }
         }
     }
+    
     func footer(prop:Properties)-> some View{
         VStack(spacing:  prop.isiPhoneS ? 2 : prop.isiPhoneM ? 3 : prop.isiPhoneL ? 5 : 10){
             Text("Power by:")

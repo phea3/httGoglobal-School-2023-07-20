@@ -15,7 +15,7 @@ struct Profile: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @Environment(\.verticalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
-    @EnvironmentObject private var loginViewModel: LoginViewModel
+//    @EnvironmentObject private var loginViewModel: LoginViewModel
     @ObservedObject var logout: LoginViewModel
     @ObservedObject var uploadImg: UpdateMobileUserProfileImg
     @StateObject var userProfile: MobileUserViewModel = MobileUserViewModel()
@@ -26,8 +26,10 @@ struct Profile: View {
     @State private var showSheet = false
     @State private var refresh: Bool = false
     @State var showImage: Bool = false
+    @State var logoutLoading: Bool = false
     @Binding var Loading: Bool
     @Binding var hideTab: Bool
+    @Binding var checkState: Bool
     let gradient = Color("BG")
     var prop: Properties
     var btnBack : some View { btnBackView(prop: prop, title: "គណនី").opacity(showImage ? 0:1)}
@@ -69,7 +71,6 @@ struct Profile: View {
                                                     mainViewofProfile()
                                                 }
                                             }
-                                            
                                         }
                                     }
                                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
@@ -105,7 +106,14 @@ struct Profile: View {
                                 ViewlistBelowProfileImg(Title: "Nationality", Description: logout.userNationality)
                                 Divider()
                                 Button {
-                                    logout.signout()
+                                    self.logoutLoading = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                        logout.signout()
+                                        self.logoutLoading = false
+                                    }
+                                    UserDefaults.standard.removeObject(forKey: "Gmail")
+                                    UserDefaults.standard.removeObject(forKey: "Password")
+                                    UserDefaults.standard.removeObject(forKey: "isAuthenticated")
                                 } label: {
                                     Text("LOG OUT")
                                         .font(.system(size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20))
@@ -146,6 +154,9 @@ struct Profile: View {
                         ShowImage()
                     }
                     .background(.clear)
+                }
+                if logoutLoading{
+                    progressingView(prop: prop)
                 }
             }
             .setBG()
@@ -209,7 +220,7 @@ struct Profile: View {
                    
                     Image(systemName: "camera.fill")
                         .foregroundColor(.black)
-                        .padding(4)
+                        .padding(6)
                         .font(.system(size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16))
                         .background(Color("LightBlue"))
                         .clipShape(Circle())
@@ -242,7 +253,7 @@ struct Profile: View {
                     }
                     Image(systemName: "camera.fill")
                         .foregroundColor(.black)
-                        .padding(4)
+                        .padding(6)
                         .font(.system(size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16))
                         .background(Color("LightBlue"))
                         .clipShape(Circle())
@@ -341,7 +352,7 @@ struct Profile: View {
 struct Profile_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Profile(logout: LoginViewModel(), uploadImg: UpdateMobileUserProfileImg(), Loading: .constant(false), hideTab: .constant(false), prop: prop)
+        Profile(logout: LoginViewModel(), uploadImg: UpdateMobileUserProfileImg(), Loading: .constant(false), hideTab: .constant(false), checkState: .constant(false), prop: prop)
     }
 }
 

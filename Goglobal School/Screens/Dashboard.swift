@@ -30,9 +30,7 @@ struct Dashboard: View {
             ZStack{
                 if students.AllStudents.isEmpty || academiclist.academicYear.isEmpty{
                     ZStack{
-                        Color("BG")
-                            .ignoresSafeArea()
-                        progressingView(prop: prop)
+                        EmptyView()
                     }
                 }else{
                     VStack(spacing:0){
