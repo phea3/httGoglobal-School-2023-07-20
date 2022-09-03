@@ -50,10 +50,11 @@ struct Grade: View {
                 .frame(width: .infinity, height: .infinity, alignment: .leading)
                 VStack(spacing: 0){
                     List(Array(Enrollment.enumerated()), id: \.element.id){ index, item in
-                        Choose(Grade: item.GradeId.GradeName , Class: item.ClassName, Year: item.AcademicYearId.AcademicYear, Programme: item.ProgramId.ProgramName, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.classId.Id, academicYearId: item.AcademicYearId.Id, programId: item.ProgramId.Id, color: index % 2 == 0 ? colorOrg: colorBlue, prop:prop)
-                            .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
-                            .backgroundRemover()
-                        
+//                        if ((item.AcademicYearId.academicYear.academicYear ?? "") == "2022-2023") {
+                            Choose(Grade: item.GradeId.GradeName , Class: item.ClassName, Year: item.AcademicYearId.AcademicYear, Programme: item.ProgramId.ProgramName, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.classId.Id, academicYearId: item.AcademicYearId.Id, programId: item.ProgramId.Id, color: index % 2 == 0 ? colorOrg: colorBlue, prop:prop)
+                                .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
+                                .backgroundRemover()
+//                        }
                     }
                     .listStyle(GroupedListStyle())
                     
@@ -111,8 +112,8 @@ struct Grade: View {
                         }
                     }
                 }
-    }
-}
+            }
+        }
 
 struct Choose: View {
     

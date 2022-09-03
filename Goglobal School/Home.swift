@@ -8,19 +8,23 @@
 import SwiftUI
 import Alamofire
 import SDWebImageSwiftUI
+import SwiftUITooltip
 
 struct Home: View {
-    
     @ObservedObject var loginVM: LoginViewModel = LoginViewModel()
-    // MARK: Hiding Native One
-    init(){UITabBar.appearance().isHidden = true}
+    init(){
+        UITabBar.appearance().isHidden = true
+        self.tooltipConfig.enableAnimation = true
+        self.tooltipConfig.animationOffset = 10
+        self.tooltipConfig.animationTime = 1
+        self.tooltipConfig.borderColor = .white
+    }
+    
     @State var currentTab: Tab = .dashboard
     @State var animationFinished: Bool = false
     @State var animationStarted: Bool = false
     @State var gmail: String = (UserDefaults.standard.string(forKey: "Gmail") ?? "")
     @State var password: String = (UserDefaults.standard.string(forKey: "Password") ?? "")
-    //    @State var gmail: String = ""
-    //    @State var password: String = ""
     @State var forget: Bool = false
     @State var isempty: Bool = false
     @State var isLoading: Bool = false
@@ -28,6 +32,9 @@ struct Home: View {
     @State var hideTab: Bool = false
     @State var checkState: Bool = false
     @State var loggedIn: Bool = false
+    @State var tooltipVisible = true
+    
+    var tooltipConfig = DefaultTooltipConfig()
     let lightGrayColor = Color.white
     
     var body: some View {
@@ -37,7 +44,7 @@ struct Home: View {
                 if loginVM.isAuthenticated{
                     ZStack{
                         if !loggedIn{
-                            EmptyView()
+                            progressingView(prop: prop)
                         }else{
                             MainView(prop: prop)
                         }
@@ -51,10 +58,9 @@ struct Home: View {
                 }
                 else if (!gmail.isEmpty && !gmail.isEmpty) && loginVM.isAuthenticated {
                     EmptyView()
-                     .onAppear{
-                         loginVM.login(email: gmail, password: password, checkState: checkState)
-                         print("yahoo")
-                     }
+                        .onAppear{
+                            loginVM.login(email: gmail, password: password, checkState: checkState)
+                        }
                     
                 }else if !loginVM.isAuthenticated{
                     LoginView(prop: prop)
@@ -90,6 +96,18 @@ struct Home: View {
             }
             // MARK: Custom to Bar
             CustomTabBar(currentTab: $currentTab,prop: prop)
+                .tooltip(self.tooltipVisible, side: .topLeft,config: tooltipConfig) {
+                    HStack{
+                        Text("ជម្រើស")
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 22, relativeTo: .body))
+                            .foregroundColor(.blue)
+                            .onAppear{
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                    self.tooltipVisible = !self.tooltipVisible
+                                }
+                            }
+                    }
+                }
                 .background(RoundedCorners(color: .white, tl: 30, tr: 30, bl: 0, br: 0))
                 .frame(maxWidth: prop.isLandscape || prop.isSplit ? 400 : prop.isiPad ? 400 : .infinity, maxHeight: .infinity, alignment: .bottom)
                 .opacity( hideTab ? 0 : animationStarted ? 1:0)
@@ -210,7 +228,7 @@ struct Home: View {
                             UserDefaults.standard.set(self.gmail, forKey: "Gmail")
                             UserDefaults.standard.set(self.password, forKey: "Password")
                         }
-                      
+                        
                     } label: {
                         Text("ចូលកម្មវិធី")
                             .font(.custom("Bayon", size: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 24 : prop.isiPhoneL ? 26 : 30, relativeTo: .largeTitle))
@@ -219,39 +237,36 @@ struct Home: View {
                             .frame(maxWidth: .infinity)
                             .background(.blue)
                             .cornerRadius(10)
-                        
                     }
                 }
                 .frame(maxWidth: prop.isiPad ? 400 : prop.isiPhoneL ? 400 : .infinity )
                 Spacer()
                 VStack(spacing: 0){
                     Button(action:
-                       {
-                           //1. Save state
+                            {
+                        //1. Save state
                         self.checkState.toggle()
-                           print("State : \(self.checkState)")
-                           
-                           
-                   }) {
-                       HStack(alignment: .center, spacing: 10) {
-                                   //2. Will update according to state
-                           Image(systemName: self.checkState ?"checkmark.square": "square")
-                               .font(.system(size: 30))
-                                
-                              Text("ចងចាំពាក្យសម្ងាត់?")
-                               .font(.custom("Kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 22, relativeTo: .body))
-                       }
-                   }
-
+                        print("State : \(self.checkState)")
+                    }) {
+                        HStack(alignment: .center, spacing: 10) {
+                            //2. Will update according to state
+                            Image(systemName: self.checkState ?"checkmark.square": "square")
+                                .font(.system(size: 30))
+                                .tooltip(.right, config: tooltipConfig) {
+                                    Text("ចងចាំពាក្យសម្ងាត់?")
+                                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 22, relativeTo: .body))
+                                        .foregroundColor(.blue)
+                                }
+                        }
+                    }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
                 Spacer()
                 footer(prop: prop)
             }
             .padding()
             if isLoading{
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                    .scaleEffect(prop.isiPhoneS ? 2 : prop.isiPhoneM ? 2.5:3)
+               progressingView(prop: prop)
             }
         }
     }

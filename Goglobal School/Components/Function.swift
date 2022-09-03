@@ -80,41 +80,78 @@ extension View{
                     .foregroundColor(Color("Blue"))
                     .padding(.top, prop.isLandscape ? 10 : 0)
                 }
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack{
-                        AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(profileImg)"), scale: 2){image in
-                            
-                            switch  image {
+                    if prop.isLandscape{
+                        HStack{
+                            AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(profileImg)"), scale: 2){image in
                                 
-                            case .empty:
-                                ProgressView()
-                                    .progressViewStyle(.circular)
-                                    .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
-                            case .success(let image):
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                                    .cornerRadius(50)
-                                    .clipped()
-                                    .background(Color.black.opacity(0.2))
-                                    .clipShape(Circle())
-                                    .padding(-5)
-                                    .frame(width: prop.isLandscape ? 24 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
-                            case .failure:
-                                Image(systemName: "person.fill")
-                                    .padding(2)
-                                    .font(.system(size:  prop.isLandscape ? 22 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20)))
-                                    .cornerRadius(50)
-                                    .background(Color.white)
-                                    .aspectRatio(contentMode: .fill)
-                                    .clipShape(Circle())
-                                    .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
-                            @unknown default:
-                                fatalError()
+                                switch  image {
+                                    
+                                case .empty:
+                                    ProgressView()
+                                        .progressViewStyle(.circular)
+                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                case .success(let image):
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .cornerRadius(50)
+                                        .clipped()
+                                        .background(Color.black.opacity(0.2))
+                                        .clipShape(Circle())
+                                        .padding(-5)
+                                        .frame(width: prop.isLandscape ? 24 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                case .failure:
+                                    Image(systemName: "person.fill")
+                                        .padding(2)
+                                        .font(.system(size:  prop.isLandscape ? 22 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20)))
+                                        .cornerRadius(50)
+                                        .background(Color.white)
+                                        .aspectRatio(contentMode: .fill)
+                                        .clipShape(Circle())
+                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                @unknown default:
+                                    fatalError()
+                                }
+                            }
+                        }
+                        .padding(.vertical, 10 )
+                    }else{
+                        HStack{
+                            AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(profileImg)"), scale: 2){image in
+                                
+                                switch  image {
+                                    
+                                case .empty:
+                                    ProgressView()
+                                        .progressViewStyle(.circular)
+                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                case .success(let image):
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .cornerRadius(50)
+                                        .clipped()
+                                        .background(Color.black.opacity(0.2))
+                                        .clipShape(Circle())
+                                        .padding(-5)
+                                        .frame(width: prop.isLandscape ? 24 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                case .failure:
+                                    Image(systemName: "person.fill")
+                                        .padding(2)
+                                        .font(.system(size:  prop.isLandscape ? 22 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20)))
+                                        .cornerRadius(50)
+                                        .background(Color.white)
+                                        .aspectRatio(contentMode: .fill)
+                                        .clipShape(Circle())
+                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                @unknown default:
+                                    fatalError()
+                                }
                             }
                         }
                     }
-                    .padding(.top, prop.isLandscape ? 10 : 0)
                 }
             }
     }
@@ -144,9 +181,20 @@ extension View{
         }
     }
     func progressingView(prop:Properties) -> some View {
-            ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                .scaleEffect(prop.isiPhoneS ? 2 : prop.isiPhoneM ? 2.5:3)
+        ZStack{
+            Rectangle()
+                .fill(.white)
+                .frame(width: 100, height: 100, alignment: .center)
+                .cornerRadius(20)
+            VStack{
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                    .scaleEffect(prop.isiPhoneS ? 1 : prop.isiPhoneM ? 1: prop.isiPhoneL ? 1 : 2)
+                Text("កំពុង...")
+                    .foregroundColor(.blue)
+            }
+        }
+           
     }
     @ViewBuilder func phoneOnlyStackNavigationView() -> some View {
         if UIDevice.current.userInterfaceIdiom == .phone {

@@ -88,57 +88,50 @@ struct CustomDatePicker: View {
                 }
             }
             
-            VStack(spacing: 0){
+            VStack(spacing: 5){
                 HStack{
                     Text("ថ្ងៃអវត្តមាន")
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .callout).bold())
                         .foregroundColor(.red)
-                        .padding()
                     Spacer()
                     Image(systemName: "square.fill")
                         .font(.system(size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14))
                         .foregroundColor(.red)
-                        .padding()
                 }
                 .frame(maxWidth: 200)
                 HStack{
                     Text("ថ្ងៃមកយឺត")
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .callout).bold())
                         .foregroundColor(.green)
-                        .padding()
                     Spacer()
                     Image(systemName: "square.fill")
                         .font(.system(size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14))
                         .foregroundColor(.green)
-                        .padding()
                 }
                 .frame(maxWidth: 200)
                 HStack{
                     Text("ថ្ងៃសុំច្បាប់")
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .callout).bold())
                         .foregroundColor(.yellow)
-                        .padding()
                     Spacer()
                     Image(systemName: "square.fill")
                         .font(.system(size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14))
                         .foregroundColor(.yellow)
-                        .padding()
                 }
                 .frame(maxWidth: 200)
                 HStack{
                     Text("ថ្ងៃវត្តមាន")
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .callout).bold())
                         .foregroundColor(.blue)
-                        .padding()
                     Spacer()
                     Image(systemName: "square.fill")
                         .font(.system(size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14))
                         .foregroundColor(.blue)
-                        .padding()
                 }
                 .frame(maxWidth: 200)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
         }
         .onChange(of: currentMonth) { newValue in
             // Update Month...

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ACarousel
+import SwiftUITooltip
 
 struct Dashboard: View {
     @StateObject var students: ListStudentViewModel = ListStudentViewModel()
@@ -20,6 +21,7 @@ struct Dashboard: View {
     @State var userProfileImg: String
     @State var showingSheet: Bool = false
     @State var imgLoading: Bool = false
+    @State var tooltipVisible: Bool = false
     @Binding var isLoading: Bool
     let gradient = Color.clear
     var barTitle: String = "ទំព័រដើម"
@@ -29,10 +31,11 @@ struct Dashboard: View {
         NavigationView {
             ZStack{
                 if students.AllStudents.isEmpty || academiclist.academicYear.isEmpty{
-                    ZStack{
-                        EmptyView()
-                    }
-                }else{
+                    EmptyView()
+                }else if (students.Error != nil){
+                    Text("No Data")
+                }
+                else{
                     VStack(spacing:0){
                         Divider()
                         ScrollView(.vertical, showsIndicators: false) {
@@ -102,55 +105,114 @@ struct Dashboard: View {
                                 VStack{
                                     if AnnoucementList.Annouces.isEmpty {
                                         progressingView(prop: prop)
-                                    }else{
-                                        VStack(alignment: .leading){
-                                            ForEach(AnnoucementList.Annouces, id: \.id) { item in
-                                               
-                                                Button {
-                                                    self.showingSheet.toggle()
-                                                    detailId = item.id
-                                                } label: {
-                                                    ZStack(alignment:.bottom){
-                                                        AsyncImage(url: URL(string: item.img ), scale: 2){image in
-                                                            
-                                                            switch  image {
-                                                                
-                                                            case .empty:
-                                                                ProgressView()
-                                                                    .progressViewStyle(.circular)
-                                                            case .success(let image):
-                                                                image
-                                                                    .resizable()
-                                                                    .aspectRatio(contentMode: .fill)
-                                                                    .frame(maxHeight: .infinity)
-                                                                    .cornerRadius(30)
-                                                            case .failure:
-                                                                Text("Not Found News")
-                                                                    .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
-                                                                    .foregroundColor(.pink)
-                                                            @unknown default:
-                                                                fatalError()
+                                    }
+                                    else{
+                                        if prop.isLandscape{
+                                            ScrollView(.horizontal, showsIndicators: false) {
+                                                HStack(spacing: 20){
+                                                    ForEach(AnnoucementList.Annouces, id: \.id) { item in
+                                                        Button {
+                                                            self.showingSheet.toggle()
+                                                            detailId = item.id
+                                                        } label: {
+                                                            ZStack(alignment:.bottom){
+                                                                AsyncImage(url: URL(string: item.img ), scale: 2){image in
+                                                                    
+                                                                    switch  image {
+                                                                        
+                                                                    case .empty:
+                                                                        ProgressView()
+                                                                            .progressViewStyle(.circular)
+                                                                    case .success(let image):
+                                                                        image
+                                                                            .resizable()
+                                                                            .aspectRatio(contentMode: .fill)
+                                                                            .frame(maxHeight: .infinity)
+                                                                            .cornerRadius(30)
+                                                                    case .failure:
+                                                                        Text("Not Found News")
+                                                                            .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
+                                                                            .foregroundColor(.pink)
+                                                                    @unknown default:
+                                                                        fatalError()
+                                                                    }
+                                                                }
+                                                                Rectangle()
+                                                                    .frame(maxWidth: .infinity, maxHeight: prop.isiPhoneS ? 80 : prop.isiPhoneM ? 90 : prop.isiPhoneL ? 150 : 120)
+                                                                    .foregroundColor(.clear)
+                                                                    .overlay(
+                                                                        getGradientOverlay()
+                                                                            .cornerRadius(30)
+                                                                    )
+                                                                VStack(spacing: 0){
+                                                                        Text(item.title)
+                                                                            .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
+                                                                            .foregroundColor(.blue)
+                                                                            .padding()
+                                                                            .shadow(color: .white, radius: 5)
+                                                                            .frame(maxWidth:.infinity, alignment: .leading)
+                                                                }
                                                             }
+                                                                .frame(maxHeight: 250)
                                                         }
-                                                        Rectangle()
-                                                            .frame(maxWidth: .infinity, maxHeight: prop.isiPhoneS ? 80 : prop.isiPhoneM ? 90 : prop.isiPhoneL ? 150 : 120)
-                                                            .foregroundColor(.clear)
-                                                            .overlay(
-                                                                getGradientOverlay()
-                                                                    .cornerRadius(30)
-                                                            )
-                                                        VStack(spacing: 0){
-                                                                Text(item.title)
-                                                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
-                                                                    .foregroundColor(.blue)
-                                                                    .padding()
-                                                                    .shadow(color: .white, radius: 5)
-                                                                    .frame(maxWidth:.infinity, alignment: .leading)
+                                                        .sheet(isPresented: $showingSheet) {
+                                                            Annoucements(prop: prop, postId: $detailId)
                                                         }
                                                     }
                                                 }
-                                                .sheet(isPresented: $showingSheet) {
-                                                    Annoucements(prop: prop, postId: $detailId)
+                                            }
+                                        }else{
+                                            ScrollView(.vertical, showsIndicators: false) {
+                                                VStack{
+                                                    ForEach(AnnoucementList.Annouces, id: \.id) { item in
+                                                        Button {
+                                                            self.showingSheet.toggle()
+                                                            detailId = item.id
+                                                        } label: {
+                                                            ZStack(alignment:.bottom){
+                                                                AsyncImage(url: URL(string: item.img ), scale: 2){image in
+                                                                    
+                                                                    switch  image {
+                                                                        
+                                                                    case .empty:
+                                                                        ProgressView()
+                                                                            .progressViewStyle(.circular)
+                                                                    case .success(let image):
+                                                                        image
+                                                                            .resizable()
+                                                                            .aspectRatio(contentMode: .fill)
+                                                                            .frame(maxHeight: .infinity)
+                                                                            .cornerRadius(30)
+                                                                    case .failure:
+                                                                        Text("Not Found News")
+                                                                            .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
+                                                                            .foregroundColor(.pink)
+                                                                    @unknown default:
+                                                                        fatalError()
+                                                                    }
+                                                                }
+                                                                Rectangle()
+                                                                    .frame(maxWidth: .infinity, maxHeight: prop.isiPhoneS ? 80 : prop.isiPhoneM ? 90 : prop.isiPhoneL ? 150 : 120)
+                                                                    .foregroundColor(.clear)
+                                                                    .overlay(
+                                                                        getGradientOverlay()
+                                                                            .cornerRadius(30)
+                                                                    )
+                                                                VStack(spacing: 0){
+                                                                        Text(item.title)
+                                                                            .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
+                                                                            .foregroundColor(.blue)
+                                                                            .padding()
+                                                                            .shadow(color: .white, radius: 5)
+                                                                            .frame(maxWidth:.infinity, alignment: .leading)
+                                                                }
+                                                            }
+                                                           
+                                                        }
+                                                        .sheet(isPresented: $showingSheet) {
+                                                            Annoucements(prop: prop, postId: $detailId)
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
@@ -167,7 +229,7 @@ struct Dashboard: View {
                     .toolbarView(prop: prop, barTitle: barTitle, profileImg: userProfileImg)
                     if imgLoading{
                         ZStack{
-                            Color("BG")
+                            Color.white.opacity(0.2)
                                 .ignoresSafeArea()
                             progressingView(prop: prop)
                         }
@@ -177,9 +239,12 @@ struct Dashboard: View {
                 
             }
             .onAppear {
-                AnnoucementList.getAnnoucement()
-                academiclist.populateAllContinent()
-                students.StundentAmount(parentId: parentId)
+                withAnimation(Animation.easeInOut(duration: 2.0).repeatForever(autoreverses: false)) {
+                    AnnoucementList.getAnnoucement()
+                    academiclist.populateAllContinent()
+                    students.StundentAmount(parentId: parentId)
+                }
+                
                 DispatchQueue.main.async {
                     self.isLoading = false
                 }
@@ -217,6 +282,9 @@ struct Dashboard: View {
                         .clipShape(Circle())
                         .aspectRatio(contentMode: .fit)
                         .padding()
+                        .onAppear {
+                            self.imgLoading = false
+                        }
                 @unknown default:
                     fatalError()
                 }

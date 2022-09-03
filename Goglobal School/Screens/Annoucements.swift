@@ -55,6 +55,7 @@ struct Annoucements: View {
                                         fatalError()
                                     }
                                 }
+                                .frame( maxHeight: prop.isLandscape ? 400 : .infinity)
                                 VStack{
                                     Text(Annouce.title)
                                         .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))

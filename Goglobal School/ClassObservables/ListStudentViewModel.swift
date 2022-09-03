@@ -9,6 +9,7 @@ import Foundation
 class ListStudentViewModel: ObservableObject {
     
     @Published var AllStudents: [StudentsViewModel] = []
+    @Published var Error: Error?
     
     func StundentAmount(parentId: String){
         Network.shared.apollo.fetch(query: GetStudentsByParentsQuery(parentId: parentId)) { [weak self] result in
@@ -20,7 +21,9 @@ class ListStudentViewModel: ObservableObject {
                     }
                 }
             case.failure(let graphError):
-                print(graphError)
+                DispatchQueue.main.async {
+                    self?.Error = graphError
+                }
             }
         }
     }

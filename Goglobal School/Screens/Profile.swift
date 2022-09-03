@@ -275,7 +275,7 @@ struct Profile: View {
     }
     private func ShowImage()-> some View{
         VStack {
-            URLImage(URL(string: "https://storage.go-globalschool.com/api/uploads/school-Image/\(logout.userId)image.png")!) { image in
+            URLImage(URL(string: "https://storage.go-globalschool.com/api\(userProfile.userProfileImg)")!) { image in
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fit)
