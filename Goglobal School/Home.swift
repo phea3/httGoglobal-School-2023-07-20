@@ -17,7 +17,7 @@ struct Home: View {
         self.tooltipConfig.enableAnimation = true
         self.tooltipConfig.animationOffset = 10
         self.tooltipConfig.animationTime = 1
-        self.tooltipConfig.borderColor = .white
+        self.tooltipConfig.borderColor = .blue
     }
     
     @State var currentTab: Tab = .dashboard
@@ -36,7 +36,6 @@ struct Home: View {
     
     var tooltipConfig = DefaultTooltipConfig()
     let lightGrayColor = Color.white
-    
     var body: some View {
         ResponsiveView{ prop in
             ZStack{
@@ -44,7 +43,8 @@ struct Home: View {
                 if loginVM.isAuthenticated{
                     ZStack{
                         if !loggedIn{
-                            progressingView(prop: prop)
+                          EmptyView()
+                                .setBG()
                         }else{
                             MainView(prop: prop)
                         }
@@ -96,18 +96,6 @@ struct Home: View {
             }
             // MARK: Custom to Bar
             CustomTabBar(currentTab: $currentTab,prop: prop)
-                .tooltip(self.tooltipVisible, side: .topLeft,config: tooltipConfig) {
-                    HStack{
-                        Text("ជម្រើស")
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 22, relativeTo: .body))
-                            .foregroundColor(.blue)
-                            .onAppear{
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                                    self.tooltipVisible = !self.tooltipVisible
-                                }
-                            }
-                    }
-                }
                 .background(RoundedCorners(color: .white, tl: 30, tr: 30, bl: 0, br: 0))
                 .frame(maxWidth: prop.isLandscape || prop.isSplit ? 400 : prop.isiPad ? 400 : .infinity, maxHeight: .infinity, alignment: .bottom)
                 .opacity( hideTab ? 0 : animationStarted ? 1:0)
@@ -118,8 +106,8 @@ struct Home: View {
                         }
                     }
                 }
+            }
         }
-    }
     
     @ViewBuilder
     func FlashScreen(prop: Properties)-> some View {
@@ -174,7 +162,7 @@ struct Home: View {
                     }
                 }
                 Spacer()
-                VStack(spacing:30){
+                VStack(spacing: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20){
                     VStack(alignment: .leading, spacing: prop.isiPhoneS ? 4 : prop.isiPhoneM ? 6 : prop.isiPhoneL ? 8 : 10) {
                         Text("អ៊ីម៉ែល")
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .body))
@@ -230,7 +218,7 @@ struct Home: View {
                         }
                         
                     } label: {
-                        Text("ចូលកម្មវិធី")
+                        Text("ចូល")
                             .font(.custom("Bayon", size: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 24 : prop.isiPhoneL ? 26 : 30, relativeTo: .largeTitle))
                             .foregroundColor(.white)
                             .padding(prop.isiPhoneS ? 3 : prop.isiPhoneM ? 4 : prop.isiPhoneL ? 6 : 8)
@@ -251,16 +239,15 @@ struct Home: View {
                         HStack(alignment: .center, spacing: 10) {
                             //2. Will update according to state
                             Image(systemName: self.checkState ?"checkmark.square": "square")
-                                .font(.system(size: 30))
-                                .tooltip(.right, config: tooltipConfig) {
-                                    Text("ចងចាំពាក្យសម្ងាត់?")
-                                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 22, relativeTo: .body))
-                                        .foregroundColor(.blue)
-                                }
+                                .font(.system(size: 20))
+                                .padding(.bottom, 5)
+                            Text("ចងចាំពាក្យសម្ងាត់?")
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 22, relativeTo: .body))
+                                .foregroundColor(.blue)
                         }
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, alignment: .center)
                 Spacer()
                 footer(prop: prop)
             }

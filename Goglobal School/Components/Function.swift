@@ -21,8 +21,8 @@ extension Date{
         }
     }
 }
-
 extension View{
+    
     func getGradientOverlay() -> some View {
         LinearGradient(gradient:
                         Gradient(stops: [
@@ -78,7 +78,7 @@ extension View{
                             .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .largeTitle))
                     }
                     .foregroundColor(Color("Blue"))
-                    .padding(.top, prop.isLandscape ? 10 : 0)
+                    .padding(.vertical, prop.isLandscape ? 20 : 0)
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -101,7 +101,7 @@ extension View{
                                         .background(Color.black.opacity(0.2))
                                         .clipShape(Circle())
                                         .padding(-5)
-                                        .frame(width: prop.isLandscape ? 24 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                        .frame(width: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 24 : prop.isiPhoneL ? 24 :  24, alignment: .center)
                                 case .failure:
                                     Image(systemName: "person.fill")
                                         .padding(2)
@@ -110,7 +110,7 @@ extension View{
                                         .background(Color.white)
                                         .aspectRatio(contentMode: .fill)
                                         .clipShape(Circle())
-                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                        .frame(width: prop.isLandscape ? 24 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
                                 @unknown default:
                                     fatalError()
                                 }
@@ -169,7 +169,6 @@ extension View{
                 .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .largeTitle))
                 .foregroundColor(Color("Blue"))
         }
-        .padding(.top, prop.isLandscape ? 10 : 0)
     }
     func backButtonView(prop:Properties, barTitle: String) -> some View {
         HStack {
@@ -190,7 +189,7 @@ extension View{
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                     .scaleEffect(prop.isiPhoneS ? 1 : prop.isiPhoneM ? 1: prop.isiPhoneL ? 1 : 2)
-                Text("កំពុង...")
+                Text("កំពុងភ្ជាប់")
                     .foregroundColor(.blue)
             }
         }

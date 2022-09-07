@@ -19,15 +19,15 @@ struct Grade: View {
     @State var colorOrg: String = "LightOrange"
     @State var axcessPadding: CGFloat = 0
     @State var userProfileImg: String
-    let gradient = Color("BG")
-    let Enrollment: [EnrollmentsViewModel]
-    var parentId: String
-    var barTitle: String
-    var prop: Properties
-    let Student: String
     @State var classId: String = ""
     @State var academicYearId: String = ""
     @State var programId: String = ""
+    let gradient = Color("BG")
+    let Enrollment: [EnrollmentsViewModel]
+    let Student: String
+    var parentId: String
+    var barTitle: String
+    var prop: Properties
     var btnBack : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()
     }) {
@@ -57,7 +57,6 @@ struct Grade: View {
 //                        }
                     }
                     .listStyle(GroupedListStyle())
-                    
                     NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "attendance", selection: $selection) { EmptyView() }
                     NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "absence", selection: $selection) { EmptyView() }
                     NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "payment", selection: $selection) { EmptyView() }
@@ -148,6 +147,9 @@ struct Choose: View {
                 )
             
             VStack(alignment: .leading){
+                Text(Year)
+                    .listRowBackground(Color.yellow)
+                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                 HStack(spacing: prop.isiPhoneS ? 3 : prop.isiPhoneM ? 4 : 5){
                     Text(Grade)
                         .listRowBackground(Color.yellow)
@@ -157,14 +159,9 @@ struct Choose: View {
                         .listRowBackground(Color.yellow)
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                 }
-                HStack{
-                    Text(Programme)
-                        .listRowBackground(Color.yellow)
-                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-                    Text(Year)
-                        .listRowBackground(Color.yellow)
-                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-                }
+                Text(Programme)
+                    .listRowBackground(Color.yellow)
+                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
             }
         }
         .padding()
@@ -204,7 +201,7 @@ struct Choose: View {
             self.AcademicID = self.academicYearId
             self.ClassID = self.classId
             self.chose = chose
-            showsheet.toggle()
+            self.showsheet.toggle()
             self.isShow = true
             self.ChoseTitle = title
             self.selection = selection
@@ -225,7 +222,7 @@ struct Grade_Previews: PreviewProvider {
     static var previews: some View {
         let EnrollmentVM = EnrollmentsViewModel(enrollment: GetStudentsByParentsQuery.Data.GetStudentsByParent.Enrollment(_id: ""))
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Grade(studentId: "", userProfileImg: "", Enrollment: [EnrollmentVM], parentId: "", barTitle: "",prop: prop, Student: "")
+        Grade(studentId: "", userProfileImg: "", Enrollment: [EnrollmentVM], Student: "", parentId: "", barTitle: "",prop: prop)
     }
 }
 

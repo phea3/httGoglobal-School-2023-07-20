@@ -10,6 +10,7 @@ import Foundation
 class ListViewModel: ObservableObject{
     // MARK: ALL Academic Views
     @Published var academicYear: [AcademicViewModel] = []
+    @Published var Error: Bool = false
     
     // MARK: Function Mapping All Events
     func populateAllContinent() {
@@ -22,8 +23,10 @@ class ListViewModel: ObservableObject{
                         self?.academicYear = academicYear.map(AcademicViewModel.init)
                     }
                 }
-            case .failure(let GraphQLErro):
-                print(GraphQLErro)
+            case .failure:
+                DispatchQueue.main.async {
+                    self?.Error = true
+                }
             }
         }
     }

@@ -11,73 +11,59 @@ struct Education: View {
     
     @StateObject var students: ListStudentViewModel = ListStudentViewModel()
     @State var axcessPadding: CGFloat = 0
-    @State var imgLoading: Bool = false
     @State var userProfileImg: String
+    @State var refreshing: Bool  = false
+    @State var confirm: Bool = false
     @Binding var isLoading: Bool
     let gradient = Color("BG")
     var parentId: String
     var barTitle: String = "ឆ្នាំសិក្សា ២០២១~២០២២"
     var prop: Properties
+    
     var body: some View {
         NavigationView {
-            ZStack{
-                VStack{
-                    if students.AllStudents.isEmpty{
-                        progressingView(prop: prop)
-                    }else{
-                        VStack(spacing: 0){
-                            Divider()
-                            ScrollView(.vertical, showsIndicators: false) {
-                                Text("បុត្រធិតា")
-                                    .foregroundColor(.blue)
-                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 26 : prop.isiPhoneM ? 28 : 30, relativeTo: .largeTitle))
-                                    .hLeading()
-                                    .padding()
-                                    .background(.clear)
-                                ZStack {
-                                    imageStuBG(width: 300)
-                                    VStack(spacing: 0){
-                                        ScrollView(.horizontal, showsIndicators: false){
-                                            HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
-                                                ForEach(students.AllStudents,id: \.Id){ student in
-                                                    NavigationLink(
-                                                        destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Enrollment: student.Enrollments, parentId: parentId, barTitle: barTitle,prop: prop, Student: "\(student.Lastname) \(student.Firstname)"),
-                                                        label: {
-                                                            widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
-                                                        }
-                                                    )
-                                                }
-                                            }
-                                        }
-                                        .padding()
-                                        Divider()
-                                    }
-                                }
-                                Spacer()
-                            }
+            VStack(spacing: 0) {
+                if students.AllStudents.isEmpty{
+                    progressingView(prop: prop)
+                }else if students.Error{
+                    Text("ព្យាយាមម្តងទៀត")
+                        .foregroundColor(.blue)
+                }else{
+                    Divider()
+                    if !refreshing{
+                        ScrollRefreshable(title: "កំពុងភ្ជាប់", tintColor: .blue) {
+                            mainView()
+                                .navigationBarTitleDisplayMode(.inline)
+                                .toolbarView(prop: prop, barTitle: barTitle, profileImg: userProfileImg)
                         }
-                        .setBG()
-                        .navigationBarTitleDisplayMode(.inline)
-                        .toolbarView(prop: prop, barTitle: barTitle, profileImg: userProfileImg)
-                    }
-                }
-                if imgLoading{
-                    ZStack{
-                        Color("BG")
-                            .ignoresSafeArea()
-                        progressingView(prop: prop)
+                    }else{
+                        Spacer()
+                            progressingView(prop: prop)
+                        Spacer()
                     }
                 }
             }
             .onAppear {
                 students.StundentAmount(parentId: parentId)
-                DispatchQueue.main.async {
-                    self.isLoading = false
-                }
             }
+            .setBG()
+        }
+        .refreshable {
+            do {
+                // Sleep for 2 seconds
+                try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+            } catch {}
+            refreshingView()
+            students.StundentAmount(parentId: parentId)
         }
         .phoneOnlyStackNavigationView()
         .padOnlyStackNavigationView()
+    }
+    func refreshingView(){
+        self.refreshing = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.refreshing = false
+        }
     }
     func widgetStu(ImageStudent: String, Firstname: String, Lastname: String,prop:Properties) -> some View {
         
@@ -86,19 +72,18 @@ struct Education: View {
                 
                 switch  image {
                 case .empty:
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                        .onAppear {
-                            self.imgLoading = true
-                        }
+                    VStack{
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                            .progressViewStyle(.circular)
+                        Text("សូមរងចាំ")
+                            .foregroundColor(.blue)
+                    }
                 case .success(let image):
                     image
                         .resizable()
                         .clipShape(Circle())
                         .aspectRatio(contentMode: .fit)
-                        .onAppear {
-                            self.imgLoading = false
-                        }
                 case .failure:
                     Image("student")
                         .resizable()
@@ -123,9 +108,40 @@ struct Education: View {
             .padding(.bottom, 10)
         }
         .background(.clear)
-        .foregroundColor(.white)
-        .frame(width: prop.isiPhoneS ? 140 : prop.isiPhoneM ? 160 : prop.isiPhoneL ? 180 : 200, height: prop.isiPhoneS ? 160 : prop.isiPhoneM ? 180 : prop.isiPhoneL ? 220 : 220, alignment: .center)
+        .foregroundColor(confirm ? .black : .white)
+        .frame(width: prop.isiPhoneS ? 140 : prop.isiPhoneM ? 160 : prop.isiPhoneL ? 180 : 200, height: prop.isiPhoneS ? 165 : prop.isiPhoneM ? 185 : prop.isiPhoneL ? 220 : 220, alignment: .center)
         .addBorder(.orange,width: 1, cornerRadius: 20)
+    }
+    @ViewBuilder
+    private func mainView()-> some View{
+        ScrollView(.vertical, showsIndicators: false) {
+            Text("បុត្រធិតា")
+                .foregroundColor(.blue)
+                .font(.custom("Bayon", size: prop.isiPhoneS ? 26 : prop.isiPhoneM ? 28 : 30, relativeTo: .largeTitle))
+                .hLeading()
+                .padding()
+                .background(.clear)
+            ZStack {
+                imageStuBG(width: 300)
+                VStack(spacing: 0){
+                    ScrollView(.horizontal, showsIndicators: false){
+                        HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
+                            ForEach(students.AllStudents,id: \.Id){ student in
+                                NavigationLink(
+                                    destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Enrollment: student.Enrollments, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: barTitle,prop: prop),
+                                    label: {
+                                        widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
+                                    }
+                                )
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
+                    Divider()
+                        .padding(prop.isiPhoneS ? 10 : prop.isiPhoneM ? 13 : prop.isiPhoneL ? 16 : 20)
+                }
+            }
+        }
     }
 }
 

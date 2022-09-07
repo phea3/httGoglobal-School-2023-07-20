@@ -10,6 +10,7 @@ import Foundation
 class AnnouncementViewModel:ObservableObject{
     
     @Published var Annouces: [AnnouncementModel] = []
+    @Published var Error: Bool = false
     
     func getAnnoucement(){
         Network.shared.apollo.fetch(query: GetAnnouncementQuery()){ [weak self] result in
@@ -20,8 +21,8 @@ class AnnouncementViewModel:ObservableObject{
                         self?.Annouces = Annouces.map(AnnouncementModel.init)
                     }
                 }
-            case .failure(let graphQLError):
-                print(graphQLError)
+            case .failure:
+                self?.Error = true
             }
         }
     }

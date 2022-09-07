@@ -12,6 +12,7 @@ class MobileUserViewModel: ObservableObject{
     @Published var userProfileImg: String = ""
     @Published var gmail: String = ""
     @Published var password: String = ""
+    @Published var Error: Bool = false
     
     func getProfileImage(mobileUserId: String){
         Network.shared.apollo.fetch(query: GetMobileUserByIdQuery(mobileUserId: mobileUserId)){ [weak self] result in
@@ -37,12 +38,12 @@ class MobileUserViewModel: ObservableObject{
                         self?.password = password
                     }
                 }
-            case .failure(let graphQLError):
-                print(graphQLError)
+            case .failure:
+                DispatchQueue.main.async {
+                    self?.Error = true
+                }
             }
-            
         }
-        
     }
 }
 

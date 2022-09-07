@@ -88,51 +88,16 @@ struct CustomDatePicker: View {
                 }
             }
             
-            VStack(spacing: 5){
-                HStack{
-                    Text("ថ្ងៃអវត្តមាន")
-                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .callout).bold())
-                        .foregroundColor(.red)
-                    Spacer()
-                    Image(systemName: "square.fill")
-                        .font(.system(size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14))
-                        .foregroundColor(.red)
-                }
-                .frame(maxWidth: 200)
-                HStack{
-                    Text("ថ្ងៃមកយឺត")
-                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .callout).bold())
-                        .foregroundColor(.green)
-                    Spacer()
-                    Image(systemName: "square.fill")
-                        .font(.system(size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14))
-                        .foregroundColor(.green)
-                }
-                .frame(maxWidth: 200)
-                HStack{
-                    Text("ថ្ងៃសុំច្បាប់")
-                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .callout).bold())
-                        .foregroundColor(.yellow)
-                    Spacer()
-                    Image(systemName: "square.fill")
-                        .font(.system(size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14))
-                        .foregroundColor(.yellow)
-                }
-                .frame(maxWidth: 200)
-                HStack{
-                    Text("ថ្ងៃវត្តមាន")
-                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .callout).bold())
-                        .foregroundColor(.blue)
-                    Spacer()
-                    Image(systemName: "square.fill")
-                        .font(.system(size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14))
-                        .foregroundColor(.blue)
-                }
-                .frame(maxWidth: 200)
+            VStack(spacing: prop.isiPhoneM ? 5 : prop.isiPhoneM ? 8 :  prop.isiPhoneL ? 10 : 12 ){
+                guildline(text: "ថ្ងៃវត្តមាន", color: .blue)
+                guildline(text: "ថ្ងៃមកយឺត", color: .green)
+                guildline(text: "ថ្ងៃសុំច្បាប់", color: .yellow)
+                guildline(text: "ថ្ងៃវត្តមាន", color: .red)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
         }
+        .padding(.bottom, 35)
         .onChange(of: currentMonth) { newValue in
             // Update Month...
             currentDate = getCurrentMont()
@@ -140,6 +105,17 @@ struct CustomDatePicker: View {
         .onAppear(perform: {
             Attendance.GetAllAttendance(studentId: studentId)
         })
+    }
+    func guildline(text: String, color: Color)-> some View{
+        HStack{
+            Image(systemName: "square.fill")
+                .font(.system(size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14))
+                .foregroundColor(color)
+            Text(text)
+                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .callout).bold())
+                .foregroundColor(.gray)
+        }
+        .frame(maxWidth: 200, alignment: .leading)
     }
     @ViewBuilder
     func CardView(value: DateValue)-> some View{

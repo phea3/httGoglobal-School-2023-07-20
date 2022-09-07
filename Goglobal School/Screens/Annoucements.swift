@@ -39,8 +39,13 @@ struct Annoucements: View {
                                     switch  image {
                                         
                                     case .empty:
-                                        ProgressView()
-                                            .progressViewStyle(.circular)
+                                        VStack{
+                                            ProgressView()
+                                                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                                .progressViewStyle(.circular)
+                                            Text("សូមរងចាំ")
+                                                .foregroundColor(.blue)
+                                        }
                                     case .success(let image):
                                         image
                                             .resizable()

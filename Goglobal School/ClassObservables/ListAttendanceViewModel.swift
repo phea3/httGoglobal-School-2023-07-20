@@ -10,6 +10,7 @@ import Foundation
 class ListAttendanceViewModel: ObservableObject {
     
     @Published var Attendances: [AttendanceViewModel] = []
+    @Published var Error: Bool = false
     
     func GetAllAttendance(studentId: String){
         Network.shared.apollo.fetch(query: GetAttendanceByStudentIdQuery(studentId: studentId)){ [weak self] result in
@@ -20,8 +21,10 @@ class ListAttendanceViewModel: ObservableObject {
                         self?.Attendances = Attendances.map(AttendanceViewModel.init)
                     }
                 }
-            case .failure(let graphQLError):
-                print(graphQLError)
+            case .failure:
+                DispatchQueue.main.async {
+                    self?.Error = true
+                }
             }
         }
     }

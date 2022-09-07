@@ -14,7 +14,7 @@ struct Attendant: View {
     @StateObject var Attendance: ListAttendanceViewModel = ListAttendanceViewModel()
     var prop: Properties
     var body: some View {
-        ScrollView{
+        ScrollView(.vertical, showsIndicators: false){
             VStack(spacing: 0){
                 CustomDatePicker(studentId: studentId, currentDate: $currentDate,prop: prop)
             }

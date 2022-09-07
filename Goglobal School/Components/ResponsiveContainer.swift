@@ -140,8 +140,8 @@ struct CustomTabBar: View {
             }
             .frame(maxWidth: .infinity)
         }
-        .frame(maxHeight: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20)
-        .padding(.bottom,prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : 24)
+        .frame(maxHeight: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 22 : prop.isiPhoneL ? 24 : 26)
+        .padding(.bottom,prop.isiPhoneS ? 20 : prop.isiPhoneM ? 22 : 26)
         .padding([.horizontal,.top])
     }
 }

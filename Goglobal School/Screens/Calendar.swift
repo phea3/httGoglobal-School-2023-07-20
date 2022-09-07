@@ -13,73 +13,101 @@ struct Calendar: View {
     @State var colorBlue: String = "LightBlue"
     @State var colorOrg: String = "LightOrange"
     @State var userProfileImg: String
+    @State var refreshing: Bool = false
+    @State var axcessPadding: CGFloat = 0
     @Binding var isLoading: Bool
     let gradient = Color("BG")
     var prop: Properties
-    @State var axcessPadding: CGFloat = 0
+    
     var body: some View {
         NavigationView{
-            VStack{
+            VStack(spacing: 0) {
                 if academiclist.academicYear.isEmpty{
                     progressingView(prop: prop)
+                }else if academiclist.Error{
+                    Text("ព្យាយាមម្តងទៀត")
+                        .foregroundColor(.blue)
                 }else{
-                    VStack(spacing: 0){
-                        Divider()
-                        ScrollView{
-                            HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                                graduatedLogo()
-                                VStack(alignment: .leading){
-                                    Text("ឆ្នាំសិក្សា ២០២១~២០២២")
-                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .largeTitle))
-                                }
-                            }
-                            .foregroundColor(Color("ColorTitle"))
-                            .setBackgroundRow(color: colorBlue)
-                            HStack{
-                                Text("ខែ កញ្ញា ឆ្នាំ ២០២២")
-                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15))
-                                Rectangle()
-                                    .frame(maxHeight: 1)
-                            }
-                            .foregroundColor(Color("ColorTitle"))
-                            .hLeading()
-                            VStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                                ForEach(Array(academiclist.academicYear.enumerated()), id: \.element.code){ index, academic in
-                                    HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                                        graduatedLogo()
-                                        VStack(alignment: .leading){
-                                            datingEditer(inputCode: academic.date)
-                                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
-                                                .listRowBackground(Color.yellow)
-                                            Text(academic.eventnameKhmer)
-                                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
-                                                .listRowBackground(Color.yellow)
-                                        }
-                                    }
-                                    .foregroundColor(index % 2 == 0 ?
-                                                     Color("bodyOrange") : Color("bodyBlue") )
-                                    .setBackgroundRow(color: index % 2 == 0 ? colorOrg : colorBlue)
-                                }
-                            }
-                            .padding(.bottom,60)
+                    Divider()
+                    if refreshing {
+                        Spacer()
+                        progressingView(prop: prop)
+                        Spacer()
+                    }else{
+                        ScrollRefreshable(title: "កំពុងភ្ជាប់", tintColor: .blue){
+                            mainView()
+                                .navigationBarTitleDisplayMode(.inline)
+                                .toolbarView(prop: prop, barTitle: "ប្រតិទិនសិក្សា", profileImg: userProfileImg)
                         }
-                        .padding(.top)
-                        .padding(.horizontal)
                     }
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbarView(prop: prop, barTitle: "ប្រតិទិនសិក្សា", profileImg: userProfileImg)
                 }
             }
-            .applyBG()
             .onAppear {
                 academiclist.populateAllContinent()
                 DispatchQueue.main.async {
                     self.isLoading = false
                 }
             }
+            .applyBG()
         }
         .phoneOnlyStackNavigationView()
         .padOnlyStackNavigationView()
+        .refreshable {
+            do {
+                // Sleep for 2 seconds
+                try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+            } catch {}
+            refreshingView()
+            academiclist.populateAllContinent()
+        }
+    }
+    @ViewBuilder
+    private func mainView()-> some View{
+        VStack(spacing: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 18){
+            HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                graduatedLogo()
+                VStack(alignment: .leading){
+                    Text("ឆ្នាំសិក្សា ២០២១~២០២២")
+                        .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .largeTitle))
+                }
+            }
+            .foregroundColor(Color("ColorTitle"))
+            .setBackgroundRow(color: colorBlue)
+            HStack{
+                Text("ខែ កញ្ញា ឆ្នាំ ២០២២")
+                    .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15))
+                Rectangle()
+                    .frame(maxHeight: 1)
+            }
+            .foregroundColor(Color("ColorTitle"))
+            .hLeading()
+            ForEach(Array(academiclist.academicYear.enumerated()), id: \.element.code){ index, academic in
+                HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                    graduatedLogo()
+                    VStack(alignment: .leading){
+                        datingEditer(inputCode: academic.date)
+                            .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
+                            .listRowBackground(Color.yellow)
+                        Text(academic.eventnameKhmer)
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
+                            .listRowBackground(Color.yellow)
+                    }
+                }
+                .foregroundColor(index % 2 == 0 ?
+                                 Color("bodyOrange") : Color("bodyBlue") )
+                .setBackgroundRow(color: index % 2 == 0 ? colorOrg : colorBlue)
+                .frame(height: prop.isiPhoneM ? 80 : .infinity)
+            }
+        }
+        .padding(.bottom,60)
+        .padding(.top)
+        .padding(.horizontal)
+    }
+    func refreshingView(){
+        self.refreshing = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.refreshing = false
+        }
     }
     func datingEditer(inputCode: String) -> some View {
         Text(academiclist.convertDateFormat(inputDate: inputCode))

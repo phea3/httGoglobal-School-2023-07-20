@@ -16,6 +16,7 @@ class ScheduleViewModel: ObservableObject{
     @Published var sectionshiftName: String = ""
     @Published var academicYear: String = ""
     @Published var id: String = ""
+    @Published var Error: Bool = false
     @Published var currentWeek: [Date] = []
     // MARK: Current Day
     @Published var currentDay: Date = Date()
@@ -47,8 +48,10 @@ class ScheduleViewModel: ObservableObject{
                     self?.academicYear = academicYear
                 }
                 
-            case .failure(let Error):
-                print(Error)
+            case .failure:
+                DispatchQueue.main.async {
+                    self?.Error = true
+                }
             }
         }
     }
