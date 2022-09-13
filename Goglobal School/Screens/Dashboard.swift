@@ -8,8 +8,8 @@
 import SwiftUI
 import ACarousel
 import SwiftUITooltip
-
 struct Dashboard: View {
+    
     @StateObject var students: ListStudentViewModel = ListStudentViewModel()
     @StateObject var academiclist: ListViewModel = ListViewModel()
     @StateObject var AnnoucementList: AnnouncementViewModel = AnnouncementViewModel()
@@ -23,18 +23,33 @@ struct Dashboard: View {
     @State var imgLoading: Bool = false
     @State var tooltipVisible: Bool = false
     @State var refreshing: Bool = false
+    @State var viewLoading: Bool = false
     @Binding var isLoading: Bool
     let gradient = Color.clear
     var barTitle: String = "ទំព័រដើម"
     var parentId: String
     var prop: Properties
+    
     var body: some View {
         NavigationView {
             VStack(spacing:0){
                 if students.AllStudents.isEmpty || academiclist.academicYear.isEmpty{
-                    progressingView(prop: prop)
+                    ZStack{
+                        if viewLoading{
+                            progressingView(prop: prop)
+                        }else{
+                            Text("មិនមានទិន្ន័យ!")
+                                .foregroundColor(.blue)
+                        }
+                    }
+                    .onAppear{
+                        self.viewLoading = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                            self.viewLoading = false
+                        }
+                    }
                 }else if students.Error{
-                    Text("ព្យាយាមម្តងទៀត")
+                    Text("សូមព្យាយាមម្តងទៀត")
                         .foregroundColor(.blue)
                 }else{
                     Divider()
@@ -44,31 +59,23 @@ struct Dashboard: View {
                         Spacer()
                     }else{
                         ScrollRefreshable(title: "កំពុងភ្ជាប់", tintColor: .blue){
-                            VStack{
-                               mainView()
-                            }
-                            .navigationBarTitleDisplayMode(.inline)
-                            .toolbarView(prop: prop, barTitle: barTitle, profileImg: userProfileImg)
-                            .padding()
-                            .padding(.bottom,45)
+                            mainView()
+                                .navigationBarTitleDisplayMode(.inline)
+                                .toolbarView(prop: prop, barTitle: barTitle, profileImg: userProfileImg)
+                                .padding(.bottom, prop.isiPhoneS ? 35 : prop.isiPhoneM ? 40 : prop.isiPhoneL ? 45 : 50)
                         }
                     }
                 }
             }
             .setBG()
             .onAppear {
-                withAnimation(Animation.easeInOut(duration: 2.0).repeatForever(autoreverses: false)) {
-                    AnnoucementList.getAnnoucement()
-                    academiclist.populateAllContinent()
-                    students.StundentAmount(parentId: parentId)
-                }
+                AnnoucementList.getAnnoucement()
+                academiclist.populateAllContinent()
+                students.StundentAmount(parentId: parentId)
             }
         }
         .refreshable {
-            do {
-                // Sleep for 2 seconds
-                try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-            } catch {}
+            do {try await Task.sleep(nanoseconds: 2 * 1_000_000_000)} catch {}
             refreshingView()
             AnnoucementList.getAnnoucement()
             academiclist.populateAllContinent()
@@ -77,40 +84,38 @@ struct Dashboard: View {
         .padOnlyStackNavigationView()
         .phoneOnlyStackNavigationView()
     }
+    @ViewBuilder
     private func mainView()-> some View{
-        ScrollView(.vertical, showsIndicators: false){
+        VStack(alignment: .leading,spacing: prop.isiPhoneS ? 6 : prop.isiPhoneM ? 8 : 10){
             ZStack{
-                imageStuBG(width: prop.isiPhoneS ? 200 : prop.isiPhoneM ? 220: prop.isiPhoneL ? 260 : 280)
-                VStack(spacing: 0){
-                    ScrollView(.horizontal, showsIndicators: false){
-                        HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
-                            ForEach(students.AllStudents,id: \.Id) { student in
-                                NavigationLink(
-                                    destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Enrollment: student.Enrollments, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: barTitle,prop: prop),
-                                    label: {
-                                        widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
-                                    }
-                                )
-                            }
+                imageStuBG(width: prop.isiPhoneS ? 360 : prop.isiPhoneM ? 380: prop.isiPhoneL ? 400 : 400)
+                ScrollView(.horizontal, showsIndicators: false){
+                    HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
+                        ForEach(students.AllStudents,id: \.Id) { student in
+                            NavigationLink(
+                                destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Enrollment: student.Enrollments, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: barTitle,prop: prop),
+                                label: {
+                                    widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
+                                }
+                            )
                         }
+                        
                     }
-                    .padding(.bottom,prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14)
-                    Divider()
                 }
             }
+            Divider()
             HStack(spacing: prop.isiPhoneS ? 2 : prop.isiPhoneM ? 3 : 5){
                 Image(systemName: "bell.fill")
-                    .font(.system(size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20))
+                    .font(.system(size:prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20))
                     .foregroundColor(.blue)
                     .padding(.bottom, 5)
                 Text("ព្រឺត្តិការណ៍នាពេលខាងមុខ")
-                    .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
+                    .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
                     .foregroundColor(.blue)
             }
-            .padding(.vertical,prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14)
             .hLeading()
             VStack(spacing:prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14){
-                ForEach(Array(academiclist.academicYear.enumerated()), id: \.element.code){ index,academic in
+                ForEach(Array(academiclist.sortedAcademicYear.enumerated()), id: \.element.code){ index,academic in
                     if academiclist.isCurrentEvents(date: academic.date) {
                         HStack(spacing: 20){
                             graduatedLogo()
@@ -119,7 +124,7 @@ struct Dashboard: View {
                                     .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
                                     .listRowBackground(Color.yellow)
                                 Text(academic.eventnameKhmer)
-                                    .font(.custom("Kantumruy", size: 15, relativeTo: .body))
+                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : 15, relativeTo: .body))
                                     .listRowBackground(Color.yellow)
                             }
                         }
@@ -131,16 +136,14 @@ struct Dashboard: View {
             }
             HStack(spacing: prop.isiPhoneS ? 2 : prop.isiPhoneM ? 3 : 5){
                 Image(systemName: "megaphone.fill")
-                    .font(.system(size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20))
+                    .font(.system(size:prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18))
                     .foregroundColor(.pink)
                     .padding(.bottom, 5)
                 Text("ដំណឹងថ្មីៗ")
-                    .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
+                    .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
                     .foregroundColor(.pink)
             }
-            .padding(.vertical,prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14)
             .hLeading()
-            
             if prop.isLandscape {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 20){
@@ -151,9 +154,9 @@ struct Dashboard: View {
                             } label: {
                                 ZStack(alignment:.bottom){
                                     AsyncImage(url: URL(string: item.img ), scale: 2){image in
-
+                                        
                                         switch  image {
-
+                                            
                                         case .empty:
                                             VStack{
                                                 ProgressView()
@@ -201,17 +204,18 @@ struct Dashboard: View {
                     }
                 }
             }else{
-                VStack{
+                VStack(spacing: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 ){
                     ForEach(AnnoucementList.Annouces, id: \.id) { item in
                         AnnouceButtonView(showingSheet: $showingSheet, detailId: $detailId, itemImg: item.img, itemTitle: item.title, itemId: item.id, prop: prop)
                             .buttonStyle(PlainButtonStyle())
                             .sheet(isPresented: $showingSheet) {
                                 Annoucements(prop: prop, postId: $detailId)
-                        }
+                            }
                     }
                 }
             }
         }
+        .padding(.horizontal)
     }
     func refreshingView(){
         self.refreshing = true
@@ -232,14 +236,15 @@ struct Dashboard: View {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                             .progressViewStyle(.circular)
-                        Text("សូមរងចាំ")
+                        Text("សូមរង់ចាំ")
                             .foregroundColor(.blue)
                     }
                 case .success(let image):
                     image
                         .resizable()
                         .clipShape(Circle())
-                        .aspectRatio(contentMode: .fit)
+                        .aspectRatio(contentMode: .fill)
+                        .padding(25)
                 case .failure:
                     Image("student")
                         .resizable()
@@ -251,13 +256,12 @@ struct Dashboard: View {
                 }
             }
             .frame(height:  prop.isiPhoneS ? 130 : prop.isiPhoneM ? 150 : prop.isiPhoneL ? 170 : 180)
-            
             HStack{
                 Text(Lastname)
                 Text(Firstname)
             }
-            .padding(5)
-            .font(.system(size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 :16))
+            .padding(3)
+            .font(.custom("kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
             .frame(maxWidth: prop.isiPhoneS ? 100 : prop.isiPhoneM ? 110 : prop.isiPhoneL ? 120 : 130)
             .background(.blue)
             .cornerRadius(5)
@@ -269,14 +273,12 @@ struct Dashboard: View {
         .addBorder(.orange,width: 1, cornerRadius: 20)
     }
 }
-
 struct Dashboard_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false, isSplit: false, size: CGSize(width:  0, height:  0))
         Dashboard(userProfileImg: "", isLoading: .constant(false), parentId: "",prop: prop)
     }
 }
-
 struct AnnouceButtonView: View{
     @Binding var showingSheet: Bool
     @Binding var detailId: String
@@ -292,13 +294,13 @@ struct AnnouceButtonView: View{
             ZStack(alignment:.bottom){
                 AsyncImage(url: URL(string: itemImg ), scale: 2){image in
                     switch  image {
-
+                        
                     case .empty:
                         VStack{
                             ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                                 .progressViewStyle(.circular)
-                            Text("សូមរងចាំ")
+                            Text("សូមរង់ចាំ")
                                 .foregroundColor(.blue)
                         }
                     case .success(let image):
@@ -308,7 +310,7 @@ struct AnnouceButtonView: View{
                             .frame(maxHeight: .infinity)
                             .cornerRadius(30)
                     case .failure:
-                        Text("Not Found News")
+                        Text("មិនអាចទាញទិន្ន័យបាន")
                             .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
                             .foregroundColor(.pink)
                     @unknown default:
@@ -332,7 +334,5 @@ struct AnnouceButtonView: View{
                 }
             }
         }
-        
     }
 }
-

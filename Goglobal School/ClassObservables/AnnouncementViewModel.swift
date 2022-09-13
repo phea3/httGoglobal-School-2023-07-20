@@ -26,6 +26,9 @@ class AnnouncementViewModel:ObservableObject{
             }
         }
     }
+    func resetAnnounce(){
+        self.Annouces = []
+    }
 }
 
 struct AnnouncementModel{

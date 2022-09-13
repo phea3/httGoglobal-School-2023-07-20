@@ -25,6 +25,10 @@ class ScheduleViewModel: ObservableObject{
         filterTodayTasks()
     }
     
+    func resetSchedule(){
+        self.allClasses = []
+        self.filteredTasks = []
+    }
     func getClasses(classId: String,academicYearId: String, programId: String){
         Network.shared.apollo.fetch(query: GetSectionShiftByClassIdQuery(classId: classId, academicYearId: academicYearId, programId: programId)){ [weak self] result in
             switch result{

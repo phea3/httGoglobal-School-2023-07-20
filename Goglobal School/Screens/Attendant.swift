@@ -19,6 +19,7 @@ struct Attendant: View {
                 CustomDatePicker(studentId: studentId, currentDate: $currentDate,prop: prop)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .setBG()
         .onAppear(perform: {
             Attendance.GetAllAttendance(studentId: studentId)

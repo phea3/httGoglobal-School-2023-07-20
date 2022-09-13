@@ -11,6 +11,14 @@ class ListViewModel: ObservableObject{
     // MARK: ALL Academic Views
     @Published var academicYear: [AcademicViewModel] = []
     @Published var Error: Bool = false
+    var sortedAcademicYear: [AcademicViewModel]{
+        get {
+            academicYear.sorted(by: { $0.date < $1.date})
+        }
+        set{
+            academicYear = newValue
+        }
+    }
     
     // MARK: Function Mapping All Events
     func populateAllContinent() {
@@ -30,7 +38,9 @@ class ListViewModel: ObservableObject{
             }
         }
     }
-    
+    func resetEvent(){
+        self.academicYear = []
+    }
     // MARK: Checking if the currentHour is task hour
     func isCurrentEvents(date: String)-> Bool{
         let isoDate = date
@@ -45,7 +55,6 @@ class ListViewModel: ObservableObject{
             return false
         }
     }
-    
     // MARK: Func For Date Formatting
     public func convertDateFormat(inputDate: String) -> String {
         
@@ -61,6 +70,7 @@ class ListViewModel: ObservableObject{
             StringFormatter.dateFormat = "d, MMM yyyy"
             
             let blue = StringFormatter.string(from: date!)
+            
             let aString = blue
             var newString = aString.replacingOccurrences(of:"Jun", with: "មិថុនា", options: .literal, range: nil)
             
@@ -115,3 +125,4 @@ struct AcademicViewModel {
         academic.eventNameKhmer ?? ""
     }
 }
+

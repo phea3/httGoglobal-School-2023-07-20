@@ -6,12 +6,12 @@
 //
 
 import Foundation
+import Combine
 
 class UpdateMobileUserProfileImg: ObservableObject{
     
     @Published var success: Bool = false
     @Published var message: String = ""
-    
     func uploadImg(mobileUserId: String, profileImage: String ){
         
         Network.shared.apollo.perform(mutation: UpdateMobileUserProfileImgMutation(mobileUserId: mobileUserId, profileImage: profileImage)){ [weak self] result in
@@ -30,5 +30,8 @@ class UpdateMobileUserProfileImg: ObservableObject{
                 print(graphQLError)
             }
         }
+    }
+    func resetProfile() {
+        self.message = ""
     }
 }

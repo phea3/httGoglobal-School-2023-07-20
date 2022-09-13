@@ -45,6 +45,10 @@ class MobileUserViewModel: ObservableObject{
             }
         }
     }
+    
+    func resetMobileUser(){
+        self.userProfileImg = ""
+    }
 }
 
 

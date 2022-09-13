@@ -46,7 +46,8 @@ struct Grade: View {
                         .frame(maxHeight: 1)
                 }
                 .foregroundColor(Color("Blue"))
-                .padding()
+                .padding(.top)
+                .padding(.horizontal)
                 .frame(width: .infinity, height: .infinity, alignment: .leading)
                 VStack(spacing: 0){
                     List(Array(Enrollment.enumerated()), id: \.element.id){ index, item in
@@ -63,11 +64,10 @@ struct Grade: View {
                     NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "score", selection: $selection) { EmptyView() }
                     
                 }
-                .padding(.trailing)
-                
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .navigationBarTitleDisplayMode(.inline)
-            .applyBG()
+            .setBG()
             .onAppear(perform: {
                 enrollments.StundentAmount(parentId: parentId)
             })
@@ -94,7 +94,7 @@ struct Grade: View {
                                         .background(Color.black.opacity(0.2))
                                         .clipShape(Circle())
                                         .padding(-5)
-                                        .frame(width: prop.isLandscape ? 24 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                        .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
                                 case .failure:
                                     Image(systemName: "person.fill")
                                         .padding(2)
@@ -103,7 +103,7 @@ struct Grade: View {
                                         .background(Color.white)
                                         .aspectRatio(contentMode: .fill)
                                         .clipShape(Circle())
-                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                        .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
                                 @unknown default:
                                     fatalError()
                                 }
@@ -149,15 +149,15 @@ struct Choose: View {
             VStack(alignment: .leading){
                 Text(Year)
                     .listRowBackground(Color.yellow)
-                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
                 HStack(spacing: prop.isiPhoneS ? 3 : prop.isiPhoneM ? 4 : 5){
                     Text(Grade)
                         .listRowBackground(Color.yellow)
-                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                     
                     Text(Class)
                         .listRowBackground(Color.yellow)
-                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                 }
                 Text(Programme)
                     .listRowBackground(Color.yellow)
@@ -186,8 +186,8 @@ struct Choose: View {
                         //                        TabButton(title: "តម្លៃសិក្សា", image: "dollarsign.square.fill", chose: .payment, selection: "payment")
                         Spacer()
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                     .padding(.horizontal)
-                    .hLeading()
                 }
             }
         } onEnd: {

@@ -7,14 +7,18 @@
 
 import SwiftUI
 import Alamofire
-import PhotoSelectAndCrop
 import URLImage
 
 struct Profile: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @ObservedObject var logout: LoginViewModel
-    @ObservedObject var uploadImg: UpdateMobileUserProfileImg
+    @StateObject var logout: LoginViewModel
+    @StateObject var uploadImg: UpdateMobileUserProfileImg
     @StateObject var userProfile: MobileUserViewModel = MobileUserViewModel()
+    @StateObject var students: ListStudentViewModel = ListStudentViewModel()
+    @StateObject var academiclist: ListViewModel = ListViewModel()
+    @StateObject var AnnoucementList: AnnouncementViewModel = AnnouncementViewModel()
+    @StateObject var AllClasses: ScheduleViewModel = ScheduleViewModel()
+    @StateObject var Attendance: ListAttendanceViewModel = ListAttendanceViewModel()
     @State var isLoading: Bool = false
     @State var axcessPadding: CGFloat = 0
     @State var image = UIImage()
@@ -24,6 +28,8 @@ struct Profile: View {
     @State var refreshing: Bool = false
     @State var showImage: Bool = false
     @State var logoutLoading: Bool = false
+    @State var viewLoading: Bool = false
+    @State private var showingAlert = false
     @Binding var Loading: Bool
     @Binding var hideTab: Bool
     @Binding var checkState: Bool
@@ -33,12 +39,25 @@ struct Profile: View {
     var body: some View {
         NavigationView{
             ZStack{
-                VStack{
+                VStack(spacing: 0){
                     VStack(spacing: 0){
-                        if userProfile.userProfileImg.isEmpty{
-                            progressingView(prop: prop)
+                        if userProfile.userID.isEmpty{
+                            ZStack{
+                                if viewLoading{
+                                    progressingView(prop: prop)
+                                }else{
+                                    Text("មិនមានទិន្ន័យ!")
+                                        .foregroundColor(.blue)
+                                }
+                            }
+                            .onAppear{
+                                self.viewLoading = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                    self.viewLoading = false
+                                }
+                            }
                         }else if userProfile.Error{
-                            Text("ព្យាយាមម្តងទៀត")
+                            Text("សូមព្យាយាមម្តងទៀត")
                                 .foregroundColor(.blue)
                         }else{
                             Divider()
@@ -49,86 +68,10 @@ struct Profile: View {
                             }else{
                                 ScrollRefreshable(title: "កំពុងភ្ជាប់", tintColor: .blue){
                                     ScrollView(.vertical, showsIndicators: false){
-                                        VStack(spacing: 0){
-                                            ZStack{
-                                                backgroundViewProfile()
-                                                VStack{
-                                                    if userProfile.userID.isEmpty{
-                                                        Image(uiImage: self.image)
-                                                            .resizable()
-                                                            .cornerRadius(50)
-                                                            .frame(width: 125, height: 125)
-                                                            .background(Color.black.opacity(0.2))
-                                                            .aspectRatio(contentMode: .fill)
-                                                            .clipShape(Circle())
-                                                            .overlay(
-                                                                Circle()
-                                                                    .strokeBorder(Color.white,lineWidth: 2)
-                                                            )
-                                                            .onTapGesture {
-                                                                showSheet = true
-                                                            }
-                                                    }else{
-                                                        
-                                                        VStack{
-                                                            if refresh{
-                                                                ProgressView()
-                                                                    .progressViewStyle(.circular)
-                                                                    .frame(width: 125, height: 125, alignment: .center)
-                                                            }else{
-                                                                mainViewofProfile()
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-                                                .sheet(isPresented: $showSheet, content: {
-                                                    ImagePicker(selectedImage: self.$image)
-                                                })
-                                            }
-                                            .frame(maxWidth: .infinity, maxHeight: 240)
-                                            VStack{
-                                                Text(logout.userName)
-                                                    .font(.system(size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20).bold())
-                                                    .foregroundColor(Color.black)
-                                            }
-                                            .padding(prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
-                                        }
-                                        HStack(spacing: 0){
-                                            rectangleBetweenButtonSave()
-                                            UploadingProfileImage()
-                                            rectangleBetweenButtonSave()
-                                        }
-                                        VStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                                            ViewlistBelowProfileImg(Title: "Email Address", Description: userProfile.gmail)
-                                            Divider()
-                                            ViewlistBelowProfileImg(Title: "Contact", Description: logout.userTel)
-                                            Divider()
-                                            ViewlistBelowProfileImg(Title: "Nationality", Description: logout.userNationality)
-                                            Divider()
-                                            Button {
-                                                self.logoutLoading = true
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                                                    logout.signout()
-                                                    self.logoutLoading = false
-                                                }
-                                                UserDefaults.standard.removeObject(forKey: "Gmail")
-                                                UserDefaults.standard.removeObject(forKey: "Password")
-                                                UserDefaults.standard.removeObject(forKey: "isAuthenticated")
-                                            } label: {
-                                                Text("LOG OUT")
-                                                    .font(.system(size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20))
-                                                    .fontWeight(.bold)
-                                                    .foregroundColor(.white)
-                                                    .frame(maxWidth: prop.isLandscape ? 400 : .infinity, alignment: .center)
-                                                    .padding(10)
-                                                    .background(.red)
-                                                    .cornerRadius(10)
-                                            }
-                                            Divider()
-                                        }
-                                        .hCenter()
+                                       mainView()
                                     }
+                                    .navigationBarItems(leading: btnBack)
+                                    .navigationBarTitleDisplayMode(.inline)
                                     .padding()
                                 }
                             }
@@ -139,30 +82,29 @@ struct Profile: View {
                         ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
                     }
                 }
-                if showImage{
-                   
-                    Button {
-                        showImage.toggle()
-                        self.hideTab.toggle()
-                    } label: {
-                        ZStack{
-                            Rectangle()
-                                .fill(.black)
-                                .opacity(0.8)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .ignoresSafeArea()
-                            ShowImage()
+                ZStack{
+                    if showImage{
+                        Button {
+                            showImage.toggle()
+                            self.hideTab.toggle()
+                        } label: {
+                            ZStack{
+                                Rectangle()
+                                    .fill(.black)
+                                    .opacity(0.8)
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .ignoresSafeArea()
+                                ShowImage()
+                            }
                         }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .ignoresSafeArea()
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .ignoresSafeArea()
-                }
-                if logoutLoading{
-                    progressingView(prop: prop)
+                    if logoutLoading{
+                        progressingView(prop: prop)
+                    }
                 }
             }
-            .navigationBarItems(leading: btnBack)
-            .navigationBarTitleDisplayMode(.inline)
             .setBG()
             .onAppear{
                 userProfile.getProfileImage(mobileUserId: logout.userprofileId)
@@ -181,6 +123,104 @@ struct Profile: View {
         }
         .phoneOnlyStackNavigationView()
         .padOnlyStackNavigationView()
+    }
+    @ViewBuilder
+    private func mainView()-> some View{
+        VStack(alignment: .leading, spacing: 0) {
+            VStack(spacing: 0){
+                ZStack{
+                    backgroundViewProfile()
+                    ZStack{
+                        if userProfile.userID.isEmpty{
+                            Image(uiImage: self.image)
+                                .resizable()
+                                .cornerRadius(50)
+                                .frame(width: 125, height: 125)
+                                .background(Color.black.opacity(0.2))
+                                .aspectRatio(contentMode: .fill)
+                                .clipShape(Circle())
+                                .overlay(
+                                    Circle()
+                                        .strokeBorder(Color.white,lineWidth: 2)
+                                )
+                                .onTapGesture {
+                                    showSheet = true
+                                }
+                        }else{
+                            ZStack{
+                                if refresh{
+                                    ProgressView()
+                                        .progressViewStyle(.circular)
+                                        .frame(width: 125, height: 125, alignment: .center)
+                                }else{
+                                    mainViewofProfile()
+                                }
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                    .sheet(isPresented: $showSheet, content: {
+                        ImagePicker(selectedImage: self.$image)
+                    })
+                }
+                .frame(maxWidth: .infinity, maxHeight: 240)
+                VStack{
+                    Text(logout.userName)
+                        .font(.system(size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20).bold())
+                        .foregroundColor(Color.black)
+                }
+                .padding(prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
+            }
+            HStack(spacing: 0){
+                rectangleBetweenButtonSave()
+                UploadingProfileImage()
+                rectangleBetweenButtonSave()
+            }
+            VStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                ViewlistBelowProfileImg(Title: "Email Address", Description: userProfile.gmail)
+                Divider()
+                ViewlistBelowProfileImg(Title: "Contact", Description: logout.userTel)
+                Divider()
+                ViewlistBelowProfileImg(Title: "Nationality", Description: logout.userNationality)
+                Divider()
+                Button {
+                    self.showingAlert = true
+                } label: {
+                    Text("ចាកចេញ")
+                        .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .largeTitle))
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: prop.isLandscape ? 400 : .infinity, alignment: .center)
+                        .padding(10)
+                        .background(.red)
+                        .cornerRadius(10)
+                }
+                .alert(isPresented:$showingAlert) {
+                           Alert(
+                               title: Text("តើអ្នកចង់ចាកចេញពីកម្មវិធីទេ?"),
+                               message: Text("មិនអាចត្រលប់ក្រោយបាន"),
+                               primaryButton: .destructive(Text("ចាកចេញ")) {
+                                   self.logoutLoading = true
+                                   DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                       logout.signout()
+                                       userProfile.resetMobileUser()
+                                       students.resetStudent()
+                                       academiclist.resetEvent()
+                                       AnnoucementList.resetAnnounce()
+                                       AllClasses.resetSchedule()
+                                       Attendance.resetAttendance()
+                                       self.logoutLoading = false
+                                   }
+                                   UserDefaults.standard.removeObject(forKey: "Gmail")
+                                   UserDefaults.standard.removeObject(forKey: "Password")
+                                   UserDefaults.standard.removeObject(forKey: "isAuthenticated")
+                               },
+                               secondaryButton: .cancel(Text("មិនចាកចេញ"))
+                           )
+                       }
+                Divider()
+            }
+        }
     }
     private func refreshingView(){
         self.refreshing = true
@@ -234,7 +274,7 @@ struct Profile: View {
                                 .clipShape(Circle())
                         }
                     }
-                   
+                    
                     Image(systemName: "camera.fill")
                         .foregroundColor(.black)
                         .padding(6)
@@ -244,7 +284,7 @@ struct Profile: View {
                         .onTapGesture {
                             showSheet = true
                         }
-                        .offset(x: prop.isLandscape && prop.isiPhoneS ? -10 :prop.isLandscape && prop.isiPhoneM ? -6 : prop.isLandscape && prop.isiPhoneL ? -4 : prop.isLandscape  ? -5  : prop.isiPhoneS ? -8 : prop.isiPhoneM ?  -3 : prop.isiPhoneL ? -2 : 0, y: 0)
+                        .offset(x: prop.isLandscape && prop.isiPhoneS ? -10 :prop.isLandscape && prop.isiPhoneM ? -6 : prop.isLandscape && prop.isiPhoneL ? -4 : prop.isLandscape  ? -5  : prop.isiPhoneS ? -8 : prop.isiPhoneM ?  -5 : prop.isiPhoneL ? -2 : 0, y: 0)
                 }
                 
             case .failure:
@@ -286,7 +326,7 @@ struct Profile: View {
                         .onTapGesture {
                             showSheet = true
                         }
-                        .offset(x: prop.isLandscape && prop.isiPhoneS ? -10 :prop.isLandscape && prop.isiPhoneM ? -6 : prop.isLandscape && prop.isiPhoneL ? -4 : prop.isLandscape  ? -5  : prop.isiPhoneS ? -8 : prop.isiPhoneM ?  -3 : prop.isiPhoneL ? -2 : 0, y: 0)
+                        .offset(x: prop.isLandscape && prop.isiPhoneS ? -10 :prop.isLandscape && prop.isiPhoneM ? -6 : prop.isLandscape && prop.isiPhoneL ? -4 : prop.isLandscape  ? -5  : prop.isiPhoneS ? -8 : prop.isiPhoneM ?  -5 : prop.isiPhoneL ? -0 : 0, y: 0)
                 }
                 
             @unknown default:

@@ -28,6 +28,10 @@ class ListAttendanceViewModel: ObservableObject {
             }
         }
     }
+    
+    func resetAttendance(){
+        self.Attendances = []
+    }
 }
 
 struct AttendanceViewModel {

@@ -34,7 +34,7 @@ class LoginViewModel: ObservableObject{
                         if checkState{
                             UserDefaults.standard.set(self?.isAuthenticated, forKey: "isAuthenticated")
                         }
-                        print(token)
+//                        print(token)
                     }
                 }
                 if let userId = graphQLResult.data?.login?.user?.parentId?._id{
@@ -81,6 +81,12 @@ class LoginViewModel: ObservableObject{
         keychain.delete(LoginViewModel.loginKeychainKey)
         DispatchQueue.main.async {
             self.isAuthenticated = false
+            self.userId = ""
+            self.userName = ""
+            self.userTel = ""
+            self.userNationality = ""
+            self.userprofileId = ""
+            self.userProfileImg = ""
         }
     }
 }

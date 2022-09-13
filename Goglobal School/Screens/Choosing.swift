@@ -34,6 +34,7 @@ struct Choosing: View {
                     .tag(Chose.score)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .setBG()
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(leading: btnBack)

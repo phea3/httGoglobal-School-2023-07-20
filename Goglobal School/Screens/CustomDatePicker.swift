@@ -6,7 +6,6 @@
 //
 import SwiftUI
 
-
 struct CustomDatePicker: View {
     
     @StateObject var Attendance: ListAttendanceViewModel = ListAttendanceViewModel()
@@ -70,9 +69,8 @@ struct CustomDatePicker: View {
                     
                     CardView(value: value)
                         .background(
-                            Capsule()
+                            Circle()
                                 .fill(.blue)
-                                .padding(.horizontal, prop.isLandscape ? 0 : 4)
                                 .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1:0)
                                 .frame(width:prop.isLandscape ? 40 : .infinity)
                         )
@@ -106,6 +104,7 @@ struct CustomDatePicker: View {
             Attendance.GetAllAttendance(studentId: studentId)
         })
     }
+    
     func guildline(text: String, color: Color)-> some View{
         HStack{
             Image(systemName: "square.fill")
@@ -132,12 +131,6 @@ struct CustomDatePicker: View {
                         .font(.system(size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16).bold())
                         .foregroundColor(isSameDay(date1: convertDate(inputDate: attend.AttendanceDate), date2: currentDate) ? .white : attend.Status == "ABSENT" ? Color.red : attend.Status == "LATE" ? .green : attend.Status == "PRESENT" ? .blue : attend.Status == "PERMISSION" ? .yellow : .gray)
                         .frame(maxWidth: .infinity)
-                    
-                    Spacer()
-                    
-                    Circle()
-                        .fill(isSameDay(date1: convertDate(inputDate: attend.AttendanceDate), date2: currentDate) ? .white : attend.Status == "ABSENT" ? Color.red : attend.Status == "LATE" ? .green : attend.Status == "PRESENT" ? .blue : attend.Status == "PERMISSION" ? .yellow : .gray)
-                        .frame(width: 8, height: 8)
                 }
                 else
                 {
@@ -145,12 +138,11 @@ struct CustomDatePicker: View {
                         .font(.system(size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16).bold())
                         .foregroundColor(isSameDay(date1: value.date, date2: currentDate) ? .white : .primary)
                         .frame(maxWidth: .infinity)
-                    Spacer()
                 }
             }
         }
         .padding(.vertical, prop.isiPhoneS ? 7 : prop.isiPhoneM ? 8 : 9)
-        .frame(height: 60, alignment: .top)
+        .frame(height: 60, alignment: .center)
     }
     
     func convertDate(inputDate: String) -> Date{

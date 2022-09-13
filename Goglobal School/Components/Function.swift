@@ -36,7 +36,7 @@ extension View{
     func imageStuBG(width: CGFloat)->some View{
         Image("DashboadBg")
             .resizable()
-            .aspectRatio(contentMode: .fit)
+            .aspectRatio(contentMode: .fill)
             .frame(maxWidth: width)
     }
     func graduatedLogo()->some View{
@@ -54,13 +54,13 @@ extension View{
         Image("Footer")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(maxWidth:prop.isiPhoneS ? 90 : prop.isiPhoneM ? 120 : prop.isiPhoneL ? 130 : 140)
+            .frame(maxWidth:prop.isiPhoneS ? 80 : prop.isiPhoneM ? 90 : prop.isiPhoneL ? 100 : 140)
     }
     func LogoGoglobal(prop:Properties)->some View {
         Image("GoGlobalSchool")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(maxWidth:prop.isiPhoneS ? 100 : prop.isiPhoneM ? 130 : prop.isiPhoneL ? 140 : 150)
+            .frame(maxWidth:prop.isiPhoneS ? 90 : prop.isiPhoneM ? 100 : prop.isiPhoneL ? 120 : 140)
         
     }
     func ImageBackgroundSignIn()->some View{
@@ -74,8 +74,9 @@ extension View{
                 ToolbarItem(placement: .navigationBarLeading) {
                     HStack{
                         Image(systemName: "line.3.horizontal.decrease")
+                            .padding(.bottom, 5)
                         Text(barTitle)
-                            .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .largeTitle))
+                            .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 :  prop.isiPhoneL ? 18 : 20, relativeTo: .largeTitle))
                     }
                     .foregroundColor(Color("Blue"))
                     .padding(.vertical, prop.isLandscape ? 20 : 0)
@@ -101,16 +102,15 @@ extension View{
                                         .background(Color.black.opacity(0.2))
                                         .clipShape(Circle())
                                         .padding(-5)
-                                        .frame(width: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 24 : prop.isiPhoneL ? 24 :  24, alignment: .center)
+                                        .frame(width: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 :  20, alignment: .center)
                                 case .failure:
                                     Image(systemName: "person.fill")
                                         .padding(2)
-                                        .font(.system(size:  prop.isLandscape ? 22 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20)))
                                         .cornerRadius(50)
                                         .background(Color.white)
                                         .aspectRatio(contentMode: .fill)
                                         .clipShape(Circle())
-                                        .frame(width: prop.isLandscape ? 24 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                        .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 22), alignment: .center)
                                 @unknown default:
                                     fatalError()
                                 }
@@ -136,7 +136,7 @@ extension View{
                                         .background(Color.black.opacity(0.2))
                                         .clipShape(Circle())
                                         .padding(-5)
-                                        .frame(width: prop.isLandscape ? 24 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                        .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
                                 case .failure:
                                     Image(systemName: "person.fill")
                                         .padding(2)
@@ -145,7 +145,7 @@ extension View{
                                         .background(Color.white)
                                         .aspectRatio(contentMode: .fill)
                                         .clipShape(Circle())
-                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                        .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
                                 @unknown default:
                                     fatalError()
                                 }
@@ -163,10 +163,12 @@ extension View{
     func btnBackView(prop:Properties, title: String)->some View {
         HStack {
             Image(systemName: "line.3.horizontal.decrease") // set image here
+                .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 18, relativeTo: .largeTitle))
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.blue)
+                .padding(.bottom,5)
             Text(title)
-                .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .largeTitle))
+                .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20, relativeTo: .body))
                 .foregroundColor(Color("Blue"))
         }
     }
@@ -176,7 +178,7 @@ extension View{
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(Color("Blue"))
             Text(barTitle)
-                .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .largeTitle))
+                .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20, relativeTo: .body))
         }
     }
     func progressingView(prop:Properties) -> some View {
@@ -249,6 +251,7 @@ extension View{
         self
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
+            .frame(maxHeight: .infinity, alignment: .leading)
     }
     
     func stuName(width: CGFloat)-> some View {

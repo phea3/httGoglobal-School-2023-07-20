@@ -10,6 +10,7 @@ class ListStudentViewModel: ObservableObject {
     
     @Published var AllStudents: [StudentsViewModel] = []
     @Published var Error: Bool = false
+    @Published var loading: Bool = true
     
     func StundentAmount(parentId: String){
         Network.shared.apollo.fetch(query: GetStudentsByParentsQuery(parentId: parentId)) { [weak self] result in
@@ -18,6 +19,7 @@ class ListStudentViewModel: ObservableObject {
                 if let AllStudents = graphQLResult.data?.getStudentsByParents{
                     DispatchQueue.main.async {
                         self?.AllStudents = AllStudents.map(StudentsViewModel.init)
+                        self?.loading = false
                     }
                 }
             case.failure:
@@ -26,6 +28,10 @@ class ListStudentViewModel: ObservableObject {
                 }
             }
         }
+    }
+    
+    func resetStudent(){
+        self.AllStudents = []
     }
 }
 

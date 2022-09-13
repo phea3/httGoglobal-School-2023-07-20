@@ -15,6 +15,7 @@ struct Calendar: View {
     @State var userProfileImg: String
     @State var refreshing: Bool = false
     @State var axcessPadding: CGFloat = 0
+    @State var viewLoading: Bool = false
     @Binding var isLoading: Bool
     let gradient = Color("BG")
     var prop: Properties
@@ -23,9 +24,22 @@ struct Calendar: View {
         NavigationView{
             VStack(spacing: 0) {
                 if academiclist.academicYear.isEmpty{
-                    progressingView(prop: prop)
+                    ZStack{
+                        if viewLoading{
+                            progressingView(prop: prop)
+                        }else{
+                            Text("មិនមានទិន្ន័យ!")
+                                .foregroundColor(.blue)
+                        }
+                    }
+                    .onAppear{
+                        self.viewLoading = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                            self.viewLoading = false
+                        }
+                    }
                 }else if academiclist.Error{
-                    Text("ព្យាយាមម្តងទៀត")
+                    Text("សូមព្យាយាមម្តងទៀត")
                         .foregroundColor(.blue)
                 }else{
                     Divider()
@@ -42,6 +56,7 @@ struct Calendar: View {
                     }
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .onAppear {
                 academiclist.populateAllContinent()
                 DispatchQueue.main.async {

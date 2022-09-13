@@ -14,6 +14,7 @@ struct Education: View {
     @State var userProfileImg: String
     @State var refreshing: Bool  = false
     @State var confirm: Bool = false
+    @State var viewLoading: Bool = false
     @Binding var isLoading: Bool
     let gradient = Color("BG")
     var parentId: String
@@ -24,9 +25,22 @@ struct Education: View {
         NavigationView {
             VStack(spacing: 0) {
                 if students.AllStudents.isEmpty{
-                    progressingView(prop: prop)
+                    ZStack{
+                        if viewLoading{
+                            progressingView(prop: prop)
+                        }else{
+                            Text("មិនមានទិន្ន័យ!")
+                                .foregroundColor(.blue)
+                        }
+                    }
+                    .onAppear{
+                        self.viewLoading = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                            self.viewLoading = false
+                        }
+                    }
                 }else if students.Error{
-                    Text("ព្យាយាមម្តងទៀត")
+                    Text("សូមព្យាយាមម្តងទៀត")
                         .foregroundColor(.blue)
                 }else{
                     Divider()
@@ -38,11 +52,12 @@ struct Education: View {
                         }
                     }else{
                         Spacer()
-                            progressingView(prop: prop)
+                        progressingView(prop: prop)
                         Spacer()
                     }
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .onAppear {
                 students.StundentAmount(parentId: parentId)
             }
@@ -76,14 +91,15 @@ struct Education: View {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                             .progressViewStyle(.circular)
-                        Text("សូមរងចាំ")
+                        Text("សូមរង់ចាំ")
                             .foregroundColor(.blue)
                     }
                 case .success(let image):
                     image
                         .resizable()
                         .clipShape(Circle())
-                        .aspectRatio(contentMode: .fit)
+                        .aspectRatio(contentMode: .fill)
+                        .padding(25)
                 case .failure:
                     Image("student")
                         .resizable()
@@ -100,8 +116,8 @@ struct Education: View {
                 Text(Lastname)
                 Text(Firstname)
             }
-            .padding(5)
-            .font(.system(size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 :16))
+            .padding(3)
+            .font(.custom("kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
             .frame(maxWidth: prop.isiPhoneS ? 100 : prop.isiPhoneM ? 110 : prop.isiPhoneL ? 120 : 130)
             .background(.blue)
             .cornerRadius(5)
@@ -114,10 +130,10 @@ struct Education: View {
     }
     @ViewBuilder
     private func mainView()-> some View{
-        ScrollView(.vertical, showsIndicators: false) {
-            Text("បុត្រធិតា")
+        VStack(alignment: .leading, spacing: prop.isiPhoneS ? 6 : prop.isiPhoneM ? 8 : 10){
+            Text("បុត្រធីតា")
                 .foregroundColor(.blue)
-                .font(.custom("Bayon", size: prop.isiPhoneS ? 26 : prop.isiPhoneM ? 28 : 30, relativeTo: .largeTitle))
+                .font(.custom("Bayon", size: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 22 : prop.isiPhoneL ? 24:26, relativeTo: .largeTitle))
                 .hLeading()
                 .padding()
                 .background(.clear)

@@ -11,7 +11,10 @@ import SDWebImageSwiftUI
 import SwiftUITooltip
 
 struct Home: View {
+    
     @ObservedObject var loginVM: LoginViewModel = LoginViewModel()
+    @StateObject var monitor = Monitor()
+    
     init(){
         UITabBar.appearance().isHidden = true
         self.tooltipConfig.enableAnimation = true
@@ -33,9 +36,11 @@ struct Home: View {
     @State var checkState: Bool = false
     @State var loggedIn: Bool = false
     @State var tooltipVisible = true
-    
+    @State private var showingAlert: Bool = false
+    @State private var showingPassword: Bool = false
+    @State private var noConnention: Bool = false
     var tooltipConfig = DefaultTooltipConfig()
-    let lightGrayColor = Color.white
+    
     var body: some View {
         ResponsiveView{ prop in
             ZStack{
@@ -43,7 +48,7 @@ struct Home: View {
                 if loginVM.isAuthenticated{
                     ZStack{
                         if !loggedIn{
-                          EmptyView()
+                            EmptyView()
                                 .setBG()
                         }else{
                             MainView(prop: prop)
@@ -61,7 +66,6 @@ struct Home: View {
                         .onAppear{
                             loginVM.login(email: gmail, password: password, checkState: checkState)
                         }
-                    
                 }else if !loginVM.isAuthenticated{
                     LoginView(prop: prop)
                 }else{
@@ -69,6 +73,9 @@ struct Home: View {
                 }
                 FlashScreen(prop:prop)
             }
+            .alert("គ្មានអ៉ីនធើណេត", isPresented: $noConnention) {
+                        Button("OK", role: .cancel) { }
+                    }
             .ignoresSafeArea()
             .onAppear{
                 if !loginVM.isAuthenticated{
@@ -76,10 +83,22 @@ struct Home: View {
                         self.isLoading = false
                     }
                 }
+            
+                if monitor.status.rawValue == "connected" {
+                    DispatchQueue.main.async {
+                        self.noConnention = false
+                    }
+                } else{
+                    DispatchQueue.main.async {
+                        self.noConnention = true
+                    }
+                }
+                print(noConnention)
             }
         }
         .ignoresSafeArea(.container, edges: .leading)
     }
+    
     @ViewBuilder
     func MainView(prop: Properties)-> some View{
         ZStack{
@@ -106,10 +125,9 @@ struct Home: View {
                         }
                     }
                 }
-            }
         }
+    }
     
-    @ViewBuilder
     func FlashScreen(prop: Properties)-> some View {
         ZStack{
             Color.white
@@ -121,7 +139,7 @@ struct Home: View {
                 Spacer()
                 footer(prop: prop)
             }
-            .padding()
+            .padding(prop.isiPhoneS ? 25: prop.isiPhoneM ? 30 : prop.isiPhoneL ? 35 : 40)
         }
         .opacity(animationFinished ? 0:1)
         .onAppear{
@@ -133,147 +151,179 @@ struct Home: View {
         }
     }
     
-    @ViewBuilder
     func LoginView(prop: Properties)-> some View{
         ZStack{
             VStack{
                 Spacer()
                 LogoGoglobal(prop: prop)
-                Spacer()
                 VStack{
                     Text("ចូលប្រើកម្មវិធី")
-                        .font(.custom("Bayon", size: prop.isiPhoneS ? 26 : prop.isiPhoneM ? 28 : prop.isiPhoneL ? 30 : 40, relativeTo: .largeTitle))
+                        .font(.custom("Bayon", size: prop.isiPhoneS ? 21 : prop.isiPhoneM ? 23 : prop.isiPhoneL ? 25 : 27, relativeTo: .largeTitle))
                         .foregroundColor(Color("ColorTitle"))
-                    if isempty{
-                        Text("សូមសរសេរអ៊ីម៉ែល & ពាក្យសម្ងាត់")
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .body))
-                            .foregroundColor(Color("Blue"))
-                    }
-                    if forget{
-                        Button {
-                            self.showContact = true
-                        } label: {
-                            Text("ភ្លេចពាក្យសម្ងាត់មែនទេ?")
-                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 22, relativeTo: .body))
-                        }
-                        .sheet(isPresented: $showContact) {
-                            SheetContact(prop: prop)
-                        }
-                    }
                 }
                 Spacer()
                 VStack(spacing: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20){
                     VStack(alignment: .leading, spacing: prop.isiPhoneS ? 4 : prop.isiPhoneM ? 6 : prop.isiPhoneL ? 8 : 10) {
-                        Text("អ៊ីម៉ែល")
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .body))
+                        Text("អ៉ីម៉ែល")
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 17 : prop.isiPhoneL ? 19 : 21, relativeTo: .body))
+                            .foregroundColor(.blue)
                         let binding = Binding<String>(get: {
                             self.gmail
                         }, set: {
                             self.gmail = $0.lowercased()
                         })
-                        TextField("បញ្ជូលអ៊ីម៉ែលរបស់អ្នក", text: binding)
+                        TextField("បញ្ជូលអ៉ីម៉ែល", text: binding)
                             .keyboardType(.emailAddress)
-                            .padding(prop.isiPhoneS ? 13 : prop.isiPhoneM ? 15 : prop.isiPhoneL ? 20 : 20)
+                            .padding(prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)
                             .cornerRadius(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
-                                    .stroke(.gray.opacity(0.5), lineWidth: 1)
+                                    .stroke(isempty ? .red:.blue.opacity(0.5), lineWidth: 1)
                             )
                     }
                     
                     VStack(alignment: .leading, spacing: prop.isiPhoneS ? 4 : prop.isiPhoneM ? 6 : prop.isiPhoneL ? 8 : 10) {
                         Text("ពាក្យសម្ងាត់")
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .body))
-                        SecureField("បញ្ជូលពាក្យសម្ងាត់របស់អ្នក", text: $password)
-                            .textContentType(.password)
-                            .padding(prop.isiPhoneS ? 13 : prop.isiPhoneM ? 17 : prop.isiPhoneL ? 19 : 20)
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(.gray.opacity(0.5), lineWidth: 1)
-                            )
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 17 : prop.isiPhoneL ? 19 : 21, relativeTo: .body))
+                            .foregroundColor(.blue)
+                        SecureTextFieldToggle(text: $password, isempty: isempty, prop: prop)
                     }
-                    
-                    Button {
-                        loginVM.login(email: gmail, password: password, checkState: checkState)
-                        self.isLoading = true
-                        if self.gmail.isEmpty || password.isEmpty {
-                            self.isempty = true
-                            self.isLoading = false
-                        }else{
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3){
-                                if !loginVM.isAuthenticated{
-                                    self.isLoading = false
-                                    self.forget = true
-                                }else{
-                                    DispatchQueue.main.async{
+                    VStack{
+                        Button {
+                            loginVM.login(email: gmail, password: password, checkState: checkState)
+                            self.isLoading = true
+                            if self.gmail.isEmpty || password.isEmpty {
+                                self.isempty = true
+                                self.isLoading = false
+                            }else{
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+                                    if !loginVM.isAuthenticated{
                                         self.isLoading = false
+                                        self.forget = true
+                                        showingAlert = true
+                                    }else{
+                                        DispatchQueue.main.async{
+                                            self.isLoading = false
+                                        }
                                     }
                                 }
                             }
+                            if checkState{
+                                UserDefaults.standard.set(self.gmail, forKey: "Gmail")
+                                UserDefaults.standard.set(self.password, forKey: "Password")
+                            }
+                            
+                        } label: {
+                            Text("ចូលកម្មវិធី")
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 22 : 24, relativeTo: .largeTitle))
+                                .foregroundColor(.white)
+                                .padding(prop.isiPhoneS ? 6 : prop.isiPhoneM ? 7 : prop.isiPhoneL ? 8 : 10)
+                                .frame(maxWidth: .infinity)
+                                .background(.blue)
+                                .cornerRadius(10)
                         }
-                        if checkState{
-                            UserDefaults.standard.set(self.gmail, forKey: "Gmail")
-                            UserDefaults.standard.set(self.password, forKey: "Password")
+                        .alert("គណនីរបស់លោកអ្នកមិនត្រឹមត្រូវទេ", isPresented: $showingAlert) {
+                                    Button("OK", role: .cancel) { }
+                                }
+                        HStack(spacing: 0){
+                            Button(action:
+                                    {
+                                self.checkState.toggle()
+                            }) {
+                                HStack(alignment: .center, spacing: 10) {
+                                    //2. Will update according to state
+                                    Image(systemName: self.checkState ?"checkmark.square": "square")
+                                        .font(.system(size: 20))
+                                        .padding(.bottom, 5)
+                                    Text("ចងចាំពាក្យសម្ងាត់?")
+                                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : prop.isiPhoneL ? 15 : 17, relativeTo: .body))
+                                        .foregroundColor(.blue)
+                                }
+                            }
+                            
+                            Spacer()
+                            
+                            Button {
+                                self.showContact = true
+                            } label: {
+                                Text("ភ្លេចពាក្យសម្ងាត់?")
+                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : prop.isiPhoneL ? 15 : 17, relativeTo: .body))
+                                    .foregroundColor(forget ? .red : .blue)
+                            }
+                            .sheet(isPresented: $showContact) {
+                                SheetContact(prop: prop)
+                            }
+                            
                         }
-                        
-                    } label: {
-                        Text("ចូល")
-                            .font(.custom("Bayon", size: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 24 : prop.isiPhoneL ? 26 : 30, relativeTo: .largeTitle))
-                            .foregroundColor(.white)
-                            .padding(prop.isiPhoneS ? 3 : prop.isiPhoneM ? 4 : prop.isiPhoneL ? 6 : 8)
-                            .frame(maxWidth: .infinity)
-                            .background(.blue)
-                            .cornerRadius(10)
+                        .padding(.horizontal,2)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
+                    .padding(.top,5)
                 }
                 .frame(maxWidth: prop.isiPad ? 400 : prop.isiPhoneL ? 400 : .infinity )
                 Spacer()
-                VStack(spacing: 0){
-                    Button(action:
-                            {
-                        //1. Save state
-                        self.checkState.toggle()
-                        print("State : \(self.checkState)")
-                    }) {
-                        HStack(alignment: .center, spacing: 10) {
-                            //2. Will update according to state
-                            Image(systemName: self.checkState ?"checkmark.square": "square")
-                                .font(.system(size: 20))
-                                .padding(.bottom, 5)
-                            Text("ចងចាំពាក្យសម្ងាត់?")
-                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 22, relativeTo: .body))
-                                .foregroundColor(.blue)
-                        }
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
-                Spacer()
                 footer(prop: prop)
             }
-            .padding()
+            .padding(prop.isiPhoneS ? 25: prop.isiPhoneM ? 30 : prop.isiPhoneL ? 35 : 40)
             if isLoading{
-               progressingView(prop: prop)
+                progressingView(prop: prop)
             }
         }
     }
     
     func footer(prop:Properties)-> some View{
-        VStack(spacing:  prop.isiPhoneS ? 2 : prop.isiPhoneM ? 3 : prop.isiPhoneL ? 5 : 10){
+        VStack(spacing:  prop.isiPhoneS ? 1 : prop.isiPhoneM ? 2 : prop.isiPhoneL ? 3 : 10){
             Text("Power by:")
                 .font(.system( size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20))
                 .foregroundColor(Color("footerColor"))
             Text("Go Global Tech")
-                .font(.system(size: prop.isiPhoneS ? 18 : prop.isiPhoneM ? 22 : prop.isiPhoneL ? 24 : 28).bold())
+                .font(.system(size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22).bold())
                 .foregroundColor(Color("footerColor"))
             FooterImg(prop: prop)
                 .padding(.top, 8)
         }
     }
 }
+
+struct SecureTextFieldToggle: View{
+    @State var isSecureField: Bool = true
+    @Binding var text: String
+    var isempty: Bool
+    var prop: Properties
+    var body: some View{
+        
+        HStack{
+            HStack{
+                if isSecureField{
+                    SecureField("បញ្ជូលពាក្យសម្ងាត់", text: $text)
+                }else{
+                    let binding = Binding<String>(get: {
+                        self.text
+                    }, set: {
+                        self.text = $0.lowercased()
+                    })
+                    TextField("បញ្ជូលពាក្យសម្ងាត់", text: binding)
+                }
+            }
+            Spacer()
+            Button {
+                self.isSecureField.toggle()
+            } label: {
+                Image(systemName: self.isSecureField ? "eye.fill" : "eye.slash.fill")
+                    .foregroundColor(.blue)
+            }
+        }
+        .textContentType(.password)
+        .padding(prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)
+        .cornerRadius(10)
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(isempty ? .red : .blue .opacity(0.5), lineWidth: 1)
+        )
+    }
+}
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .previewInterfaceOrientation(.landscapeLeft)
     }
 }

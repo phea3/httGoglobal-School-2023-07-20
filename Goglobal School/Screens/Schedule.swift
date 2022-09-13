@@ -14,7 +14,7 @@ struct Schedule: View {
     var academicYearId: String
     var programId: String
     var body: some View {
-        VStack{
+        VStack(spacing:0){
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 10){
                     ForEach(AllClasses.currentWeek, id: \.self){ day in
@@ -34,7 +34,8 @@ struct Schedule: View {
                     }
                 }
             }
-            .padding()
+            .padding(.top)
+            .padding(.horizontal)
             VStack{
                 if let tasks = AllClasses.filteredTasks{
                     if tasks.isEmpty{
@@ -63,6 +64,7 @@ struct Schedule: View {
             Spacer()
             
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .setBG()
         .onAppear {
             AllClasses.getClasses(classId: classId, academicYearId: academicYearId, programId: programId)
@@ -107,16 +109,16 @@ struct Schedule: View {
                     .padding(.leading)
                 VStack(alignment: .leading){
                     Text(subject)
-                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                         .listRowBackground(Color.yellow)
                         .foregroundColor(Color("bodyBlue"))
                     HStack{
                         Text(lastName)
-                            .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                             .listRowBackground(Color.yellow)
                             .foregroundColor(Color("bodyBlue"))
                         Text(firstName)
-                            .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                             .listRowBackground(Color.yellow)
                             .foregroundColor(Color("bodyBlue"))
                     }
@@ -142,7 +144,7 @@ struct Schedule: View {
                 Rectangle()
                     .frame(maxWidth:.infinity, maxHeight: 1)
                     .foregroundColor(.gray)
-                Text("ចេញលេង")
+                Text("ម៉ោងចេញលេង")
                     .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                     .foregroundColor(.gray)
                 Rectangle()
