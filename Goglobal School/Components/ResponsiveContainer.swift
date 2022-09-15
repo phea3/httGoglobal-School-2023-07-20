@@ -13,14 +13,22 @@ struct ResponsiveView<Content: View>: View {
     var content: (Properties)->Content
     var body: some View {
         GeometryReader{ proxy in
-            let size = proxy.size
-            let isLanndscape = (size.width > size.height)
-            let isiPad = UIDevice.current.userInterfaceIdiom == .pad
-            let isiPhone = UIDevice.current.userInterfaceIdiom == .phone
-            let isiPhoneS = ((size.height > 476 && size.height <= 667) || (size.width > 476 && size.height <= 667))
-            let isiPhoneM = ((size.height > 667  && size.height < 844) || (size.width > 667 && size.height <= 844))
-            let isiPhoneL = ( (size.height >= 844) || (size.width >= 844))
-            content(Properties(isLandscape: isLanndscape, isiPad: isiPad, isiPhone: isiPhone,isiPhoneS: isiPhoneS,isiPhoneM: isiPhoneM,isiPhoneL: isiPhoneL, isSplit: isSplit(), size: size))
+            let size         =  proxy.size
+            let isLanndscape =  (size.width > size.height)
+            let isiPad       =  UIDevice.current.userInterfaceIdiom == .pad
+            let isiPhone     =  UIDevice.current.userInterfaceIdiom == .phone
+            let isiPhoneS    =  ((size.height >  476  && size.height <= 667)
+                                 || ((size.width >  476  && size.width <= 667) && isLanndscape) ) && isiPhone
+            let isiPhoneM    =  ((size.height >  667  && size.height <= 812)
+                                 || ((size.width >  667  && size.width <= 812 ) && isLanndscape)) && isiPhone
+            let isiPhoneL    =  ((size.height >  812  && size.height <  1024)
+                                 || ((size.width >  812  && size.width <  1024) && isLanndscape)) && isiPhone
+            let isiPadMini   =  ((size.height >= 1024 && size.height < 1152)
+                                 || ((size.width >= 1024 && size.width < 1152) && isLanndscape)) && isiPad
+            let isiPadPro    =  ((size.height >=  1152 && size.height <= 1366)
+                                 || ((size.width >= 1152 && size.width <= 1366) && isLanndscape )) && isiPad
+            
+            content(Properties(isLandscape: isLanndscape, isiPad: isiPad, isiPhone: isiPhone,isiPhoneS: isiPhoneS,isiPhoneM: isiPhoneM,isiPhoneL: isiPhoneL,isiPadMini: isiPadMini,isiPadPro: isiPadPro, isSplit: isSplit(), size: size))
                 .frame(width: size.width, height: size.height, alignment: .center)
                 .onAppear{
                     // updating fraction on intial
@@ -57,8 +65,11 @@ struct Properties{
     var isiPhoneS: Bool
     var isiPhoneM: Bool
     var isiPhoneL: Bool
+    var isiPadMini : Bool
+    var isiPadPro : Bool
     var isSplit: Bool
     var size: CGSize
+    
 }
 
 // Fixing it by remove extra space for the help of navigation padding

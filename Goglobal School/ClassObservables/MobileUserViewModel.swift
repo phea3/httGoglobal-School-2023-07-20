@@ -45,7 +45,9 @@ class MobileUserViewModel: ObservableObject{
             }
         }
     }
-    
+    func clearCache(){
+        Network.shared.apollo.clearCache()
+    }
     func resetMobileUser(){
         self.userProfileImg = ""
     }

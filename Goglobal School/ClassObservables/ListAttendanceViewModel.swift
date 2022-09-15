@@ -28,7 +28,9 @@ class ListAttendanceViewModel: ObservableObject {
             }
         }
     }
-    
+    func clearCache(){
+        Network.shared.apollo.clearCache()
+    }
     func resetAttendance(){
         self.Attendances = []
     }

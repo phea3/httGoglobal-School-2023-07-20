@@ -9,6 +9,7 @@ import SwiftUI
 import Alamofire
 import SDWebImageSwiftUI
 import SwiftUITooltip
+import ImageViewer
 
 struct Home: View {
     
@@ -39,6 +40,8 @@ struct Home: View {
     @State private var showingAlert: Bool = false
     @State private var showingPassword: Bool = false
     @State private var noConnention: Bool = false
+    @State private var showingImage: Bool = false
+    @State var image = Image("GoGlobalSchool")
     var tooltipConfig = DefaultTooltipConfig()
     
     var body: some View {
@@ -155,7 +158,11 @@ struct Home: View {
         ZStack{
             VStack{
                 Spacer()
-                LogoGoglobal(prop: prop)
+                Button {
+//                    self.showingImage = !self.showingImage
+                } label: {
+                    LogoGoglobal(prop:prop)
+                }
                 VStack{
                     Text("ចូលប្រើកម្មវិធី")
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 21 : prop.isiPhoneM ? 23 : prop.isiPhoneL ? 25 : 27, relativeTo: .largeTitle))
@@ -267,6 +274,15 @@ struct Home: View {
             .padding(prop.isiPhoneS ? 25: prop.isiPhoneM ? 30 : prop.isiPhoneL ? 35 : 40)
             if isLoading{
                 progressingView(prop: prop)
+            }
+            if showingImage{
+                VStack{
+                    Spacer()
+                    ProgressView()
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .overlay(ImageViewer(image: self.$image, viewerShown: self.$showingImage, closeButtonTopRight: true))
             }
         }
     }

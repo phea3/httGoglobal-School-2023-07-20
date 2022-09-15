@@ -11,7 +11,7 @@ class AnnouncementViewModel:ObservableObject{
     
     @Published var Annouces: [AnnouncementModel] = []
     @Published var Error: Bool = false
-    
+
     func getAnnoucement(){
         Network.shared.apollo.fetch(query: GetAnnouncementQuery()){ [weak self] result in
             switch result {
@@ -25,6 +25,10 @@ class AnnouncementViewModel:ObservableObject{
                 self?.Error = true
             }
         }
+    }
+    
+    func clearCache(){
+        Network.shared.apollo.clearCache()
     }
     func resetAnnounce(){
         self.Annouces = []

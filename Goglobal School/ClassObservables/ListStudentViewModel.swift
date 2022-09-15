@@ -29,7 +29,9 @@ class ListStudentViewModel: ObservableObject {
             }
         }
     }
-    
+    func clearCache(){
+        Network.shared.apollo.clearCache()
+    }
     func resetStudent(){
         self.AllStudents = []
     }

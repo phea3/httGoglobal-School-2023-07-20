@@ -47,7 +47,7 @@ struct Annoucements: View {
                                                 ProgressView()
                                                     .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                                                     .progressViewStyle(.circular)
-                                                Text("សូមរងចាំ")
+                                                Text("សូមរង់ចាំ")
                                                     .foregroundColor(.blue)
                                             }
                                         case .success(let image):
@@ -106,21 +106,40 @@ struct Annoucements: View {
     }
     func viewImage()-> some View{
         GeometryReader { proxy in
-            ZStack(alignment: .topTrailing){
+            ZStack{
                 Color.black.opacity(0.5)
                     .frame(width: .infinity, height: .infinity)
                     .ignoresSafeArea()
                 AsyncImage(url: URL(string: imgURL)) { image in
-                          image
-                              .resizable()
-                              .scaledToFit()
-                              .clipShape(Rectangle())
-                              .modifier(ImageModifier(contentSize: CGSize(width: proxy.size.width, height: proxy.size.height)))
-                      } placeholder: {
-                          Color.gray
-                      }
-                      .background(.clear)
-                     
+                    switch image{
+                    case .empty:
+                        ZStack{
+                            Rectangle()
+                                .fill(.white)
+                                .frame(width: 100, height: 100, alignment: .center)
+                                .cornerRadius(20)
+                            VStack{
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                    .progressViewStyle(.circular)
+                                Text("សូមរង់ចាំ")
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                        
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .modifier(ImageModifier(contentSize: CGSize(width: proxy.size.width, height: proxy.size.height)))
+                    case .failure:
+                        Text("មិនអាចទាញទិន្ន័យបាន")
+                            .foregroundColor(.red)
+                            .hCenter()
+                    @unknown default:
+                        fatalError()
+                    }
+                }
                 Button {
                     self.showViewer = false
                 } label: {
@@ -128,15 +147,16 @@ struct Annoucements: View {
                         .foregroundColor(.red)
                         .padding()
                         .font(.title)
-                    }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
             }
         }
     }
+}
 
 struct Annoucements_Previews: PreviewProvider {
     static var previews: some View {
-        let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false, isSplit: false, size: CGSize(width:  0, height:  0))
+        let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
         Annoucements(prop: prop, postId: .constant(""))
     }
 }

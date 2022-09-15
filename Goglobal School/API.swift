@@ -21,7 +21,6 @@ public final class LoginMutation: GraphQLMutation {
           parentId {
             __typename
             _id
-            qrId
             role
             permanentProvince
             firstName
@@ -36,17 +35,6 @@ public final class LoginMutation: GraphQLMutation {
             province
             dob
             createdAt
-            customer
-            status {
-              __typename
-              isDropOut
-              isNewStudent
-              isReEnroll
-              isSuspendedStudy
-              isSchoolAge
-              isTransferFrom
-              isOldStudent
-            }
           }
         }
       }
@@ -228,7 +216,6 @@ public final class LoginMutation: GraphQLMutation {
             return [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
               GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
-              GraphQLField("qrId", type: .scalar(String.self)),
               GraphQLField("role", type: .scalar(String.self)),
               GraphQLField("permanentProvince", type: .scalar(String.self)),
               GraphQLField("firstName", type: .scalar(String.self)),
@@ -243,8 +230,6 @@ public final class LoginMutation: GraphQLMutation {
               GraphQLField("province", type: .scalar(String.self)),
               GraphQLField("dob", type: .scalar(String.self)),
               GraphQLField("createdAt", type: .scalar(String.self)),
-              GraphQLField("customer", type: .scalar(String.self)),
-              GraphQLField("status", type: .object(Status.selections)),
             ]
           }
 
@@ -254,8 +239,8 @@ public final class LoginMutation: GraphQLMutation {
             self.resultMap = unsafeResultMap
           }
 
-          public init(_id: GraphQLID, qrId: String? = nil, role: String? = nil, permanentProvince: String? = nil, firstName: String? = nil, lastName: String? = nil, englishName: String? = nil, gender: String? = nil, tel: String? = nil, nationality: String? = nil, village: String? = nil, commune: String? = nil, district: String? = nil, province: String? = nil, dob: String? = nil, createdAt: String? = nil, customer: String? = nil, status: Status? = nil) {
-            self.init(unsafeResultMap: ["__typename": "PersonalInfo", "_id": _id, "qrId": qrId, "role": role, "permanentProvince": permanentProvince, "firstName": firstName, "lastName": lastName, "englishName": englishName, "gender": gender, "tel": tel, "nationality": nationality, "village": village, "commune": commune, "district": district, "province": province, "dob": dob, "createdAt": createdAt, "customer": customer, "status": status.flatMap { (value: Status) -> ResultMap in value.resultMap }])
+          public init(_id: GraphQLID, role: String? = nil, permanentProvince: String? = nil, firstName: String? = nil, lastName: String? = nil, englishName: String? = nil, gender: String? = nil, tel: String? = nil, nationality: String? = nil, village: String? = nil, commune: String? = nil, district: String? = nil, province: String? = nil, dob: String? = nil, createdAt: String? = nil) {
+            self.init(unsafeResultMap: ["__typename": "PersonalInfo", "_id": _id, "role": role, "permanentProvince": permanentProvince, "firstName": firstName, "lastName": lastName, "englishName": englishName, "gender": gender, "tel": tel, "nationality": nationality, "village": village, "commune": commune, "district": district, "province": province, "dob": dob, "createdAt": createdAt])
           }
 
           public var __typename: String {
@@ -273,15 +258,6 @@ public final class LoginMutation: GraphQLMutation {
             }
             set {
               resultMap.updateValue(newValue, forKey: "_id")
-            }
-          }
-
-          public var qrId: String? {
-            get {
-              return resultMap["qrId"] as? String
-            }
-            set {
-              resultMap.updateValue(newValue, forKey: "qrId")
             }
           }
 
@@ -408,123 +384,6 @@ public final class LoginMutation: GraphQLMutation {
             }
             set {
               resultMap.updateValue(newValue, forKey: "createdAt")
-            }
-          }
-
-          public var customer: String? {
-            get {
-              return resultMap["customer"] as? String
-            }
-            set {
-              resultMap.updateValue(newValue, forKey: "customer")
-            }
-          }
-
-          public var status: Status? {
-            get {
-              return (resultMap["status"] as? ResultMap).flatMap { Status(unsafeResultMap: $0) }
-            }
-            set {
-              resultMap.updateValue(newValue?.resultMap, forKey: "status")
-            }
-          }
-
-          public struct Status: GraphQLSelectionSet {
-            public static let possibleTypes: [String] = ["Status"]
-
-            public static var selections: [GraphQLSelection] {
-              return [
-                GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-                GraphQLField("isDropOut", type: .scalar(Bool.self)),
-                GraphQLField("isNewStudent", type: .scalar(Bool.self)),
-                GraphQLField("isReEnroll", type: .scalar(Bool.self)),
-                GraphQLField("isSuspendedStudy", type: .scalar(Bool.self)),
-                GraphQLField("isSchoolAge", type: .scalar(Bool.self)),
-                GraphQLField("isTransferFrom", type: .scalar(Bool.self)),
-                GraphQLField("isOldStudent", type: .scalar(Bool.self)),
-              ]
-            }
-
-            public private(set) var resultMap: ResultMap
-
-            public init(unsafeResultMap: ResultMap) {
-              self.resultMap = unsafeResultMap
-            }
-
-            public init(isDropOut: Bool? = nil, isNewStudent: Bool? = nil, isReEnroll: Bool? = nil, isSuspendedStudy: Bool? = nil, isSchoolAge: Bool? = nil, isTransferFrom: Bool? = nil, isOldStudent: Bool? = nil) {
-              self.init(unsafeResultMap: ["__typename": "Status", "isDropOut": isDropOut, "isNewStudent": isNewStudent, "isReEnroll": isReEnroll, "isSuspendedStudy": isSuspendedStudy, "isSchoolAge": isSchoolAge, "isTransferFrom": isTransferFrom, "isOldStudent": isOldStudent])
-            }
-
-            public var __typename: String {
-              get {
-                return resultMap["__typename"]! as! String
-              }
-              set {
-                resultMap.updateValue(newValue, forKey: "__typename")
-              }
-            }
-
-            public var isDropOut: Bool? {
-              get {
-                return resultMap["isDropOut"] as? Bool
-              }
-              set {
-                resultMap.updateValue(newValue, forKey: "isDropOut")
-              }
-            }
-
-            public var isNewStudent: Bool? {
-              get {
-                return resultMap["isNewStudent"] as? Bool
-              }
-              set {
-                resultMap.updateValue(newValue, forKey: "isNewStudent")
-              }
-            }
-
-            public var isReEnroll: Bool? {
-              get {
-                return resultMap["isReEnroll"] as? Bool
-              }
-              set {
-                resultMap.updateValue(newValue, forKey: "isReEnroll")
-              }
-            }
-
-            public var isSuspendedStudy: Bool? {
-              get {
-                return resultMap["isSuspendedStudy"] as? Bool
-              }
-              set {
-                resultMap.updateValue(newValue, forKey: "isSuspendedStudy")
-              }
-            }
-
-            public var isSchoolAge: Bool? {
-              get {
-                return resultMap["isSchoolAge"] as? Bool
-              }
-              set {
-                resultMap.updateValue(newValue, forKey: "isSchoolAge")
-              }
-            }
-
-            public var isTransferFrom: Bool? {
-              get {
-                return resultMap["isTransferFrom"] as? Bool
-              }
-              set {
-                resultMap.updateValue(newValue, forKey: "isTransferFrom")
-              }
-            }
-
-            public var isOldStudent: Bool? {
-              get {
-                return resultMap["isOldStudent"] as? Bool
-              }
-              set {
-                resultMap.updateValue(newValue, forKey: "isOldStudent")
-              }
             }
           }
         }

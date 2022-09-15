@@ -14,6 +14,8 @@ class LoginViewModel: ObservableObject{
     @Published var userId: String = ""
     @Published var userprofileId: String = ""
     @Published var userName: String = ""
+    @Published var userFirstname: String = ""
+    @Published var userLastname: String = ""
     @Published var userTel: String = ""
     @Published var userNationality: String = ""
     @Published var userProfileImg: String = ""
@@ -53,6 +55,16 @@ class LoginViewModel: ObservableObject{
                         self?.userName = userName
                     }
                 }
+                if let userFirstname = graphQLResult.data?.login?.user?.parentId?.firstName{
+                    DispatchQueue.main.async {
+                        self?.userFirstname = userFirstname
+                    }
+                }
+                if let userLastname = graphQLResult.data?.login?.user?.parentId?.lastName{
+                    DispatchQueue.main.async {
+                        self?.userLastname = userLastname
+                    }
+                }
                 if let userTel =  graphQLResult.data?.login?.user?.parentId?.tel{
                     DispatchQueue.main.async {
                         self?.userTel = userTel
@@ -76,7 +88,6 @@ class LoginViewModel: ObservableObject{
     
     // MARK: SignOut Button
     func signout() {
-        
         let keychain = KeychainSwift()
         keychain.delete(LoginViewModel.loginKeychainKey)
         DispatchQueue.main.async {

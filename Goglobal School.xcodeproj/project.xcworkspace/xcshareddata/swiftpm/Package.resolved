@@ -1,15 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "acarousel",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/JWAutumn/ACarousel",
-      "state" : {
-        "branch" : "main",
-        "revision" : "807d859fb39ccaae2caf8ff60fb2ee1a5048f4ca"
-      }
-    },
-    {
       "identity" : "alamofire",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Alamofire/Alamofire.git",
@@ -23,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apollographql/apollo-ios.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "84c42e013d143c1d3ec808816e2a2b5e03fadf80"
+        "revision" : "42646f765d22dac0f22bfff48590102195c76da4",
+        "version" : "0.53.0"
       }
     },
     {
@@ -61,6 +52,15 @@
       "state" : {
         "revision" : "4d543d811ee644fa4cc4bfa0be996b4dd6ba0f54",
         "version" : "0.13.3"
+      }
+    },
+    {
+      "identity" : "swiftui-image-viewer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Jake-Short/swiftui-image-viewer.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "f61f298c0100c81dfb0c7908091e68aad12a892c"
       }
     },
     {

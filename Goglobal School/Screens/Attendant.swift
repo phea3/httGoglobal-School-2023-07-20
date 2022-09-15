@@ -17,6 +17,7 @@ struct Attendant: View {
         ScrollView(.vertical, showsIndicators: false){
             VStack(spacing: 0){
                 CustomDatePicker(studentId: studentId, currentDate: $currentDate,prop: prop)
+                    .padding(.bottom, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 15 : prop.isiPhoneL ? 20 : 25)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
@@ -29,7 +30,7 @@ struct Attendant: View {
 
 struct Attendant_Previews: PreviewProvider {
     static var previews: some View {
-        let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false, isSplit: false, size: CGSize(width:  0, height:  0))
+        let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
         Attendant(studentId: "",prop: prop)
     }
 }

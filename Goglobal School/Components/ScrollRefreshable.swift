@@ -26,6 +26,7 @@ struct ScrollRefreshable<Content: View>: View {
                 .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         }
         .listStyle(.plain)
+        .listStyle(InsetGroupedListStyle())
     }
 }
 

@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import ACarousel
 import SwiftUITooltip
+
 struct Dashboard: View {
     
     @StateObject var students: ListStudentViewModel = ListStudentViewModel()
@@ -24,6 +24,7 @@ struct Dashboard: View {
     @State var tooltipVisible: Bool = false
     @State var refreshing: Bool = false
     @State var viewLoading: Bool = false
+    @State var hidingDivider: Bool = false
     @Binding var isLoading: Bool
     let gradient = Color.clear
     var barTitle: String = "ទំព័រដើម"
@@ -31,6 +32,7 @@ struct Dashboard: View {
     var prop: Properties
     
     var body: some View {
+        
         NavigationView {
             VStack(spacing:0){
                 if students.AllStudents.isEmpty || academiclist.academicYear.isEmpty{
@@ -53,6 +55,7 @@ struct Dashboard: View {
                         .foregroundColor(.blue)
                 }else{
                     Divider()
+                        .opacity(hidingDivider ? 0:1)
                     if refreshing {
                         Spacer()
                         progressingView(prop: prop)
@@ -60,22 +63,30 @@ struct Dashboard: View {
                     }else{
                         ScrollRefreshable(title: "កំពុងភ្ជាប់", tintColor: .blue){
                             mainView()
+                                .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
+                                .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
                                 .navigationBarTitleDisplayMode(.inline)
                                 .toolbarView(prop: prop, barTitle: barTitle, profileImg: userProfileImg)
-                                .padding(.bottom, prop.isiPhoneS ? 35 : prop.isiPhoneM ? 40 : prop.isiPhoneL ? 45 : 50)
                         }
                     }
                 }
             }
             .setBG()
-            .onAppear {
+            .onAppear{
                 AnnoucementList.getAnnoucement()
                 academiclist.populateAllContinent()
                 students.StundentAmount(parentId: parentId)
             }
         }
         .refreshable {
-            do {try await Task.sleep(nanoseconds: 2 * 1_000_000_000)} catch {}
+            do {
+                AnnoucementList.clearCache()
+                try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+            } catch {}
+            self.hidingDivider = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.hidingDivider = false
+            }
             refreshingView()
             AnnoucementList.getAnnoucement()
             academiclist.populateAllContinent()
@@ -86,9 +97,9 @@ struct Dashboard: View {
     }
     @ViewBuilder
     private func mainView()-> some View{
-        VStack(alignment: .leading,spacing: prop.isiPhoneS ? 6 : prop.isiPhoneM ? 8 : 10){
+        VStack(alignment: .leading,spacing: prop.isiPhoneS ? 0 : prop.isiPhoneM ? 8 : 10){
             ZStack{
-                imageStuBG(width: prop.isiPhoneS ? 360 : prop.isiPhoneM ? 380: prop.isiPhoneL ? 400 : 400)
+                imageStuBG(prop: prop)
                 ScrollView(.horizontal, showsIndicators: false){
                     HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
                         ForEach(students.AllStudents,id: \.Id) { student in
@@ -99,8 +110,8 @@ struct Dashboard: View {
                                 }
                             )
                         }
-                        
                     }
+                    .frame(width: (prop.isLandscape && (prop.isiPhone || prop.isiPad)) || prop.isiPad ? prop.size.width : .infinity)
                 }
             }
             Divider()
@@ -113,6 +124,7 @@ struct Dashboard: View {
                     .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
                     .foregroundColor(.blue)
             }
+            .padding(.vertical, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 2 : prop.isiPhoneL ? 14 : 16)
             .hLeading()
             VStack(spacing:prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14){
                 ForEach(Array(academiclist.sortedAcademicYear.enumerated()), id: \.element.code){ index,academic in
@@ -129,8 +141,8 @@ struct Dashboard: View {
                             }
                         }
                         .foregroundColor(index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
-                        .setBackgroundRow(color: index % 2 == 0 ?  colorOrg : colorBlue)
-                        .frame(height: prop.isLandscape ? 80 : .infinity)
+                        .setBackgroundRow(color: index % 2 == 0 ?  colorOrg : colorBlue, prop: prop)
+                        .frame(height: prop.isLandscape || prop.isiPad ? 80 : .infinity)
                     }
                 }
             }
@@ -143,10 +155,11 @@ struct Dashboard: View {
                     .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
                     .foregroundColor(.pink)
             }
+            .padding(.vertical, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 2 : prop.isiPhoneL ? 14 : 16)
             .hLeading()
-            if prop.isLandscape {
+            if prop.isLandscape || prop.isiPad{
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 20){
+                    HStack(spacing: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16){
                         ForEach(AnnoucementList.Annouces, id: \.id) { item in
                             Button {
                                 self.showingSheet.toggle()
@@ -170,7 +183,7 @@ struct Dashboard: View {
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fill)
                                                 .frame(maxHeight: .infinity)
-                                                .cornerRadius(30)
+                                                .cornerRadius(20)
                                         case .failure:
                                             Text("Not Found News")
                                                 .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
@@ -204,7 +217,7 @@ struct Dashboard: View {
                     }
                 }
             }else{
-                VStack(spacing: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 ){
+                VStack(spacing: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 17 : 18 ){
                     ForEach(AnnoucementList.Annouces, id: \.id) { item in
                         AnnouceButtonView(showingSheet: $showingSheet, detailId: $detailId, itemImg: item.img, itemTitle: item.title, itemId: item.id, prop: prop)
                             .buttonStyle(PlainButtonStyle())
@@ -215,7 +228,6 @@ struct Dashboard: View {
                 }
             }
         }
-        .padding(.horizontal)
     }
     func refreshingView(){
         self.refreshing = true
@@ -244,7 +256,7 @@ struct Dashboard: View {
                         .resizable()
                         .clipShape(Circle())
                         .aspectRatio(contentMode: .fill)
-                        .padding(25)
+                        .padding(prop.isiPhoneS ? 20 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 24 : 25)
                 case .failure:
                     Image("student")
                         .resizable()
@@ -255,12 +267,12 @@ struct Dashboard: View {
                     fatalError()
                 }
             }
-            .frame(height:  prop.isiPhoneS ? 130 : prop.isiPhoneM ? 150 : prop.isiPhoneL ? 170 : 180)
+            .frame(height: prop.isiPhoneS ? 140 : prop.isiPhoneM ? 150 : prop.isiPhoneL ? 170 : 180)
             HStack{
                 Text(Lastname)
                 Text(Firstname)
             }
-            .padding(3)
+            .padding(2)
             .font(.custom("kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
             .frame(maxWidth: prop.isiPhoneS ? 100 : prop.isiPhoneM ? 110 : prop.isiPhoneL ? 120 : 130)
             .background(.blue)
@@ -269,13 +281,13 @@ struct Dashboard: View {
         }
         .background(.clear)
         .foregroundColor(.white)
-        .frame(width: prop.isiPhoneS ? 140 : prop.isiPhoneM ? 160 : prop.isiPhoneL ? 180 : 200, height: prop.isiPhoneS ? 165 : prop.isiPhoneM ? 185 : prop.isiPhoneL ? 220 : 220, alignment: .center)
+        .frame(width: prop.isiPhoneS ? 160 : prop.isiPhoneM ? 170 : prop.isiPhoneL ? 180 : 200, height: prop.isiPhoneS ? 185 : prop.isiPhoneM ? 200 : prop.isiPhoneL ? 220 : 220, alignment: .center)
         .addBorder(.orange,width: 1, cornerRadius: 20)
     }
 }
 struct Dashboard_Previews: PreviewProvider {
     static var previews: some View {
-        let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false, isSplit: false, size: CGSize(width:  0, height:  0))
+        let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
         Dashboard(userProfileImg: "", isLoading: .constant(false), parentId: "",prop: prop)
     }
 }

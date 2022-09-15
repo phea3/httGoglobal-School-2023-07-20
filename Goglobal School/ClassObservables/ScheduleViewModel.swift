@@ -24,7 +24,9 @@ class ScheduleViewModel: ObservableObject{
         fetchCurrentWeek()
         filterTodayTasks()
     }
-    
+    func clearCache(){
+        Network.shared.apollo.clearCache()
+    }
     func resetSchedule(){
         self.allClasses = []
         self.filteredTasks = []

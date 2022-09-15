@@ -1,4 +1,3 @@
-
 mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
     token
@@ -9,7 +8,6 @@ mutation Login($email: String!, $password: String!) {
       profileImage
       parentId {
         _id
-        qrId
         role
         permanentProvince
         firstName
@@ -24,16 +22,6 @@ mutation Login($email: String!, $password: String!) {
         province
         dob
         createdAt
-        customer
-        status {
-          isDropOut
-          isNewStudent
-          isReEnroll
-          isSuspendedStudy
-          isSchoolAge
-          isTransferFrom
-          isOldStudent
-        }
       }
     }
   }

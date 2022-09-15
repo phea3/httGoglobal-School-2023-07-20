@@ -19,7 +19,9 @@ class ListViewModel: ObservableObject{
             academicYear = newValue
         }
     }
-    
+    func clearCache(){
+        Network.shared.apollo.clearCache()
+    }
     // MARK: Function Mapping All Events
     func populateAllContinent() {
         Network.shared.apollo.fetch(query: GetEventsQuery()) { [weak self] result in

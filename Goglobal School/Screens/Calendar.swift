@@ -16,6 +16,7 @@ struct Calendar: View {
     @State var refreshing: Bool = false
     @State var axcessPadding: CGFloat = 0
     @State var viewLoading: Bool = false
+    @State var hidingDivider: Bool = false
     @Binding var isLoading: Bool
     let gradient = Color("BG")
     var prop: Properties
@@ -43,6 +44,7 @@ struct Calendar: View {
                         .foregroundColor(.blue)
                 }else{
                     Divider()
+                        .opacity(hidingDivider ? 0:1)
                     if refreshing {
                         Spacer()
                         progressingView(prop: prop)
@@ -51,6 +53,9 @@ struct Calendar: View {
                         ScrollRefreshable(title: "កំពុងភ្ជាប់", tintColor: .blue){
                             mainView()
                                 .navigationBarTitleDisplayMode(.inline)
+                                .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
+                                .padding(.top)
+                                .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
                                 .toolbarView(prop: prop, barTitle: "ប្រតិទិនសិក្សា", profileImg: userProfileImg)
                         }
                     }
@@ -69,9 +74,14 @@ struct Calendar: View {
         .padOnlyStackNavigationView()
         .refreshable {
             do {
+                academiclist.clearCache()
                 // Sleep for 2 seconds
                 try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
             } catch {}
+            self.hidingDivider = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.hidingDivider = false
+            }
             refreshingView()
             academiclist.populateAllContinent()
         }
@@ -87,7 +97,7 @@ struct Calendar: View {
                 }
             }
             .foregroundColor(Color("ColorTitle"))
-            .setBackgroundRow(color: colorBlue)
+            .setBackgroundRow(color: colorBlue, prop: prop)
             HStack{
                 Text("ខែ កញ្ញា ឆ្នាំ ២០២២")
                     .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15))
@@ -110,13 +120,10 @@ struct Calendar: View {
                 }
                 .foregroundColor(index % 2 == 0 ?
                                  Color("bodyOrange") : Color("bodyBlue") )
-                .setBackgroundRow(color: index % 2 == 0 ? colorOrg : colorBlue)
+                .setBackgroundRow(color: index % 2 == 0 ? colorOrg : colorBlue, prop: prop)
                 .frame(height: prop.isiPhoneM ? 80 : .infinity)
             }
         }
-        .padding(.bottom,60)
-        .padding(.top)
-        .padding(.horizontal)
     }
     func refreshingView(){
         self.refreshing = true
@@ -131,7 +138,7 @@ struct Calendar: View {
 
 struct Calendar_Previews: PreviewProvider {
     static var previews: some View {
-        let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false, isSplit: false, size: CGSize(width:  0, height:  0))
+        let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
         Calendar(userProfileImg: "", isLoading: .constant(false), prop: prop)
     }
 }

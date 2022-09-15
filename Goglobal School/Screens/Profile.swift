@@ -8,6 +8,7 @@
 import SwiftUI
 import Alamofire
 import URLImage
+import ImageViewer
 
 struct Profile: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -30,12 +31,16 @@ struct Profile: View {
     @State var logoutLoading: Bool = false
     @State var viewLoading: Bool = false
     @State private var showingAlert = false
+    @State var showImageViewer: Bool = true
+    @State var showingBG: Bool = false
+    @State var hidingDivider: Bool = false
+    @State var imageBG = Image("BgNews")
     @Binding var Loading: Bool
     @Binding var hideTab: Bool
     @Binding var checkState: Bool
     let gradient = Color("BG")
     var prop: Properties
-    var btnBack : some View { btnBackView(prop: prop, title: "គណនី").opacity(showImage ? 0:1)}
+    var btnBack : some View { btnBackView(prop: prop, title: "គណនី").opacity(showImage || showingBG ? 0:1)}
     var body: some View {
         NavigationView{
             ZStack{
@@ -61,6 +66,7 @@ struct Profile: View {
                                 .foregroundColor(.blue)
                         }else{
                             Divider()
+                                .opacity(hidingDivider ? 0:1)
                             if refreshing {
                                 Spacer()
                                 progressingView(prop: prop)
@@ -68,16 +74,16 @@ struct Profile: View {
                             }else{
                                 ScrollRefreshable(title: "កំពុងភ្ជាប់", tintColor: .blue){
                                     ScrollView(.vertical, showsIndicators: false){
-                                       mainView()
+                                        mainView()
                                     }
                                     .navigationBarItems(leading: btnBack)
                                     .navigationBarTitleDisplayMode(.inline)
-                                    .padding()
+                                    .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
+                                    .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
                                 }
                             }
                         }
                     }
-                    .padding(.bottom,25)
                     .sheet(isPresented: $showSheet) {
                         ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
                     }
@@ -103,6 +109,17 @@ struct Profile: View {
                     if logoutLoading{
                         progressingView(prop: prop)
                     }
+                    if showingBG{
+                        VStack {
+                            ProgressView()
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .overlay(ImageViewer(image: self.$imageBG, viewerShown: self.$showingBG, closeButtonTopRight: true) .onDisappear{
+                            DispatchQueue.main.async {
+                                self.hideTab = false
+                            }
+                        })
+                    }
                 }
             }
             .setBG()
@@ -115,9 +132,14 @@ struct Profile: View {
         }
         .refreshable {
             do {
+                userProfile.clearCache()
                 // Sleep for 2 seconds
                 try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
             } catch {}
+            self.hidingDivider = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.hidingDivider = false
+            }
             refreshingView()
             userProfile.getProfileImage(mobileUserId: logout.userprofileId)
         }
@@ -126,99 +148,228 @@ struct Profile: View {
     }
     @ViewBuilder
     private func mainView()-> some View{
-        VStack(alignment: .leading, spacing: 0) {
-            VStack(spacing: 0){
-                ZStack{
-                    backgroundViewProfile()
+        if prop.isLandscape && prop.isiPad{
+            HStack(spacing: 30) {
+                VStack(spacing: 0){
                     ZStack{
-                        if userProfile.userID.isEmpty{
-                            Image(uiImage: self.image)
-                                .resizable()
-                                .cornerRadius(50)
-                                .frame(width: 125, height: 125)
-                                .background(Color.black.opacity(0.2))
-                                .aspectRatio(contentMode: .fill)
-                                .clipShape(Circle())
-                                .overlay(
-                                    Circle()
-                                        .strokeBorder(Color.white,lineWidth: 2)
-                                )
-                                .onTapGesture {
-                                    showSheet = true
+                        Button {
+                            self.showingBG = !self.showingBG
+                            DispatchQueue.main.async {
+                                self.hideTab = true
+                            }
+                        } label: {
+                            backgroundViewProfile()
+                                .onDisappear{
+                                    DispatchQueue.main.async {
+                                        self.hideTab = false
+                                    }
                                 }
-                        }else{
-                            ZStack{
-                                if refresh{
-                                    ProgressView()
-                                        .progressViewStyle(.circular)
-                                        .frame(width: 125, height: 125, alignment: .center)
-                                }else{
-                                    mainViewofProfile()
+                        }
+                        ZStack{
+                            if userProfile.userID.isEmpty{
+                                Image(uiImage: self.image)
+                                    .resizable()
+                                    .cornerRadius(50)
+                                    .frame(width: 125, height: 125)
+                                    .background(Color.black.opacity(0.2))
+                                    .aspectRatio(contentMode: .fill)
+                                    .clipShape(Circle())
+                                    .overlay(
+                                        Circle()
+                                            .strokeBorder(Color.white,lineWidth: 2)
+                                    )
+                                    .onTapGesture {
+                                        showSheet = true
+                                    }
+                            }else{
+                                ZStack{
+                                    if refresh{
+                                        ProgressView()
+                                            .progressViewStyle(.circular)
+                                            .frame(width: 125, height: 125, alignment: .center)
+                                    }else{
+                                        mainViewofProfile()
+                                    }
                                 }
                             }
                         }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                        .sheet(isPresented: $showSheet, content: {
+                            ImagePicker(selectedImage: self.$image)
+                        })
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-                    .sheet(isPresented: $showSheet, content: {
-                        ImagePicker(selectedImage: self.$image)
-                    })
-                }
-                .frame(maxWidth: .infinity, maxHeight: 240)
-                VStack{
-                    Text(logout.userName)
-                        .font(.system(size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20).bold())
+                    .frame(maxWidth: .infinity, maxHeight: 240)
+                    VStack(alignment: .center){
+                        HStack{
+                            Text(logout.userLastname)
+                            Text(logout.userFirstname)
+                        }
+                        .font(.system(size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20).bold())
                         .foregroundColor(Color.black)
+                    }
+                    .padding(prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
+                    HStack(spacing: 0){
+                        rectangleBetweenButtonSave()
+                        UploadingProfileImage()
+                        rectangleBetweenButtonSave()
+                    }
                 }
-                .padding(prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
-            }
-            HStack(spacing: 0){
-                rectangleBetweenButtonSave()
-                UploadingProfileImage()
-                rectangleBetweenButtonSave()
-            }
-            VStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                ViewlistBelowProfileImg(Title: "Email Address", Description: userProfile.gmail)
-                Divider()
-                ViewlistBelowProfileImg(Title: "Contact", Description: logout.userTel)
-                Divider()
-                ViewlistBelowProfileImg(Title: "Nationality", Description: logout.userNationality)
-                Divider()
-                Button {
-                    self.showingAlert = true
-                } label: {
-                    Text("ចាកចេញ")
-                        .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .largeTitle))
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: prop.isLandscape ? 400 : .infinity, alignment: .center)
-                        .padding(10)
-                        .background(.red)
-                        .cornerRadius(10)
+                
+                VStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                    ViewlistBelowProfileImg(Title: "Email Address", Description: userProfile.gmail)
+                    Divider()
+                    ViewlistBelowProfileImg(Title: "Contact", Description: logout.userTel)
+                    Divider()
+                    ViewlistBelowProfileImg(Title: "Nationality", Description: logout.userNationality)
+                    Divider()
+                    Button {
+                        self.showingAlert = true
+                    } label: {
+                        Text("ចាកចេញ")
+                            .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .largeTitle))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: prop.isLandscape ? 400 : .infinity, alignment: .center)
+                            .padding(10)
+                            .background(.red)
+                            .cornerRadius(10)
+                    }
+                    .alert(isPresented:$showingAlert) {
+                        Alert(
+                            title: Text("តើអ្នកចង់ចាកចេញពីកម្មវិធីទេ?"),
+                            message: Text("មិនអាចត្រលប់ក្រោយបានទេ!"),
+                            primaryButton: .destructive(Text("ចាកចេញ")) {
+                                self.logoutLoading = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    logout.signout()
+                                    userProfile.resetMobileUser()
+                                    students.resetStudent()
+                                    academiclist.resetEvent()
+                                    AnnoucementList.resetAnnounce()
+                                    AllClasses.resetSchedule()
+                                    Attendance.resetAttendance()
+                                    self.logoutLoading = false
+                                }
+                                UserDefaults.standard.removeObject(forKey: "Gmail")
+                                UserDefaults.standard.removeObject(forKey: "Password")
+                                UserDefaults.standard.removeObject(forKey: "isAuthenticated")
+                            },
+                            secondaryButton: .cancel(Text("មិនចាកចេញ"))
+                        )
+                    }
+                    Divider()
                 }
-                .alert(isPresented:$showingAlert) {
-                           Alert(
-                               title: Text("តើអ្នកចង់ចាកចេញពីកម្មវិធីទេ?"),
-                               message: Text("មិនអាចត្រលប់ក្រោយបាន"),
-                               primaryButton: .destructive(Text("ចាកចេញ")) {
-                                   self.logoutLoading = true
-                                   DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                                       logout.signout()
-                                       userProfile.resetMobileUser()
-                                       students.resetStudent()
-                                       academiclist.resetEvent()
-                                       AnnoucementList.resetAnnounce()
-                                       AllClasses.resetSchedule()
-                                       Attendance.resetAttendance()
-                                       self.logoutLoading = false
-                                   }
-                                   UserDefaults.standard.removeObject(forKey: "Gmail")
-                                   UserDefaults.standard.removeObject(forKey: "Password")
-                                   UserDefaults.standard.removeObject(forKey: "isAuthenticated")
-                               },
-                               secondaryButton: .cancel(Text("មិនចាកចេញ"))
-                           )
-                       }
-                Divider()
+            }
+        }else{
+            VStack(alignment: .leading, spacing: 0) {
+                VStack(spacing: 0){
+                    ZStack{
+                        Button {
+                            self.showingBG = !self.showingBG
+                            DispatchQueue.main.async {
+                                self.hideTab = true
+                            }
+                        } label: {
+                            backgroundViewProfile()
+                                .onDisappear{
+                                    DispatchQueue.main.async {
+                                        self.hideTab = false
+                                    }
+                                }
+                        }
+                        ZStack{
+                            if userProfile.userID.isEmpty{
+                                Image(uiImage: self.image)
+                                    .resizable()
+                                    .cornerRadius(50)
+                                    .frame(width: 125, height: 125)
+                                    .background(Color.black.opacity(0.2))
+                                    .aspectRatio(contentMode: .fill)
+                                    .clipShape(Circle())
+                                    .overlay(
+                                        Circle()
+                                            .strokeBorder(Color.white,lineWidth: 2)
+                                    )
+                                    .onTapGesture {
+                                        showSheet = true
+                                    }
+                            }else{
+                                ZStack{
+                                    if refresh{
+                                        ProgressView()
+                                            .progressViewStyle(.circular)
+                                            .frame(width: 125, height: 125, alignment: .center)
+                                    }else{
+                                        mainViewofProfile()
+                                    }
+                                }
+                            }
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                        .sheet(isPresented: $showSheet, content: {
+                            ImagePicker(selectedImage: self.$image)
+                        })
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: 240)
+                    VStack(alignment: .center){
+                        HStack{
+                            Text(logout.userLastname)
+                            Text(logout.userFirstname)
+                        }
+                        .font(.system(size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20).bold())
+                        .foregroundColor(Color.black)
+                    }
+                    .padding(prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
+                }
+                HStack(spacing: 0){
+                    rectangleBetweenButtonSave()
+                    UploadingProfileImage()
+                    rectangleBetweenButtonSave()
+                }
+                VStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                    ViewlistBelowProfileImg(Title: "Email Address", Description: userProfile.gmail)
+                    Divider()
+                    ViewlistBelowProfileImg(Title: "Contact", Description: logout.userTel)
+                    Divider()
+                    ViewlistBelowProfileImg(Title: "Nationality", Description: logout.userNationality)
+                    Divider()
+                    Button {
+                        self.showingAlert = true
+                    } label: {
+                        Text("ចាកចេញ")
+                            .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .largeTitle))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: prop.isLandscape ? 400 : .infinity, alignment: .center)
+                            .padding(10)
+                            .background(.red)
+                            .cornerRadius(10)
+                    }
+                    .alert(isPresented:$showingAlert) {
+                        Alert(
+                            title: Text("តើអ្នកចង់ចាកចេញពីកម្មវិធីទេ?"),
+                            message: Text("មិនអាចត្រលប់ក្រោយបានទេ!"),
+                            primaryButton: .destructive(Text("ចាកចេញ")) {
+                                self.logoutLoading = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                    logout.signout()
+                                    userProfile.resetMobileUser()
+                                    students.resetStudent()
+                                    academiclist.resetEvent()
+                                    AnnoucementList.resetAnnounce()
+                                    AllClasses.resetSchedule()
+                                    Attendance.resetAttendance()
+                                    self.logoutLoading = false
+                                }
+                                UserDefaults.standard.removeObject(forKey: "Gmail")
+                                UserDefaults.standard.removeObject(forKey: "Password")
+                                UserDefaults.standard.removeObject(forKey: "isAuthenticated")
+                            },
+                            secondaryButton: .cancel(Text("មិនចាកចេញ"))
+                        )
+                    }
+                    Divider()
+                }
             }
         }
     }
@@ -233,13 +384,13 @@ struct Profile: View {
         VStack(spacing: 0){
             Image("BgNews")
                 .resizable()
-                .frame(width: prop.isLandscape && prop.isiPhone ? 400 : .infinity)
+                .frame(width: prop.isiPad ? 600 : prop.isLandscape && prop.isiPhone ? 400 : .infinity)
                 .cornerRadius(20)
             Rectangle()
                 .foregroundColor(.clear)
                 .frame(maxWidth: prop.isLandscape ? 400 : .infinity, maxHeight: 50, alignment: .leading)
         }
-        .frame(maxWidth: .infinity, maxHeight: 200, alignment: .center)
+        .frame(maxWidth: .infinity, maxHeight: prop.isiPad ? 450 : 200, alignment: .center)
     }
     private func mainViewofProfile()->some View{
         AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(userProfile.userProfileImg)"), scale: 2){image in
@@ -426,7 +577,7 @@ struct Profile: View {
 
 struct Profile_Previews: PreviewProvider {
     static var previews: some View {
-        let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false, isSplit: false, size: CGSize(width:  0, height:  0))
+        let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
         Profile(logout: LoginViewModel(), uploadImg: UpdateMobileUserProfileImg(), Loading: .constant(false), hideTab: .constant(false), checkState: .constant(false), prop: prop)
     }
 }

@@ -8,18 +8,18 @@
 import Foundation
 import Apollo
 import KeychainSwift
+import ApolloSQLite
 
 class Network {
     static let shared = Network()
-    let url = "https://sms-endpoint.go-globalschool.com/graphql"
-//            let url = "http://192.168.2.10:2000/"
     private(set) lazy var apollo: ApolloClient = {
-        let client = URLSessionClient()
+        let url = URL(string: "https://sms-endpoint.go-globalschool.com/graphql")!
         let cache = InMemoryNormalizedCache()
         let store = ApolloStore(cache: cache)
+        let client = URLSessionClient()
         let provider = NetworkInterceptorProvider(client: client, store: store)
-        let url = URL(string: url)!
-        let transport = RequestChainNetworkTransport(interceptorProvider: provider,endpointURL: url)
+        let transport = RequestChainNetworkTransport(interceptorProvider: provider,
+                                                             endpointURL: url)
         return ApolloClient(networkTransport: transport, store: store)
     }()
 }

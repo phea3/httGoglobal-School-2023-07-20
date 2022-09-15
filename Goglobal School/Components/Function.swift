@@ -33,11 +33,11 @@ extension View{
                        endPoint: .bottom
         )
     }
-    func imageStuBG(width: CGFloat)->some View{
+    func imageStuBG(prop: Properties)->some View{
         Image("DashboadBg")
             .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(maxWidth: width)
+            .aspectRatio(contentMode: .fit)
+            .frame(maxWidth: prop.isiPadPro ? 400 : prop.isiPadMini ? 600 : prop.isLandscape && prop.isiPad ? 600 : prop.isLandscape && prop.isiPhoneS ? 360 : prop.isLandscape && prop.isiPhoneM ? 370 : prop.isLandscape && prop.isiPhoneL ? 380 : .infinity)
     }
     func graduatedLogo()->some View{
         Circle()
@@ -60,7 +60,7 @@ extension View{
         Image("GoGlobalSchool")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(maxWidth:prop.isiPhoneS ? 90 : prop.isiPhoneM ? 100 : prop.isiPhoneL ? 120 : 140)
+            .frame(maxWidth:prop.isiPadMini && prop.isiPad ? 140 : prop.isiPadPro && prop.isiPad  ? 220 : prop.isiPhoneS ? 90 : prop.isiPhoneM ? 100 : prop.isiPhoneL ? 120 :  140)
         
     }
     func ImageBackgroundSignIn()->some View{
@@ -74,9 +74,9 @@ extension View{
                 ToolbarItem(placement: .navigationBarLeading) {
                     HStack{
                         Image(systemName: "line.3.horizontal.decrease")
-                            .padding(.bottom, 5)
+                            .padding(.bottom, prop.isiPhoneS ? 3 : prop.isiPhoneM ? 4 : prop.isiPhoneL ? 5 : 5)
                         Text(barTitle)
-                            .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 :  prop.isiPhoneL ? 18 : 20, relativeTo: .largeTitle))
+                            .font(.custom("Bayon", size: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 :  prop.isiPhoneL ? 18 : 20, relativeTo: .largeTitle))
                     }
                     .foregroundColor(Color("Blue"))
                     .padding(.vertical, prop.isLandscape ? 20 : 0)
@@ -102,7 +102,7 @@ extension View{
                                         .background(Color.black.opacity(0.2))
                                         .clipShape(Circle())
                                         .padding(-5)
-                                        .frame(width: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 :  20, alignment: .center)
+                                        .frame(width: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 :  20, alignment: .center)
                                 case .failure:
                                     Image(systemName: "person.fill")
                                         .padding(2)
@@ -166,9 +166,9 @@ extension View{
                 .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 18, relativeTo: .largeTitle))
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.blue)
-                .padding(.bottom,5)
+                .padding(.bottom,prop.isiPhoneS ? 2 : prop.isiPhoneM ? 3 : prop.isiPhoneL ? 4 : 5)
             Text(title)
-                .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20, relativeTo: .body))
+                .font(.custom("Bayon", size: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20, relativeTo: .body))
                 .foregroundColor(Color("Blue"))
         }
     }
@@ -239,9 +239,9 @@ extension View{
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color("BG"))
     }
-    func setBackgroundRow(color: String) -> some View {
+    func setBackgroundRow(color: String, prop: Properties) -> some View {
         self
-            .padding()
+            .padding(prop.isiPhoneS ? 12 : prop.isiPhoneM ? 15 : prop.isiPhoneL ? 18 :  20)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
             .background(Color(color))
             .cornerRadius(20)

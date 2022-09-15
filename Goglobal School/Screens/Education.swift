@@ -15,6 +15,7 @@ struct Education: View {
     @State var refreshing: Bool  = false
     @State var confirm: Bool = false
     @State var viewLoading: Bool = false
+    @State var hidingDivider: Bool = false
     @Binding var isLoading: Bool
     let gradient = Color("BG")
     var parentId: String
@@ -44,11 +45,14 @@ struct Education: View {
                         .foregroundColor(.blue)
                 }else{
                     Divider()
+                        .opacity(hidingDivider ? 0:1)
                     if !refreshing{
                         ScrollRefreshable(title: "កំពុងភ្ជាប់", tintColor: .blue) {
                             mainView()
                                 .navigationBarTitleDisplayMode(.inline)
                                 .toolbarView(prop: prop, barTitle: barTitle, profileImg: userProfileImg)
+                                .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
+                                .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
                         }
                     }else{
                         Spacer()
@@ -65,9 +69,14 @@ struct Education: View {
         }
         .refreshable {
             do {
+                students.clearCache()
                 // Sleep for 2 seconds
                 try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
             } catch {}
+            self.hidingDivider = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.hidingDivider = false
+            }
             refreshingView()
             students.StundentAmount(parentId: parentId)
         }
@@ -99,7 +108,7 @@ struct Education: View {
                         .resizable()
                         .clipShape(Circle())
                         .aspectRatio(contentMode: .fill)
-                        .padding(25)
+                        .padding(prop.isiPhoneS ? 20 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 24 : 25)
                 case .failure:
                     Image("student")
                         .resizable()
@@ -110,13 +119,13 @@ struct Education: View {
                     fatalError()
                 }
             }
-            .frame(height:  prop.isiPhoneS ? 130 : prop.isiPhoneM ? 150 : prop.isiPhoneL ? 170 : 180)
+            .frame(height: prop.isiPhoneS ? 140 : prop.isiPhoneM ? 150 : prop.isiPhoneL ? 170 : 180)
             
             HStack{
                 Text(Lastname)
                 Text(Firstname)
             }
-            .padding(3)
+            .padding(2)
             .font(.custom("kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
             .frame(maxWidth: prop.isiPhoneS ? 100 : prop.isiPhoneM ? 110 : prop.isiPhoneL ? 120 : 130)
             .background(.blue)
@@ -125,12 +134,12 @@ struct Education: View {
         }
         .background(.clear)
         .foregroundColor(confirm ? .black : .white)
-        .frame(width: prop.isiPhoneS ? 140 : prop.isiPhoneM ? 160 : prop.isiPhoneL ? 180 : 200, height: prop.isiPhoneS ? 165 : prop.isiPhoneM ? 185 : prop.isiPhoneL ? 220 : 220, alignment: .center)
+        .frame(width: prop.isiPhoneS ? 160 : prop.isiPhoneM ? 170 : prop.isiPhoneL ? 180 : 200, height: prop.isiPhoneS ? 185 : prop.isiPhoneM ? 200 : prop.isiPhoneL ? 220 : 220, alignment: .center)
         .addBorder(.orange,width: 1, cornerRadius: 20)
     }
     @ViewBuilder
     private func mainView()-> some View{
-        VStack(alignment: .leading, spacing: prop.isiPhoneS ? 6 : prop.isiPhoneM ? 8 : 10){
+        VStack(alignment: .leading, spacing: prop.isiPhoneS ? 0 : prop.isiPhoneM ? 8 : 10){
             Text("បុត្រធីតា")
                 .foregroundColor(.blue)
                 .font(.custom("Bayon", size: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 22 : prop.isiPhoneL ? 24:26, relativeTo: .largeTitle))
@@ -138,32 +147,41 @@ struct Education: View {
                 .padding()
                 .background(.clear)
             ZStack {
-                imageStuBG(width: 300)
-                VStack(spacing: 0){
-                    ScrollView(.horizontal, showsIndicators: false){
-                        HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
-                            ForEach(students.AllStudents,id: \.Id){ student in
-                                NavigationLink(
-                                    destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Enrollment: student.Enrollments, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: barTitle,prop: prop),
-                                    label: {
-                                        widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
-                                    }
-                                )
-                            }
+                imageStuBG(prop: prop)
+                ScrollView(.horizontal, showsIndicators: false){
+                    HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
+                        ForEach(students.AllStudents,id: \.Id){ student in
+                            NavigationLink(
+                                destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Enrollment: student.Enrollments, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: barTitle,prop: prop),
+                                label: {
+                                    widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
+                                }
+                            )
                         }
                     }
-                    .padding(.horizontal)
-                    Divider()
-                        .padding(prop.isiPhoneS ? 10 : prop.isiPhoneM ? 13 : prop.isiPhoneL ? 16 : 20)
+                    .frame(width: (prop.isLandscape && (prop.isiPhone || prop.isiPad)) || prop.isiPad ? prop.size.width : .infinity)
                 }
             }
+            Divider()
+            VStack{
+                Text(prop.isiPhoneS ? "iphoneS" : "NO!")
+                Text(prop.isiPhoneM ? "iphoneM" : "NO!")
+                Text(prop.isiPhoneL ? "iphoneL" : "NO!")
+                Text(prop.isLandscape ? "landscape": "NO!")
+                Text(prop.isiPhone ? "iPhone" :"NO!")
+                Text(prop.isiPad ? "ipad" : "NO!")
+                Text(prop.isiPadMini ? "ipadmini" : "NO!")
+                Text(prop.isiPadPro ? "ipadpro" : "NO!")
+            }
+            
         }
+        
     }
 }
 
 struct Education_Previews: PreviewProvider {
     static var previews: some View {
-        let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false, isSplit: false, size: CGSize(width:  0.0, height:  0.0))
+        let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0.0, height:  0.0))
         Education(userProfileImg: "", isLoading: .constant(false), parentId: "", prop: prop)
     }
 }
