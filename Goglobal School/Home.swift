@@ -163,11 +163,13 @@ struct Home: View {
                 } label: {
                     LogoGoglobal(prop:prop)
                 }
+                .opacity(prop.isLandscape && prop.isiPhone ? 0:1)
                 VStack{
                     Text("ចូលប្រើកម្មវិធី")
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 21 : prop.isiPhoneM ? 23 : prop.isiPhoneL ? 25 : 27, relativeTo: .largeTitle))
                         .foregroundColor(Color("ColorTitle"))
                 }
+                .opacity(prop.isLandscape && prop.isiPhone ? 0:1)
                 Spacer()
                 VStack(spacing: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20){
                     VStack(alignment: .leading, spacing: prop.isiPhoneS ? 4 : prop.isiPhoneM ? 6 : prop.isiPhoneL ? 8 : 10) {
@@ -270,6 +272,7 @@ struct Home: View {
                 .frame(maxWidth: prop.isiPad ? 400 : prop.isiPhoneL ? 400 : .infinity )
                 Spacer()
                 footer(prop: prop)
+                    .opacity(prop.isLandscape && prop.isiPhone ? 0:1)
             }
             .padding(prop.isiPhoneS ? 25: prop.isiPhoneM ? 30 : prop.isiPhoneL ? 35 : 40)
             if isLoading{

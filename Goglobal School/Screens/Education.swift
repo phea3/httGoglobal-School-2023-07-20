@@ -139,7 +139,7 @@ struct Education: View {
     }
     @ViewBuilder
     private func mainView()-> some View{
-        VStack(alignment: .leading, spacing: prop.isiPhoneS ? 0 : prop.isiPhoneM ? 8 : 10){
+        VStack(alignment: .leading, spacing: 0){
             Text("បុត្រធីតា")
                 .foregroundColor(.blue)
                 .font(.custom("Bayon", size: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 22 : prop.isiPhoneL ? 24:26, relativeTo: .largeTitle))

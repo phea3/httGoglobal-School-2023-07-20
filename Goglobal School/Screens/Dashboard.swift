@@ -97,7 +97,7 @@ struct Dashboard: View {
     }
     @ViewBuilder
     private func mainView()-> some View{
-        VStack(alignment: .leading,spacing: prop.isiPhoneS ? 0 : prop.isiPhoneM ? 8 : 10){
+        VStack(alignment: .leading,spacing: 0 ){
             ZStack{
                 imageStuBG(prop: prop)
                 ScrollView(.horizontal, showsIndicators: false){
@@ -124,7 +124,7 @@ struct Dashboard: View {
                     .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
                     .foregroundColor(.blue)
             }
-            .padding(.vertical, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 2 : prop.isiPhoneL ? 14 : 16)
+            .padding(.vertical, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
             .hLeading()
             VStack(spacing:prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14){
                 ForEach(Array(academiclist.sortedAcademicYear.enumerated()), id: \.element.code){ index,academic in
@@ -155,7 +155,7 @@ struct Dashboard: View {
                     .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
                     .foregroundColor(.pink)
             }
-            .padding(.vertical, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 2 : prop.isiPhoneL ? 14 : 16)
+            .padding(.vertical, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
             .hLeading()
             if prop.isLandscape || prop.isiPad{
                 ScrollView(.horizontal, showsIndicators: false) {

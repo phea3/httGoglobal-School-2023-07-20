@@ -15,7 +15,6 @@
 		091B223328CC3B9000FE9DBB /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091B223228CC3B9000FE9DBB /* DeepLink.swift */; };
 		091B223628CC465400FE9DBB /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091B223528CC465400FE9DBB /* AuthenticationServices.framework */; };
 		0978AA2C28C5CBC400CD9222 /* ScrollRefreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0978AA2B28C5CBC400CD9222 /* ScrollRefreshable.swift */; };
-		09A060F928BA17E400D1D1FA /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 09A060F828BA17E400D1D1FA /* schema.json */; };
 		09A060FB28BA18A200D1D1FA /* ScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A060FA28BA18A200D1D1FA /* ScheduleViewModel.swift */; };
 		09A060FD28BA199B00D1D1FA /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A060FC28BA199B00D1D1FA /* API.swift */; };
 		09CB496928C1F0E600EF30DC /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09CB496828C1F0E600EF30DC /* TooltipView.swift */; };
@@ -28,6 +27,7 @@
 		09F5198828D1E83100C8B1FD /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5198728D1E83100C8B1FD /* URLImage */; };
 		09F5198B28D1E84C00C8B1FD /* SwiftUITooltip in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5198A28D1E84C00C8B1FD /* SwiftUITooltip */; };
 		09F5198E28D1E86000C8B1FD /* ImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5198D28D1E86000C8B1FD /* ImageViewer */; };
+		09F9140628D3271800BF252B /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 09F9140528D3271800BF252B /* schema.json */; };
 		09FEBC4F28B704E400E8B5B7 /* Goglobal_SchoolApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC4E28B704E400E8B5B7 /* Goglobal_SchoolApp.swift */; };
 		09FEBC5128B704E400E8B5B7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC5028B704E400E8B5B7 /* ContentView.swift */; };
 		09FEBC5328B704E500E8B5B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09FEBC5228B704E500E8B5B7 /* Assets.xcassets */; };
@@ -74,10 +74,10 @@
 		091B223228CC3B9000FE9DBB /* DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
 		091B223528CC465400FE9DBB /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		0978AA2B28C5CBC400CD9222 /* ScrollRefreshable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollRefreshable.swift; sourceTree = "<group>"; };
-		09A060F828BA17E400D1D1FA /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		09A060FA28BA18A200D1D1FA /* ScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewModel.swift; sourceTree = "<group>"; };
 		09A060FC28BA199B00D1D1FA /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = API.swift; path = "Goglobal School/API.swift"; sourceTree = SOURCE_ROOT; };
 		09CB496828C1F0E600EF30DC /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
+		09F9140528D3271800BF252B /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = schema.json; path = "Goglobal School/schema.json"; sourceTree = SOURCE_ROOT; };
 		09FEBC4B28B704E400E8B5B7 /* Goglobal School.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Goglobal School.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09FEBC4E28B704E400E8B5B7 /* Goglobal_SchoolApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goglobal_SchoolApp.swift; sourceTree = "<group>"; };
 		09FEBC5028B704E400E8B5B7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -227,7 +227,7 @@
 				09FEBC7A28B707CB00E8B5B7 /* login.graphql */,
 				09FEBC7C28B707D700E8B5B7 /* upload.graphql */,
 				091B223028CC379900FE9DBB /* apple-app-site-association */,
-				09A060F828BA17E400D1D1FA /* schema.json */,
+				09F9140528D3271800BF252B /* schema.json */,
 				09178C2A28B9AB1E00A507EA /* Screens */,
 				09178C2928B9AAD600A507EA /* Components */,
 				09178C2828B9AA7D00A507EA /* ClassObservables */,
@@ -358,7 +358,7 @@
 				09FEBC7428B7070500E8B5B7 /* Kantumruy-Light.ttf in Resources */,
 				091B223128CC379900FE9DBB /* apple-app-site-association in Resources */,
 				09FEBC7328B7070500E8B5B7 /* Kantumruy-Bold.ttf in Resources */,
-				09A060F928BA17E400D1D1FA /* schema.json in Resources */,
+				09F9140628D3271800BF252B /* schema.json in Resources */,
 				09FEBC5628B704E500E8B5B7 /* Preview Assets.xcassets in Resources */,
 				09FEBC5328B704E500E8B5B7 /* Assets.xcassets in Resources */,
 				09FEBC7D28B707D700E8B5B7 /* upload.graphql in Resources */,

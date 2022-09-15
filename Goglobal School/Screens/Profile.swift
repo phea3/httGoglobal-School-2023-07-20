@@ -78,6 +78,7 @@ struct Profile: View {
                                     }
                                     .navigationBarItems(leading: btnBack)
                                     .navigationBarTitleDisplayMode(.inline)
+                                    .padding(.top)
                                     .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
                                     .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
                                 }

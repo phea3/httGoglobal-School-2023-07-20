@@ -190,7 +190,7 @@ extension View{
             VStack{
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                    .scaleEffect(prop.isiPhoneS ? 1 : prop.isiPhoneM ? 1: prop.isiPhoneL ? 1 : 2)
+                    .scaleEffect(prop.isiPhoneS ? 1 : prop.isiPhoneM ? 1: prop.isiPhoneL ? 1 : 1)
                 Text("កំពុងភ្ជាប់")
                     .foregroundColor(.blue)
             }
