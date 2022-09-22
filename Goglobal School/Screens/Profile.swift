@@ -11,6 +11,7 @@ import URLImage
 import ImageViewer
 
 struct Profile: View {
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject var logout: LoginViewModel
     @StateObject var uploadImg: UpdateMobileUserProfileImg
@@ -41,6 +42,7 @@ struct Profile: View {
     let gradient = Color("BG")
     var prop: Properties
     var btnBack : some View { btnBackView(prop: prop, title: "គណនី").opacity(showImage || showingBG ? 0:1)}
+    
     var body: some View {
         NavigationView{
             ZStack{

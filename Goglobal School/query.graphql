@@ -1,10 +1,22 @@
 
-query GetEvents {
-  getEvents {
+query GetEvents($academicYearId: ID) {
+  getEvents(academicYearId: $academicYearId) {
     _id
     eventName
     eventNameKhmer
     eventDate
+    endEventDate
+    academicYearId {
+      _id
+      academicYear
+    }
+  }
+}
+
+query GetActiveAcademicYear {
+  getActiveAcademicYear {
+    _id
+    academicYear
   }
 }
 
@@ -108,5 +120,25 @@ query GetSectionShiftByClassId($classId: ID, $academicYearId: ID, $programId: ID
         lastName
       }
     }
+  }
+}
+
+query GetEnrollmentByStudents($studentId: ID) {
+  getEnrollmentByStudents(studentId: $studentId) {
+    enrollmentId
+    firstName
+    lastName
+    englishName
+    programName
+    programId
+    gradeName
+    gradeId
+    shiftName
+    shiftId
+    className
+    classId
+    academicYearName
+    academicYearId
+    status
   }
 }

@@ -13,9 +13,10 @@ import ImageViewer
 
 struct Home: View {
     
+    @Environment(\.openURL) var openURL
     @ObservedObject var loginVM: LoginViewModel = LoginViewModel()
+    @StateObject var academiclist: ListViewModel =  ListViewModel()
     @StateObject var monitor = Monitor()
-    
     init(){
         UITabBar.appearance().isHidden = true
         self.tooltipConfig.enableAnimation = true
@@ -23,7 +24,6 @@ struct Home: View {
         self.tooltipConfig.animationTime = 1
         self.tooltipConfig.borderColor = .blue
     }
-    
     @State var currentTab: Tab = .dashboard
     @State var animationFinished: Bool = false
     @State var animationStarted: Bool = false
@@ -41,6 +41,7 @@ struct Home: View {
     @State private var showingPassword: Bool = false
     @State private var noConnention: Bool = false
     @State private var showingImage: Bool = false
+    @State private var showingAlertUpdate = true
     @State var image = Image("GoGlobalSchool")
     var tooltipConfig = DefaultTooltipConfig()
     
@@ -78,9 +79,11 @@ struct Home: View {
             }
             .alert("គ្មានអ៉ីនធើណេត", isPresented: $noConnention) {
                         Button("OK", role: .cancel) { }
-                    }
-            .ignoresSafeArea()
+                }
             .onAppear{
+                VersionCheck.shared.checkAppStore() { isNew, version, linker in
+                    print("IS NEW VERSION AVAILABLE: \(String(describing: isNew)), APP STORE VERSION: \(String(describing: version)), APP TRACK VIEW URL: \(String(describing: linker))")
+                    }
                 if !loginVM.isAuthenticated{
                     DispatchQueue.main.async {
                         self.isLoading = false
@@ -96,8 +99,8 @@ struct Home: View {
                         self.noConnention = true
                     }
                 }
-                print(noConnention)
             }
+            .ignoresSafeArea()
         }
         .ignoresSafeArea(.container, edges: .leading)
     }
@@ -107,21 +110,29 @@ struct Home: View {
         ZStack{
             TabView(selection: $currentTab){
                 // MARK: Need to Apply BG For Each Tab View
-                Dashboard(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, parentId: loginVM.userId, prop: prop)
+                Dashboard(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, parentId: loginVM.userId, activeYear: academiclist.academicYearId, prop: prop)
                     .tag(Tab.dashboard)
-                Education(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, parentId: loginVM.userId, prop: prop)
+                Education(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, parentId: loginVM.userId, academicYearName: academiclist.khmerYear, prop: prop)
                     .tag(Tab.education)
-                Calendar(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, prop: prop)
+                Calendar(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, prop: prop, activeYear: academiclist.academicYearId)
                     .tag(Tab.bag)
                 Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, hideTab: $hideTab, checkState: $checkState, prop: prop)
                     .tag(Tab.book)
             }
+            .alert("សូមធ្វើការដំឡើង Version \(VersionCheck.shared.appStoreVersion ?? "") នៅក្នុង App Store!", isPresented: .constant(VersionCheck.shared.newVersionAvailable ?? false)) {
+                        Button("យល់ព្រម") {openURL(URL(string: VersionCheck.shared.appLinkToAppStore ?? "")!) }
+                        Button("មិនយល់ព្រម", role: .cancel)  { }
+                    }
+            .alert("គ្មានអ៉ីនធើណេត", isPresented: $noConnention) {
+                        Button("OK", role: .cancel) { }
+                }
             // MARK: Custom to Bar
             CustomTabBar(currentTab: $currentTab,prop: prop)
                 .background(RoundedCorners(color: .white, tl: 30, tr: 30, bl: 0, br: 0))
                 .frame(maxWidth: prop.isLandscape || prop.isSplit ? 400 : prop.isiPad ? 400 : .infinity, maxHeight: .infinity, alignment: .bottom)
                 .opacity( hideTab ? 0 : animationStarted ? 1:0)
                 .onAppear{
+                    academiclist.activeAcademicYear()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                         withAnimation(.easeInOut(duration: 0.7)){
                             animationStarted = true

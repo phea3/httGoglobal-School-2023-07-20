@@ -215,7 +215,7 @@ public final class LoginMutation: GraphQLMutation {
           public static var selections: [GraphQLSelection] {
             return [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-              GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("_id", type: .scalar(GraphQLID.self)),
               GraphQLField("role", type: .scalar(String.self)),
               GraphQLField("permanentProvince", type: .scalar(String.self)),
               GraphQLField("firstName", type: .scalar(String.self)),
@@ -239,7 +239,7 @@ public final class LoginMutation: GraphQLMutation {
             self.resultMap = unsafeResultMap
           }
 
-          public init(_id: GraphQLID, role: String? = nil, permanentProvince: String? = nil, firstName: String? = nil, lastName: String? = nil, englishName: String? = nil, gender: String? = nil, tel: String? = nil, nationality: String? = nil, village: String? = nil, commune: String? = nil, district: String? = nil, province: String? = nil, dob: String? = nil, createdAt: String? = nil) {
+          public init(_id: GraphQLID? = nil, role: String? = nil, permanentProvince: String? = nil, firstName: String? = nil, lastName: String? = nil, englishName: String? = nil, gender: String? = nil, tel: String? = nil, nationality: String? = nil, village: String? = nil, commune: String? = nil, district: String? = nil, province: String? = nil, dob: String? = nil, createdAt: String? = nil) {
             self.init(unsafeResultMap: ["__typename": "PersonalInfo", "_id": _id, "role": role, "permanentProvince": permanentProvince, "firstName": firstName, "lastName": lastName, "englishName": englishName, "gender": gender, "tel": tel, "nationality": nationality, "village": village, "commune": commune, "district": district, "province": province, "dob": dob, "createdAt": createdAt])
           }
 
@@ -252,9 +252,9 @@ public final class LoginMutation: GraphQLMutation {
             }
           }
 
-          public var _id: GraphQLID {
+          public var _id: GraphQLID? {
             get {
-              return resultMap["_id"]! as! GraphQLID
+              return resultMap["_id"] as? GraphQLID
             }
             set {
               resultMap.updateValue(newValue, forKey: "_id")
@@ -396,20 +396,33 @@ public final class GetEventsQuery: GraphQLQuery {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =
     """
-    query GetEvents {
-      getEvents {
+    query GetEvents($academicYearId: ID) {
+      getEvents(academicYearId: $academicYearId) {
         __typename
         _id
         eventName
         eventNameKhmer
         eventDate
+        endEventDate
+        academicYearId {
+          __typename
+          _id
+          academicYear
+        }
       }
     }
     """
 
   public let operationName: String = "GetEvents"
 
-  public init() {
+  public var academicYearId: GraphQLID?
+
+  public init(academicYearId: GraphQLID? = nil) {
+    self.academicYearId = academicYearId
+  }
+
+  public var variables: GraphQLMap? {
+    return ["academicYearId": academicYearId]
   }
 
   public struct Data: GraphQLSelectionSet {
@@ -417,7 +430,7 @@ public final class GetEventsQuery: GraphQLQuery {
 
     public static var selections: [GraphQLSelection] {
       return [
-        GraphQLField("getEvents", type: .nonNull(.list(.nonNull(.object(GetEvent.selections))))),
+        GraphQLField("getEvents", arguments: ["academicYearId": GraphQLVariable("academicYearId")], type: .nonNull(.list(.nonNull(.object(GetEvent.selections))))),
       ]
     }
 
@@ -450,6 +463,8 @@ public final class GetEventsQuery: GraphQLQuery {
           GraphQLField("eventName", type: .scalar(String.self)),
           GraphQLField("eventNameKhmer", type: .scalar(String.self)),
           GraphQLField("eventDate", type: .scalar(String.self)),
+          GraphQLField("endEventDate", type: .scalar(String.self)),
+          GraphQLField("academicYearId", type: .object(AcademicYearId.selections)),
         ]
       }
 
@@ -459,8 +474,8 @@ public final class GetEventsQuery: GraphQLQuery {
         self.resultMap = unsafeResultMap
       }
 
-      public init(_id: GraphQLID? = nil, eventName: String? = nil, eventNameKhmer: String? = nil, eventDate: String? = nil) {
-        self.init(unsafeResultMap: ["__typename": "Event", "_id": _id, "eventName": eventName, "eventNameKhmer": eventNameKhmer, "eventDate": eventDate])
+      public init(_id: GraphQLID? = nil, eventName: String? = nil, eventNameKhmer: String? = nil, eventDate: String? = nil, endEventDate: String? = nil, academicYearId: AcademicYearId? = nil) {
+        self.init(unsafeResultMap: ["__typename": "Event", "_id": _id, "eventName": eventName, "eventNameKhmer": eventNameKhmer, "eventDate": eventDate, "endEventDate": endEventDate, "academicYearId": academicYearId.flatMap { (value: AcademicYearId) -> ResultMap in value.resultMap }])
       }
 
       public var __typename: String {
@@ -505,6 +520,170 @@ public final class GetEventsQuery: GraphQLQuery {
         }
         set {
           resultMap.updateValue(newValue, forKey: "eventDate")
+        }
+      }
+
+      public var endEventDate: String? {
+        get {
+          return resultMap["endEventDate"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "endEventDate")
+        }
+      }
+
+      public var academicYearId: AcademicYearId? {
+        get {
+          return (resultMap["academicYearId"] as? ResultMap).flatMap { AcademicYearId(unsafeResultMap: $0) }
+        }
+        set {
+          resultMap.updateValue(newValue?.resultMap, forKey: "academicYearId")
+        }
+      }
+
+      public struct AcademicYearId: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["AcademicYear"]
+
+        public static var selections: [GraphQLSelection] {
+          return [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("_id", type: .scalar(GraphQLID.self)),
+            GraphQLField("academicYear", type: .scalar(String.self)),
+          ]
+        }
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(_id: GraphQLID? = nil, academicYear: String? = nil) {
+          self.init(unsafeResultMap: ["__typename": "AcademicYear", "_id": _id, "academicYear": academicYear])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var _id: GraphQLID? {
+          get {
+            return resultMap["_id"] as? GraphQLID
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "_id")
+          }
+        }
+
+        public var academicYear: String? {
+          get {
+            return resultMap["academicYear"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "academicYear")
+          }
+        }
+      }
+    }
+  }
+}
+
+public final class GetActiveAcademicYearQuery: GraphQLQuery {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    query GetActiveAcademicYear {
+      getActiveAcademicYear {
+        __typename
+        _id
+        academicYear
+      }
+    }
+    """
+
+  public let operationName: String = "GetActiveAcademicYear"
+
+  public init() {
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Query"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("getActiveAcademicYear", type: .list(.object(GetActiveAcademicYear.selections))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(getActiveAcademicYear: [GetActiveAcademicYear?]? = nil) {
+      self.init(unsafeResultMap: ["__typename": "Query", "getActiveAcademicYear": getActiveAcademicYear.flatMap { (value: [GetActiveAcademicYear?]) -> [ResultMap?] in value.map { (value: GetActiveAcademicYear?) -> ResultMap? in value.flatMap { (value: GetActiveAcademicYear) -> ResultMap in value.resultMap } } }])
+    }
+
+    public var getActiveAcademicYear: [GetActiveAcademicYear?]? {
+      get {
+        return (resultMap["getActiveAcademicYear"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [GetActiveAcademicYear?] in value.map { (value: ResultMap?) -> GetActiveAcademicYear? in value.flatMap { (value: ResultMap) -> GetActiveAcademicYear in GetActiveAcademicYear(unsafeResultMap: value) } } }
+      }
+      set {
+        resultMap.updateValue(newValue.flatMap { (value: [GetActiveAcademicYear?]) -> [ResultMap?] in value.map { (value: GetActiveAcademicYear?) -> ResultMap? in value.flatMap { (value: GetActiveAcademicYear) -> ResultMap in value.resultMap } } }, forKey: "getActiveAcademicYear")
+      }
+    }
+
+    public struct GetActiveAcademicYear: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["AcademicYear"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("_id", type: .scalar(GraphQLID.self)),
+          GraphQLField("academicYear", type: .scalar(String.self)),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(_id: GraphQLID? = nil, academicYear: String? = nil) {
+        self.init(unsafeResultMap: ["__typename": "AcademicYear", "_id": _id, "academicYear": academicYear])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var _id: GraphQLID? {
+        get {
+          return resultMap["_id"] as? GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "_id")
+        }
+      }
+
+      public var academicYear: String? {
+        get {
+          return resultMap["academicYear"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "academicYear")
         }
       }
     }
@@ -599,7 +778,7 @@ public final class GetStudentsByParentsQuery: GraphQLQuery {
       public static var selections: [GraphQLSelection] {
         return [
           GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-          GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+          GraphQLField("_id", type: .scalar(GraphQLID.self)),
           GraphQLField("firstName", type: .scalar(String.self)),
           GraphQLField("lastName", type: .scalar(String.self)),
           GraphQLField("enrollments", type: .list(.object(Enrollment.selections))),
@@ -613,7 +792,7 @@ public final class GetStudentsByParentsQuery: GraphQLQuery {
         self.resultMap = unsafeResultMap
       }
 
-      public init(_id: GraphQLID, firstName: String? = nil, lastName: String? = nil, enrollments: [Enrollment?]? = nil, profileImg: String? = nil) {
+      public init(_id: GraphQLID? = nil, firstName: String? = nil, lastName: String? = nil, enrollments: [Enrollment?]? = nil, profileImg: String? = nil) {
         self.init(unsafeResultMap: ["__typename": "PersonalInfo", "_id": _id, "firstName": firstName, "lastName": lastName, "enrollments": enrollments.flatMap { (value: [Enrollment?]) -> [ResultMap?] in value.map { (value: Enrollment?) -> ResultMap? in value.flatMap { (value: Enrollment) -> ResultMap in value.resultMap } } }, "profileImg": profileImg])
       }
 
@@ -626,9 +805,9 @@ public final class GetStudentsByParentsQuery: GraphQLQuery {
         }
       }
 
-      public var _id: GraphQLID {
+      public var _id: GraphQLID? {
         get {
-          return resultMap["_id"]! as! GraphQLID
+          return resultMap["_id"] as? GraphQLID
         }
         set {
           resultMap.updateValue(newValue, forKey: "_id")
@@ -677,7 +856,7 @@ public final class GetStudentsByParentsQuery: GraphQLQuery {
         public static var selections: [GraphQLSelection] {
           return [
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-            GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+            GraphQLField("_id", type: .scalar(GraphQLID.self)),
             GraphQLField("programId", type: .object(ProgramId.selections)),
             GraphQLField("academicYearId", type: .object(AcademicYearId.selections)),
             GraphQLField("gradeId", type: .object(GradeId.selections)),
@@ -694,7 +873,7 @@ public final class GetStudentsByParentsQuery: GraphQLQuery {
           self.resultMap = unsafeResultMap
         }
 
-        public init(_id: GraphQLID, programId: ProgramId? = nil, academicYearId: AcademicYearId? = nil, gradeId: GradeId? = nil, startDate: String? = nil, endDate: String? = nil, classId: ClassId? = nil, className: String? = nil) {
+        public init(_id: GraphQLID? = nil, programId: ProgramId? = nil, academicYearId: AcademicYearId? = nil, gradeId: GradeId? = nil, startDate: String? = nil, endDate: String? = nil, classId: ClassId? = nil, className: String? = nil) {
           self.init(unsafeResultMap: ["__typename": "Enrollment", "_id": _id, "programId": programId.flatMap { (value: ProgramId) -> ResultMap in value.resultMap }, "academicYearId": academicYearId.flatMap { (value: AcademicYearId) -> ResultMap in value.resultMap }, "gradeId": gradeId.flatMap { (value: GradeId) -> ResultMap in value.resultMap }, "startDate": startDate, "endDate": endDate, "classId": classId.flatMap { (value: ClassId) -> ResultMap in value.resultMap }, "className": className])
         }
 
@@ -707,9 +886,9 @@ public final class GetStudentsByParentsQuery: GraphQLQuery {
           }
         }
 
-        public var _id: GraphQLID {
+        public var _id: GraphQLID? {
           get {
-            return resultMap["_id"]! as! GraphQLID
+            return resultMap["_id"] as? GraphQLID
           }
           set {
             resultMap.updateValue(newValue, forKey: "_id")
@@ -1914,7 +2093,7 @@ public final class GetSectionShiftByClassIdQuery: GraphQLQuery {
           public static var selections: [GraphQLSelection] {
             return [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-              GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("_id", type: .scalar(GraphQLID.self)),
               GraphQLField("firstName", type: .scalar(String.self)),
               GraphQLField("lastName", type: .scalar(String.self)),
               GraphQLField("englishName", type: .scalar(String.self)),
@@ -1927,7 +2106,7 @@ public final class GetSectionShiftByClassIdQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public init(_id: GraphQLID, firstName: String? = nil, lastName: String? = nil, englishName: String? = nil) {
+          public init(_id: GraphQLID? = nil, firstName: String? = nil, lastName: String? = nil, englishName: String? = nil) {
             self.init(unsafeResultMap: ["__typename": "PersonalInfo", "_id": _id, "firstName": firstName, "lastName": lastName, "englishName": englishName])
           }
 
@@ -1940,9 +2119,9 @@ public final class GetSectionShiftByClassIdQuery: GraphQLQuery {
             }
           }
 
-          public var _id: GraphQLID {
+          public var _id: GraphQLID? {
             get {
-              return resultMap["_id"]! as! GraphQLID
+              return resultMap["_id"] as? GraphQLID
             }
             set {
               resultMap.updateValue(newValue, forKey: "_id")
@@ -1983,7 +2162,7 @@ public final class GetSectionShiftByClassIdQuery: GraphQLQuery {
           public static var selections: [GraphQLSelection] {
             return [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-              GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("_id", type: .scalar(GraphQLID.self)),
               GraphQLField("firstName", type: .scalar(String.self)),
               GraphQLField("lastName", type: .scalar(String.self)),
             ]
@@ -1995,7 +2174,7 @@ public final class GetSectionShiftByClassIdQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public init(_id: GraphQLID, firstName: String? = nil, lastName: String? = nil) {
+          public init(_id: GraphQLID? = nil, firstName: String? = nil, lastName: String? = nil) {
             self.init(unsafeResultMap: ["__typename": "PersonalInfo", "_id": _id, "firstName": firstName, "lastName": lastName])
           }
 
@@ -2008,9 +2187,9 @@ public final class GetSectionShiftByClassIdQuery: GraphQLQuery {
             }
           }
 
-          public var _id: GraphQLID {
+          public var _id: GraphQLID? {
             get {
-              return resultMap["_id"]! as! GraphQLID
+              return resultMap["_id"] as? GraphQLID
             }
             set {
               resultMap.updateValue(newValue, forKey: "_id")
@@ -2034,6 +2213,253 @@ public final class GetSectionShiftByClassIdQuery: GraphQLQuery {
               resultMap.updateValue(newValue, forKey: "lastName")
             }
           }
+        }
+      }
+    }
+  }
+}
+
+public final class GetEnrollmentByStudentsQuery: GraphQLQuery {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    query GetEnrollmentByStudents($studentId: ID) {
+      getEnrollmentByStudents(studentId: $studentId) {
+        __typename
+        enrollmentId
+        firstName
+        lastName
+        englishName
+        programName
+        programId
+        gradeName
+        gradeId
+        shiftName
+        shiftId
+        className
+        classId
+        academicYearName
+        academicYearId
+        status
+      }
+    }
+    """
+
+  public let operationName: String = "GetEnrollmentByStudents"
+
+  public var studentId: GraphQLID?
+
+  public init(studentId: GraphQLID? = nil) {
+    self.studentId = studentId
+  }
+
+  public var variables: GraphQLMap? {
+    return ["studentId": studentId]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Query"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("getEnrollmentByStudents", arguments: ["studentId": GraphQLVariable("studentId")], type: .list(.object(GetEnrollmentByStudent.selections))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(getEnrollmentByStudents: [GetEnrollmentByStudent?]? = nil) {
+      self.init(unsafeResultMap: ["__typename": "Query", "getEnrollmentByStudents": getEnrollmentByStudents.flatMap { (value: [GetEnrollmentByStudent?]) -> [ResultMap?] in value.map { (value: GetEnrollmentByStudent?) -> ResultMap? in value.flatMap { (value: GetEnrollmentByStudent) -> ResultMap in value.resultMap } } }])
+    }
+
+    public var getEnrollmentByStudents: [GetEnrollmentByStudent?]? {
+      get {
+        return (resultMap["getEnrollmentByStudents"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [GetEnrollmentByStudent?] in value.map { (value: ResultMap?) -> GetEnrollmentByStudent? in value.flatMap { (value: ResultMap) -> GetEnrollmentByStudent in GetEnrollmentByStudent(unsafeResultMap: value) } } }
+      }
+      set {
+        resultMap.updateValue(newValue.flatMap { (value: [GetEnrollmentByStudent?]) -> [ResultMap?] in value.map { (value: GetEnrollmentByStudent?) -> ResultMap? in value.flatMap { (value: GetEnrollmentByStudent) -> ResultMap in value.resultMap } } }, forKey: "getEnrollmentByStudents")
+      }
+    }
+
+    public struct GetEnrollmentByStudent: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["GetEnrollmentDataActiveYear"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("enrollmentId", type: .scalar(GraphQLID.self)),
+          GraphQLField("firstName", type: .scalar(String.self)),
+          GraphQLField("lastName", type: .scalar(String.self)),
+          GraphQLField("englishName", type: .scalar(String.self)),
+          GraphQLField("programName", type: .scalar(String.self)),
+          GraphQLField("programId", type: .scalar(GraphQLID.self)),
+          GraphQLField("gradeName", type: .scalar(String.self)),
+          GraphQLField("gradeId", type: .scalar(GraphQLID.self)),
+          GraphQLField("shiftName", type: .scalar(String.self)),
+          GraphQLField("shiftId", type: .scalar(GraphQLID.self)),
+          GraphQLField("className", type: .scalar(String.self)),
+          GraphQLField("classId", type: .scalar(GraphQLID.self)),
+          GraphQLField("academicYearName", type: .scalar(String.self)),
+          GraphQLField("academicYearId", type: .scalar(GraphQLID.self)),
+          GraphQLField("status", type: .scalar(Bool.self)),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(enrollmentId: GraphQLID? = nil, firstName: String? = nil, lastName: String? = nil, englishName: String? = nil, programName: String? = nil, programId: GraphQLID? = nil, gradeName: String? = nil, gradeId: GraphQLID? = nil, shiftName: String? = nil, shiftId: GraphQLID? = nil, className: String? = nil, classId: GraphQLID? = nil, academicYearName: String? = nil, academicYearId: GraphQLID? = nil, status: Bool? = nil) {
+        self.init(unsafeResultMap: ["__typename": "GetEnrollmentDataActiveYear", "enrollmentId": enrollmentId, "firstName": firstName, "lastName": lastName, "englishName": englishName, "programName": programName, "programId": programId, "gradeName": gradeName, "gradeId": gradeId, "shiftName": shiftName, "shiftId": shiftId, "className": className, "classId": classId, "academicYearName": academicYearName, "academicYearId": academicYearId, "status": status])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var enrollmentId: GraphQLID? {
+        get {
+          return resultMap["enrollmentId"] as? GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "enrollmentId")
+        }
+      }
+
+      public var firstName: String? {
+        get {
+          return resultMap["firstName"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "firstName")
+        }
+      }
+
+      public var lastName: String? {
+        get {
+          return resultMap["lastName"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "lastName")
+        }
+      }
+
+      public var englishName: String? {
+        get {
+          return resultMap["englishName"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "englishName")
+        }
+      }
+
+      public var programName: String? {
+        get {
+          return resultMap["programName"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "programName")
+        }
+      }
+
+      public var programId: GraphQLID? {
+        get {
+          return resultMap["programId"] as? GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "programId")
+        }
+      }
+
+      public var gradeName: String? {
+        get {
+          return resultMap["gradeName"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "gradeName")
+        }
+      }
+
+      public var gradeId: GraphQLID? {
+        get {
+          return resultMap["gradeId"] as? GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "gradeId")
+        }
+      }
+
+      public var shiftName: String? {
+        get {
+          return resultMap["shiftName"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "shiftName")
+        }
+      }
+
+      public var shiftId: GraphQLID? {
+        get {
+          return resultMap["shiftId"] as? GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "shiftId")
+        }
+      }
+
+      public var className: String? {
+        get {
+          return resultMap["className"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "className")
+        }
+      }
+
+      public var classId: GraphQLID? {
+        get {
+          return resultMap["classId"] as? GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "classId")
+        }
+      }
+
+      public var academicYearName: String? {
+        get {
+          return resultMap["academicYearName"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "academicYearName")
+        }
+      }
+
+      public var academicYearId: GraphQLID? {
+        get {
+          return resultMap["academicYearId"] as? GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "academicYearId")
+        }
+      }
+
+      public var status: Bool? {
+        get {
+          return resultMap["status"] as? Bool
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "status")
         }
       }
     }

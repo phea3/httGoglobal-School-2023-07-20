@@ -19,9 +19,8 @@ struct Education: View {
     @Binding var isLoading: Bool
     let gradient = Color("BG")
     var parentId: String
-    var barTitle: String = "ឆ្នាំសិក្សា ២០២១~២០២២"
+    var academicYearName: String
     var prop: Properties
-    
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
@@ -50,7 +49,7 @@ struct Education: View {
                         ScrollRefreshable(title: "កំពុងភ្ជាប់", tintColor: .blue) {
                             mainView()
                                 .navigationBarTitleDisplayMode(.inline)
-                                .toolbarView(prop: prop, barTitle: barTitle, profileImg: userProfileImg)
+                                .toolbarView(prop: prop, barTitle: "ឆ្នាំសិក្សា \(academicYearName)", profileImg: userProfileImg)
                                 .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
                                 .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
                         }
@@ -149,10 +148,10 @@ struct Education: View {
             ZStack {
                 imageStuBG(prop: prop)
                 ScrollView(.horizontal, showsIndicators: false){
-                    HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
+                    HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : prop.isiPhoneL ? 12 : 14){
                         ForEach(students.AllStudents,id: \.Id){ student in
                             NavigationLink(
-                                destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Enrollment: student.Enrollments, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: barTitle,prop: prop),
+                                destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Enrollment: student.Enrollments, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: "ឆ្នាំសិក្សា \(academicYearName)",studentID: student.Id, prop: prop),
                                 label: {
                                     widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
                                 }
@@ -163,25 +162,13 @@ struct Education: View {
                 }
             }
             Divider()
-            VStack{
-                Text(prop.isiPhoneS ? "iphoneS" : "NO!")
-                Text(prop.isiPhoneM ? "iphoneM" : "NO!")
-                Text(prop.isiPhoneL ? "iphoneL" : "NO!")
-                Text(prop.isLandscape ? "landscape": "NO!")
-                Text(prop.isiPhone ? "iPhone" :"NO!")
-                Text(prop.isiPad ? "ipad" : "NO!")
-                Text(prop.isiPadMini ? "ipadmini" : "NO!")
-                Text(prop.isiPadPro ? "ipadpro" : "NO!")
-            }
-            
         }
-        
     }
 }
 
 struct Education_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0.0, height:  0.0))
-        Education(userProfileImg: "", isLoading: .constant(false), parentId: "", prop: prop)
+        Education(userProfileImg: "", isLoading: .constant(false), parentId: "", academicYearName: "", prop: prop)
     }
 }

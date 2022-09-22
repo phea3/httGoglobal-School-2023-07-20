@@ -6,11 +6,25 @@
 //
 
 import Foundation
+import SwiftUI
 
 class ListViewModel: ObservableObject{
     // MARK: ALL Academic Views
     @Published var academicYear: [AcademicViewModel] = []
+    @Published var academicYear2: [AcademicViewModel] = []
+    @Published var activeYear: [activeAcademicYearModel] = []
     @Published var Error: Bool = false
+    @Published var arrayStringObject = []
+    @Published var academicYearId: String = ""
+    @Published var academicYearName: String = ""
+    let isYes = NSCalendar.current.date(byAdding: .hour, value: -12, to: Date())
+    var khmerYear: String{
+        get {
+            academicYearName == "2023-2024" ? "២០២៣~២០២៤" : academicYearName == "2022-2023" ? "២០២២~២០២៣" : academicYearName == "2021-2022" ? "២០២១~២០២២" : "២០១៥~២០២២"
+        }set{
+            academicYearName = newValue
+        }
+    }
     var sortedAcademicYear: [AcademicViewModel]{
         get {
             academicYear.sorted(by: { $0.date < $1.date})
@@ -19,18 +33,28 @@ class ListViewModel: ObservableObject{
             academicYear = newValue
         }
     }
+    var removeExpireDate: [AcademicViewModel]{
+       
+        get {
+            sortedAcademicYear.filter{ isCurrentEvents(date: $0.date) > isYes! }
+        }set{
+            sortedAcademicYear = newValue
+        }
+    }
     func clearCache(){
         Network.shared.apollo.clearCache()
     }
+    
     // MARK: Function Mapping All Events
-    func populateAllContinent() {
-        Network.shared.apollo.fetch(query: GetEventsQuery()) { [weak self] result in
+    func populateAllContinent(academicYearId: String) {
+        Network.shared.apollo.fetch(query: GetEventsQuery(academicYearId: academicYearId)) { [weak self] result in
             
             switch result{
             case .success(let GraphQLResutl):
                 if let academicYear = GraphQLResutl.data?.getEvents {
                     DispatchQueue.main.async {
                         self?.academicYear = academicYear.map(AcademicViewModel.init)
+                        self?.academicYear2 = academicYear.map(AcademicViewModel.init)
                     }
                 }
             case .failure:
@@ -40,70 +64,236 @@ class ListViewModel: ObservableObject{
             }
         }
     }
+    func activeAcademicYear(){
+        Network.shared.apollo.fetch(query: GetActiveAcademicYearQuery()){ [weak self] result in
+            switch result{
+            case .success(let grahpQLResult):
+                if let activeYear = grahpQLResult.data?.getActiveAcademicYear{
+                    self?.activeYear = activeYear.map(activeAcademicYearModel.init)
+                }
+                if let firstElement = self?.activeYear.first {
+                    DispatchQueue.main.async {
+                        self?.academicYearId = firstElement.id
+                        self?.academicYearName = firstElement.activeYearName
+                    }
+                }
+            case .failure(let graphQLError):
+                print(graphQLError)
+            }
+        }
+    }
+    func datesRange(from: Date, to: Date) -> [Date] {
+        // in case of the "from" date is more than "to" date,
+        // it should returns an empty array:
+        if from > to { return [Date]() }
+
+        var tempDate = from
+        var array = [tempDate]
+
+        while tempDate < to {
+            tempDate = NSCalendar.current.date(byAdding: .day, value: 1, to: tempDate)!
+            array.append(tempDate)
+        }
+        return array
+    }
     func resetEvent(){
         self.academicYear = []
     }
     // MARK: Checking if the currentHour is task hour
-    func isCurrentEvents(date: String)-> Bool{
+    func isCurrentEvents(date: String)-> Date{
         let isoDate = date
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let soDate = dateFormatter.date(from: isoDate)
-        if soDate != nil{
-            let isYes = NSCalendar.current.date(byAdding: .hour, value: -12, to: Date())
-            return ( soDate! > isYes! )
-        }else{
-            return false
-        }
+        return dateFormatter.date(from: isoDate) ?? Date()
+//        if soDate != nil{
+//            let isYes = NSCalendar.current.date(byAdding: .hour, value: -12, to: Date())
+//            let isNo = NSCalendar.current.date(byAdding: .day, value: 30, to: Date())
+//            return ( (soDate! > isYes!) &&  (soDate! < isNo!) )
+//        }else{
+//            return false
+//        }
     }
     // MARK: Func For Date Formatting
-    public func convertDateFormat(inputDate: String) -> String {
-        
-        let isoDate = inputDate
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let date = dateFormatter.date(from:isoDate)
-        
-        if date != nil{
-            let StringFormatter =  DateFormatter()
-            StringFormatter.locale = Locale(identifier: "en_US_POSIX")
-            StringFormatter.dateFormat = "d, MMM yyyy"
-            
-            let blue = StringFormatter.string(from: date!)
-            
-            let aString = blue
-            var newString = aString.replacingOccurrences(of:"Jun", with: "មិថុនា", options: .literal, range: nil)
-            
-            if blue.contains("Jan"){
-                newString = aString.replacingOccurrences(of: "Jan", with: "មករា", options: .literal, range: nil)
-            } else if blue.contains("Feb") {
-                newString = aString.replacingOccurrences(of: "Feb", with: "កុម្ភះ", options: .literal, range: nil)
-            } else if blue.contains("Mar") {
-                newString = aString.replacingOccurrences(of: "Mar", with: "មិនា", options: .literal, range: nil)
-            }  else if blue.contains("Apr") {
-                newString = aString.replacingOccurrences(of: "Apr", with: "មេសា", options: .literal, range: nil)
-            } else if blue.contains("May") {
-                newString = aString.replacingOccurrences(of: "May", with: "ឧសភា", options: .literal, range: nil)
-            } else if blue.contains("Jun") {
-                newString = aString.replacingOccurrences(of: "Jun", with: "មិថុនា", options: .literal, range: nil)
-            }else if blue.contains("Jul") {
-                newString = aString.replacingOccurrences(of: "Jul", with: "កក្កដា", options: .literal, range: nil)
-            }else if blue.contains("Aug") {
-                newString = aString.replacingOccurrences(of: "Aug", with: "សីហា", options: .literal, range: nil)
-            }else if blue.contains("Sep") {
-                newString = aString.replacingOccurrences(of: "Sep", with: "កញ្ញា", options: .literal, range: nil)
-            }else if blue.contains("Oct") {
-                newString = aString.replacingOccurrences(of: "Oct", with: "តុលា", options: .literal, range: nil)
-            }else if blue.contains("Nov") {
-                newString = aString.replacingOccurrences(of: "Nov", with: "វិច្ចិកា", options: .literal, range: nil)
-            }else if blue.contains("Dec") {
-                newString = aString.replacingOccurrences(of: "Dec", with: "ធ្នូ", options: .literal, range: nil)
+        public func convertDateFormater(inputDate: String, inputAnotherDate: String) -> String {
+            if (inputDate == inputAnotherDate) {
+                let isoDate = inputDate
+                let dateFormatter = DateFormatter()
+                dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                let date = dateFormatter.date(from:isoDate)
+                
+                if date != nil{
+                    let StringFormatter =  DateFormatter()
+                    StringFormatter.locale = Locale(identifier: "en_US_POSIX")
+                    StringFormatter.dateFormat = "d, MMM yyyy"
+                    
+                    let blue = StringFormatter.string(from: date!)
+                    
+                    let aString = blue
+                    var newString = aString.replacingOccurrences(of:"Jun", with: "មិថុនា", options: .literal, range: nil)
+                    
+                    if blue.contains("Jan"){
+                        newString = aString.replacingOccurrences(of: "Jan", with: "មករា", options: .literal, range: nil)
+                    } else if blue.contains("Feb") {
+                        newString = aString.replacingOccurrences(of: "Feb", with: "កុម្ភះ", options: .literal, range: nil)
+                    } else if blue.contains("Mar") {
+                        newString = aString.replacingOccurrences(of: "Mar", with: "មិនា", options: .literal, range: nil)
+                    }  else if blue.contains("Apr") {
+                        newString = aString.replacingOccurrences(of: "Apr", with: "មេសា", options: .literal, range: nil)
+                    } else if blue.contains("May") {
+                        newString = aString.replacingOccurrences(of: "May", with: "ឧសភា", options: .literal, range: nil)
+                    } else if blue.contains("Jun") {
+                        newString = aString.replacingOccurrences(of: "Jun", with: "មិថុនា", options: .literal, range: nil)
+                    }else if blue.contains("Jul") {
+                        newString = aString.replacingOccurrences(of: "Jul", with: "កក្កដា", options: .literal, range: nil)
+                    }else if blue.contains("Aug") {
+                        newString = aString.replacingOccurrences(of: "Aug", with: "សីហា", options: .literal, range: nil)
+                    }else if blue.contains("Sep") {
+                        newString = aString.replacingOccurrences(of: "Sep", with: "កញ្ញា", options: .literal, range: nil)
+                    }else if blue.contains("Oct") {
+                        newString = aString.replacingOccurrences(of: "Oct", with: "តុលា", options: .literal, range: nil)
+                    }else if blue.contains("Nov") {
+                        newString = aString.replacingOccurrences(of: "Nov", with: "វិច្ចិកា", options: .literal, range: nil)
+                    }else if blue.contains("Dec") {
+                        newString = aString.replacingOccurrences(of: "Dec", with: "ធ្នូ", options: .literal, range: nil)
+                    }
+                    return newString
+                }
+                return "គ្មានកាលបរិច្ឆេទ"
+            }else{
+                let dateFormatter = DateFormatter()
+                dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                let date1 = dateFormatter.date(from: inputDate)
+                let date2 = dateFormatter.date(from: inputAnotherDate)
+                if (date1 != nil) || date2 != nil {
+                    let StringFormatter1 =  DateFormatter()
+                    let StringFormatter2 =  DateFormatter()
+                    StringFormatter1.locale = Locale(identifier: "en_US_POSIX")
+                    StringFormatter2.locale = Locale(identifier: "en_US_POSIX")
+                    StringFormatter1.dateFormat = "d"
+                    StringFormatter2.dateFormat = " MMM yyyy"
+                    let blue1 = StringFormatter1.string(from: date1!)
+                    let blue3 = StringFormatter2.string(from: date1!)
+                    let blue2 = StringFormatter1.string(from: date2!)
+                    let aString = "\(blue1) ~ \(blue2), \(blue3)"
+                    var newString = aString.replacingOccurrences(of:"Jun", with: "មិថុនា", options: .literal, range: nil)
+                    if aString.contains("Jan"){
+                        newString = aString.replacingOccurrences(of: "Jan", with: "មករា", options: .literal, range: nil)
+                    } else if aString.contains("Feb") {
+                        newString = aString.replacingOccurrences(of: "Feb", with: "កុម្ភះ", options: .literal, range: nil)
+                    } else if aString.contains("Mar") {
+                        newString = aString.replacingOccurrences(of: "Mar", with: "មិនា", options: .literal, range: nil)
+                    }  else if aString.contains("Apr") {
+                        newString = aString.replacingOccurrences(of: "Apr", with: "មេសា", options: .literal, range: nil)
+                    } else if aString.contains("May") {
+                        newString = aString.replacingOccurrences(of: "May", with: "ឧសភា", options: .literal, range: nil)
+                    } else if aString.contains("Jun") {
+                        newString = aString.replacingOccurrences(of: "Jun", with: "មិថុនា", options: .literal, range: nil)
+                    }else if aString.contains("Jul") {
+                        newString = aString.replacingOccurrences(of: "Jul", with: "កក្កដា", options: .literal, range: nil)
+                    }else if aString.contains("Aug") {
+                        newString = aString.replacingOccurrences(of: "Aug", with: "សីហា", options: .literal, range: nil)
+                    }else if aString.contains("Sep") {
+                        newString = aString.replacingOccurrences(of: "Sep", with: "កញ្ញា", options: .literal, range: nil)
+                    }else if aString.contains("Oct") {
+                        newString = aString.replacingOccurrences(of: "Oct", with: "តុលា", options: .literal, range: nil)
+                    }else if aString.contains("Nov") {
+                        newString = aString.replacingOccurrences(of: "Nov", with: "វិច្ចិកា", options: .literal, range: nil)
+                    }else if aString.contains("Dec") {
+                        newString = aString.replacingOccurrences(of: "Dec", with: "ធ្នូ", options: .literal, range: nil)
+                    }
+                    return newString
+                }
+                return "គ្មានកាលបរិច្ឆេទ"
             }
-            return newString
         }
-        return "គ្មានកាលបរិច្ឆេទ"
+   
+    // MARK: Func For Date Formatting
+    public func convertDateFormat(inputDate: String, inputAnotherDate: String) -> [String] {
+        if !(inputDate == inputAnotherDate) {
+            let calendar = NSCalendar.current
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            let date1 = dateFormatter.date(from: inputDate)
+            let date2 = dateFormatter.date(from: inputAnotherDate)
+            if date1 != nil {
+                let result1 = calendar.startOfDay(for: date1!)
+                let result2 = calendar.startOfDay(for: date2!)
+                
+                let components = calendar.dateComponents([.day], from: result1, to: result2).day
+                let nextDays = calendar.date(byAdding: .day, value: components ?? 0, to: result1)!
+                
+                let myRange = datesRange(from: result1, to: nextDays)
+                dateFormatter.dateFormat = "d, MMM yyyy"
+                let finals = myRange.map{
+                    dateFormatter.string(from: $0)
+                }
+                let results = finals.map({
+                        $0
+                        .replacingOccurrences(of: "Jan", with: "មករា", options: .literal, range: nil)
+                        .replacingOccurrences(of: "Feb", with: "កុម្ភះ", options: .literal, range: nil)
+                        .replacingOccurrences(of: "Mar", with: "មិនា", options: .literal, range: nil)
+                        .replacingOccurrences(of: "Apr", with: "មេសា", options: .literal, range: nil)
+                        .replacingOccurrences(of: "May", with: "ឧសភា", options: .literal, range: nil)
+                        .replacingOccurrences(of: "Jun", with: "មិថុនា", options: .literal, range: nil)
+                        .replacingOccurrences(of: "Jul", with: "កក្កដា", options: .literal, range: nil)
+                        .replacingOccurrences(of: "Aug", with: "សីហា", options: .literal, range: nil)
+                        .replacingOccurrences(of: "Sep", with: "កញ្ញា", options: .literal, range: nil)
+                        .replacingOccurrences(of: "Oct", with: "តុលា", options: .literal, range: nil)
+                        .replacingOccurrences(of: "Nov", with: "វិច្ចិកា", options: .literal, range: nil)
+                        .replacingOccurrences(of: "Dec", with: "ធ្នូ", options: .literal, range: nil)
+                })
+                return results
+            }
+            return ["គ្មានកាលបរិច្ឆេទ"]
+        }else{
+            let isoDate = inputDate
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            let date = dateFormatter.date(from:isoDate)
+            if date != nil{
+                let StringFormatter =  DateFormatter()
+                StringFormatter.locale = Locale(identifier: "en_US_POSIX")
+                StringFormatter.dateFormat = "d, MMM yyyy"
+                
+                let blue = StringFormatter.string(from: date!)
+                
+                let aString = blue
+                var newString = aString.replacingOccurrences(of:"Jun", with: "មិថុនា", options: .literal, range: nil)
+                
+                if blue.contains("Jan"){
+                    newString = aString.replacingOccurrences(of: "Jan", with: "មករា", options: .literal, range: nil)
+                } else if blue.contains("Feb") {
+                    newString = aString.replacingOccurrences(of: "Feb", with: "កុម្ភះ", options: .literal, range: nil)
+                } else if blue.contains("Mar") {
+                    newString = aString.replacingOccurrences(of: "Mar", with: "មិនា", options: .literal, range: nil)
+                }  else if blue.contains("Apr") {
+                    newString = aString.replacingOccurrences(of: "Apr", with: "មេសា", options: .literal, range: nil)
+                } else if blue.contains("May") {
+                    newString = aString.replacingOccurrences(of: "May", with: "ឧសភា", options: .literal, range: nil)
+                } else if blue.contains("Jun") {
+                    newString = aString.replacingOccurrences(of: "Jun", with: "មិថុនា", options: .literal, range: nil)
+                }else if blue.contains("Jul") {
+                    newString = aString.replacingOccurrences(of: "Jul", with: "កក្កដា", options: .literal, range: nil)
+                }else if blue.contains("Aug") {
+                    newString = aString.replacingOccurrences(of: "Aug", with: "សីហា", options: .literal, range: nil)
+                }else if blue.contains("Sep") {
+                    newString = aString.replacingOccurrences(of: "Sep", with: "កញ្ញា", options: .literal, range: nil)
+                }else if blue.contains("Oct") {
+                    newString = aString.replacingOccurrences(of: "Oct", with: "តុលា", options: .literal, range: nil)
+                }else if blue.contains("Nov") {
+                    newString = aString.replacingOccurrences(of: "Nov", with: "វិច្ចិកា", options: .literal, range: nil)
+                }else if blue.contains("Dec") {
+                    newString = aString.replacingOccurrences(of: "Dec", with: "ធ្នូ", options: .literal, range: nil)
+                }
+                return [newString]
+            }
+            return ["គ្មានកាលបរិច្ឆេទ"]
+        }
     }
 }
 
@@ -126,5 +316,30 @@ struct AcademicViewModel {
     var eventnameKhmer: String {
         academic.eventNameKhmer ?? ""
     }
+    var enddate: String{
+        academic.endEventDate ?? ""
+    }
+    var academicyear: AcademinYear {
+        academic.academicYearId.map(AcademinYear.init)!
+    }
 }
 
+struct AcademinYear{
+    let academicyear: GetEventsQuery.Data.GetEvent.AcademicYearId
+    var id: String{
+        academicyear._id ?? ""
+    }
+    var year: String{
+        academicyear.academicYear ?? ""
+    }
+}
+
+struct activeAcademicYearModel {
+    let active: GetActiveAcademicYearQuery.Data.GetActiveAcademicYear?
+    var id: String{
+        active?._id ?? ""
+    }
+    var activeYearName: String{
+        active?.academicYear ?? ""
+    }
+}

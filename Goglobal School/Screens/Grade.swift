@@ -10,6 +10,7 @@ struct Grade: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject var enrollments: ListStudentViewModel = ListStudentViewModel()
+    @StateObject var enrollment: EnrollmentViewModel = EnrollmentViewModel()
     @State var ChoseTitle: String = ""
     @State var chose: Chose = .attendance
     @State var isShow: Bool = false
@@ -27,6 +28,7 @@ struct Grade: View {
     let Student: String
     var parentId: String
     var barTitle: String
+    var studentID: String
     var prop: Properties
     var btnBack : some View { Button(action: {
         self.presentationMode.wrappedValue.dismiss()
@@ -50,12 +52,10 @@ struct Grade: View {
                 .padding(.horizontal)
                 .frame(width: .infinity, height: .infinity, alignment: .leading)
                 VStack(spacing: 0){
-                    List(Array(Enrollment.enumerated()), id: \.element.id){ index, item in
-//                        if ((item.AcademicYearId.academicYear.academicYear ?? "") == "2022-2023") {
-                            Choose(Grade: item.GradeId.GradeName , Class: item.ClassName, Year: item.AcademicYearId.AcademicYear, Programme: item.ProgramId.ProgramName, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.classId.Id, academicYearId: item.AcademicYearId.Id, programId: item.ProgramId.Id, color: index % 2 == 0 ? colorOrg: colorBlue, prop:prop)
-                                .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
-                                .backgroundRemover()
-//                        }
+                    List(Array(enrollment.enrollments.enumerated()), id: \.element.EnrollmentId){ index, item in
+                        Choose( Grade: item.GradeName, Class: item.Classname, Year: item.AcademicYearName, Programme: item.Programme, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.ClassId, academicYearId: item.AcademicId, programId: item.ProgrammeId, color: index % 2 == 0 ? colorOrg: colorBlue, prop: prop)
+                            .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
+                            .backgroundRemover()
                     }
                     .listStyle(GroupedListStyle())
                     NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "attendance", selection: $selection) { EmptyView() }
@@ -70,6 +70,7 @@ struct Grade: View {
             .setBG()
             .onAppear(perform: {
                 enrollments.StundentAmount(parentId: parentId)
+                enrollment.getEnrollment(studentId: studentId)
             })
         }
         .navigationBarItems(leading: btnBack)
@@ -147,13 +148,13 @@ struct Choose: View {
                 )
             
             VStack(alignment: .leading){
-                Text(Year)
-                    .listRowBackground(Color.yellow)
-                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
+//                Text(Year)
+//                    .listRowBackground(Color.yellow)
+//                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
                 HStack(spacing: prop.isiPhoneS ? 3 : prop.isiPhoneM ? 4 : 5){
                     Text(Grade)
                         .listRowBackground(Color.yellow)
-                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                     
                     Text(Class)
                         .listRowBackground(Color.yellow)
@@ -222,7 +223,7 @@ struct Grade_Previews: PreviewProvider {
     static var previews: some View {
         let EnrollmentVM = EnrollmentsViewModel(enrollment: GetStudentsByParentsQuery.Data.GetStudentsByParent.Enrollment(_id: ""))
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Grade(studentId: "", userProfileImg: "", Enrollment: [EnrollmentVM], Student: "", parentId: "", barTitle: "",prop: prop)
+        Grade(studentId: "", userProfileImg: "", Enrollment: [EnrollmentVM], Student: "", parentId: "", barTitle: "",studentID: "", prop: prop)
     }
 }
 

@@ -24,18 +24,19 @@ struct Dashboard: View {
     @State var tooltipVisible: Bool = false
     @State var refreshing: Bool = false
     @State var viewLoading: Bool = false
+    @State var timingShow: Int = 0
     @State var hidingDivider: Bool = false
     @Binding var isLoading: Bool
     let gradient = Color.clear
     var barTitle: String = "ទំព័រដើម"
     var parentId: String
+    var activeYear: String
     var prop: Properties
-    
     var body: some View {
         
         NavigationView {
             VStack(spacing:0){
-                if students.AllStudents.isEmpty || academiclist.academicYear.isEmpty{
+                if students.AllStudents.isEmpty{
                     ZStack{
                         if viewLoading{
                             progressingView(prop: prop)
@@ -74,7 +75,7 @@ struct Dashboard: View {
             .setBG()
             .onAppear{
                 AnnoucementList.getAnnoucement()
-                academiclist.populateAllContinent()
+                academiclist.populateAllContinent(academicYearId: activeYear)
                 students.StundentAmount(parentId: parentId)
             }
         }
@@ -89,7 +90,7 @@ struct Dashboard: View {
             }
             refreshingView()
             AnnoucementList.getAnnoucement()
-            academiclist.populateAllContinent()
+            academiclist.populateAllContinent(academicYearId: "")
             students.StundentAmount(parentId: parentId)
         }
         .padOnlyStackNavigationView()
@@ -104,7 +105,7 @@ struct Dashboard: View {
                     HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
                         ForEach(students.AllStudents,id: \.Id) { student in
                             NavigationLink(
-                                destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Enrollment: student.Enrollments, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: barTitle,prop: prop),
+                                destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Enrollment: student.Enrollments, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: barTitle,studentID: student.Id, prop: prop),
                                 label: {
                                     widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
                                 }
@@ -126,34 +127,32 @@ struct Dashboard: View {
             }
             .padding(.vertical, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
             .hLeading()
-            VStack(spacing:prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14){
-                ForEach(Array(academiclist.sortedAcademicYear.enumerated()), id: \.element.code){ index,academic in
-                    if academiclist.isCurrentEvents(date: academic.date) {
-                        HStack(spacing: 20){
-                            graduatedLogo()
-                            VStack(alignment: .leading){
-                                datingEditer(inputCode: academic.date)
-                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
-                                    .listRowBackground(Color.yellow)
-                                Text(academic.eventnameKhmer)
-                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : 15, relativeTo: .body))
-                                    .listRowBackground(Color.yellow)
-                            }
-                        }
-                        .foregroundColor(index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
-                        .setBackgroundRow(color: index % 2 == 0 ?  colorOrg : colorBlue, prop: prop)
-                        .frame(height: prop.isLandscape || prop.isiPad ? 80 : .infinity)
-                    }
+            VStack(spacing:prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 ){
+                ForEach(Array(academiclist.removeExpireDate.prefix(3).enumerated()), id: \.element.code){ index,academic in
+                    HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                       graduatedLogo()
+                       VStack(alignment: .leading){
+                           datingEditer(inputCode: academic.date, inputAnotherDate: academic.enddate)
+                               .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
+                               .listRowBackground(Color.yellow)
+                           Text(academic.eventnameKhmer)
+                               .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : 15, relativeTo: .body))
+                               .listRowBackground(Color.yellow)
+                               .fixedSize(horizontal: false, vertical: true)
+                       }
+                   }
+                   .foregroundColor(index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
+                   .setBackgroundRow(color: index % 2 == 0 ?  colorOrg : colorBlue, prop: prop)
                 }
             }
             HStack(spacing: prop.isiPhoneS ? 2 : prop.isiPhoneM ? 3 : 5){
                 Image(systemName: "megaphone.fill")
                     .font(.system(size:prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18))
-                    .foregroundColor(.pink)
+                    .foregroundColor(Color("News"))
                     .padding(.bottom, 5)
                 Text("ដំណឹងថ្មីៗ")
                     .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
-                    .foregroundColor(.pink)
+                    .foregroundColor(Color("News"))
             }
             .padding(.vertical, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
             .hLeading()
@@ -197,18 +196,17 @@ struct Dashboard: View {
                                         .foregroundColor(.clear)
                                         .overlay(
                                             getGradientOverlay()
-                                                .cornerRadius(30)
+                                                .cornerRadius(20)
                                         )
                                     VStack(spacing: 0){
                                         Text(item.title)
                                             .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
                                             .foregroundColor(.blue)
                                             .padding()
-                                            .shadow(color: .white, radius: 5)
                                             .frame(maxWidth:.infinity, alignment: .leading)
                                     }
                                 }
-                                .frame(maxHeight: prop.isLandscape ? 250 : 250 )
+                                .frame(maxHeight: prop.isLandscape && prop.isiPhone ? 250 : prop.isiPad ? 300 :  250 )
                             }
                             .sheet(isPresented: $showingSheet) {
                                 Annoucements(prop: prop, postId: $detailId)
@@ -235,8 +233,8 @@ struct Dashboard: View {
             self.refreshing = false
         }
     }
-    func datingEditer(inputCode: String) -> some View {
-        Text(academiclist.convertDateFormat(inputDate: inputCode))
+    func datingEditer(inputCode: String, inputAnotherDate: String) -> some View {
+        Text(academiclist.convertDateFormater(inputDate: inputCode,inputAnotherDate: inputAnotherDate))
     }
     func widgetStu(ImageStudent: String, Firstname: String, Lastname: String,prop:Properties) -> some View {
         
@@ -288,7 +286,7 @@ struct Dashboard: View {
 struct Dashboard_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Dashboard(userProfileImg: "", isLoading: .constant(false), parentId: "",prop: prop)
+        Dashboard(userProfileImg: "", isLoading: .constant(false), parentId: "",activeYear: "", prop: prop)
     }
 }
 struct AnnouceButtonView: View{
@@ -336,13 +334,13 @@ struct AnnouceButtonView: View{
                         getGradientOverlay()
                             .cornerRadius(30)
                     )
-                VStack(spacing: 0){
+                HStack(spacing: 0){
                     Text(itemTitle)
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18, relativeTo: .body))
                         .foregroundColor(.blue)
                         .padding()
-                        .shadow(color: .white, radius: 5)
                         .frame(maxWidth:.infinity, alignment: .leading)
+                        
                 }
             }
         }

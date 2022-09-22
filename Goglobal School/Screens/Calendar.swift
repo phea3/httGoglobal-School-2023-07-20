@@ -20,7 +20,7 @@ struct Calendar: View {
     @Binding var isLoading: Bool
     let gradient = Color("BG")
     var prop: Properties
-    
+    var activeYear: String
     var body: some View {
         NavigationView{
             VStack(spacing: 0) {
@@ -63,7 +63,7 @@ struct Calendar: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .onAppear {
-                academiclist.populateAllContinent()
+                academiclist.populateAllContinent(academicYearId: activeYear)
                 DispatchQueue.main.async {
                     self.isLoading = false
                 }
@@ -83,7 +83,7 @@ struct Calendar: View {
                 self.hidingDivider = false
             }
             refreshingView()
-            academiclist.populateAllContinent()
+            academiclist.populateAllContinent(academicYearId: activeYear)
         }
     }
     @ViewBuilder
@@ -106,22 +106,9 @@ struct Calendar: View {
             }
             .foregroundColor(Color("ColorTitle"))
             .hLeading()
-            ForEach(Array(academiclist.academicYear.enumerated()), id: \.element.code){ index, academic in
-                HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                    graduatedLogo()
-                    VStack(alignment: .leading){
-                        datingEditer(inputCode: academic.date)
-                            .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
-                            .listRowBackground(Color.yellow)
-                        Text(academic.eventnameKhmer)
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
-                            .listRowBackground(Color.yellow)
-                    }
-                }
-                .foregroundColor(index % 2 == 0 ?
-                                 Color("bodyOrange") : Color("bodyBlue") )
-                .setBackgroundRow(color: index % 2 == 0 ? colorOrg : colorBlue, prop: prop)
-                .frame(height: prop.isiPhoneM ? 80 : .infinity)
+            ForEach(Array(academiclist.sortedAcademicYear.enumerated()), id: \.element.code){ index,academic in
+                datingEditer(inputCode: academic.date,inputAnotherDate: academic.enddate, EventName: academic.eventnameKhmer, index: index)
+               
             }
         }
     }
@@ -131,15 +118,30 @@ struct Calendar: View {
             self.refreshing = false
         }
     }
-    func datingEditer(inputCode: String) -> some View {
-        Text(academiclist.convertDateFormat(inputDate: inputCode))
+    func datingEditer(inputCode: String, inputAnotherDate: String, EventName: String, index: Int) -> some View {
+        ForEach(Array(academiclist.convertDateFormat(inputDate: inputCode,inputAnotherDate: inputAnotherDate).enumerated()), id: \.element.self){ dex, id in
+            HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                graduatedLogo()
+                VStack(alignment: .leading){
+                   Text(id)
+                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
+                        .listRowBackground(Color.yellow)
+                    Text(EventName)
+                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
+                        .listRowBackground(Color.yellow)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            .foregroundColor(((index % 2 == 0) == (dex % 2 == 0)) ? Color("bodyOrange") : Color("bodyBlue") )
+            .setBackgroundRow(color: ((index % 2 == 0) == (dex % 2 == 0)) ? colorOrg : colorBlue, prop: prop)
+        }
     }
 }
 
 struct Calendar_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Calendar(userProfileImg: "", isLoading: .constant(false), prop: prop)
+        Calendar(userProfileImg: "", isLoading: .constant(false), prop: prop, activeYear: "")
     }
 }
 

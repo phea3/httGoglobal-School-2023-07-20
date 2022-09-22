@@ -184,7 +184,7 @@ struct leadTeacherIdModel{
     let leadTeacher: GetSectionShiftByClassIdQuery.Data.GetSectionShiftByClassId.Section.LeadTeacherId
     
     var id: String{
-        leadTeacher._id
+        leadTeacher._id ?? ""
     }
     
     var firstName: String{
@@ -203,7 +203,7 @@ struct teacherAssistantIdModel {
     let teacherAssistantId: GetSectionShiftByClassIdQuery.Data.GetSectionShiftByClassId.Section.TeacherAssistantId
     
     var id: String{
-        teacherAssistantId._id
+        teacherAssistantId._id ?? ""
     }
     var firstname: String{
         teacherAssistantId.firstName ?? ""

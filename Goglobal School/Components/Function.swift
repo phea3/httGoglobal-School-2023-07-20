@@ -37,7 +37,7 @@ extension View{
         Image("DashboadBg")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: prop.isiPadPro ? 400 : prop.isiPadMini ? 600 : prop.isLandscape && prop.isiPad ? 600 : prop.isLandscape && prop.isiPhoneS ? 360 : prop.isLandscape && prop.isiPhoneM ? 370 : prop.isLandscape && prop.isiPhoneL ? 380 : .infinity)
+            .frame(maxWidth: prop.isiPadPro ? 400 : prop.isiPadMini ? 450 : prop.isLandscape && prop.isiPad ? 600 : prop.isLandscape && prop.isiPhoneS ? 360 : prop.isLandscape && prop.isiPhoneM ? 370 : prop.isLandscape && prop.isiPhoneL ? 380 : .infinity)
     }
     func graduatedLogo()->some View{
         Circle()
@@ -60,7 +60,7 @@ extension View{
         Image("GoGlobalSchool")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(maxWidth:prop.isiPadMini && prop.isiPad ? 140 : prop.isiPadPro && prop.isiPad  ? 220 : prop.isiPhoneS ? 90 : prop.isiPhoneM ? 100 : prop.isiPhoneL ? 120 :  140)
+            .frame(maxWidth: prop.isiPadMini ? 140 : prop.isiPadPro && prop.isiPad  ? 220 : prop.isiPhoneS ? 90 : prop.isiPhoneM ? 100 : prop.isiPhoneL ? 120 :  140)
         
     }
     func ImageBackgroundSignIn()->some View{
@@ -241,7 +241,7 @@ extension View{
     }
     func setBackgroundRow(color: String, prop: Properties) -> some View {
         self
-            .padding(prop.isiPhoneS ? 12 : prop.isiPhoneM ? 15 : prop.isiPhoneL ? 18 :  20)
+            .padding(prop.isiPhoneS ? 12 : prop.isiPhoneM ? 15 : prop.isiPhoneL ? 16 :  20)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
             .background(Color(color))
             .cornerRadius(20)
