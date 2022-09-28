@@ -60,7 +60,7 @@ extension View{
         Image("GoGlobalSchool")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: prop.isiPadMini ? 140 : prop.isiPadPro && prop.isiPad  ? 220 : prop.isiPhoneS ? 90 : prop.isiPhoneM ? 100 : prop.isiPhoneL ? 120 :  140)
+            .frame(maxWidth: prop.isiPadMini ? 140 : prop.isiPadPro  ? 160 : prop.isiPhoneS ? 90 : prop.isiPhoneM ? 100 : prop.isiPhoneL ? 120 :  140)
         
     }
     func ImageBackgroundSignIn()->some View{
