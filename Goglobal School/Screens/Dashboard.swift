@@ -90,7 +90,7 @@ struct Dashboard: View {
             }
             refreshingView()
             AnnoucementList.getAnnoucement()
-            academiclist.populateAllContinent(academicYearId: "")
+            academiclist.populateAllContinent(academicYearId: activeYear)
             students.StundentAmount(parentId: parentId)
         }
         .padOnlyStackNavigationView()
@@ -120,8 +120,8 @@ struct Dashboard: View {
                 Image(systemName: "bell.fill")
                     .font(.system(size:prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20))
                     .foregroundColor(.blue)
-                    .padding(.bottom, 5)
-                Text("ព្រឺត្តិការណ៍នាពេលខាងមុខ")
+//                    .padding(.bottom, 5)
+                Text("ព្រឹត្តិការណ៍នាពេលខាងមុខ")
                     .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
                     .foregroundColor(.blue)
             }
@@ -149,7 +149,7 @@ struct Dashboard: View {
                 Image(systemName: "megaphone.fill")
                     .font(.system(size:prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18))
                     .foregroundColor(Color("News"))
-                    .padding(.bottom, 5)
+//                    .padding(.bottom, 5)
                 Text("ដំណឹងថ្មីៗ")
                     .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
                     .foregroundColor(Color("News"))

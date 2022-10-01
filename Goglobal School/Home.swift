@@ -5,30 +5,37 @@
 //  Created by Leng Mouyngech on 25/8/22.
 //
 
+//package default & github
 import SwiftUI
 import Alamofire
 import SDWebImageSwiftUI
 import SwiftUITooltip
 import ImageViewer
 
+// main view
 struct Home: View {
     
+    // MAIN:variable creation
+    
+    // url
     @Environment(\.openURL) var openURL
+    // class observed that query from backend
     @ObservedObject var loginVM: LoginViewModel = LoginViewModel()
     @StateObject var academiclist: ListViewModel =  ListViewModel()
+    //check condition no wifi or not
     @StateObject var monitor = Monitor()
+    // initalize default view
     init(){
         UITabBar.appearance().isHidden = true
-        self.tooltipConfig.enableAnimation = true
-        self.tooltipConfig.animationOffset = 10
-        self.tooltipConfig.animationTime = 1
-        self.tooltipConfig.borderColor = .blue
     }
+    // common constant variable
     @State var currentTab: Tab = .dashboard
     @State var animationFinished: Bool = false
     @State var animationStarted: Bool = false
+    // save the gmail & password on disk no tempory memory
     @State var gmail: String = (UserDefaults.standard.string(forKey: "Gmail") ?? "")
     @State var password: String = (UserDefaults.standard.string(forKey: "Password") ?? "")
+    
     @State var forget: Bool = false
     @State var isempty: Bool = false
     @State var isLoading: Bool = false
@@ -42,13 +49,16 @@ struct Home: View {
     @State private var noConnention: Bool = false
     @State private var showingImage: Bool = false
     @State private var showingAlertUpdate = true
+    @State private var value: CGFloat = 0
+    @State private var hidefooter: Bool = false
     @State var image = Image("GoGlobalSchool")
-    var tooltipConfig = DefaultTooltipConfig()
-    
     var body: some View {
+        //resonsive each device
         ResponsiveView{ prop in
             ZStack{
+                // background image the many blue dots
                 ImageBackgroundSignIn()
+                // check if authentication is true
                 if loginVM.isAuthenticated{
                     ZStack{
                         if !loggedIn{
@@ -59,37 +69,40 @@ struct Home: View {
                         }
                     }
                     .onAppear{
+                        //since authentication true or false we're gonna perform the func login anyways
                         loginVM.login(email: gmail, password: password, checkState: checkState)
+                        // func asking the user to allow the notification
+                        loginVM.AskUserForNotification()
+                        //wait 2s to change value loggedIN
+                        academiclist.activeAcademicYear()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             loggedIn = true
                         }
                     }
                 }
+                // if authentication is true some how and gmail & password is stored in disk of the user's device let's perform the func loggin
                 else if (!gmail.isEmpty && !gmail.isEmpty) && loginVM.isAuthenticated {
                     EmptyView()
                         .onAppear{
                             loginVM.login(email: gmail, password: password, checkState: checkState)
                         }
-                }else if !loginVM.isAuthenticated{
+                }
+                // if we have the gmail & password but authentication is false we have a loggin form
+                else if !loginVM.isAuthenticated{
                     LoginView(prop: prop)
                 }else{
                     progressingView(prop: prop)
                 }
+                
+                // animation while open the app
                 FlashScreen(prop:prop)
             }
+            // alert no wifi or internet connection
             .alert("គ្មានអ៉ីនធើណេត", isPresented: $noConnention) {
-                        Button("OK", role: .cancel) { }
-                }
+                Button("OK", role: .cancel) { }
+            }
+            // when screen appear the funcs is perform instantly
             .onAppear{
-                VersionCheck.shared.checkAppStore() { isNew, version, linker in
-                    print("IS NEW VERSION AVAILABLE: \(String(describing: isNew)), APP STORE VERSION: \(String(describing: version)), APP TRACK VIEW URL: \(String(describing: linker))")
-                    }
-                if !loginVM.isAuthenticated{
-                    DispatchQueue.main.async {
-                        self.isLoading = false
-                    }
-                }
-            
                 if monitor.status.rawValue == "connected" {
                     DispatchQueue.main.async {
                         self.noConnention = false
@@ -97,6 +110,16 @@ struct Home: View {
                 } else{
                     DispatchQueue.main.async {
                         self.noConnention = true
+                    }
+                }
+                // requset the appstore for app's info
+                VersionCheck.shared.checkAppStore()
+//                { isNew, version, linker in
+//                    print("IS NEW VERSION AVAILABLE: \(String(describing: isNew)), APP STORE VERSION: \(String(describing: version)), APP TRACK VIEW URL: \(String(describing: linker))")
+//                }
+                if !loginVM.isAuthenticated{
+                    DispatchQueue.main.async {
+                        self.isLoading = false
                     }
                 }
             }
@@ -120,19 +143,15 @@ struct Home: View {
                     .tag(Tab.book)
             }
             .alert("សូមធ្វើការដំឡើង Version \(VersionCheck.shared.appStoreVersion ?? "") នៅក្នុង App Store!", isPresented: .constant(VersionCheck.shared.newVersionAvailable ?? false)) {
-                        Button("យល់ព្រម") {openURL(URL(string: VersionCheck.shared.appLinkToAppStore ?? "")!) }
-                        Button("មិនយល់ព្រម", role: .cancel)  { }
-                    }
-            .alert("គ្មានអ៉ីនធើណេត", isPresented: $noConnention) {
-                        Button("OK", role: .cancel) { }
-                }
+                Button("យល់ព្រម") {openURL(URL(string: VersionCheck.shared.appLinkToAppStore ?? "")!) }
+                Button("មិនយល់ព្រម", role: .cancel)  { }
+            }
             // MARK: Custom to Bar
             CustomTabBar(currentTab: $currentTab,prop: prop)
                 .background(RoundedCorners(color: .white, tl: 30, tr: 30, bl: 0, br: 0))
                 .frame(maxWidth: prop.isLandscape || prop.isSplit ? 400 : prop.isiPad ? 400 : .infinity, maxHeight: .infinity, alignment: .bottom)
                 .opacity( hideTab ? 0 : animationStarted ? 1:0)
                 .onAppear{
-                    academiclist.activeAcademicYear()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                         withAnimation(.easeInOut(duration: 0.7)){
                             animationStarted = true
@@ -167,21 +186,23 @@ struct Home: View {
     
     func LoginView(prop: Properties)-> some View{
         ZStack{
+            Rectangle()
+                .fill(.white)
+                .frame(maxWidth:.infinity,maxHeight:.infinity)
+            ImageBackgroundSignIn()
             VStack{
                 Spacer()
-                Button {
-//                    self.showingImage = !self.showingImage
-                } label: {
-                    LogoGoglobal(prop:prop)
-                }
-                .opacity(prop.isLandscape && prop.isiPhone ? 0:1)
+                LogoGoglobal(prop:prop)
+                    .opacity(prop.isLandscape && prop.isiPhone ? 0:1)
                 VStack{
                     Text("ចូលប្រើកម្មវិធី")
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 21 : prop.isiPhoneM ? 23 : prop.isiPhoneL ? 25 : 27, relativeTo: .largeTitle))
                         .foregroundColor(Color("ColorTitle"))
                 }
                 .opacity(prop.isLandscape && prop.isiPhone ? 0:1)
-                Spacer()
+                if !hidefooter{
+                    Spacer()
+                }
                 VStack(spacing: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20){
                     VStack(alignment: .leading, spacing: prop.isiPhoneS ? 4 : prop.isiPhoneM ? 6 : prop.isiPhoneL ? 8 : 10) {
                         Text("អ៉ីម៉ែល")
@@ -201,7 +222,6 @@ struct Home: View {
                                     .stroke(isempty ? .red:.blue.opacity(0.5), lineWidth: 1)
                             )
                     }
-                    
                     VStack(alignment: .leading, spacing: prop.isiPhoneS ? 4 : prop.isiPhoneM ? 6 : prop.isiPhoneL ? 8 : 10) {
                         Text("ពាក្យសម្ងាត់")
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 17 : prop.isiPhoneL ? 19 : 21, relativeTo: .body))
@@ -242,9 +262,10 @@ struct Home: View {
                                 .background(.blue)
                                 .cornerRadius(10)
                         }
+                        
                         .alert("គណនីរបស់លោកអ្នកមិនត្រឹមត្រូវទេ", isPresented: $showingAlert) {
-                                    Button("OK", role: .cancel) { }
-                                }
+                            Button("OK", role: .cancel) { }
+                        }
                         HStack(spacing: 0){
                             Button(action:
                                     {
@@ -281,9 +302,26 @@ struct Home: View {
                     .padding(.top,5)
                 }
                 .frame(maxWidth: prop.isiPad ? 400 : prop.isiPhoneL ? 400 : .infinity )
-                Spacer()
+                if !hidefooter{
+                    Spacer()
+                }
                 footer(prop: prop)
-                    .opacity(prop.isLandscape && prop.isiPhone ? 0:1)
+                    .opacity(prop.isLandscape && prop.isiPhone ? 0 : 1)
+                
+            }
+            .offset(y: -self.value)
+            .animation(.spring(), value: self.value)
+            .onAppear{
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { (noti) in
+                    let value = noti.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+                    let height = value.height
+                    self.hidefooter = true
+                    self.value = height
+                }
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { (noti) in
+                    self.hidefooter = false
+                    self.value = 0
+                }
             }
             .padding(prop.isiPhoneS ? 25: prop.isiPhoneM ? 30 : prop.isiPhoneL ? 35 : 40)
             if isLoading{
@@ -298,6 +336,9 @@ struct Home: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .overlay(ImageViewer(image: self.$image, viewerShown: self.$showingImage, closeButtonTopRight: true))
             }
+        }
+        .onTapGesture {
+            hideKeyboard()
         }
     }
     
@@ -339,7 +380,7 @@ struct SecureTextFieldToggle: View{
             Button {
                 self.isSecureField.toggle()
             } label: {
-                Image(systemName: self.isSecureField ? "eye.fill" : "eye.slash.fill")
+                Image(systemName: self.isSecureField ?  "eye.slash.fill" : "eye.fill" )
                     .foregroundColor(.blue)
             }
         }

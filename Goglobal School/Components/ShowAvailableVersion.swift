@@ -41,7 +41,6 @@ class VersionCheck {
             case .success(let value):
                 do {
                         let asJSON = try JSONSerialization.jsonObject(with: value)
-                    print(asJSON)
                     if  let json = asJSON as? NSDictionary,
                         let results = json["results"] as? NSArray,
                         let entry = results.firstObject as? NSDictionary,

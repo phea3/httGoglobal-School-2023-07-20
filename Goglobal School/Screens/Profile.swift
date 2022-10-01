@@ -345,13 +345,12 @@ struct Profile: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: prop.isLandscape ? 400 : .infinity, alignment: .center)
                             .padding(10)
-                            .background(.red)
+                            .background(Color("redding"))
                             .cornerRadius(10)
                     }
                     .alert(isPresented:$showingAlert) {
                         Alert(
                             title: Text("តើអ្នកចង់ចាកចេញពីកម្មវិធីទេ?"),
-                            message: Text("មិនអាចត្រលប់ក្រោយបានទេ!"),
                             primaryButton: .destructive(Text("ចាកចេញ")) {
                                 self.logoutLoading = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
@@ -371,7 +370,6 @@ struct Profile: View {
                             secondaryButton: .cancel(Text("មិនចាកចេញ"))
                         )
                     }
-                    Divider()
                 }
             }
         }

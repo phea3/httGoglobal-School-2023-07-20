@@ -17,8 +17,10 @@ struct Attendant: View {
         ScrollView(.vertical, showsIndicators: false){
             VStack(spacing: 0){
                 CustomDatePicker(studentId: studentId, currentDate: $currentDate,prop: prop)
-                    .padding(.bottom, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 15 : prop.isiPhoneL ? 20 : 25)
+                    .padding(.bottom,prop.isiPhoneS ? 10 : prop.isiPhoneM ? 15 : prop.isiPhoneL ? 20 : 25)
+                    .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
             }
+            
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .setBG()

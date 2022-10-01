@@ -7,6 +7,7 @@
 
 import Foundation
 import KeychainSwift
+import UserNotifications
 
 class LoginViewModel: ObservableObject{
     
@@ -22,6 +23,16 @@ class LoginViewModel: ObservableObject{
     static var loginID = ""
     static var loginKeychainKey = ""
     
+    func AskUserForNotification(){
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+            if success {
+                print("")
+            } else if let error = error {
+                print(error.localizedDescription)
+                print("")
+            }
+        }
+    }
     // MARK: LogIn Button
     func login(email: String, password: String, checkState: Bool) {
         

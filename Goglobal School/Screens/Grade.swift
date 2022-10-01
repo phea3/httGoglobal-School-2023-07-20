@@ -184,7 +184,7 @@ struct Choose: View {
                         TabButton(title: "កាលវិភាគសិក្សា", image: "calendar.badge.clock", chose: .attendance, selection: "attendance")
                         TabButton(title: "វត្តមានសិស្ស", image: "checklist", chose: .absence, selection: "absence")
                         //                        TabButton(title: "ប្រតិបត្តិពន្ទុ", image: "newspaper.fill", chose: .score, selection: "score")
-                        //                        TabButton(title: "តម្លៃសិក្សា", image: "dollarsign.square.fill", chose: .payment, selection: "payment")
+                        TabButton(title: "តម្លៃសិក្សា", image: "dollarsign.square.fill", chose: .payment, selection: "payment")
                         Spacer()
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)

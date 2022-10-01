@@ -28,7 +28,7 @@ struct Choosing: View {
                     .tag(Chose.attendance)
                 Attendant(studentId: studentId,prop: prop)
                     .tag(Chose.absence)
-                Text("Payment")
+                Payment(prop: prop)
                     .tag(Chose.payment)
                 Text("Score")
                     .tag(Chose.score)

@@ -10,6 +10,7 @@ import SwiftUI
 struct Schedule: View {
     
     @StateObject var AllClasses: ScheduleViewModel = ScheduleViewModel()
+    @State var loadingScreen: Bool = false
     var prop: Properties
     var classId: String
     var academicYearId: String
@@ -37,36 +38,50 @@ struct Schedule: View {
             }
             .padding(.top)
             .padding(.horizontal)
-            VStack{
-                if let tasks = AllClasses.filteredTasks{
-                    if tasks.isEmpty{
-                        Text("មិនមានម៉ោងសិក្សា!!!")
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
-                            .fontWeight(.light)
-                            .offset(y: prop.isLandscape ? 100 :  300)
-                    } else{
-                        List(Array(AllClasses.filteredTasks.enumerated()), id: \.element.id){ index, item in
-                            customList(startTime: String(format: "%.2f", item.startTime), endTime: String(format: "%.2f", item.endTime), subject: item.subject.subjectName, lastName: item.leadTeacherId.lastName, firstName: item.leadTeacherId.firstName, breaktime: item.breakTime, index: index)
-                                .backgroundRemover()
+            
+            if loadingScreen{
+                ProgressView()
+                    .offset(y: prop.isLandscape ? 100 :  300)
+                    Spacer()
+            }else{
+                VStack{
+                    if let tasks = AllClasses.filteredTasks{
+                        if tasks.isEmpty{
+                            Text("មិនមានម៉ោងសិក្សា!!!")
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                                .fontWeight(.light)
+                                .offset(y: prop.isLandscape ? 100 :  300)
+                        } else{
+                            List(Array(AllClasses.filteredTasks.enumerated()), id: \.element.id){ index, item in
+                                customList(startTime: String(format: "%.2f", item.startTime), endTime: String(format: "%.2f", item.endTime), subject: item.subject.subjectName, lastName: item.leadTeacherId.lastName, firstName: item.leadTeacherId.firstName, breaktime: item.breakTime, index: index)
+                                    .listRowInsets(EdgeInsets())
+                                    .backgroundRemover()
+                            }
                         }
                     }
+                    else{
+                        // MARK: Progress View
+                        ProgressView()
+                            .offset(y: 100)
+                    }
                 }
-                else{
-                    // MARK: Progress View
-                    ProgressView()
-                        .offset(y: 100)
+                .onAppear{
+                    AllClasses.filterTodayTasks()
                 }
+                .onChange(of: AllClasses.currentDay) { newValue in
+                    AllClasses.filterTodayTasks()
+                }
+                Spacer()
             }
-            .onChange(of: AllClasses.currentDay) { newValue in
-                AllClasses.filterTodayTasks()
-            }
-            Spacer()
-            
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .setBG()
         .onAppear {
             AllClasses.getClasses(classId: classId, academicYearId: academicYearId, programId: programId)
+            self.loadingScreen = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.loadingScreen = false
+            }
         }
     }
     
@@ -88,26 +103,26 @@ struct Schedule: View {
             VStack(spacing: 0){
                 Text(startTime)
                     .font(.system(size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20))
-                Text("-")
+                Text("-\(index)")
                 Text(endTime)
                     .font(.system(size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20))
             }
             .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18, relativeTo: .callout))
-            .foregroundColor(Color("bodyBlue"))
+            .foregroundColor(Color(breaktime ? "redding" : index % 2 == 0 ?  "bodyOrange" : "bodyBlue"))
             .frame(width: prop.isiPhoneS ? 54 : prop.isiPhoneM ? 56 : prop.isiPhoneL ? 58 : 60)
             if breaktime{
                 HStack(spacing: prop.isiPhoneS ? 2 : prop.isiPhoneM ? 3 : 4){
                     
-                        Rectangle()
-                            .frame(maxHeight: 1)
-                            .foregroundColor(.gray)
-                        Text("ម៉ោងចេញលេង")
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
-                            .foregroundColor(.gray)
-                            .frame(width: 90)
-                        Rectangle()
-                            .frame(maxHeight: 1)
-                            .foregroundColor(.gray)
+                    Rectangle()
+                        .frame(maxHeight: 1)
+                        .foregroundColor(Color("redding"))
+                    Text("ម៉ោងចេញលេង")
+                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                        .foregroundColor(Color("redding"))
+                        .frame(width: 90)
+                    Rectangle()
+                        .frame(maxHeight: 1)
+                        .foregroundColor(Color("redding"))
                 }
                 .frame(maxWidth:.infinity,maxHeight: .infinity,alignment: .leading)
             }else{
@@ -115,7 +130,7 @@ struct Schedule: View {
                     Circle()
                         .font(.system(size: 50))
                         .frame(width: 49, height: 49, alignment: .center)
-                        .foregroundColor(Color("bodyBlue"))
+                        .foregroundColor(Color(index % 4 == 0 ?"bodyOrange":"bodyBlue"))
                         .overlay(
                             Image(systemName: "graduationcap.circle.fill")
                                 .font(.system(size: 50))
@@ -127,21 +142,21 @@ struct Schedule: View {
                         Text(subject)
                             .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                             .listRowBackground(Color.yellow)
-                            .foregroundColor(Color("bodyBlue"))
+                            .foregroundColor(Color(index % 4 == 0 ?"bodyOrange":"bodyBlue"))
                         HStack{
                             Text(lastName)
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                                 .listRowBackground(Color.yellow)
-                                .foregroundColor(Color("bodyBlue"))
+                                .foregroundColor(Color(index % 4 == 0 ?"bodyOrange":"bodyBlue"))
                             Text(firstName)
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                                 .listRowBackground(Color.yellow)
-                                .foregroundColor(Color("bodyBlue"))
+                                .foregroundColor(Color(index % 4 == 0 ?"bodyOrange":"bodyBlue"))
                         }
                     }
                     .frame(maxWidth:.infinity,maxHeight: .infinity,alignment: .leading)
                 }
-                .background(Color("LightBlue"))
+                .background(Color( index % 4 == 0 ? "LightOrange" : "LightBlue"))
                 .cornerRadius(15)
             }
         }
