@@ -17,6 +17,7 @@
 		092824C628DC17BF00320D33 /* EnrollmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092824C528DC17BF00320D33 /* EnrollmentViewModel.swift */; };
 		0978944D28E7EC2300CB4C05 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0978944C28E7EC2300CB4C05 /* Payment.swift */; };
 		0978AA2C28C5CBC400CD9222 /* ScrollRefreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0978AA2B28C5CBC400CD9222 /* ScrollRefreshable.swift */; };
+		099ECD5F28EC384800D69557 /* InvoiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099ECD5E28EC384800D69557 /* InvoiceViewModel.swift */; };
 		09A060FB28BA18A200D1D1FA /* ScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A060FA28BA18A200D1D1FA /* ScheduleViewModel.swift */; };
 		09A060FD28BA199B00D1D1FA /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A060FC28BA199B00D1D1FA /* API.swift */; };
 		09F5197828D1E79D00C8B1FD /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5197728D1E79D00C8B1FD /* Alamofire */; };
@@ -77,6 +78,7 @@
 		092824C528DC17BF00320D33 /* EnrollmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentViewModel.swift; sourceTree = "<group>"; };
 		0978944C28E7EC2300CB4C05 /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		0978AA2B28C5CBC400CD9222 /* ScrollRefreshable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollRefreshable.swift; sourceTree = "<group>"; };
+		099ECD5E28EC384800D69557 /* InvoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceViewModel.swift; sourceTree = "<group>"; };
 		09A060FA28BA18A200D1D1FA /* ScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewModel.swift; sourceTree = "<group>"; };
 		09A060FC28BA199B00D1D1FA /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = API.swift; path = "Goglobal School/API.swift"; sourceTree = SOURCE_ROOT; };
 		09F9140528D3271800BF252B /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = schema.json; path = "Goglobal School/schema.json"; sourceTree = SOURCE_ROOT; };
@@ -152,6 +154,7 @@
 				09FEBC9128B70A8C00E8B5B7 /* MobileUserViewModel.swift */,
 				09FEBC9328B70AA600E8B5B7 /* AnnouncementViewModel.swift */,
 				09A060FA28BA18A200D1D1FA /* ScheduleViewModel.swift */,
+				099ECD5E28EC384800D69557 /* InvoiceViewModel.swift */,
 			);
 			path = ClassObservables;
 			sourceTree = "<group>";
@@ -404,6 +407,7 @@
 				091B223328CC3B9000FE9DBB /* DeepLink.swift in Sources */,
 				0978AA2C28C5CBC400CD9222 /* ScrollRefreshable.swift in Sources */,
 				09FEBCA628B70C5600E8B5B7 /* ImagePicker.swift in Sources */,
+				099ECD5F28EC384800D69557 /* InvoiceViewModel.swift in Sources */,
 				09FEBCA228B70C0600E8B5B7 /* CustomDatePicker.swift in Sources */,
 				09FEBC9628B70B4500E8B5B7 /* Function.swift in Sources */,
 				0902C55A28CF174200F2A956 /* ShowAvailableVersion.swift in Sources */,

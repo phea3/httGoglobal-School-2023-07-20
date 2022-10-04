@@ -12,6 +12,7 @@ struct Annoucements: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.presentationMode) var presentationMode
     @State var showViewer: Bool = false
+    @State var imgUrl: String = ""
     @Binding var postId: String
     @StateObject var DetailAnnoucementList: AnnouncementViewModel = AnnouncementViewModel()
     
@@ -21,10 +22,11 @@ struct Annoucements: View {
                     Button {
                         presentationMode.wrappedValue.dismiss()
                     } label: {
-                        Image(systemName: "x.circle.fill")
-                            .foregroundColor(.red)
+                        Image(systemName: "xmark.square.fill")
+                            .font(.system(size: 30))
+                            .foregroundColor(.white)
                             .padding()
-                            .font(.title)
+                            .opacity(prop.isLandscape ? 1:0)
                     }
                     .hTrailing()
                     if postId == ""{
@@ -33,42 +35,43 @@ struct Annoucements: View {
                         VStack{
                             ForEach(DetailAnnoucementList.Annouces, id: \.id){ Annouce in
                                 if self.postId == Annouce.id {
-                                    
-                                    AsyncImage(url: URL(string: Annouce.img ), scale: 2){image in
-                                        
-                                        switch  image {
-                                            
-                                        case .empty:
-                                            VStack{
-                                                ProgressView()
-                                                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                                                    .progressViewStyle(.circular)
-                                                Text("សូមរង់ចាំ")
-                                                    .foregroundColor(.blue)
-                                            }
-                                        case .success(let image):
-                                            
-                                            image
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .cornerRadius(20)
-                                                .padding()
-                                                .frame(width: prop.size.width, height: prop.size.height,alignment:.top)
-                                                .scaledToFit()
-                                                .clipShape(Rectangle())
-                                                .modifier(ImageModifier(contentSize: CGSize(width: prop.size.width, height: prop.size.height)))
-                                                
-                                        case .failure:
-                                            Text("មិនអាចទាញទិន្ន័យបាន")
-                                                .foregroundColor(.red)
-                                                .hCenter()
-                                        @unknown default:
-                                            fatalError()
-                                        }
-                                    }
-                                    .frame( maxHeight: prop.isLandscape ? 400 : .infinity)
-                                    
                                     ScrollView(.vertical, showsIndicators: false){
+                                        AsyncImage(url: URL(string: Annouce.img ), scale: 2){image in
+                                            
+                                            switch  image {
+                                                
+                                            case .empty:
+                                                VStack{
+                                                    ProgressView()
+                                                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                                        .progressViewStyle(.circular)
+                                                    Text("សូមរង់ចាំ")
+                                                        .foregroundColor(.blue)
+                                                }
+                                            case .success(let image):
+                                                Button {
+                                                    self.showViewer = !showViewer
+                                                } label: {
+                                                    image
+                                                        .resizable()
+                                                        .aspectRatio(contentMode: .fit)
+                                                        .cornerRadius(20)
+                                                        .padding()
+                                                        .onAppear{
+                                                            self.imgUrl = Annouce.img
+                                                        }
+                                                }
+                                            case .failure:
+                                                Text("មិនអាចទាញទិន្ន័យបាន")
+                                                    .foregroundColor(.red)
+                                                    .hCenter()
+                                            @unknown default:
+                                                fatalError()
+                                            }
+                                        }
+                                        .frame( maxHeight: prop.isLandscape ? 300 : prop.isiPad ? 400 : .infinity)
+                                    
+                                  
                                         Text(Annouce.title)
                                             .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
                                             .foregroundColor(.blue)
@@ -93,6 +96,52 @@ struct Annoucements: View {
             .setBG()
             .onAppear{
                 DetailAnnoucementList.getAnnoucement()
+            }
+            if showViewer{
+                ZStack{
+                    Color("bgimg")
+                        .frame(maxWidth:.infinity, maxHeight:.infinity)
+                        .ignoresSafeArea()
+                    AsyncImage(url: URL(string: imgUrl ), scale: 2){image in
+                        
+                        switch  image {
+                            
+                        case .empty:
+                            VStack{
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                    .progressViewStyle(.circular)
+                            }
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .cornerRadius(20)
+                                .padding()
+                                .frame(width: prop.size.width, height: prop.size.height)
+                                .scaledToFit()
+                                .clipShape(Rectangle())
+                                .modifier(ImageModifier(contentSize: CGSize(width: prop.size.width, height: prop.size.height)))
+                                
+                        case .failure:
+                            Text("មិនអាចទាញទិន្ន័យបាន")
+                                .foregroundColor(.red)
+                                .hCenter()
+                        @unknown default:
+                            fatalError()
+                        }
+                    }
+                    .frame(maxWidth:.infinity, maxHeight:.infinity)
+                    Button {
+                        self.showViewer = !showViewer
+                    } label: {
+                       Image(systemName: "xmark.square.fill")
+                            .font(.system(size: 30))
+                            .foregroundColor(.white)
+                            .padding()
+                    }
+                    .frame(maxWidth:.infinity,maxHeight:.infinity,alignment:.topTrailing)
+                }
             }
         }
     }

@@ -38,33 +38,32 @@ struct Grade: View {
     }
     
     var body: some View {
-        NavigationView {
-            VStack(spacing: 0){
-                Divider()
-                HStack{
-                    Text("ថ្នាក់រៀន \(Student)")
-                        .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
-                    Rectangle()
-                        .frame(maxHeight: 1)
-                }
-                .foregroundColor(Color("Blue"))
-                .padding(.top)
-                .padding(.horizontal)
-                .frame(width: .infinity, height: .infinity, alignment: .leading)
-                VStack(spacing: 0){
-                    List(Array(enrollment.enrollments.enumerated()), id: \.element.EnrollmentId){ index, item in
-                        Choose( Grade: item.GradeName, Class: item.Classname, Year: item.AcademicYearName, Programme: item.Programme, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.ClassId, academicYearId: item.AcademicId, programId: item.ProgrammeId, color: index % 2 == 0 ? colorOrg: colorBlue, prop: prop)
-                            .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
-                            .backgroundRemover()
-                    }
-                    .listStyle(GroupedListStyle())
-                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "attendance", selection: $selection) { EmptyView() }
-                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "absence", selection: $selection) { EmptyView() }
-                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "payment", selection: $selection) { EmptyView() }
-                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "score", selection: $selection) { EmptyView() }
-                    
-                }
+        VStack(spacing: 0){
+            Divider()
+            HStack{
+                Text("ថ្នាក់រៀន \(Student)")
+                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                Rectangle()
+                    .frame(maxHeight: 1)
             }
+            .foregroundColor(Color("Blue"))
+            .padding(.top)
+            .padding(.horizontal)
+            .frame(width: .infinity, height: .infinity, alignment: .leading)
+            VStack(spacing: 0){
+                List(Array(enrollment.enrollments.enumerated()), id: \.element.EnrollmentId){ index, item in
+                    Choose( Grade: item.GradeName, Class: item.Classname, Year: item.AcademicYearName, Programme: item.Programme, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.ClassId, academicYearId: item.AcademicId, programId: item.ProgrammeId, color: index % 2 == 0 ? colorOrg: colorBlue, prop: prop)
+                        .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
+                        .backgroundRemover()
+                }
+                .listStyle(GroupedListStyle())
+                NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "attendance", selection: $selection) { EmptyView() }
+                NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "absence", selection: $selection) { EmptyView() }
+                NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "payment", selection: $selection) { EmptyView() }
+                NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "score", selection: $selection) { EmptyView() }
+                
+            }
+        }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .navigationBarTitleDisplayMode(.inline)
             .setBG()
@@ -72,7 +71,6 @@ struct Grade: View {
                 enrollments.StundentAmount(parentId: parentId)
                 enrollment.getEnrollment(studentId: studentId)
             })
-        }
         .navigationBarItems(leading: btnBack)
         .navigationBarBackButtonHidden(true)
                 .toolbar {
@@ -148,9 +146,6 @@ struct Choose: View {
                 )
             
             VStack(alignment: .leading){
-//                Text(Year)
-//                    .listRowBackground(Color.yellow)
-//                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
                 HStack(spacing: prop.isiPhoneS ? 3 : prop.isiPhoneM ? 4 : 5){
                     Text(Grade)
                         .listRowBackground(Color.yellow)
@@ -174,23 +169,25 @@ struct Choose: View {
         }
         .halfSheet(showSheet: $showsheet) {
             // Half Sheet View...
-            NavigationView{
                 ZStack {
-                    Color.white
+                    Color("BG")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                     VStack(alignment: .leading,spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
                         Text("ជ្រើសរើស")
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .title2))
                             .foregroundColor(Color("Blue"))
                         TabButton(title: "កាលវិភាគសិក្សា", image: "calendar.badge.clock", chose: .attendance, selection: "attendance")
+                            .buttonStyle(PlainButtonStyle())
                         TabButton(title: "វត្តមានសិស្ស", image: "checklist", chose: .absence, selection: "absence")
-                        //                        TabButton(title: "ប្រតិបត្តិពន្ទុ", image: "newspaper.fill", chose: .score, selection: "score")
+                            .buttonStyle(PlainButtonStyle())
+                        //                        TabButton(title: "ប្រតិបត្តិពន្ទុ", image: "newspaper.fill", chose: .score, selection: "score").buttonStyle(PlainButtonStyle())
                         TabButton(title: "តម្លៃសិក្សា", image: "dollarsign.square.fill", chose: .payment, selection: "payment")
+                            .buttonStyle(PlainButtonStyle())
                         Spacer()
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                    .padding(.horizontal)
+                    .padding()
                 }
-            }
         } onEnd: {
             print("")
         }

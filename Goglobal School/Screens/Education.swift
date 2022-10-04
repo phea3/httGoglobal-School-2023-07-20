@@ -11,11 +11,13 @@ struct Education: View {
     
     @StateObject var students: ListStudentViewModel = ListStudentViewModel()
     @State var axcessPadding: CGFloat = 0
+    @State var currentProgress: CGFloat = 0.0
     @State var userProfileImg: String
     @State var refreshing: Bool  = false
     @State var confirm: Bool = false
     @State var viewLoading: Bool = false
     @State var hidingDivider: Bool = false
+    @State var onAppearImg: Bool = true
     @Binding var isLoading: Bool
     let gradient = Color("BG")
     var parentId: String
@@ -47,11 +49,32 @@ struct Education: View {
                         .opacity(hidingDivider ? 0:1)
                     if !refreshing{
                         ScrollRefreshable(title: "កំពុងភ្ជាប់", tintColor: .blue) {
-                            mainView()
-                                .navigationBarTitleDisplayMode(.inline)
-                                .toolbarView(prop: prop, barTitle: "ឆ្នាំសិក្សា \(academicYearName)", profileImg: userProfileImg)
-                                .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
-                                .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
+                            ZStack{
+                                mainView()
+                                    .navigationBarTitleDisplayMode(.inline)
+                                    .toolbarView(prop: prop, barTitle: "ឆ្នាំសិក្សា \(academicYearName)", profileImg: userProfileImg)
+                                    .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
+                                    .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
+                                if onAppearImg{
+                                    ZStack{
+                                        Color("BG")
+                                            .frame(maxWidth:.infinity, maxHeight: .infinity)
+                                        VStack{
+                                            ProgressView(value: currentProgress, total: 1000)
+                                                .onAppear{
+                                                    self.currentProgress = 250
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                                                        self.currentProgress = 500
+                                                    }
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+                                                        self.currentProgress = 750
+                                                    }
+                                                }
+                                            Spacer()
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }else{
                         Spacer()
@@ -84,6 +107,7 @@ struct Education: View {
     }
     func refreshingView(){
         self.refreshing = true
+        self.onAppearImg = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.refreshing = false
         }
@@ -108,12 +132,18 @@ struct Education: View {
                         .clipShape(Circle())
                         .aspectRatio(contentMode: .fill)
                         .padding(prop.isiPhoneS ? 20 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 24 : 25)
+                        .onAppear{
+                            self.onAppearImg = false
+                        }
                 case .failure:
                     Image("student")
                         .resizable()
                         .clipShape(Circle())
                         .aspectRatio(contentMode: .fit)
                         .padding()
+                        .onAppear{
+                            self.onAppearImg = false
+                        }
                 @unknown default:
                     fatalError()
                 }

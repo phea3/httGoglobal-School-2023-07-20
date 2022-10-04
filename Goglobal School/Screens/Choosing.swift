@@ -18,7 +18,7 @@ struct Choosing: View {
     var classId: String
     var academicYearId: String
     var programId: String
-    var btnBack : some View { Button(action:{self.presentationMode.wrappedValue.dismiss()}) {backButtonView(prop: prop, barTitle: barTitle).opacity((prop.isiPhoneL && prop.isLandscape) || (prop.isiPad || prop.isSplit)  ? 0:1)}}
+    var btnBack : some View { Button(action:{self.presentationMode.wrappedValue.dismiss()}) {backButtonView(prop: prop, barTitle: barTitle)}}
     
     var body: some View {
         VStack(spacing: 0){
@@ -28,7 +28,7 @@ struct Choosing: View {
                     .tag(Chose.attendance)
                 Attendant(studentId: studentId,prop: prop)
                     .tag(Chose.absence)
-                Payment(prop: prop)
+                Payment(studentId: studentId, prop: prop)
                     .tag(Chose.payment)
                 Text("Score")
                     .tag(Chose.score)

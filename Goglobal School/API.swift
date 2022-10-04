@@ -2466,6 +2466,163 @@ public final class GetEnrollmentByStudentsQuery: GraphQLQuery {
   }
 }
 
+public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    query GetInvoiceBystudentIdWithPagination($studentId: ID) {
+      getInvoiceBystudentIdWithPagination(studentId: $studentId) {
+        __typename
+        invoices {
+          __typename
+          _id
+          Amount
+          createdAt
+        }
+      }
+    }
+    """
+
+  public let operationName: String = "GetInvoiceBystudentIdWithPagination"
+
+  public var studentId: GraphQLID?
+
+  public init(studentId: GraphQLID? = nil) {
+    self.studentId = studentId
+  }
+
+  public var variables: GraphQLMap? {
+    return ["studentId": studentId]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Query"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("getInvoiceBystudentIdWithPagination", arguments: ["studentId": GraphQLVariable("studentId")], type: .nonNull(.object(GetInvoiceBystudentIdWithPagination.selections))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(getInvoiceBystudentIdWithPagination: GetInvoiceBystudentIdWithPagination) {
+      self.init(unsafeResultMap: ["__typename": "Query", "getInvoiceBystudentIdWithPagination": getInvoiceBystudentIdWithPagination.resultMap])
+    }
+
+    public var getInvoiceBystudentIdWithPagination: GetInvoiceBystudentIdWithPagination {
+      get {
+        return GetInvoiceBystudentIdWithPagination(unsafeResultMap: resultMap["getInvoiceBystudentIdWithPagination"]! as! ResultMap)
+      }
+      set {
+        resultMap.updateValue(newValue.resultMap, forKey: "getInvoiceBystudentIdWithPagination")
+      }
+    }
+
+    public struct GetInvoiceBystudentIdWithPagination: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["InvoicePaginator"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("invoices", type: .nonNull(.list(.nonNull(.object(Invoice.selections))))),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(invoices: [Invoice]) {
+        self.init(unsafeResultMap: ["__typename": "InvoicePaginator", "invoices": invoices.map { (value: Invoice) -> ResultMap in value.resultMap }])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var invoices: [Invoice] {
+        get {
+          return (resultMap["invoices"] as! [ResultMap]).map { (value: ResultMap) -> Invoice in Invoice(unsafeResultMap: value) }
+        }
+        set {
+          resultMap.updateValue(newValue.map { (value: Invoice) -> ResultMap in value.resultMap }, forKey: "invoices")
+        }
+      }
+
+      public struct Invoice: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["Invoice"]
+
+        public static var selections: [GraphQLSelection] {
+          return [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+            GraphQLField("Amount", type: .scalar(Double.self)),
+            GraphQLField("createdAt", type: .scalar(String.self)),
+          ]
+        }
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(_id: GraphQLID, amount: Double? = nil, createdAt: String? = nil) {
+          self.init(unsafeResultMap: ["__typename": "Invoice", "_id": _id, "Amount": amount, "createdAt": createdAt])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var _id: GraphQLID {
+          get {
+            return resultMap["_id"]! as! GraphQLID
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "_id")
+          }
+        }
+
+        public var amount: Double? {
+          get {
+            return resultMap["Amount"] as? Double
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "Amount")
+          }
+        }
+
+        public var createdAt: String? {
+          get {
+            return resultMap["createdAt"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "createdAt")
+          }
+        }
+      }
+    }
+  }
+}
+
 public final class UpdateMobileUserProfileImgMutation: GraphQLMutation {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =

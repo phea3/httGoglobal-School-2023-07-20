@@ -98,25 +98,12 @@ struct Home: View {
                 FlashScreen(prop:prop)
             }
             // alert no wifi or internet connection
-            .alert("គ្មានអ៉ីនធើណេត", isPresented: $noConnention) {
+            .alert("គ្មានអ៉ីនធើណេត", isPresented: .constant(monitor.connected)) {
                 Button("OK", role: .cancel) { }
             }
             // when screen appear the funcs is perform instantly
             .onAppear{
-                if monitor.status.rawValue == "connected" {
-                    DispatchQueue.main.async {
-                        self.noConnention = false
-                    }
-                } else{
-                    DispatchQueue.main.async {
-                        self.noConnention = true
-                    }
-                }
-                // requset the appstore for app's info
                 VersionCheck.shared.checkAppStore()
-//                { isNew, version, linker in
-//                    print("IS NEW VERSION AVAILABLE: \(String(describing: isNew)), APP STORE VERSION: \(String(describing: version)), APP TRACK VIEW URL: \(String(describing: linker))")
-//                }
                 if !loginVM.isAuthenticated{
                     DispatchQueue.main.async {
                         self.isLoading = false

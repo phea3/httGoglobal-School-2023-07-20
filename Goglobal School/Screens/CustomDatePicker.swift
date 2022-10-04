@@ -70,7 +70,7 @@ struct CustomDatePicker: View {
                     CardView(value: value)
                         .background(
                             Circle()
-                                .fill(.blue)
+                                .strokeBorder(Color.blue,lineWidth: 2)
                                 .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1:0)
                                 .frame(width:prop.isLandscape ? 40 : .infinity)
                         )
@@ -87,10 +87,10 @@ struct CustomDatePicker: View {
             }
             
             VStack(spacing: prop.isiPhoneM ? 5 : prop.isiPhoneM ? 8 :  prop.isiPhoneL ? 10 : 12 ){
-                guildline(text: "ថ្ងៃវត្តមាន", color: .blue)
-                guildline(text: "ថ្ងៃមកយឺត", color: .green)
-                guildline(text: "ថ្ងៃសុំច្បាប់", color: .yellow)
-                guildline(text: "ថ្ងៃវត្តមាន", color: .red)
+                guildline(text: "វត្តមាន", color: .blue)
+                guildline(text: "មកយឺត", color: .green)
+                guildline(text: "សុំច្បាប់", color: .yellow)
+                guildline(text: "វត្តមាន", color: .red)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
@@ -129,14 +129,18 @@ struct CustomDatePicker: View {
                 {
                     Text("\(value.day)")
                         .font(.system(size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16).bold())
-                        .foregroundColor(isSameDay(date1: convertDate(inputDate: attend.AttendanceDate), date2: currentDate) ? .white : attend.Status == "ABSENT" ? Color.red : attend.Status == "LATE" ? .green : attend.Status == "PRESENT" ? .blue : attend.Status == "PERMISSION" ? .yellow : .gray)
-                        .frame(maxWidth: .infinity)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity,maxHeight: .infinity)
+                        .background(
+                            Circle()
+                                .foregroundColor(attend.Status == "ABSENT" ? Color.red : attend.Status == "LATE" ? .green : attend.Status == "PRESENT" ? .blue : attend.Status == "PERMISSION" ? .yellow : .clear)
+                        )
                 }
                 else
                 {
                     Text("\(value.day)")
                         .font(.system(size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16).bold())
-                        .foregroundColor(isSameDay(date1: value.date, date2: currentDate) ? .white : .primary)
+                        .foregroundColor(isSameDay(date1: value.date, date2: currentDate) ? .blue : .primary)
                         .frame(maxWidth: .infinity)
                 }
             }

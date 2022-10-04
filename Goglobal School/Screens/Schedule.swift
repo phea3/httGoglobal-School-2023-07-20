@@ -54,7 +54,7 @@ struct Schedule: View {
                         } else{
                             List(Array(AllClasses.filteredTasks.enumerated()), id: \.element.id){ index, item in
                                 customList(startTime: String(format: "%.2f", item.startTime), endTime: String(format: "%.2f", item.endTime), subject: item.subject.subjectName, lastName: item.leadTeacherId.lastName, firstName: item.leadTeacherId.firstName, breaktime: item.breakTime, index: index)
-                                    .listRowInsets(EdgeInsets())
+                                    .listRowInsets(.init(top: 5, leading: 0, bottom: 5, trailing: 0))
                                     .backgroundRemover()
                             }
                         }

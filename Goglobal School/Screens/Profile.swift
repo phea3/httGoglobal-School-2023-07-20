@@ -31,11 +31,13 @@ struct Profile: View {
     @State var showImage: Bool = false
     @State var logoutLoading: Bool = false
     @State var viewLoading: Bool = false
-    @State private var showingAlert = false
+    @State var showingAlert = false
+    @State var onAppearImg: Bool = true
     @State var showImageViewer: Bool = true
     @State var showingBG: Bool = false
     @State var hidingDivider: Bool = false
     @State var imageBG = Image("BgNews")
+    @State var currentProgress: CGFloat = 0.0
     @Binding var Loading: Bool
     @Binding var hideTab: Bool
     @Binding var checkState: Bool
@@ -76,13 +78,35 @@ struct Profile: View {
                             }else{
                                 ScrollRefreshable(title: "កំពុងភ្ជាប់", tintColor: .blue){
                                     ScrollView(.vertical, showsIndicators: false){
-                                        mainView()
+                                        ZStack{
+                                            mainView()
+                                                .padding(.top)
+                                                .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
+                                                .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
+                                            if onAppearImg{
+                                                ZStack{
+                                                    Color("BG")
+                                                        .frame(maxWidth:.infinity, maxHeight: .infinity)
+                                                    VStack{
+                                                        ProgressView(value: currentProgress, total: 1000)
+                                                            .onAppear{
+                                                                self.currentProgress = 250
+                                                                DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                                                                    self.currentProgress = 500
+                                                                }
+                                                                DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+                                                                    self.currentProgress = 750
+                                                                }
+                                                            }
+                                                        Spacer()
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                     .navigationBarItems(leading: btnBack)
                                     .navigationBarTitleDisplayMode(.inline)
-                                    .padding(.top)
-                                    .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
-                                    .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
+                                    
                                 }
                             }
                         }
@@ -300,7 +324,7 @@ struct Profile: View {
                                 ZStack{
                                     if refresh{
                                         ProgressView()
-                                            .progressViewStyle(.circular)
+                                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                             .frame(width: 125, height: 125, alignment: .center)
                                     }else{
                                         mainViewofProfile()
@@ -378,6 +402,7 @@ struct Profile: View {
         self.refreshing = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.refreshing = false
+            self.onAppearImg = true
         }
     }
     @ViewBuilder
@@ -416,6 +441,9 @@ struct Profile: View {
                                 .background(Color.black.opacity(0.2))
                                 .clipShape(Circle())
                                 .padding(-5)
+                                .onAppear{
+                                    self.onAppearImg = false
+                                }
                             Image(uiImage: self.image)
                                 .resizable()
                                 .scaledToFill()
@@ -458,6 +486,9 @@ struct Profile: View {
                                 .clipShape(Circle())
                                 .padding(-5)
                                 .foregroundColor(.black)
+                                .onAppear{
+                                    self.onAppearImg = false
+                                }
                             Image(uiImage: self.image)
                                 .resizable()
                                 .scaledToFill()

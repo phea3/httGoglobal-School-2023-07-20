@@ -20,12 +20,13 @@ struct Dashboard: View {
     @State var detailId: String =  ""
     @State var userProfileImg: String
     @State var showingSheet: Bool = false
-    @State var imgLoading: Bool = false
+    @State var onAppearImg: Bool = true
     @State var tooltipVisible: Bool = false
     @State var refreshing: Bool = false
     @State var viewLoading: Bool = false
     @State var timingShow: Int = 0
     @State var hidingDivider: Bool = false
+    @State var currentProgress: CGFloat = 250.0
     @Binding var isLoading: Bool
     let gradient = Color.clear
     var barTitle: String = "ទំព័រដើម"
@@ -61,13 +62,38 @@ struct Dashboard: View {
                         Spacer()
                         progressingView(prop: prop)
                         Spacer()
-                    }else{
+                    }
+                    else{
                         ScrollRefreshable(title: "កំពុងភ្ជាប់", tintColor: .blue){
-                            mainView()
-                                .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
-                                .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
-                                .navigationBarTitleDisplayMode(.inline)
-                                .toolbarView(prop: prop, barTitle: barTitle, profileImg: userProfileImg)
+                            ZStack{
+                                mainView()
+                                    .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
+                                    .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
+                                    .navigationBarTitleDisplayMode(.inline)
+                                    .toolbarView(prop: prop, barTitle: barTitle, profileImg: userProfileImg)
+                                if onAppearImg{
+                                    ZStack{
+                                        Color("BG")
+                                            .frame(maxWidth:.infinity, maxHeight: .infinity)
+                                        VStack{
+                                            ProgressView(value: currentProgress, total: 1000)
+                                                .onAppear{
+                                                    self.currentProgress = 250
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                                                        self.currentProgress = 500
+                                                    }
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+                                                        self.currentProgress = 750
+                                                    }
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 6){
+                                                        self.currentProgress = 1000
+                                                    }
+                                                }
+                                            Spacer()
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -79,6 +105,8 @@ struct Dashboard: View {
                 students.StundentAmount(parentId: parentId)
             }
         }
+        .padOnlyStackNavigationView()
+        .phoneOnlyStackNavigationView()
         .refreshable {
             do {
                 AnnoucementList.clearCache()
@@ -93,8 +121,6 @@ struct Dashboard: View {
             academiclist.populateAllContinent(academicYearId: activeYear)
             students.StundentAmount(parentId: parentId)
         }
-        .padOnlyStackNavigationView()
-        .phoneOnlyStackNavigationView()
     }
     @ViewBuilder
     private func mainView()-> some View{
@@ -120,7 +146,6 @@ struct Dashboard: View {
                 Image(systemName: "bell.fill")
                     .font(.system(size:prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20))
                     .foregroundColor(.blue)
-//                    .padding(.bottom, 5)
                 Text("ព្រឹត្តិការណ៍នាពេលខាងមុខ")
                     .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
                     .foregroundColor(.blue)
@@ -183,10 +208,16 @@ struct Dashboard: View {
                                                 .aspectRatio(contentMode: .fill)
                                                 .frame(maxHeight: .infinity)
                                                 .cornerRadius(20)
+                                                .onAppear{
+                                                    self.onAppearImg = false
+                                                }
                                         case .failure:
                                             Text("Not Found News")
                                                 .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
                                                 .foregroundColor(.pink)
+                                                .onAppear{
+                                                    self.onAppearImg = false
+                                                }
                                         @unknown default:
                                             fatalError()
                                         }
@@ -229,6 +260,7 @@ struct Dashboard: View {
     }
     func refreshingView(){
         self.refreshing = true
+        self.onAppearImg = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.refreshing = false
         }
@@ -255,6 +287,9 @@ struct Dashboard: View {
                         .clipShape(Circle())
                         .aspectRatio(contentMode: .fill)
                         .padding(prop.isiPhoneS ? 20 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 24 : 25)
+                        .onAppear{
+                            self.onAppearImg = false
+                        }
                 case .failure:
                     Image("student")
                         .resizable()

@@ -142,3 +142,13 @@ query GetEnrollmentByStudents($studentId: ID) {
     status
   }
 }
+
+query GetInvoiceBystudentIdWithPagination($studentId: ID) {
+  getInvoiceBystudentIdWithPagination(studentId: $studentId) {
+    invoices {
+      _id
+      Amount
+      createdAt
+    }
+  }
+}
