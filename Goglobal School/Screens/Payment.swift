@@ -24,7 +24,7 @@ struct Payment: View {
                             .offset(y: prop.isLandscape ? 100 :  300)
                     }else{
                         ForEach(paymentmethod.paymentmethod, id: \.Id){ payment in
-                            rowdata(dater: getExactDate(date: payment.CreateAt), pay: "ថ្លៃអាហារ", period: "1Year", total: "$\(getExactPrice(price: payment.Amount))")
+                            rowdata(dater: getExactDate(date: payment.CreateAt), pay: "", period: "", total: "$\(getExactPrice(price: payment.Amount))")
                         }
                     }
                 }

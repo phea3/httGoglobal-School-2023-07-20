@@ -90,7 +90,7 @@ struct CustomDatePicker: View {
                 guildline(text: "វត្តមាន", color: .blue)
                 guildline(text: "មកយឺត", color: .green)
                 guildline(text: "សុំច្បាប់", color: .yellow)
-                guildline(text: "វត្តមាន", color: .red)
+                guildline(text: "អវត្តមាន", color: .red)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()

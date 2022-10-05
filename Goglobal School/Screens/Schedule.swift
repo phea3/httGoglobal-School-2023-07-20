@@ -11,6 +11,7 @@ struct Schedule: View {
     
     @StateObject var AllClasses: ScheduleViewModel = ScheduleViewModel()
     @State var loadingScreen: Bool = false
+    @State var currentProgress: CGFloat = 0
     var prop: Properties
     var classId: String
     var academicYearId: String
@@ -40,9 +41,22 @@ struct Schedule: View {
             .padding(.horizontal)
             
             if loadingScreen{
-                ProgressView()
-                    .offset(y: prop.isLandscape ? 100 :  300)
+                ProgressView(value: currentProgress, total: 1000)
+                    .padding(.top)
                     Spacer()
+                    .onAppear{
+                        self.currentProgress = 250
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                            self.currentProgress = 500
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5){
+                            self.currentProgress = 750
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                            self.currentProgress = 1000
+                        }
+                    }
+                   
             }else{
                 VStack{
                     if let tasks = AllClasses.filteredTasks{
@@ -79,7 +93,7 @@ struct Schedule: View {
         .onAppear {
             AllClasses.getClasses(classId: classId, academicYearId: academicYearId, programId: programId)
             self.loadingScreen = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
                 self.loadingScreen = false
             }
         }
@@ -103,7 +117,7 @@ struct Schedule: View {
             VStack(spacing: 0){
                 Text(startTime)
                     .font(.system(size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20))
-                Text("-\(index)")
+                Text("-")
                 Text(endTime)
                     .font(.system(size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20))
             }

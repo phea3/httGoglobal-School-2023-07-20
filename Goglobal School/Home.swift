@@ -98,12 +98,13 @@ struct Home: View {
                 FlashScreen(prop:prop)
             }
             // alert no wifi or internet connection
-            .alert("គ្មានអ៉ីនធើណេត", isPresented: .constant(monitor.connected)) {
+            .alert("គ្មានអ៉ីនធើណេត", isPresented: .constant(!monitor.connected)) {
                 Button("OK", role: .cancel) { }
             }
             // when screen appear the funcs is perform instantly
             .onAppear{
                 VersionCheck.shared.checkAppStore()
+                monitor.checkConnection()
                 if !loginVM.isAuthenticated{
                     DispatchQueue.main.async {
                         self.isLoading = false
@@ -112,6 +113,7 @@ struct Home: View {
             }
             .ignoresSafeArea()
         }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
         .ignoresSafeArea(.container, edges: .leading)
     }
     

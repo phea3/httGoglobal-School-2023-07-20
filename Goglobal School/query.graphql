@@ -147,6 +147,7 @@ query GetInvoiceBystudentIdWithPagination($studentId: ID) {
   getInvoiceBystudentIdWithPagination(studentId: $studentId) {
     invoices {
       _id
+      groupFeeType
       Amount
       createdAt
     }

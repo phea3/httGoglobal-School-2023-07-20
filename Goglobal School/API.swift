@@ -2476,6 +2476,7 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
         invoices {
           __typename
           _id
+          groupFeeType
           Amount
           createdAt
         }
@@ -2568,6 +2569,7 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
           return [
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
             GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+            GraphQLField("groupFeeType", type: .scalar(String.self)),
             GraphQLField("Amount", type: .scalar(Double.self)),
             GraphQLField("createdAt", type: .scalar(String.self)),
           ]
@@ -2579,8 +2581,8 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
           self.resultMap = unsafeResultMap
         }
 
-        public init(_id: GraphQLID, amount: Double? = nil, createdAt: String? = nil) {
-          self.init(unsafeResultMap: ["__typename": "Invoice", "_id": _id, "Amount": amount, "createdAt": createdAt])
+        public init(_id: GraphQLID, groupFeeType: String? = nil, amount: Double? = nil, createdAt: String? = nil) {
+          self.init(unsafeResultMap: ["__typename": "Invoice", "_id": _id, "groupFeeType": groupFeeType, "Amount": amount, "createdAt": createdAt])
         }
 
         public var __typename: String {
@@ -2598,6 +2600,15 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
           }
           set {
             resultMap.updateValue(newValue, forKey: "_id")
+          }
+        }
+
+        public var groupFeeType: String? {
+          get {
+            return resultMap["groupFeeType"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "groupFeeType")
           }
         }
 

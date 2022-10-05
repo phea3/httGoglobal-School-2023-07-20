@@ -169,8 +169,9 @@ struct Choose: View {
         }
         .halfSheet(showSheet: $showsheet) {
             // Half Sheet View...
+            NavigationView {
                 ZStack {
-                    Color("BG")
+                    Color.white
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                     VStack(alignment: .leading,spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
                         Text("ជ្រើសរើស")
@@ -181,13 +182,15 @@ struct Choose: View {
                         TabButton(title: "វត្តមានសិស្ស", image: "checklist", chose: .absence, selection: "absence")
                             .buttonStyle(PlainButtonStyle())
                         //                        TabButton(title: "ប្រតិបត្តិពន្ទុ", image: "newspaper.fill", chose: .score, selection: "score").buttonStyle(PlainButtonStyle())
-                        TabButton(title: "តម្លៃសិក្សា", image: "dollarsign.square.fill", chose: .payment, selection: "payment")
+                        TabButton(title: "ប្រវត្តិបង់ថ្លៃសិក្សា", image: "dollarsign.square.fill", chose: .payment, selection: "payment")
                             .buttonStyle(PlainButtonStyle())
                         Spacer()
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                     .padding()
                 }
+                .navigationBarHidden(true)
+            }
         } onEnd: {
             print("")
         }
