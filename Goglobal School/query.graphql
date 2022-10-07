@@ -144,12 +144,27 @@ query GetEnrollmentByStudents($studentId: ID) {
 }
 
 query GetInvoiceBystudentIdWithPagination($studentId: ID) {
-  getInvoiceBystudentIdWithPagination(studentId: $studentId) {
-    invoices {
-      _id
-      groupFeeType
-      Amount
-      createdAt
+    getInvoiceBystudentIdWithPagination(studentId: $studentId) {
+      invoices {
+        _id
+        Amount
+        createdAt
+        invoiceId
+        paidStatus
+        additionalFee {
+          _id
+          countMonth
+          incomeHead {
+            _id
+            incomeHead
+            price
+            unit
+            incomeType
+            note
+          }
+          
+        }
+        
+      }
     }
   }
-}

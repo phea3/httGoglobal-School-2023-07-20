@@ -55,5 +55,14 @@ class CustomHostingController<Content: View>: UIHostingController<Content>{
     }
 }
 
+extension View{
+    //binding show variable...
+    func halfSheet<SheetView: View>(showSheet: Binding<Bool>,@ViewBuilder sheetView: @escaping ()-> SheetView, onEnd: @escaping () -> ())-> some View {
+        return self
+            .background(
+                HalfSheetHelper(sheetView: sheetView(),showSheet: showSheet, onEnd: onEnd)
+            )
+    }
+}
 
 

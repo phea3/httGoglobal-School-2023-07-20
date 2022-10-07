@@ -2476,9 +2476,24 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
         invoices {
           __typename
           _id
-          groupFeeType
           Amount
           createdAt
+          invoiceId
+          paidStatus
+          additionalFee {
+            __typename
+            _id
+            countMonth
+            incomeHead {
+              __typename
+              _id
+              incomeHead
+              price
+              unit
+              incomeType
+              note
+            }
+          }
         }
       }
     }
@@ -2569,9 +2584,11 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
           return [
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
             GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
-            GraphQLField("groupFeeType", type: .scalar(String.self)),
             GraphQLField("Amount", type: .scalar(Double.self)),
             GraphQLField("createdAt", type: .scalar(String.self)),
+            GraphQLField("invoiceId", type: .scalar(Int.self)),
+            GraphQLField("paidStatus", type: .scalar(Bool.self)),
+            GraphQLField("additionalFee", type: .list(.object(AdditionalFee.selections))),
           ]
         }
 
@@ -2581,8 +2598,8 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
           self.resultMap = unsafeResultMap
         }
 
-        public init(_id: GraphQLID, groupFeeType: String? = nil, amount: Double? = nil, createdAt: String? = nil) {
-          self.init(unsafeResultMap: ["__typename": "Invoice", "_id": _id, "groupFeeType": groupFeeType, "Amount": amount, "createdAt": createdAt])
+        public init(_id: GraphQLID, amount: Double? = nil, createdAt: String? = nil, invoiceId: Int? = nil, paidStatus: Bool? = nil, additionalFee: [AdditionalFee?]? = nil) {
+          self.init(unsafeResultMap: ["__typename": "Invoice", "_id": _id, "Amount": amount, "createdAt": createdAt, "invoiceId": invoiceId, "paidStatus": paidStatus, "additionalFee": additionalFee.flatMap { (value: [AdditionalFee?]) -> [ResultMap?] in value.map { (value: AdditionalFee?) -> ResultMap? in value.flatMap { (value: AdditionalFee) -> ResultMap in value.resultMap } } }])
         }
 
         public var __typename: String {
@@ -2603,15 +2620,6 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
           }
         }
 
-        public var groupFeeType: String? {
-          get {
-            return resultMap["groupFeeType"] as? String
-          }
-          set {
-            resultMap.updateValue(newValue, forKey: "groupFeeType")
-          }
-        }
-
         public var amount: Double? {
           get {
             return resultMap["Amount"] as? Double
@@ -2627,6 +2635,181 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
           }
           set {
             resultMap.updateValue(newValue, forKey: "createdAt")
+          }
+        }
+
+        public var invoiceId: Int? {
+          get {
+            return resultMap["invoiceId"] as? Int
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "invoiceId")
+          }
+        }
+
+        public var paidStatus: Bool? {
+          get {
+            return resultMap["paidStatus"] as? Bool
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "paidStatus")
+          }
+        }
+
+        public var additionalFee: [AdditionalFee?]? {
+          get {
+            return (resultMap["additionalFee"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [AdditionalFee?] in value.map { (value: ResultMap?) -> AdditionalFee? in value.flatMap { (value: ResultMap) -> AdditionalFee in AdditionalFee(unsafeResultMap: value) } } }
+          }
+          set {
+            resultMap.updateValue(newValue.flatMap { (value: [AdditionalFee?]) -> [ResultMap?] in value.map { (value: AdditionalFee?) -> ResultMap? in value.flatMap { (value: AdditionalFee) -> ResultMap in value.resultMap } } }, forKey: "additionalFee")
+          }
+        }
+
+        public struct AdditionalFee: GraphQLSelectionSet {
+          public static let possibleTypes: [String] = ["AdditionalFee"]
+
+          public static var selections: [GraphQLSelection] {
+            return [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+              GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("countMonth", type: .scalar(Int.self)),
+              GraphQLField("incomeHead", type: .object(IncomeHead.selections)),
+            ]
+          }
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(_id: GraphQLID, countMonth: Int? = nil, incomeHead: IncomeHead? = nil) {
+            self.init(unsafeResultMap: ["__typename": "AdditionalFee", "_id": _id, "countMonth": countMonth, "incomeHead": incomeHead.flatMap { (value: IncomeHead) -> ResultMap in value.resultMap }])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          public var _id: GraphQLID {
+            get {
+              return resultMap["_id"]! as! GraphQLID
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "_id")
+            }
+          }
+
+          public var countMonth: Int? {
+            get {
+              return resultMap["countMonth"] as? Int
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "countMonth")
+            }
+          }
+
+          public var incomeHead: IncomeHead? {
+            get {
+              return (resultMap["incomeHead"] as? ResultMap).flatMap { IncomeHead(unsafeResultMap: $0) }
+            }
+            set {
+              resultMap.updateValue(newValue?.resultMap, forKey: "incomeHead")
+            }
+          }
+
+          public struct IncomeHead: GraphQLSelectionSet {
+            public static let possibleTypes: [String] = ["IncomeHead"]
+
+            public static var selections: [GraphQLSelection] {
+              return [
+                GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+                GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+                GraphQLField("incomeHead", type: .scalar(String.self)),
+                GraphQLField("price", type: .scalar(Double.self)),
+                GraphQLField("unit", type: .scalar(String.self)),
+                GraphQLField("incomeType", type: .scalar(String.self)),
+                GraphQLField("note", type: .scalar(String.self)),
+              ]
+            }
+
+            public private(set) var resultMap: ResultMap
+
+            public init(unsafeResultMap: ResultMap) {
+              self.resultMap = unsafeResultMap
+            }
+
+            public init(_id: GraphQLID, incomeHead: String? = nil, price: Double? = nil, unit: String? = nil, incomeType: String? = nil, note: String? = nil) {
+              self.init(unsafeResultMap: ["__typename": "IncomeHead", "_id": _id, "incomeHead": incomeHead, "price": price, "unit": unit, "incomeType": incomeType, "note": note])
+            }
+
+            public var __typename: String {
+              get {
+                return resultMap["__typename"]! as! String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "__typename")
+              }
+            }
+
+            public var _id: GraphQLID {
+              get {
+                return resultMap["_id"]! as! GraphQLID
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "_id")
+              }
+            }
+
+            public var incomeHead: String? {
+              get {
+                return resultMap["incomeHead"] as? String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "incomeHead")
+              }
+            }
+
+            public var price: Double? {
+              get {
+                return resultMap["price"] as? Double
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "price")
+              }
+            }
+
+            public var unit: String? {
+              get {
+                return resultMap["unit"] as? String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "unit")
+              }
+            }
+
+            public var incomeType: String? {
+              get {
+                return resultMap["incomeType"] as? String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "incomeType")
+              }
+            }
+
+            public var note: String? {
+              get {
+                return resultMap["note"] as? String
+              }
+              set {
+                resultMap.updateValue(newValue, forKey: "note")
+              }
+            }
           }
         }
       }

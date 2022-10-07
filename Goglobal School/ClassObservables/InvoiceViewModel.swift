@@ -50,6 +50,49 @@ class InvoiceViewModel: ObservableObject{
         var CreateAt: String {
             invoice.createdAt ?? ""
         }
-        
+        var InvoiceId: Int {
+            invoice.invoiceId ?? 0
+        }
+        var PaidStatus: Bool {
+            invoice.paidStatus ?? false
+        }
+        var AdditionalFee: [additionalFeeModel]{
+            (invoice.additionalFee?.map(additionalFeeModel.init))!
+        }
     }
+struct additionalFeeModel{
+    var additionalFee : GetInvoiceBystudentIdWithPaginationQuery.Data.GetInvoiceBystudentIdWithPagination.Invoice.AdditionalFee?
+    
+    var Id: String {
+        additionalFee?._id ?? ""
+    }
+    var countMonth: Int{
+        additionalFee?.countMonth ?? 0
+    }
+    var IncomeHead: incomeHeadModel {
+        (additionalFee?.incomeHead.map(incomeHeadModel.init))!
+    }
+}
 
+struct incomeHeadModel{
+    var incomeHead : GetInvoiceBystudentIdWithPaginationQuery.Data.GetInvoiceBystudentIdWithPagination.Invoice.AdditionalFee.IncomeHead
+    var Id: String {
+        incomeHead._id
+    }
+    var IncomeHead: String {
+        incomeHead.incomeHead ?? ""
+    }
+    
+    var Price: Double {
+        incomeHead.price ?? 0.0
+    }
+    var Unit: String {
+        incomeHead.unit ?? ""
+    }
+    var IncomeType: String {
+        incomeHead.incomeType ?? ""
+    }
+    var Note: String {
+        incomeHead.note ?? ""
+    }
+}

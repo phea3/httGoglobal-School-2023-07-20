@@ -116,7 +116,6 @@ struct Annoucements: View {
                             image
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .cornerRadius(20)
                                 .padding()
                                 .frame(width: prop.size.width, height: prop.size.height)
                                 .scaledToFit()

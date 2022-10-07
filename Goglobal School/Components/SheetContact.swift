@@ -28,7 +28,7 @@ struct SheetContact: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 24 : prop.isiPhoneL ? 26 : 30)
-                    Text("Go Global School")
+                    Text("https://www.facebook.com/goglobalschool15/")
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .body))
                 }
                 

@@ -286,6 +286,7 @@ struct Profile: View {
                     }
                     Divider()
                 }
+                
             }
         }else{
             VStack(alignment: .leading, spacing: 0) {
@@ -395,6 +396,7 @@ struct Profile: View {
                         )
                     }
                 }
+                .padding(.top,10)
             }
         }
     }

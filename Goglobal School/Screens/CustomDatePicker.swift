@@ -68,11 +68,12 @@ struct CustomDatePicker: View {
                 ForEach(extractDate()){ value in
                     
                     CardView(value: value)
-                        .background(
+                        .overlay(
                             Circle()
-                                .strokeBorder(Color.blue,lineWidth: 2)
+                                .fill(Color.blue)
+                                .frame(width: 8, height: 8)
                                 .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1:0)
-                                .frame(width:prop.isLandscape ? 40 : .infinity)
+                                .offset(y: 30)
                         )
                         .onTapGesture {
                             currentDate = value.date
@@ -141,7 +142,13 @@ struct CustomDatePicker: View {
                     Text("\(value.day)")
                         .font(.system(size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16).bold())
                         .foregroundColor(isSameDay(date1: value.date, date2: currentDate) ? .blue : .primary)
-                        .frame(maxWidth: .infinity)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(
+                            Circle()
+                                .strokeBorder(Color.blue,lineWidth: 2)
+                                .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1:0)
+                                .frame(width:prop.isLandscape ? 40 : .infinity)
+                        )
                 }
             }
         }

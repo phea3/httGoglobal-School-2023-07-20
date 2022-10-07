@@ -1,41 +1,24 @@
-//
-//  Home.swift
-//  Goglobal School
-//
-//  Created by Leng Mouyngech on 25/8/22.
-//
 
-//package default & github
 import SwiftUI
 import Alamofire
 import SDWebImageSwiftUI
 import SwiftUITooltip
 import ImageViewer
 
-// main view
 struct Home: View {
     
-    // MAIN:variable creation
-    
-    // url
     @Environment(\.openURL) var openURL
-    // class observed that query from backend
-    @ObservedObject var loginVM: LoginViewModel = LoginViewModel()
+    @StateObject var loginVM: LoginViewModel = LoginViewModel()
     @StateObject var academiclist: ListViewModel =  ListViewModel()
-    //check condition no wifi or not
     @StateObject var monitor = Monitor()
-    // initalize default view
     init(){
         UITabBar.appearance().isHidden = true
     }
-    // common constant variable
     @State var currentTab: Tab = .dashboard
     @State var animationFinished: Bool = false
     @State var animationStarted: Bool = false
-    // save the gmail & password on disk no tempory memory
     @State var gmail: String = (UserDefaults.standard.string(forKey: "Gmail") ?? "")
     @State var password: String = (UserDefaults.standard.string(forKey: "Password") ?? "")
-    
     @State var forget: Bool = false
     @State var isempty: Bool = false
     @State var isLoading: Bool = false
@@ -43,22 +26,17 @@ struct Home: View {
     @State var hideTab: Bool = false
     @State var checkState: Bool = false
     @State var loggedIn: Bool = false
-    @State var tooltipVisible = true
-    @State private var showingAlert: Bool = false
-    @State private var showingPassword: Bool = false
-    @State private var noConnention: Bool = false
-    @State private var showingImage: Bool = false
-    @State private var showingAlertUpdate = true
-    @State private var value: CGFloat = 0
-    @State private var hidefooter: Bool = false
+    @State var showingAlert: Bool = false
+    @State var showingPassword: Bool = false
+    @State var showingAlertUpdate = true
+    @State var value: CGFloat = 0
+    @State var hidefooter: Bool = false
     @State var image = Image("GoGlobalSchool")
+    
     var body: some View {
-        //resonsive each device
         ResponsiveView{ prop in
             ZStack{
-                // background image the many blue dots
                 ImageBackgroundSignIn()
-                // check if authentication is true
                 if loginVM.isAuthenticated{
                     ZStack{
                         if !loggedIn{
@@ -69,39 +47,28 @@ struct Home: View {
                         }
                     }
                     .onAppear{
-                        //since authentication true or false we're gonna perform the func login anyways
                         loginVM.login(email: gmail, password: password, checkState: checkState)
-                        // func asking the user to allow the notification
                         loginVM.AskUserForNotification()
-                        //wait 2s to change value loggedIN
                         academiclist.activeAcademicYear()
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             loggedIn = true
                         }
                     }
-                }
-                // if authentication is true some how and gmail & password is stored in disk of the user's device let's perform the func loggin
-                else if (!gmail.isEmpty && !gmail.isEmpty) && loginVM.isAuthenticated {
+                }else if (!gmail.isEmpty && !gmail.isEmpty) && loginVM.isAuthenticated {
                     EmptyView()
                         .onAppear{
                             loginVM.login(email: gmail, password: password, checkState: checkState)
                         }
-                }
-                // if we have the gmail & password but authentication is false we have a loggin form
-                else if !loginVM.isAuthenticated{
+                }else if !loginVM.isAuthenticated{
                     LoginView(prop: prop)
                 }else{
                     progressingView(prop: prop)
                 }
-                
-                // animation while open the app
-                FlashScreen(prop:prop)
+                FlashScreen(animationFinished: self.animationFinished, prop:prop)
             }
-            // alert no wifi or internet connection
             .alert("គ្មានអ៉ីនធើណេត", isPresented: .constant(!monitor.connected)) {
                 Button("OK", role: .cancel) { }
             }
-            // when screen appear the funcs is perform instantly
             .onAppear{
                 VersionCheck.shared.checkAppStore()
                 monitor.checkConnection()
@@ -118,6 +85,7 @@ struct Home: View {
     }
     
     @ViewBuilder
+    //MARK: Main View or Tab View of Each Screen
     func MainView(prop: Properties)-> some View{
         ZStack{
             TabView(selection: $currentTab){
@@ -150,29 +118,7 @@ struct Home: View {
         }
     }
     
-    func FlashScreen(prop: Properties)-> some View {
-        ZStack{
-            Color.white
-                .ignoresSafeArea()
-            ImageBackgroundSignIn()
-            VStack{
-                Spacer()
-                LogoGoglobal(prop:prop)
-                Spacer()
-                footer(prop: prop)
-            }
-            .padding(prop.isiPhoneS ? 25: prop.isiPhoneM ? 30 : prop.isiPhoneL ? 35 : 40)
-        }
-        .opacity(animationFinished ? 0:1)
-        .onAppear{
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                withAnimation(.easeInOut(duration: 0.7)){
-                    animationFinished = true
-                }
-            }
-        }
-    }
-    
+    // MARK: View of login Screen
     func LoginView(prop: Properties)-> some View{
         ZStack{
             Rectangle()
@@ -261,7 +207,6 @@ struct Home: View {
                                 self.checkState.toggle()
                             }) {
                                 HStack(alignment: .center, spacing: 10) {
-                                    //2. Will update according to state
                                     Image(systemName: self.checkState ?"checkmark.square": "square")
                                         .font(.system(size: 20))
                                         .padding(.bottom, 5)
@@ -314,16 +259,19 @@ struct Home: View {
             }
             .padding(prop.isiPhoneS ? 25: prop.isiPhoneM ? 30 : prop.isiPhoneL ? 35 : 40)
             if isLoading{
-                progressingView(prop: prop)
-            }
-            if showingImage{
-                VStack{
-                    Spacer()
-                    ProgressView()
-                    Spacer()
+                ZStack{
+                    Rectangle()
+                        .fill(.blue)
+                        .frame(width: 100, height: 100, alignment: .center)
+                        .cornerRadius(20)
+                    VStack{
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .scaleEffect(prop.isiPhoneS ? 1 : prop.isiPhoneM ? 1: prop.isiPhoneL ? 1 : 1)
+                        Text("កំពុងភ្ជាប់")
+                            .foregroundColor(.white)
+                    }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .overlay(ImageViewer(image: self.$image, viewerShown: self.$showingImage, closeButtonTopRight: true))
             }
         }
         .onTapGesture {

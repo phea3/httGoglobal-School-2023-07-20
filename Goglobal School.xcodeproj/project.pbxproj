@@ -9,11 +9,14 @@
 /* Begin PBXBuildFile section */
 		0902C55828CF0C3500F2A956 /* MonitorNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0902C55728CF0C3500F2A956 /* MonitorNetwork.swift */; };
 		0902C55A28CF174200F2A956 /* ShowAvailableVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0902C55928CF174200F2A956 /* ShowAvailableVersion.swift */; };
+		09094AAB28ED3AC4000F2F98 /* getDeviceToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09094AAA28ED3AC4000F2F98 /* getDeviceToken.swift */; };
+		09094AC928ED60CB000F2F98 /* FlashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09094AC828ED60CB000F2F98 /* FlashScreen.swift */; };
 		09178C2728B9A43E00A507EA /* Annoucements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09178C2628B9A43E00A507EA /* Annoucements.swift */; };
 		09178C2D28B9B28500A507EA /* SheetContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09178C2C28B9B28500A507EA /* SheetContact.swift */; };
 		091B223128CC379900FE9DBB /* apple-app-site-association in Resources */ = {isa = PBXBuildFile; fileRef = 091B223028CC379900FE9DBB /* apple-app-site-association */; };
 		091B223328CC3B9000FE9DBB /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091B223228CC3B9000FE9DBB /* DeepLink.swift */; };
 		091B223628CC465400FE9DBB /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091B223528CC465400FE9DBB /* AuthenticationServices.framework */; };
+		0925213328EEB3B900363609 /* ProgrammePayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0925213228EEB3B900363609 /* ProgrammePayment.swift */; };
 		092824C628DC17BF00320D33 /* EnrollmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092824C528DC17BF00320D33 /* EnrollmentViewModel.swift */; };
 		0978944D28E7EC2300CB4C05 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0978944C28E7EC2300CB4C05 /* Payment.swift */; };
 		0978AA2C28C5CBC400CD9222 /* ScrollRefreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0978AA2B28C5CBC400CD9222 /* ScrollRefreshable.swift */; };
@@ -70,11 +73,14 @@
 /* Begin PBXFileReference section */
 		0902C55728CF0C3500F2A956 /* MonitorNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorNetwork.swift; sourceTree = "<group>"; };
 		0902C55928CF174200F2A956 /* ShowAvailableVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAvailableVersion.swift; sourceTree = "<group>"; };
+		09094AAA28ED3AC4000F2F98 /* getDeviceToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getDeviceToken.swift; sourceTree = "<group>"; };
+		09094AC828ED60CB000F2F98 /* FlashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashScreen.swift; sourceTree = "<group>"; };
 		09178C2628B9A43E00A507EA /* Annoucements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annoucements.swift; sourceTree = "<group>"; };
 		09178C2C28B9B28500A507EA /* SheetContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContact.swift; sourceTree = "<group>"; };
 		091B223028CC379900FE9DBB /* apple-app-site-association */ = {isa = PBXFileReference; lastKnownFileType = text; path = "apple-app-site-association"; sourceTree = "<group>"; };
 		091B223228CC3B9000FE9DBB /* DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
 		091B223528CC465400FE9DBB /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
+		0925213228EEB3B900363609 /* ProgrammePayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammePayment.swift; sourceTree = "<group>"; };
 		092824C528DC17BF00320D33 /* EnrollmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentViewModel.swift; sourceTree = "<group>"; };
 		0978944C28E7EC2300CB4C05 /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		0978AA2B28C5CBC400CD9222 /* ScrollRefreshable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollRefreshable.swift; sourceTree = "<group>"; };
@@ -175,6 +181,7 @@
 				09FEBC9528B70B4500E8B5B7 /* Function.swift */,
 				09FEBC9928B70B8500E8B5B7 /* TabView.swift */,
 				09FEBC9728B70B6B00E8B5B7 /* ResponsiveContainer.swift */,
+				09094AAA28ED3AC4000F2F98 /* getDeviceToken.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -193,6 +200,8 @@
 				09FEBCA328B70C3E00E8B5B7 /* Attendant.swift */,
 				09FEBCA128B70C0600E8B5B7 /* CustomDatePicker.swift */,
 				0978944C28E7EC2300CB4C05 /* Payment.swift */,
+				09094AC828ED60CB000F2F98 /* FlashScreen.swift */,
+				0925213228EEB3B900363609 /* ProgrammePayment.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -378,7 +387,7 @@
 		09FEBC7E28B7080D00E8B5B7 /* Generate Apollo Graphql API */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -390,7 +399,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n# Don't run this during index builds\nif [ $ACTION = \"indexbuild\" ]; then exit 0; fi\n\n# Go to the build root and search up the chain to find the Derived Data Path where the source packages are checked out.\nDERIVED_DATA_CANDIDATE=\"${BUILD_ROOT}\"\n\nwhile ! [ -d \"${DERIVED_DATA_CANDIDATE}/SourcePackages\" ]; do\n  if [ \"${DERIVED_DATA_CANDIDATE}\" = / ]; then\n    echo >&2 \"error: Unable to locate SourcePackages directory from BUILD_ROOT: '${BUILD_ROOT}'\"\n    exit 1\n  fi\n\n  DERIVED_DATA_CANDIDATE=\"$(dirname \"${DERIVED_DATA_CANDIDATE}\")\"\ndone\n\n# Grab a reference to the directory where scripts are checked out\nSCRIPT_PATH=\"${DERIVED_DATA_CANDIDATE}/SourcePackages/checkouts/apollo-ios/scripts\"\n\nif [ -z \"${SCRIPT_PATH}\" ]; then\n    echo >&2 \"error: Couldn't find the CLI script in your checked out SPM packages; make sure to add the framework to your project.\"\n    exit 1\nfi\n\ncd \"${SRCROOT}/Goglobal School\"\n\"${SCRIPT_PATH}\"/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/*.graphql --localSchemaFile=\"schema.json\" API.swift\n";
 		};
@@ -418,12 +427,15 @@
 				0902C55828CF0C3500F2A956 /* MonitorNetwork.swift in Sources */,
 				09FEBC9828B70B6B00E8B5B7 /* ResponsiveContainer.swift in Sources */,
 				09FEBC8428B709A300E8B5B7 /* Network.swift in Sources */,
+				0925213328EEB3B900363609 /* ProgrammePayment.swift in Sources */,
 				09FEBC9E28B70BCE00E8B5B7 /* RoundedCorners.swift in Sources */,
 				09FEBCAC28B70CA600E8B5B7 /* Education.swift in Sources */,
 				09FEBC9228B70A8C00E8B5B7 /* MobileUserViewModel.swift in Sources */,
+				09094AAB28ED3AC4000F2F98 /* getDeviceToken.swift in Sources */,
 				092824C628DC17BF00320D33 /* EnrollmentViewModel.swift in Sources */,
 				0978944D28E7EC2300CB4C05 /* Payment.swift in Sources */,
 				09FEBC9A28B70B8500E8B5B7 /* TabView.swift in Sources */,
+				09094AC928ED60CB000F2F98 /* FlashScreen.swift in Sources */,
 				09178C2D28B9B28500A507EA /* SheetContact.swift in Sources */,
 				09FEBC8628B709D600E8B5B7 /* LoginViewModel.swift in Sources */,
 				09FEBCAE28B70CBD00E8B5B7 /* Grade.swift in Sources */,
@@ -588,7 +600,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "Second-dayofSwift-Testing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -626,7 +638,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.7;
+				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = "Second-dayofSwift-Testing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

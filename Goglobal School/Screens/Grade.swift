@@ -169,28 +169,26 @@ struct Choose: View {
         }
         .halfSheet(showSheet: $showsheet) {
             // Half Sheet View...
-            NavigationView {
-                ZStack {
-                    Color.white
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                    VStack(alignment: .leading,spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                        Text("ជ្រើសរើស")
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .title2))
-                            .foregroundColor(Color("Blue"))
-                        TabButton(title: "កាលវិភាគសិក្សា", image: "calendar.badge.clock", chose: .attendance, selection: "attendance")
-                            .buttonStyle(PlainButtonStyle())
-                        TabButton(title: "វត្តមានសិស្ស", image: "checklist", chose: .absence, selection: "absence")
-                            .buttonStyle(PlainButtonStyle())
-                        //                        TabButton(title: "ប្រតិបត្តិពន្ទុ", image: "newspaper.fill", chose: .score, selection: "score").buttonStyle(PlainButtonStyle())
-                        TabButton(title: "ប្រវត្តិបង់ថ្លៃសិក្សា", image: "dollarsign.square.fill", chose: .payment, selection: "payment")
-                            .buttonStyle(PlainButtonStyle())
-                        Spacer()
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                    .padding()
+            ZStack {
+                Color.white
+                    .frame(width: .infinity, height: .infinity, alignment: .leading)
+                VStack(alignment: .leading,spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                    Text("ជ្រើសរើស")
+                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .title2))
+                        .foregroundColor(Color("Blue"))
+                    TabButton(title: "កាលវិភាគសិក្សា", image: "calendar.badge.clock", chose: .attendance, selection: "attendance")
+                        .buttonStyle(PlainButtonStyle())
+                    TabButton(title: "វត្តមានសិស្ស", image: "checklist", chose: .absence, selection: "absence")
+                        .buttonStyle(PlainButtonStyle())
+                    //                        TabButton(title: "ប្រតិបត្តិពន្ទុ", image: "newspaper.fill", chose: .score, selection: "score").buttonStyle(PlainButtonStyle())
+                    TabButton(title: "ប្រវត្តិបង់ថ្លៃសិក្សា", image: "dollarsign.square.fill", chose: .payment, selection: "payment")
+                        .buttonStyle(PlainButtonStyle())
+                    Spacer()
                 }
-                .navigationBarHidden(true)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                .padding()
             }
+            .ignoresSafeArea()
         } onEnd: {
             print("")
         }

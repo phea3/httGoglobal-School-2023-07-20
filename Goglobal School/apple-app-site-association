@@ -1,7 +1,9 @@
 {
-  "webcredentials": {
-    "apps": [
-      "1641628042.Second-dayofSwift-Testing"
-    ]
-  }
+    "applinks": {
+    },
+    "webcredentials": {
+       "apps": ["1641628042.Second-dayofSwift-Testing"]
+    },
+    "appclips": {
+    }
 }

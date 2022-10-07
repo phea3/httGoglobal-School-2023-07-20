@@ -23,9 +23,10 @@ struct Schedule: View {
                     ForEach(AllClasses.currentWeek, id: \.self){ day in
                         VStack{
                             DayOfWeek(day: AllClasses.extractDate(date: day, format: "EEE"),dayInKhmer: AllClasses.extractDate(date: day, format: "EEE"))
-                            Circle()
+                            Rectangle()
                                 .fill(.blue)
-                                .frame(width: 8, height: 8)
+                                .frame(width: .infinity, height: 4)
+//                                .cornerRadius(10)
                                 .opacity(AllClasses.isToday(date: day) ? 1 : 0)
                         }
                         .onTapGesture {
@@ -46,13 +47,13 @@ struct Schedule: View {
                     Spacer()
                     .onAppear{
                         self.currentProgress = 250
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
                             self.currentProgress = 500
                         }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5){
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                             self.currentProgress = 750
                         }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8){
                             self.currentProgress = 1000
                         }
                     }
@@ -93,13 +94,13 @@ struct Schedule: View {
         .onAppear {
             AllClasses.getClasses(classId: classId, academicYearId: academicYearId, programId: programId)
             self.loadingScreen = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.loadingScreen = false
             }
         }
     }
     
-    func DayOfWeek(day: String, dayInKhmer: String)->some View {
+    func DayOfWeek(day: String, dayInKhmer: String)-> some View {
         ZStack{
             Circle()
                 .fill(.white)

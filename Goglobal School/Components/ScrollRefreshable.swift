@@ -19,14 +19,28 @@ struct ScrollRefreshable<Content: View>: View {
         UITableView.appearance().showsVerticalScrollIndicator = false
     }
     var body: some View {
-        List{
-            content
-                .listRowSeparatorTint(.clear)
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+        if #available(iOS 16.0, *) {
+            List{
+                content
+                    .listRowSeparatorTint(.clear)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            }
+            .scrollContentBackground(.hidden)
+            .listStyle(.plain)
+            .listStyle(InsetGroupedListStyle())
+        } else {
+            // Fallback on earlier versions
+            List{
+                content
+                    .listRowSeparatorTint(.clear)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            }
+            .listStyle(.plain)
+            .listStyle(InsetGroupedListStyle())
         }
-        .listStyle(.plain)
-        .listStyle(InsetGroupedListStyle())
+        
     }
 }
 

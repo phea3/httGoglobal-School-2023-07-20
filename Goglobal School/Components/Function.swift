@@ -267,12 +267,5 @@ extension View{
         return clipShape(roundedRect)
             .overlay(roundedRect.strokeBorder(content, lineWidth: width))
     }
-    //binding show variable...
-    func halfSheet<SheetView: View>(showSheet: Binding<Bool>,@ViewBuilder sheetView: @escaping ()-> SheetView, onEnd: @escaping () -> ())-> some View {
-        return self
-            .background(
-                HalfSheetHelper(sheetView: sheetView(),showSheet: showSheet, onEnd: onEnd)
-            )
-    }
 }
 
