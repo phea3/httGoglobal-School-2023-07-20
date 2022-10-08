@@ -296,6 +296,9 @@ struct Dashboard: View {
                         .clipShape(Circle())
                         .aspectRatio(contentMode: .fit)
                         .padding()
+                        .onAppear{
+                            self.onAppearImg = false
+                        }
                 @unknown default:
                     fatalError()
                 }
