@@ -23,6 +23,7 @@ struct Grade: View {
     @State var classId: String = ""
     @State var academicYearId: String = ""
     @State var programId: String = ""
+    @State var clasLoading: Bool = false
     let gradient = Color("BG")
     let Enrollment: [EnrollmentsViewModel]
     let Student: String
@@ -50,19 +51,37 @@ struct Grade: View {
             .padding(.top)
             .padding(.horizontal)
             .frame(width: .infinity, height: .infinity, alignment: .leading)
-            VStack(spacing: 0){
-                List(Array(enrollment.enrollments.enumerated()), id: \.element.EnrollmentId){ index, item in
-                    Choose( Grade: item.GradeName, Class: item.Classname, Year: item.AcademicYearName, Programme: item.Programme, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.ClassId, academicYearId: item.AcademicId, programId: item.ProgrammeId, color: index % 2 == 0 ? colorOrg: colorBlue, prop: prop)
-                        .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
-                        .backgroundRemover()
+            if enrollment.enrollments.isEmpty{
+                ZStack{
+                    if clasLoading{
+                        progressingView(prop: prop)
+                    }else{
+                        Text("មិនមានទិន្ន័យ!")
+                            .foregroundColor(.blue)
+                    }
                 }
-                .listStyle(GroupedListStyle())
-                NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "attendance", selection: $selection) { EmptyView() }
-                NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "absence", selection: $selection) { EmptyView() }
-                NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "payment", selection: $selection) { EmptyView() }
-                NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "score", selection: $selection) { EmptyView() }
-                
+                .onAppear{
+                    self.clasLoading = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                        self.clasLoading = false
+                    }
+                }
+            }else{
+                VStack(spacing: 0){
+                    List(Array(enrollment.enrollments.enumerated()), id: \.element.EnrollmentId){ index, item in
+                        Choose( Grade: item.GradeName, Class: item.Classname, Year: item.AcademicYearName, Programme: item.Programme, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.ClassId, academicYearId: item.AcademicId, programId: item.ProgrammeId, color: index % 2 == 0 ? colorOrg: colorBlue, prop: prop)
+                            .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
+                            .backgroundRemover()
+                    }
+                    .listStyle(GroupedListStyle())
+                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "attendance", selection: $selection) { EmptyView() }
+                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "absence", selection: $selection) { EmptyView() }
+                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "payment", selection: $selection) { EmptyView() }
+                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "score", selection: $selection) { EmptyView() }
+                    
+                }
             }
+           
         }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .navigationBarTitleDisplayMode(.inline)

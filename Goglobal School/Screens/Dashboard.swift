@@ -20,7 +20,7 @@ struct Dashboard: View {
     @State var detailId: String =  ""
     @State var userProfileImg: String
     @State var showingSheet: Bool = false
-    @State var onAppearImg: Bool = false
+    @State var onAppearImg: Bool = true
     @State var tooltipVisible: Bool = false
     @State var refreshing: Bool = false
     @State var viewLoading: Bool = false
@@ -155,26 +155,25 @@ struct Dashboard: View {
             VStack(spacing:prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 ){
                 ForEach(Array(academiclist.removeExpireDate.prefix(3).enumerated()), id: \.element.code){ index,academic in
                     HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                       graduatedLogo()
-                       VStack(alignment: .leading){
-                           datingEditer(inputCode: academic.date, inputAnotherDate: academic.enddate)
-                               .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
-                               .listRowBackground(Color.yellow)
-                           Text(academic.eventnameKhmer)
-                               .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : 15, relativeTo: .body))
-                               .listRowBackground(Color.yellow)
-                               .fixedSize(horizontal: false, vertical: true)
-                       }
-                   }
-                   .foregroundColor(index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
-                   .setBackgroundRow(color: index % 2 == 0 ?  colorOrg : colorBlue, prop: prop)
+                        graduatedLogo()
+                        VStack(alignment: .leading){
+                            datingEditer(inputCode: academic.date, inputAnotherDate: academic.enddate)
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
+                                .listRowBackground(Color.yellow)
+                            Text(academic.eventnameKhmer)
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : 15, relativeTo: .body))
+                                .listRowBackground(Color.yellow)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
+                    .foregroundColor(index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
+                    .setBackgroundRow(color: index % 2 == 0 ?  colorOrg : colorBlue, prop: prop)
                 }
             }
             HStack(spacing: prop.isiPhoneS ? 2 : prop.isiPhoneM ? 3 : 5){
                 Image(systemName: "megaphone.fill")
                     .font(.system(size:prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18))
                     .foregroundColor(Color("News"))
-//                    .padding(.bottom, 5)
                 Text("ដំណឹងថ្មីៗ")
                     .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
                     .foregroundColor(Color("News"))
@@ -189,52 +188,46 @@ struct Dashboard: View {
                                 self.showingSheet.toggle()
                                 detailId = item.id
                             } label: {
-                                ZStack(alignment:.bottom){
-                                    AsyncImage(url: URL(string: item.img ), scale: 2){image in
-
-                                        switch  image {
-
-                                        case .empty:
-                                            VStack{
-                                                ProgressView()
-                                                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                                                    .progressViewStyle(.circular)
-                                                Text("សូមរងចាំ")
-                                                    .foregroundColor(.blue)
-                                            }
-                                        case .success(let image):
+                                AsyncImage(url: URL(string: item.img ), scale: 2){image in
+                                    
+                                    switch  image {
+                                        
+                                    case .empty:
+                                        VStack{
+                                            ProgressView()
+                                                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                                .progressViewStyle(.circular)
+                                            Text("សូមរងចាំ")
+                                                .foregroundColor(.blue)
+                                        }
+                                    case .success(let image):
+                                        ZStack(alignment: .bottomLeading) {
                                             image
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fill)
                                                 .frame(maxHeight: .infinity)
                                                 .cornerRadius(20)
-                                                .onAppear{
-                                                    self.onAppearImg = false
-                                                }
-                                        case .failure:
-                                            Text("Not Found News")
-                                                .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
-                                                .foregroundColor(.pink)
-                                                .onAppear{
-                                                    self.onAppearImg = false
-                                                }
-                                        @unknown default:
-                                            fatalError()
+                                            Rectangle()
+                                                .frame(maxWidth: .infinity, maxHeight: prop.isiPhoneS ? 80 : prop.isiPhoneM ? 90 : prop.isiPhoneL ? 150 : 120)
+                                                .foregroundColor(.clear)
+                                                .overlay(
+                                                    getGradientOverlay()
+                                                        .cornerRadius(20)
+                                                )
+                                            VStack(spacing: 0){
+                                                Text(item.title)
+                                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
+                                                    .foregroundColor(.blue)
+                                                    .padding()
+                                                    .frame(maxWidth:.infinity, alignment: .leading)
+                                            }
                                         }
-                                    }
-                                    Rectangle()
-                                        .frame(maxWidth: .infinity, maxHeight: prop.isiPhoneS ? 80 : prop.isiPhoneM ? 90 : prop.isiPhoneL ? 150 : 120)
-                                        .foregroundColor(.clear)
-                                        .overlay(
-                                            getGradientOverlay()
-                                                .cornerRadius(20)
-                                        )
-                                    VStack(spacing: 0){
-                                        Text(item.title)
-                                            .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
-                                            .foregroundColor(.blue)
-                                            .padding()
-                                            .frame(maxWidth:.infinity, alignment: .leading)
+                                    case .failure:
+                                        Text("Not Found News")
+                                            .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
+                                            .foregroundColor(.pink)
+                                    @unknown default:
+                                        fatalError()
                                     }
                                 }
                                 .frame(maxHeight: prop.isLandscape && prop.isiPhone ? 250 : prop.isiPad ? 300 :  250 )
@@ -247,6 +240,7 @@ struct Dashboard: View {
                 }
             }else{
                 VStack(spacing: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 17 : 18 ){
+                    
                     ForEach(AnnoucementList.Annouces, id: \.id) { item in
                         AnnouceButtonView(showingSheet: $showingSheet, detailId: $detailId, itemImg: item.img, itemTitle: item.title, itemId: item.id, prop: prop)
                             .buttonStyle(PlainButtonStyle())
@@ -339,48 +333,50 @@ struct AnnouceButtonView: View{
             self.showingSheet.toggle()
             detailId = itemId
         } label: {
-            ZStack(alignment:.bottom){
-                AsyncImage(url: URL(string: itemImg ), scale: 2){image in
-                    switch  image {
-                        
-                    case .empty:
-                        VStack{
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                                .progressViewStyle(.circular)
-                            Text("សូមរង់ចាំ")
-                                .foregroundColor(.blue)
-                        }
-                    case .success(let image):
+            
+            AsyncImage(url: URL(string: itemImg ), scale: 1){image in
+                switch  image {
+                    
+                case .empty:
+                    VStack{
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                            .progressViewStyle(.circular)
+                        Text("សូមរង់ចាំ")
+                            .foregroundColor(.blue)
+                    }
+                case .success(let image):
+                    ZStack(alignment:.bottom){
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(maxWidth: .infinity,maxHeight: .infinity)
                             .cornerRadius(30)
-                    case .failure:
-                        Text("មិនអាចទាញទិន្ន័យបាន")
-                            .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
-                            .foregroundColor(.pink)
-                    @unknown default:
-                        fatalError()
+                        Rectangle()
+                            .frame(maxWidth: .infinity, maxHeight: prop.isiPhoneS ? 80 : prop.isiPhoneM ? 90 : prop.isiPhoneL ? 150 : 120)
+                            .foregroundColor(.clear)
+                            .overlay(
+                                getGradientOverlay()
+                                    .cornerRadius(30)
+                            )
+                        HStack(spacing: 0){
+                            Text(itemTitle)
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18, relativeTo: .body))
+                                .foregroundColor(.blue)
+                                .padding()
+                                .frame(maxWidth:.infinity, alignment: .leading)
+                            
+                        }
                     }
-                }
-                Rectangle()
-                    .frame(maxWidth: .infinity, maxHeight: prop.isiPhoneS ? 80 : prop.isiPhoneM ? 90 : prop.isiPhoneL ? 150 : 120)
-                    .foregroundColor(.clear)
-                    .overlay(
-                        getGradientOverlay()
-                            .cornerRadius(30)
-                    )
-                HStack(spacing: 0){
-                    Text(itemTitle)
-                        .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18, relativeTo: .body))
-                        .foregroundColor(.blue)
-                        .padding()
-                        .frame(maxWidth:.infinity, alignment: .leading)
-                        
+                case .failure:
+                    Text("មិនអាចទាញទិន្ន័យបាន")
+                        .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
+                        .foregroundColor(.pink)
+                @unknown default:
+                    fatalError()
                 }
             }
+            
         }
     }
 }
