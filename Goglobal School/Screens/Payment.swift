@@ -32,7 +32,7 @@ struct Payment: View {
                     }
                    
             }else{
-                rowView(dater: "កាលបរិច្ឆេត", pay: "បង់ថ្លៃ", period: "បរិយាយ", total: "សរុប")
+                rowView(dater: "កាលបរិច្ឆេទ", pay: "បង់ថ្លៃ", period: "បរិយាយ", total: "សរុប")
                     .padding()
                 ScrollView(.vertical, showsIndicators: false) {
                     if let tasks = paymentmethod.paymentmethod{

@@ -197,7 +197,6 @@ struct Home: View {
                                 .background(.blue)
                                 .cornerRadius(10)
                         }
-                        
                         .alert("គណនីរបស់លោកអ្នកមិនត្រឹមត្រូវទេ", isPresented: $showingAlert) {
                             Button("OK", role: .cancel) { }
                         }

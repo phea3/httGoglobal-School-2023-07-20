@@ -20,13 +20,13 @@ struct Dashboard: View {
     @State var detailId: String =  ""
     @State var userProfileImg: String
     @State var showingSheet: Bool = false
-    @State var onAppearImg: Bool = true
+    @State var onAppearImg: Bool = false
     @State var tooltipVisible: Bool = false
     @State var refreshing: Bool = false
     @State var viewLoading: Bool = false
     @State var timingShow: Int = 0
     @State var hidingDivider: Bool = false
-    @State var currentProgress: CGFloat = 250.0
+    @State var currentProgress: CGFloat = 0.0
     @Binding var isLoading: Bool
     let gradient = Color.clear
     var barTitle: String = "ទំព័រដើម"
@@ -191,9 +191,9 @@ struct Dashboard: View {
                             } label: {
                                 ZStack(alignment:.bottom){
                                     AsyncImage(url: URL(string: item.img ), scale: 2){image in
-                                        
+
                                         switch  image {
-                                            
+
                                         case .empty:
                                             VStack{
                                                 ProgressView()
@@ -355,7 +355,7 @@ struct AnnouceButtonView: View{
                         image
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(maxHeight: .infinity)
+                            .frame(maxWidth: .infinity,maxHeight: .infinity)
                             .cornerRadius(30)
                     case .failure:
                         Text("មិនអាចទាញទិន្ន័យបាន")

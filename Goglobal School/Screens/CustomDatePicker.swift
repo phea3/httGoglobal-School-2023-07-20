@@ -68,16 +68,16 @@ struct CustomDatePicker: View {
                 ForEach(extractDate()){ value in
                     
                     CardView(value: value)
-                        .overlay(
-                            Circle()
-                                .fill(Color.blue)
-                                .frame(width: 8, height: 8)
-                                .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1:0)
-                                .offset(y: 30)
-                        )
-                        .onTapGesture {
-                            currentDate = value.date
-                        }
+//                        .overlay(
+//                            Text("ថ្ងៃនេះ")
+//                                .font(.system(size: 10))
+//                                .foregroundColor(.blue)
+//                                .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1:0)
+//                                .offset(y: 30)
+//                        )
+//                        .onTapGesture {
+//                            currentDate = value.date
+//                        }
                 }
             }
             .padding(.top)
@@ -143,12 +143,12 @@ struct CustomDatePicker: View {
                         .font(.system(size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16).bold())
                         .foregroundColor(isSameDay(date1: value.date, date2: currentDate) ? .blue : .primary)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(
-                            Circle()
-                                .strokeBorder(Color.blue,lineWidth: 2)
-                                .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1:0)
-                                .frame(width:prop.isLandscape ? 40 : .infinity)
-                        )
+//                        .background(
+//                            Circle()
+//                                .strokeBorder(Color.blue,lineWidth: 2)
+//                                .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1:0)
+//                                .frame(width:prop.isLandscape ? 40 : .infinity)
+//                        )
                 }
             }
         }
