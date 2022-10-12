@@ -28,24 +28,6 @@
       }
     },
     {
-      "identity" : "sdwebimage",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SDWebImage/SDWebImage.git",
-      "state" : {
-        "revision" : "3e48cb68d8e668d146dc59c73fb98cb628616236",
-        "version" : "5.13.2"
-      }
-    },
-    {
-      "identity" : "sdwebimageswiftui",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SDWebImage/SDWebImageSwiftUI.git",
-      "state" : {
-        "branch" : "master",
-        "revision" : "336d3f6d3b53729c1f274bf6b75f4532ada116eb"
-      }
-    },
-    {
       "identity" : "sqlite.swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/stephencelis/SQLite.swift.git",
@@ -61,15 +43,6 @@
       "state" : {
         "branch" : "master",
         "revision" : "f61f298c0100c81dfb0c7908091e68aad12a892c"
-      }
-    },
-    {
-      "identity" : "swiftui-tooltip",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/quassum/SwiftUI-Tooltip.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "78d5f000934f6a36b356411aedaf52c04dc8b0bc"
       }
     },
     {

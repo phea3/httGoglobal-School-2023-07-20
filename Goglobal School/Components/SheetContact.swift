@@ -18,6 +18,7 @@ struct SheetContact: View {
             .font(.custom("Bayon", size: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 24 : prop.isiPhoneL ? 26 : 30, relativeTo: .largeTitle))
             .foregroundColor(.red)
             .padding()
+            .opacity(prop.isLandscape && prop.isiPhone ? 1:0)
             Text("សូមទំនាក់ទំនងតាមពត័មានខាងក្រោម")
                 .font(.custom("Bayon", size: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 24 : prop.isiPhoneL ? 26 : 30, relativeTo: .largeTitle))
                 .foregroundColor(Color("Blue"))

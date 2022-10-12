@@ -43,10 +43,32 @@ struct Payment: View {
                                 .offset(y: prop.isLandscape ? 100 :  300)
                         }else{
                             ForEach(paymentmethod.paymentmethod, id: \.Id){ payment in
-                                ForEach(payment.AdditionalFee, id: \.Id) { task in
-                                    rowdata(dater: getExactDate(date: payment.CreateAt), pay: task.IncomeHead.IncomeHead, period: "\(task.countMonth) \(task.IncomeHead.Unit)", total: "$\(getExactPrice(price: payment.Amount))")
+                                VStack(spacing: 20){
+                                    HStack{
+                                        Image(systemName: "calendar.badge.clock")
+                                            .foregroundColor(.blue)
+                                        Text(getExactDate(date: payment.CreateAt))
+                                            .foregroundColor(.blue)
+                                        Spacer()
+                                        ForEach(payment.AdditionalFee, id: \.Id) { task in
+                                            Text(task.IncomeHead.IncomeHead)
+                                                .foregroundColor(.blue)
+                                                .fixedSize(horizontal: false, vertical: true)
+                                            Spacer()
+                                            Text("\(task.countMonth) \(task.IncomeHead.Unit)")
+                                                .foregroundColor(.blue)
+                                        }
+                                        Spacer()
+                                        Text("$\(getExactPrice(price: payment.Amount))")
+                                            .foregroundColor(.red)
+                                    }
+                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : 15, relativeTo: .body))
+                                    .foregroundColor(.blue)
+                                    .padding()
+                                    .frame(maxWidth:.infinity)
+                                    .background(Color("LightOrange").opacity(0.5))
+                                    .cornerRadius(10)
                                 }
-                               
                             }
                         }
                     }

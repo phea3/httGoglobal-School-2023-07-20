@@ -27,10 +27,8 @@
 		09F5197B28D1E80200C8B1FD /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5197A28D1E80200C8B1FD /* Apollo */; };
 		09F5197D28D1E80200C8B1FD /* ApolloSQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5197C28D1E80200C8B1FD /* ApolloSQLite */; };
 		09F5197F28D1E80200C8B1FD /* ApolloWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5197E28D1E80200C8B1FD /* ApolloWebSocket */; };
-		09F5198228D1E81000C8B1FD /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5198128D1E81000C8B1FD /* SDWebImageSwiftUI */; };
 		09F5198528D1E81D00C8B1FD /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5198428D1E81D00C8B1FD /* KeychainSwift */; };
 		09F5198828D1E83100C8B1FD /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5198728D1E83100C8B1FD /* URLImage */; };
-		09F5198B28D1E84C00C8B1FD /* SwiftUITooltip in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5198A28D1E84C00C8B1FD /* SwiftUITooltip */; };
 		09F5198E28D1E86000C8B1FD /* ImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5198D28D1E86000C8B1FD /* ImageViewer */; };
 		09F9140628D3271800BF252B /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 09F9140528D3271800BF252B /* schema.json */; };
 		09FEBC4F28B704E400E8B5B7 /* Goglobal_SchoolApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC4E28B704E400E8B5B7 /* Goglobal_SchoolApp.swift */; };
@@ -132,8 +130,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09F5198228D1E81000C8B1FD /* SDWebImageSwiftUI in Frameworks */,
-				09F5198B28D1E84C00C8B1FD /* SwiftUITooltip in Frameworks */,
 				091B223628CC465400FE9DBB /* AuthenticationServices.framework in Frameworks */,
 				09F5197D28D1E80200C8B1FD /* ApolloSQLite in Frameworks */,
 				09F5198528D1E81D00C8B1FD /* KeychainSwift in Frameworks */,
@@ -310,10 +306,8 @@
 				09F5197A28D1E80200C8B1FD /* Apollo */,
 				09F5197C28D1E80200C8B1FD /* ApolloSQLite */,
 				09F5197E28D1E80200C8B1FD /* ApolloWebSocket */,
-				09F5198128D1E81000C8B1FD /* SDWebImageSwiftUI */,
 				09F5198428D1E81D00C8B1FD /* KeychainSwift */,
 				09F5198728D1E83100C8B1FD /* URLImage */,
-				09F5198A28D1E84C00C8B1FD /* SwiftUITooltip */,
 				09F5198D28D1E86000C8B1FD /* ImageViewer */,
 			);
 			productName = "Goglobal School";
@@ -347,10 +341,8 @@
 			packageReferences = (
 				09F5197628D1E79D00C8B1FD /* XCRemoteSwiftPackageReference "Alamofire" */,
 				09F5197928D1E80200C8B1FD /* XCRemoteSwiftPackageReference "apollo-ios" */,
-				09F5198028D1E81000C8B1FD /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				09F5198328D1E81D00C8B1FD /* XCRemoteSwiftPackageReference "keychain-swift" */,
 				09F5198628D1E83100C8B1FD /* XCRemoteSwiftPackageReference "url-image" */,
-				09F5198928D1E84C00C8B1FD /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */,
 				09F5198C28D1E86000C8B1FD /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */,
 			);
 			productRefGroup = 09FEBC4C28B704E400E8B5B7 /* Products */;
@@ -580,7 +572,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Goglobal School/Goglobal School.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"Goglobal School/Preview Content\"";
 				DEVELOPMENT_TEAM = HZ73GSKF9X;
 				ENABLE_PREVIEWS = YES;
@@ -600,7 +592,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "Second-dayofSwift-Testing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -618,7 +610,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Goglobal School/Goglobal School.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"Goglobal School/Preview Content\"";
 				DEVELOPMENT_TEAM = HZ73GSKF9X;
 				ENABLE_PREVIEWS = YES;
@@ -638,7 +630,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = "Second-dayofSwift-Testing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -688,14 +680,6 @@
 				minimumVersion = 0.9.5;
 			};
 		};
-		09F5198028D1E81000C8B1FD /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 		09F5198328D1E81D00C8B1FD /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/evgenyneu/keychain-swift.git";
@@ -707,14 +691,6 @@
 		09F5198628D1E83100C8B1FD /* XCRemoteSwiftPackageReference "url-image" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/dmytro-anokhin/url-image.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		09F5198928D1E84C00C8B1FD /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/quassum/SwiftUI-Tooltip.git";
 			requirement = {
 				branch = main;
 				kind = branch;
@@ -751,11 +727,6 @@
 			package = 09F5197928D1E80200C8B1FD /* XCRemoteSwiftPackageReference "apollo-ios" */;
 			productName = ApolloWebSocket;
 		};
-		09F5198128D1E81000C8B1FD /* SDWebImageSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 09F5198028D1E81000C8B1FD /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
-			productName = SDWebImageSwiftUI;
-		};
 		09F5198428D1E81D00C8B1FD /* KeychainSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 09F5198328D1E81D00C8B1FD /* XCRemoteSwiftPackageReference "keychain-swift" */;
@@ -765,11 +736,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 09F5198628D1E83100C8B1FD /* XCRemoteSwiftPackageReference "url-image" */;
 			productName = URLImage;
-		};
-		09F5198A28D1E84C00C8B1FD /* SwiftUITooltip */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 09F5198928D1E84C00C8B1FD /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */;
-			productName = SwiftUITooltip;
 		};
 		09F5198D28D1E86000C8B1FD /* ImageViewer */ = {
 			isa = XCSwiftPackageProductDependency;

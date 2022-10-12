@@ -53,7 +53,6 @@ class LoginViewModel: ObservableObject{
                 if let userId = graphQLResult.data?.login?.user?.parentId?._id{
                     DispatchQueue.main.async {
                         self?.userId = userId
-//                        print(userId)
                     }
                 }
                 if let userprofileId = graphQLResult.data?.login?.user?._id{

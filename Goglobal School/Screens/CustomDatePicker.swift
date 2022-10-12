@@ -54,7 +54,7 @@ struct CustomDatePicker: View {
                     Text(day)
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .callout).bold())
                         .frame(maxWidth: .infinity)
-                        .foregroundColor(.gray)
+                        .foregroundColor(day == "អាទិត្យ" ? .red : .gray)
                 }
             }
             
@@ -123,9 +123,7 @@ struct CustomDatePicker: View {
             if value.day != -1 {
                 
                 if let attend = Attendance.Attendances.first(where: { attend in
-                    
                     return isSameDay(date1: convertDate(inputDate: attend.AttendanceDate), date2: value.date)
-                    
                 })
                 {
                     Text("\(value.day)")
@@ -141,7 +139,7 @@ struct CustomDatePicker: View {
                 {
                     Text("\(value.day)")
                         .font(.system(size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16).bold())
-                        .foregroundColor(isSameDay(date1: value.date, date2: currentDate) ? .blue : .primary)
+                        .foregroundColor(getSunday(dateofday: value.date) ? .red : isSameDay(date1: value.date, date2: currentDate) ? .primary : .primary)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
 //                        .background(
 //                            Circle()
@@ -164,7 +162,12 @@ struct CustomDatePicker: View {
         let date = dateFormatter.date(from:isoDate)!
         return date
     }
-    
+    func getSunday(dateofday: Date)->Bool{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        let sun = dateFormatter.string(from: dateofday)
+        return sun == "Sunday"
+    }
     // checking date...
     func isSameDay(date1: Date, date2: Date)-> Bool {
         let calendar = NSCalendar.current

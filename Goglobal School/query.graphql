@@ -162,9 +162,7 @@ query GetInvoiceBystudentIdWithPagination($studentId: ID) {
             incomeType
             note
           }
-          
         }
-        
       }
     }
   }

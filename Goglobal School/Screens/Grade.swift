@@ -25,7 +25,6 @@ struct Grade: View {
     @State var programId: String = ""
     @State var clasLoading: Bool = false
     let gradient = Color("BG")
-    let Enrollment: [EnrollmentsViewModel]
     let Student: String
     var parentId: String
     var barTitle: String
@@ -54,10 +53,12 @@ struct Grade: View {
             if enrollment.enrollments.isEmpty{
                 ZStack{
                     if clasLoading{
-                        progressingView(prop: prop)
+                        ProgressView()
+                            .offset(y:30)
                     }else{
                         Text("មិនមានទិន្ន័យ!")
                             .foregroundColor(.blue)
+                            .offset(y:30)
                     }
                 }
                 .onAppear{
@@ -81,7 +82,7 @@ struct Grade: View {
                     
                 }
             }
-           
+            Spacer()
         }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             .navigationBarTitleDisplayMode(.inline)
@@ -238,9 +239,9 @@ struct Choose: View {
 
 struct Grade_Previews: PreviewProvider {
     static var previews: some View {
-        let EnrollmentVM = EnrollmentsViewModel(enrollment: GetStudentsByParentsQuery.Data.GetStudentsByParent.Enrollment(_id: ""))
+        
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Grade(studentId: "", userProfileImg: "", Enrollment: [EnrollmentVM], Student: "", parentId: "", barTitle: "",studentID: "", prop: prop)
+        Grade(studentId: "", userProfileImg: "", Student: "", parentId: "", barTitle: "",studentID: "", prop: prop)
     }
 }
 

@@ -1,8 +1,6 @@
 
 import SwiftUI
 import Alamofire
-import SDWebImageSwiftUI
-import SwiftUITooltip
 import ImageViewer
 
 struct Home: View {
@@ -234,7 +232,7 @@ struct Home: View {
                     }
                     .padding(.top,5)
                 }
-                .frame(maxWidth: prop.isiPad ? 400 : prop.isiPhoneL ? 400 : .infinity )
+                .frame(maxWidth: prop.isiPad ? 400 : prop.isiPhone ? 400 : .infinity )
                 if !hidefooter{
                     Spacer()
                 }
