@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct ContentView: View {
     @EnvironmentObject var appData : AppDataModel
@@ -20,3 +21,5 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+

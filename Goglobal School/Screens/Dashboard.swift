@@ -204,23 +204,27 @@ struct Dashboard: View {
                                             image
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fill)
-                                                .frame(maxHeight: .infinity)
+                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
                                                 .cornerRadius(20)
                                             Rectangle()
-                                                .frame(maxWidth: .infinity, maxHeight: prop.isiPhoneS ? 80 : prop.isiPhoneM ? 90 : prop.isiPhoneL ? 150 : 120)
                                                 .foregroundColor(.clear)
+                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
                                                 .overlay(
                                                     getGradientOverlay()
                                                         .cornerRadius(20)
                                                 )
-                                            VStack(spacing: 0){
-                                                Text(item.title)
-                                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
-                                                    .foregroundColor(.blue)
-                                                    .padding()
-                                                    .frame(maxWidth:.infinity, alignment: .leading)
-                                            }
                                         }
+                                       
+                                        .overlay(
+                                            Text(item.title)
+                                                   .font(.custom("Bayon", size: prop.isiPhoneS ? 6 : prop.isiPhoneM ? 8 : 10, relativeTo: .body))
+                                                   .foregroundColor(.blue)
+                                                   .frame(maxWidth:.infinity,maxHeight: .infinity, alignment: .bottomLeading)
+                                                   .padding()
+                                                   
+                                        )
+                                        
+                                      
                                     case .failure:
                                         Text("Not Found News")
                                             .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
@@ -229,13 +233,14 @@ struct Dashboard: View {
                                         fatalError()
                                     }
                                 }
-                                .frame(maxHeight: prop.isLandscape && prop.isiPhone ? 250 : prop.isiPad ? 300 :  250 )
+                               
                             }
                             .sheet(isPresented: $showingSheet) {
                                 Annoucements(prop: prop, postId: $detailId)
                             }
                         }
                     }
+                    .frame(maxHeight: prop.isLandscape && prop.isiPhone ? 250 : prop.isiPad ? 300 :  250 )
                 }
             }else{
                 VStack(spacing: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 17 : 18 ){

@@ -4,12 +4,13 @@ import Alamofire
 import ImageViewer
 
 struct Home: View {
-    
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @Environment(\.openURL) var openURL
     @StateObject var loginVM: LoginViewModel = LoginViewModel()
     @StateObject var academiclist: ListViewModel =  ListViewModel()
     @StateObject var monitor = Monitor()
     init(){
+        requestPushAuthorization();
         UITabBar.appearance().isHidden = true
     }
     @State var currentTab: Tab = .dashboard
@@ -175,6 +176,7 @@ struct Home: View {
                                         self.forget = true
                                         showingAlert = true
                                     }else{
+                                        registerForNotifications()
                                         DispatchQueue.main.async{
                                             self.isLoading = false
                                         }
@@ -288,6 +290,20 @@ struct Home: View {
                 .padding(.top, 8)
         }
     }
+    func requestPushAuthorization() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+            if success {
+                print("Push notifications allowed")
+                
+            } else if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    func registerForNotifications() {
+        UIApplication.shared.registerForRemoteNotifications()
+    }
 }
 
 struct SecureTextFieldToggle: View{
@@ -332,3 +348,5 @@ struct Home_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+

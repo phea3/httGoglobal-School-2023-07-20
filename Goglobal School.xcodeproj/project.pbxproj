@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0902C55828CF0C3500F2A956 /* MonitorNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0902C55728CF0C3500F2A956 /* MonitorNetwork.swift */; };
 		0902C55A28CF174200F2A956 /* ShowAvailableVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0902C55928CF174200F2A956 /* ShowAvailableVersion.swift */; };
-		09094AAB28ED3AC4000F2F98 /* getDeviceToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09094AAA28ED3AC4000F2F98 /* getDeviceToken.swift */; };
 		09094AC928ED60CB000F2F98 /* FlashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09094AC828ED60CB000F2F98 /* FlashScreen.swift */; };
 		09178C2728B9A43E00A507EA /* Annoucements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09178C2628B9A43E00A507EA /* Annoucements.swift */; };
 		09178C2D28B9B28500A507EA /* SheetContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09178C2C28B9B28500A507EA /* SheetContact.swift */; };
@@ -71,7 +70,6 @@
 /* Begin PBXFileReference section */
 		0902C55728CF0C3500F2A956 /* MonitorNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorNetwork.swift; sourceTree = "<group>"; };
 		0902C55928CF174200F2A956 /* ShowAvailableVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAvailableVersion.swift; sourceTree = "<group>"; };
-		09094AAA28ED3AC4000F2F98 /* getDeviceToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getDeviceToken.swift; sourceTree = "<group>"; };
 		09094AC828ED60CB000F2F98 /* FlashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashScreen.swift; sourceTree = "<group>"; };
 		09178C2628B9A43E00A507EA /* Annoucements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annoucements.swift; sourceTree = "<group>"; };
 		09178C2C28B9B28500A507EA /* SheetContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetContact.swift; sourceTree = "<group>"; };
@@ -177,7 +175,6 @@
 				09FEBC9528B70B4500E8B5B7 /* Function.swift */,
 				09FEBC9928B70B8500E8B5B7 /* TabView.swift */,
 				09FEBC9728B70B6B00E8B5B7 /* ResponsiveContainer.swift */,
-				09094AAA28ED3AC4000F2F98 /* getDeviceToken.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -423,7 +420,6 @@
 				09FEBC9E28B70BCE00E8B5B7 /* RoundedCorners.swift in Sources */,
 				09FEBCAC28B70CA600E8B5B7 /* Education.swift in Sources */,
 				09FEBC9228B70A8C00E8B5B7 /* MobileUserViewModel.swift in Sources */,
-				09094AAB28ED3AC4000F2F98 /* getDeviceToken.swift in Sources */,
 				092824C628DC17BF00320D33 /* EnrollmentViewModel.swift in Sources */,
 				0978944D28E7EC2300CB4C05 /* Payment.swift in Sources */,
 				09FEBC9A28B70B8500E8B5B7 /* TabView.swift in Sources */,
