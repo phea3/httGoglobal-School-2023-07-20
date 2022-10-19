@@ -12,6 +12,7 @@ struct Dashboard: View {
     @StateObject var students: ListStudentViewModel = ListStudentViewModel()
     @StateObject var academiclist: ListViewModel = ListViewModel()
     @StateObject var AnnoucementList: AnnouncementViewModel = AnnouncementViewModel()
+    @StateObject var deleteBadge: DeleteNotificationByMobileUserIdViewModel = DeleteNotificationByMobileUserIdViewModel()
     @State var colorBlue: String = "LightBlue"
     @State var colorOrg: String = "LightOrange"
     @State var ImageStudent: String = ""
@@ -32,6 +33,7 @@ struct Dashboard: View {
     var parentId: String
     var activeYear: String
     var prop: Properties
+    var mobileUserId: String
     var body: some View {
         
         NavigationView {
@@ -99,9 +101,11 @@ struct Dashboard: View {
             }
             .setBG()
             .onAppear{
+                UIApplication.shared.applicationIconBadgeNumber = 0
                 AnnoucementList.getAnnoucement()
                 academiclist.populateAllContinent(academicYearId: activeYear)
                 students.StundentAmount(parentId: parentId)
+                deleteBadge.DeleteNotificationByMobileUserId(mobileUserId: mobileUserId)
             }
         }
         .padOnlyStackNavigationView()
@@ -117,7 +121,7 @@ struct Dashboard: View {
             }
             refreshingView()
             AnnoucementList.getAnnoucement()
-            academiclist.populateAllContinent(academicYearId: activeYear)
+            academiclist.populateAllContinent(academicYearId: academiclist.academicYearId)
             students.StundentAmount(parentId: parentId)
         }
     }
@@ -140,6 +144,7 @@ struct Dashboard: View {
                     .frame(width: (prop.isLandscape && (prop.isiPhone || prop.isiPad)) || prop.isiPad ? prop.size.width : .infinity)
                 }
             }
+            .padding(.vertical)
             Divider()
             HStack(spacing: prop.isiPhoneS ? 2 : prop.isiPhoneM ? 3 : 5){
                 Image(systemName: "bell.fill")
@@ -219,8 +224,9 @@ struct Dashboard: View {
                                             Text(item.title)
                                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 6 : prop.isiPhoneM ? 8 : 10, relativeTo: .body))
                                                    .foregroundColor(.blue)
-                                                   .frame(maxWidth:.infinity,maxHeight: .infinity, alignment: .bottomLeading)
+                                                   .multilineTextAlignment(.leading)
                                                    .padding()
+                                            , alignment: .bottomLeading
                                                    
                                         )
                                         
@@ -322,7 +328,7 @@ struct Dashboard: View {
 struct Dashboard_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Dashboard(userProfileImg: "", isLoading: .constant(false), parentId: "",activeYear: "", prop: prop)
+        Dashboard(userProfileImg: "", isLoading: .constant(false), parentId: "",activeYear: "", prop: prop, mobileUserId: "")
     }
 }
 struct AnnouceButtonView: View{

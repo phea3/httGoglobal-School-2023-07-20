@@ -6,7 +6,7 @@
       "location" : "https://github.com/Alamofire/Alamofire.git",
       "state" : {
         "branch" : "master",
-        "revision" : "8dd85aee02e39dd280c75eef88ffdb86eed4b07b"
+        "revision" : "bdecb2c87a21a236dcfe88b21532ad3f0e3d20f4"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/dmytro-anokhin/url-image.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "20abda498bf8fe78631b1057b77078147598962b"
+        "revision" : "ccab89ad1cedb04f25dd4df1776dd8c8583b914a",
+        "version" : "2.2.5"
       }
     }
   ],

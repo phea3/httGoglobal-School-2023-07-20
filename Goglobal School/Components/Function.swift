@@ -40,7 +40,7 @@ extension View{
         Image("DashboadBg")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: prop.isiPadPro ? 400 : prop.isiPadMini ? 450 : prop.isLandscape && prop.isiPad ? 600 : prop.isLandscape && prop.isiPhoneS ? 360 : prop.isLandscape && prop.isiPhoneM ? 370 : prop.isLandscape && prop.isiPhoneL ? 380 : .infinity)
+            .frame(width: prop.isiPadPro ? 400 : prop.isiPadMini ? 450 : prop.isLandscape && prop.isiPad ? 600 : prop.isLandscape && prop.isiPhoneS ? 360 : prop.isLandscape && prop.isiPhoneM ? 370 : prop.isLandscape && prop.isiPhoneL ? 380 : 300)
     }
     func graduatedLogo()->some View{
         Circle()
@@ -100,20 +100,27 @@ extension View{
                                     image
                                         .resizable()
                                         .scaledToFill()
-                                        .cornerRadius(50)
                                         .clipped()
                                         .background(Color.black.opacity(0.2))
+                                        .overlay {
+                                            Circle()
+                                                .stroke(.orange, lineWidth: 1)
+                                        }
                                         .clipShape(Circle())
                                         .padding(-5)
                                         .frame(width: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 :  20, alignment: .center)
                                 case .failure:
                                     Image(systemName: "person.fill")
-                                        .padding(2)
-                                        .cornerRadius(50)
+                                        .padding(5)
                                         .background(Color.white)
+                                        .overlay {
+                                            Circle()
+                                                .stroke(.orange, lineWidth: 1)
+                                        }
                                         .aspectRatio(contentMode: .fill)
                                         .clipShape(Circle())
-                                        .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 22), alignment: .center)
+                                        .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22), alignment: .center)
+                                        
                                 @unknown default:
                                     fatalError()
                                 }
@@ -134,18 +141,24 @@ extension View{
                                     image
                                         .resizable()
                                         .scaledToFill()
-                                        .cornerRadius(50)
                                         .clipped()
                                         .background(Color.black.opacity(0.2))
+                                        .overlay {
+                                            Circle()
+                                                .stroke(.orange, lineWidth: 1)
+                                        }
                                         .clipShape(Circle())
                                         .padding(-5)
                                         .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
                                 case .failure:
                                     Image(systemName: "person.fill")
-                                        .padding(2)
-                                        .font(.system(size:  prop.isLandscape ? 22 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20)))
-                                        .cornerRadius(50)
+                                        .padding(5)
+                                        .font(.system(size:  prop.isLandscape ? 22 : (prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)))
                                         .background(Color.white)
+                                        .overlay {
+                                            Circle()
+                                                .stroke(.orange, lineWidth: 1)
+                                        }
                                         .aspectRatio(contentMode: .fill)
                                         .clipShape(Circle())
                                         .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)

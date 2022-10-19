@@ -4,10 +4,12 @@ import Alamofire
 import ImageViewer
 
 struct Home: View {
+    
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @Environment(\.openURL) var openURL
     @StateObject var loginVM: LoginViewModel = LoginViewModel()
     @StateObject var academiclist: ListViewModel =  ListViewModel()
+    @StateObject var sendToken: UploadDeviceToken = UploadDeviceToken()
     @StateObject var monitor = Monitor()
     init(){
         requestPushAuthorization();
@@ -31,6 +33,7 @@ struct Home: View {
     @State var value: CGFloat = 0
     @State var hidefooter: Bool = false
     @State var image = Image("GoGlobalSchool")
+    @State var newToken: String = ""
     
     var body: some View {
         ResponsiveView{ prop in
@@ -48,9 +51,14 @@ struct Home: View {
                     .onAppear{
                         loginVM.login(email: gmail, password: password, checkState: checkState)
                         loginVM.AskUserForNotification()
-                        academiclist.activeAcademicYear()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            academiclist.activeAcademicYear()
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             loggedIn = true
+                            if self.newToken != "" {
+                                sendToken.uploadToken(mobileUserId: loginVM.userprofileId, newToken:TokenInput(plateformToken: "ios", deviceToken: self.newToken))
+                            }
                         }
                     }
                 }else if (!gmail.isEmpty && !gmail.isEmpty) && loginVM.isAuthenticated {
@@ -69,6 +77,10 @@ struct Home: View {
                 Button("OK", role: .cancel) { }
             }
             .onAppear{
+                registerForNotifications()
+                DispatchQueue.main.asyncAfter(deadline:.now()+2) {
+                    self.newToken = ApiTokenSingleton.shared.token
+                }
                 VersionCheck.shared.checkAppStore()
                 monitor.checkConnection()
                 if !loginVM.isAuthenticated{
@@ -88,14 +100,13 @@ struct Home: View {
     func MainView(prop: Properties)-> some View{
         ZStack{
             TabView(selection: $currentTab){
-                // MARK: Need to Apply BG For Each Tab View
-                Dashboard(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, parentId: loginVM.userId, activeYear: academiclist.academicYearId, prop: prop)
+                Dashboard(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, parentId: loginVM.userId, activeYear: academiclist.academicYearId, prop: prop, mobileUserId: loginVM.userprofileId)
                     .tag(Tab.dashboard)
                 Education(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, parentId: loginVM.userId, academicYearName: academiclist.khmerYear, prop: prop)
                     .tag(Tab.education)
                 Calendar(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, prop: prop, activeYear: academiclist.academicYearId)
                     .tag(Tab.bag)
-                Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, hideTab: $hideTab, checkState: $checkState, prop: prop)
+                Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, hideTab: $hideTab, checkState: $checkState, prop: prop, devicetoken: self.newToken)
                     .tag(Tab.book)
             }
             .alert("សូមធ្វើការដំឡើង Version \(VersionCheck.shared.appStoreVersion ?? "") នៅក្នុង App Store!", isPresented: .constant(VersionCheck.shared.newVersionAvailable ?? false)) {
@@ -109,7 +120,7 @@ struct Home: View {
                 .opacity( hideTab ? 0 : animationStarted ? 1:0)
                 .onAppear{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                        withAnimation(.easeInOut(duration: 0.7)){
+                        withAnimation(.easeInOut(duration: 1)){
                             animationStarted = true
                         }
                     }
@@ -176,7 +187,10 @@ struct Home: View {
                                         self.forget = true
                                         showingAlert = true
                                     }else{
-                                        registerForNotifications()
+                                        if self.newToken != ""{
+                                            UserDefaults.standard.set(self.newToken, forKey: "DeviceToken")
+                                            sendToken.uploadToken(mobileUserId: loginVM.userprofileId, newToken:TokenInput(plateformToken: "ios", deviceToken: self.newToken))
+                                        }
                                         DispatchQueue.main.async{
                                             self.isLoading = false
                                         }
@@ -206,7 +220,7 @@ struct Home: View {
                                 self.checkState.toggle()
                             }) {
                                 HStack(alignment: .center, spacing: 10) {
-                                    Image(systemName: self.checkState ?"checkmark.square": "square")
+                                    Image(systemName: self.checkState ? "checkmark.square" : "square")
                                         .font(.system(size: 20))
                                         .padding(.bottom, 5)
                                     Text("ចងចាំពាក្យសម្ងាត់?")
@@ -293,7 +307,8 @@ struct Home: View {
     func requestPushAuthorization() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
             if success {
-                print("Push notifications allowed")
+                print("")
+//                Push Notification Allowed
                 
             } else if let error = error {
                 print(error.localizedDescription)

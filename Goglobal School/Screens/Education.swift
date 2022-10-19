@@ -74,6 +74,7 @@ struct Education: View {
                                         }
                                     }
                                 }
+
                             }
                         }
                     }else{
@@ -191,6 +192,7 @@ struct Education: View {
                     .frame(width: (prop.isLandscape && (prop.isiPhone || prop.isiPad)) || prop.isiPad ? prop.size.width : .infinity)
                 }
             }
+            .padding(.bottom)
             Divider()
         }
     }

@@ -1,0 +1,7 @@
+
+mutation DeleteNotificationByMobileUserId($mobileUserId: ID) {
+  deleteNotificationByMobileUserId(mobileUserId: $mobileUserId) {
+    success
+    message
+  }
+}

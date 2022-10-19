@@ -12,6 +12,8 @@ class UpdateMobileUserProfileImg: ObservableObject{
     
     @Published var success: Bool = false
     @Published var message: String = ""
+    @Published var Error: Bool = false
+    
     func uploadImg(mobileUserId: String, profileImage: String ){
         
         Network.shared.apollo.perform(mutation: UpdateMobileUserProfileImgMutation(mobileUserId: mobileUserId, profileImage: profileImage)){ [weak self] result in
@@ -26,8 +28,10 @@ class UpdateMobileUserProfileImg: ObservableObject{
                     self?.message = message
                     
                 }
-            case .failure(let graphQLError):
-                print(graphQLError)
+            case .failure(_):
+                DispatchQueue.main.async {
+                    self?.Error = true
+                }
             }
         }
     }

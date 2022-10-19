@@ -19,13 +19,13 @@ struct Schedule: View {
     var body: some View {
         VStack(spacing:0){
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10){
+                HStack(spacing: prop.isiPad ? 20 : 10){
                     ForEach(AllClasses.currentWeek, id: \.self){ day in
                         VStack{
                             DayOfWeek(day: AllClasses.extractDate(date: day, format: "EEE"),dayInKhmer: AllClasses.extractDate(date: day, format: "EEE"))
                             Rectangle()
                                 .fill(.blue)
-                                .frame(width: .infinity, height: 4)
+                                .frame(width: .infinity, height:prop.isiPad ? 6 :  4)
 //                                .cornerRadius(10)
                                 .opacity(AllClasses.isToday(date: day) ? 1 : 0)
                         }
@@ -37,6 +37,7 @@ struct Schedule: View {
                         }
                     }
                 }
+                .frame(maxWidth: .infinity)
             }
             .padding(.top)
             .padding(.horizontal)
@@ -71,6 +72,7 @@ struct Schedule: View {
                                 customList(startTime: String(format: "%.2f", item.startTime), endTime: String(format: "%.2f", item.endTime), subject: item.subject.subjectName, lastName: item.leadTeacherId.lastName, firstName: item.leadTeacherId.firstName, breaktime: item.breakTime, index: index)
                                     .listRowInsets(.init(top: 5, leading: 0, bottom: 5, trailing: 0))
                                     .backgroundRemover()
+                                    .padding(.vertical , prop.isiPad ? 5: 0 )
                             }
                         }
                     }
@@ -104,14 +106,14 @@ struct Schedule: View {
         ZStack{
             Circle()
                 .fill(.white)
-                .frame(width: 40, height: 40)
+                .frame(width: prop.isiPad ? 60 : 40, height: prop.isiPad ? 60 : 40)
             Text(dayInKhmer)
                 .foregroundColor(Color(day))
-                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 25, relativeTo: .body))
         }
-        .frame(width: 55, height: 55)
+        .frame(width: prop.isiPad ? 85 : 55, height: prop.isiPad ? 85 : 55)
         .background(Color(day))
-        .cornerRadius(5)
+        .cornerRadius( prop.isiPad ? 10 : 5)
     }
     func customList(startTime: String, endTime: String, subject: String, lastName: String, firstName: String, breaktime: Bool, index: Int)-> some View{
         HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){

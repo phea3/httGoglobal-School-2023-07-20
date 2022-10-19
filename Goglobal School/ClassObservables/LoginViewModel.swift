@@ -23,6 +23,7 @@ class LoginViewModel: ObservableObject{
     static var loginID = ""
     static var loginKeychainKey = ""
     
+    // MARK: ASK Noti
     func AskUserForNotification(){
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
             if success {
@@ -32,7 +33,11 @@ class LoginViewModel: ObservableObject{
                 print("")
             }
         }
+        
+        let content = UNMutableNotificationContent()
+        content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "notification.aiff"))
     }
+    
     // MARK: LogIn Button
     func login(email: String, password: String, checkState: Bool) {
         

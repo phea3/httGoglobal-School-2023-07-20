@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 class ListViewModel: ObservableObject{
+    
     // MARK: ALL Academic Views
     @Published var academicYear: [AcademicViewModel] = []
     @Published var academicYear2: [AcademicViewModel] = []
@@ -17,7 +18,9 @@ class ListViewModel: ObservableObject{
     @Published var arrayStringObject = []
     @Published var academicYearId: String = ""
     @Published var academicYearName: String = ""
+    
     let isYes = NSCalendar.current.date(byAdding: .hour, value: -12, to: Date())
+    
     var khmerYear: String{
         get {
             academicYearName == "2023-2024" ? "២០២៣~២០២៤" : academicYearName == "2022-2023" ? "២០២២~២០២៣" : academicYearName == "2021-2022" ? "២០២១~២០២២" : "២០១៥~២០២២"
@@ -25,6 +28,7 @@ class ListViewModel: ObservableObject{
             academicYearName = newValue
         }
     }
+    
     var sortedAcademicYear: [AcademicViewModel]{
         get {
             academicYear.sorted(by: { $0.date < $1.date})
@@ -33,6 +37,7 @@ class ListViewModel: ObservableObject{
             academicYear = newValue
         }
     }
+    
     var removeExpireDate: [AcademicViewModel]{
        
         get {
@@ -41,6 +46,7 @@ class ListViewModel: ObservableObject{
             sortedAcademicYear = newValue
         }
     }
+    
     func clearCache(){
         Network.shared.apollo.clearCache()
     }
@@ -64,6 +70,7 @@ class ListViewModel: ObservableObject{
             }
         }
     }
+    
     func activeAcademicYear(){
         Network.shared.apollo.fetch(query: GetActiveAcademicYearQuery()){ [weak self] result in
             switch result{
@@ -82,6 +89,7 @@ class ListViewModel: ObservableObject{
             }
         }
     }
+    
     func datesRange(from: Date, to: Date) -> [Date] {
         // in case of the "from" date is more than "to" date,
         // it should returns an empty array:
@@ -96,9 +104,11 @@ class ListViewModel: ObservableObject{
         }
         return array
     }
+    
     func resetEvent(){
         self.academicYear = []
     }
+    
     // MARK: Checking if the currentHour is task hour
     func isCurrentEvents(date: String)-> Date{
         let isoDate = date
@@ -114,6 +124,7 @@ class ListViewModel: ObservableObject{
 //            return false
 //        }
     }
+    
     // MARK: Func For Date Formatting
         public func convertDateFormater(inputDate: String, inputAnotherDate: String) -> String {
             if (inputDate == inputAnotherDate) {

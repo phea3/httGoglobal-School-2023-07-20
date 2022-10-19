@@ -4,6 +4,245 @@
 import Apollo
 import Foundation
 
+public struct TokenInput: GraphQLMapConvertible {
+  public var graphQLMap: GraphQLMap
+
+  /// - Parameters:
+  ///   - plateformToken
+  ///   - deviceToken
+  public init(plateformToken: Swift.Optional<String?> = nil, deviceToken: Swift.Optional<String?> = nil) {
+    graphQLMap = ["plateformToken": plateformToken, "deviceToken": deviceToken]
+  }
+
+  public var plateformToken: Swift.Optional<String?> {
+    get {
+      return graphQLMap["plateformToken"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "plateformToken")
+    }
+  }
+
+  public var deviceToken: Swift.Optional<String?> {
+    get {
+      return graphQLMap["deviceToken"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "deviceToken")
+    }
+  }
+}
+
+public final class DeleteNotificationByMobileUserIdMutation: GraphQLMutation {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    mutation DeleteNotificationByMobileUserId($mobileUserId: ID) {
+      deleteNotificationByMobileUserId(mobileUserId: $mobileUserId) {
+        __typename
+        success
+        message
+      }
+    }
+    """
+
+  public let operationName: String = "DeleteNotificationByMobileUserId"
+
+  public var mobileUserId: GraphQLID?
+
+  public init(mobileUserId: GraphQLID? = nil) {
+    self.mobileUserId = mobileUserId
+  }
+
+  public var variables: GraphQLMap? {
+    return ["mobileUserId": mobileUserId]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Mutation"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("deleteNotificationByMobileUserId", arguments: ["mobileUserId": GraphQLVariable("mobileUserId")], type: .object(DeleteNotificationByMobileUserId.selections)),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(deleteNotificationByMobileUserId: DeleteNotificationByMobileUserId? = nil) {
+      self.init(unsafeResultMap: ["__typename": "Mutation", "deleteNotificationByMobileUserId": deleteNotificationByMobileUserId.flatMap { (value: DeleteNotificationByMobileUserId) -> ResultMap in value.resultMap }])
+    }
+
+    public var deleteNotificationByMobileUserId: DeleteNotificationByMobileUserId? {
+      get {
+        return (resultMap["deleteNotificationByMobileUserId"] as? ResultMap).flatMap { DeleteNotificationByMobileUserId(unsafeResultMap: $0) }
+      }
+      set {
+        resultMap.updateValue(newValue?.resultMap, forKey: "deleteNotificationByMobileUserId")
+      }
+    }
+
+    public struct DeleteNotificationByMobileUserId: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["NotificationResponse"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("success", type: .scalar(Bool.self)),
+          GraphQLField("message", type: .scalar(String.self)),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(success: Bool? = nil, message: String? = nil) {
+        self.init(unsafeResultMap: ["__typename": "NotificationResponse", "success": success, "message": message])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var success: Bool? {
+        get {
+          return resultMap["success"] as? Bool
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "success")
+        }
+      }
+
+      public var message: String? {
+        get {
+          return resultMap["message"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "message")
+        }
+      }
+    }
+  }
+}
+
+public final class MobileUserLogOutMutation: GraphQLMutation {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    mutation MobileUserLogOut($mobileUserId: ID, $token: String) {
+      mobileUserLogOut(mobileUserId: $mobileUserId, token: $token) {
+        __typename
+        success
+        message
+      }
+    }
+    """
+
+  public let operationName: String = "MobileUserLogOut"
+
+  public var mobileUserId: GraphQLID?
+  public var token: String?
+
+  public init(mobileUserId: GraphQLID? = nil, token: String? = nil) {
+    self.mobileUserId = mobileUserId
+    self.token = token
+  }
+
+  public var variables: GraphQLMap? {
+    return ["mobileUserId": mobileUserId, "token": token]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Mutation"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("mobileUserLogOut", arguments: ["mobileUserId": GraphQLVariable("mobileUserId"), "token": GraphQLVariable("token")], type: .object(MobileUserLogOut.selections)),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(mobileUserLogOut: MobileUserLogOut? = nil) {
+      self.init(unsafeResultMap: ["__typename": "Mutation", "mobileUserLogOut": mobileUserLogOut.flatMap { (value: MobileUserLogOut) -> ResultMap in value.resultMap }])
+    }
+
+    public var mobileUserLogOut: MobileUserLogOut? {
+      get {
+        return (resultMap["mobileUserLogOut"] as? ResultMap).flatMap { MobileUserLogOut(unsafeResultMap: $0) }
+      }
+      set {
+        resultMap.updateValue(newValue?.resultMap, forKey: "mobileUserLogOut")
+      }
+    }
+
+    public struct MobileUserLogOut: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["LogoutResponse"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("success", type: .scalar(Bool.self)),
+          GraphQLField("message", type: .scalar(String.self)),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(success: Bool? = nil, message: String? = nil) {
+        self.init(unsafeResultMap: ["__typename": "LogoutResponse", "success": success, "message": message])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var success: Bool? {
+        get {
+          return resultMap["success"] as? Bool
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "success")
+        }
+      }
+
+      public var message: String? {
+        get {
+          return resultMap["message"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "message")
+        }
+      }
+    }
+  }
+}
+
 public final class LoginMutation: GraphQLMutation {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =
@@ -2876,6 +3115,112 @@ public final class UpdateMobileUserProfileImgMutation: GraphQLMutation {
     }
 
     public struct UpdateMobileUserProfileImg: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["MobileUserResponse"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("success", type: .scalar(Bool.self)),
+          GraphQLField("message", type: .scalar(String.self)),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(success: Bool? = nil, message: String? = nil) {
+        self.init(unsafeResultMap: ["__typename": "MobileUserResponse", "success": success, "message": message])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var success: Bool? {
+        get {
+          return resultMap["success"] as? Bool
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "success")
+        }
+      }
+
+      public var message: String? {
+        get {
+          return resultMap["message"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "message")
+        }
+      }
+    }
+  }
+}
+
+public final class UpdateMobileTokenMutation: GraphQLMutation {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    mutation UpdateMobileToken($mobileUserId: ID, $newToken: TokenInput) {
+      updateMobileToken(mobileUserId: $mobileUserId, newToken: $newToken) {
+        __typename
+        success
+        message
+      }
+    }
+    """
+
+  public let operationName: String = "UpdateMobileToken"
+
+  public var mobileUserId: GraphQLID?
+  public var newToken: TokenInput?
+
+  public init(mobileUserId: GraphQLID? = nil, newToken: TokenInput? = nil) {
+    self.mobileUserId = mobileUserId
+    self.newToken = newToken
+  }
+
+  public var variables: GraphQLMap? {
+    return ["mobileUserId": mobileUserId, "newToken": newToken]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Mutation"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("updateMobileToken", arguments: ["mobileUserId": GraphQLVariable("mobileUserId"), "newToken": GraphQLVariable("newToken")], type: .nonNull(.object(UpdateMobileToken.selections))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(updateMobileToken: UpdateMobileToken) {
+      self.init(unsafeResultMap: ["__typename": "Mutation", "updateMobileToken": updateMobileToken.resultMap])
+    }
+
+    public var updateMobileToken: UpdateMobileToken {
+      get {
+        return UpdateMobileToken(unsafeResultMap: resultMap["updateMobileToken"]! as! ResultMap)
+      }
+      set {
+        resultMap.updateValue(newValue.resultMap, forKey: "updateMobileToken")
+      }
+    }
+
+    public struct UpdateMobileToken: GraphQLSelectionSet {
       public static let possibleTypes: [String] = ["MobileUserResponse"]
 
       public static var selections: [GraphQLSelection] {

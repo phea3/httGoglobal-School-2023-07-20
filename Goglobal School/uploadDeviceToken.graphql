@@ -1,0 +1,7 @@
+
+mutation UpdateMobileToken($mobileUserId: ID, $newToken: TokenInput) {
+  updateMobileToken(mobileUserId: $mobileUserId, newToken: $newToken) {
+    success
+    message
+  }
+}

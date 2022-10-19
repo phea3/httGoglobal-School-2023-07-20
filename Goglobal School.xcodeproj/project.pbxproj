@@ -17,18 +17,25 @@
 		091B223628CC465400FE9DBB /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 091B223528CC465400FE9DBB /* AuthenticationServices.framework */; };
 		0925213328EEB3B900363609 /* ProgrammePayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0925213228EEB3B900363609 /* ProgrammePayment.swift */; };
 		092824C628DC17BF00320D33 /* EnrollmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092824C528DC17BF00320D33 /* EnrollmentViewModel.swift */; };
+		093E9AFB28FE3F7900449E41 /* ImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 093E9AFA28FE3F7900449E41 /* ImageViewer */; };
+		093E9AFD28FE3F7900449E41 /* ImageViewerRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 093E9AFC28FE3F7900449E41 /* ImageViewerRemote */; };
+		09660B3928FE4BD800CEA9EA /* DeleteNotificationByMobileUserId.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 09660B3828FE4BD800CEA9EA /* DeleteNotificationByMobileUserId.graphql */; };
+		09660B3B28FE4C0C00CEA9EA /* DeleteNotificationByMobileUserId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09660B3A28FE4C0C00CEA9EA /* DeleteNotificationByMobileUserId.swift */; };
+		09660B3F28FE579A00CEA9EA /* notification.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 09660B3E28FE579A00CEA9EA /* notification.aiff */; };
 		0978944D28E7EC2300CB4C05 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0978944C28E7EC2300CB4C05 /* Payment.swift */; };
 		0978AA2C28C5CBC400CD9222 /* ScrollRefreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0978AA2B28C5CBC400CD9222 /* ScrollRefreshable.swift */; };
+		09903AD428F8FFB4009EA604 /* uploadDeviceToken.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 09903AD328F8FFB4009EA604 /* uploadDeviceToken.graphql */; };
+		09903AD728F90013009EA604 /* UploadDeviceToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09903AD628F90013009EA604 /* UploadDeviceToken.swift */; };
 		099ECD5F28EC384800D69557 /* InvoiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099ECD5E28EC384800D69557 /* InvoiceViewModel.swift */; };
 		09A060FB28BA18A200D1D1FA /* ScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A060FA28BA18A200D1D1FA /* ScheduleViewModel.swift */; };
 		09A060FD28BA199B00D1D1FA /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09A060FC28BA199B00D1D1FA /* API.swift */; };
+		09D87E3F28FD46A100FB96B1 /* DeviceTokenLogout.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 09D87E3E28FD46A100FB96B1 /* DeviceTokenLogout.graphql */; };
+		09D87E4128FD47F100FB96B1 /* MobileUserLogOutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D87E4028FD47F100FB96B1 /* MobileUserLogOutViewModel.swift */; };
 		09F5197828D1E79D00C8B1FD /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5197728D1E79D00C8B1FD /* Alamofire */; };
 		09F5197B28D1E80200C8B1FD /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5197A28D1E80200C8B1FD /* Apollo */; };
 		09F5197D28D1E80200C8B1FD /* ApolloSQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5197C28D1E80200C8B1FD /* ApolloSQLite */; };
 		09F5197F28D1E80200C8B1FD /* ApolloWebSocket in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5197E28D1E80200C8B1FD /* ApolloWebSocket */; };
 		09F5198528D1E81D00C8B1FD /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5198428D1E81D00C8B1FD /* KeychainSwift */; };
-		09F5198828D1E83100C8B1FD /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5198728D1E83100C8B1FD /* URLImage */; };
-		09F5198E28D1E86000C8B1FD /* ImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 09F5198D28D1E86000C8B1FD /* ImageViewer */; };
 		09F9140628D3271800BF252B /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 09F9140528D3271800BF252B /* schema.json */; };
 		09FEBC4F28B704E400E8B5B7 /* Goglobal_SchoolApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC4E28B704E400E8B5B7 /* Goglobal_SchoolApp.swift */; };
 		09FEBC5128B704E400E8B5B7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBC5028B704E400E8B5B7 /* ContentView.swift */; };
@@ -78,11 +85,19 @@
 		091B223528CC465400FE9DBB /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		0925213228EEB3B900363609 /* ProgrammePayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammePayment.swift; sourceTree = "<group>"; };
 		092824C528DC17BF00320D33 /* EnrollmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentViewModel.swift; sourceTree = "<group>"; };
+		09660B3828FE4BD800CEA9EA /* DeleteNotificationByMobileUserId.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = DeleteNotificationByMobileUserId.graphql; sourceTree = "<group>"; };
+		09660B3A28FE4C0C00CEA9EA /* DeleteNotificationByMobileUserId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteNotificationByMobileUserId.swift; sourceTree = "<group>"; };
+		09660B3E28FE579A00CEA9EA /* notification.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = notification.aiff; path = "Goglobal School/notification.aiff"; sourceTree = SOURCE_ROOT; };
 		0978944C28E7EC2300CB4C05 /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		0978AA2B28C5CBC400CD9222 /* ScrollRefreshable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollRefreshable.swift; sourceTree = "<group>"; };
+		09903AD328F8FFB4009EA604 /* uploadDeviceToken.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = uploadDeviceToken.graphql; sourceTree = "<group>"; };
+		09903AD628F90013009EA604 /* UploadDeviceToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadDeviceToken.swift; sourceTree = "<group>"; };
 		099ECD5E28EC384800D69557 /* InvoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceViewModel.swift; sourceTree = "<group>"; };
 		09A060FA28BA18A200D1D1FA /* ScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewModel.swift; sourceTree = "<group>"; };
 		09A060FC28BA199B00D1D1FA /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = API.swift; path = "Goglobal School/API.swift"; sourceTree = SOURCE_ROOT; };
+		09C6A8E328FEB2C800557AF2 /* Goglobal-School-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Goglobal-School-Info.plist"; sourceTree = "<group>"; };
+		09D87E3E28FD46A100FB96B1 /* DeviceTokenLogout.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = DeviceTokenLogout.graphql; sourceTree = "<group>"; };
+		09D87E4028FD47F100FB96B1 /* MobileUserLogOutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileUserLogOutViewModel.swift; sourceTree = "<group>"; };
 		09F9140528D3271800BF252B /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = schema.json; path = "Goglobal School/schema.json"; sourceTree = SOURCE_ROOT; };
 		09FEBC4B28B704E400E8B5B7 /* Goglobal School.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Goglobal School.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09FEBC4E28B704E400E8B5B7 /* Goglobal_SchoolApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goglobal_SchoolApp.swift; sourceTree = "<group>"; };
@@ -120,7 +135,6 @@
 		09FEBCAF28B70CD600E8B5B7 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		09FEBCB128B70CEC00E8B5B7 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		09FEBCB328B70D0000E8B5B7 /* Choosing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Choosing.swift; sourceTree = "<group>"; };
-		09FEBCB728B70E7600E8B5B7 /* Goglobal-School-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Goglobal-School-Info.plist"; path = "Goglobal School/Goglobal-School-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,11 +144,11 @@
 			files = (
 				091B223628CC465400FE9DBB /* AuthenticationServices.framework in Frameworks */,
 				09F5197D28D1E80200C8B1FD /* ApolloSQLite in Frameworks */,
+				093E9AFD28FE3F7900449E41 /* ImageViewerRemote in Frameworks */,
+				093E9AFB28FE3F7900449E41 /* ImageViewer in Frameworks */,
 				09F5198528D1E81D00C8B1FD /* KeychainSwift in Frameworks */,
 				09F5197F28D1E80200C8B1FD /* ApolloWebSocket in Frameworks */,
-				09F5198E28D1E86000C8B1FD /* ImageViewer in Frameworks */,
 				09F5197B28D1E80200C8B1FD /* Apollo in Frameworks */,
-				09F5198828D1E83100C8B1FD /* URLImage in Frameworks */,
 				09F5197828D1E79D00C8B1FD /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -145,6 +159,8 @@
 		09178C2828B9AA7D00A507EA /* ClassObservables */ = {
 			isa = PBXGroup;
 			children = (
+				09D87E4028FD47F100FB96B1 /* MobileUserLogOutViewModel.swift */,
+				09903AD628F90013009EA604 /* UploadDeviceToken.swift */,
 				09FEBC8F28B70A7500E8B5B7 /* UpdateMobileUserProfileImg.swift */,
 				09FEBC8728B709FE00E8B5B7 /* ListViewModel.swift */,
 				092824C528DC17BF00320D33 /* EnrollmentViewModel.swift */,
@@ -155,6 +171,7 @@
 				09FEBC9328B70AA600E8B5B7 /* AnnouncementViewModel.swift */,
 				09A060FA28BA18A200D1D1FA /* ScheduleViewModel.swift */,
 				099ECD5E28EC384800D69557 /* InvoiceViewModel.swift */,
+				09660B3A28FE4C0C00CEA9EA /* DeleteNotificationByMobileUserId.swift */,
 			);
 			path = ClassObservables;
 			sourceTree = "<group>";
@@ -183,12 +200,12 @@
 			isa = PBXGroup;
 			children = (
 				09FEBCA928B70C9100E8B5B7 /* Dashboard.swift */,
-				09178C2628B9A43E00A507EA /* Annoucements.swift */,
 				09FEBCAB28B70CA600E8B5B7 /* Education.swift */,
 				09FEBCAF28B70CD600E8B5B7 /* Calendar.swift */,
 				09FEBCB128B70CEC00E8B5B7 /* Profile.swift */,
-				09FEBCB328B70D0000E8B5B7 /* Choosing.swift */,
+				09178C2628B9A43E00A507EA /* Annoucements.swift */,
 				09FEBCAD28B70CBD00E8B5B7 /* Grade.swift */,
+				09FEBCB328B70D0000E8B5B7 /* Choosing.swift */,
 				09FEBCA728B70C6F00E8B5B7 /* Schedule.swift */,
 				09FEBCA328B70C3E00E8B5B7 /* Attendant.swift */,
 				09FEBCA128B70C0600E8B5B7 /* CustomDatePicker.swift */,
@@ -210,6 +227,7 @@
 		09FEBC4228B704E400E8B5B7 = {
 			isa = PBXGroup;
 			children = (
+				09C6A8E328FEB2C800557AF2 /* Goglobal-School-Info.plist */,
 				09FEBC4D28B704E400E8B5B7 /* Goglobal School */,
 				09FEBC4C28B704E400E8B5B7 /* Products */,
 				091B223428CC465400FE9DBB /* Frameworks */,
@@ -230,12 +248,15 @@
 				09FEBC4E28B704E400E8B5B7 /* Goglobal_SchoolApp.swift */,
 				09FEBC5028B704E400E8B5B7 /* ContentView.swift */,
 				09FEBC9B28B70BAE00E8B5B7 /* Home.swift */,
-				09FEBCB728B70E7600E8B5B7 /* Goglobal-School-Info.plist */,
 				09FEBC7828B707B100E8B5B7 /* query.graphql */,
 				09FEBC7A28B707CB00E8B5B7 /* login.graphql */,
 				09FEBC7C28B707D700E8B5B7 /* upload.graphql */,
+				09903AD328F8FFB4009EA604 /* uploadDeviceToken.graphql */,
 				091B223028CC379900FE9DBB /* apple-app-site-association */,
+				09D87E3E28FD46A100FB96B1 /* DeviceTokenLogout.graphql */,
+				09660B3828FE4BD800CEA9EA /* DeleteNotificationByMobileUserId.graphql */,
 				09F9140528D3271800BF252B /* schema.json */,
+				09660B3E28FE579A00CEA9EA /* notification.aiff */,
 				09178C2A28B9AB1E00A507EA /* Screens */,
 				09178C2928B9AAD600A507EA /* Components */,
 				09178C2828B9AA7D00A507EA /* ClassObservables */,
@@ -304,8 +325,8 @@
 				09F5197C28D1E80200C8B1FD /* ApolloSQLite */,
 				09F5197E28D1E80200C8B1FD /* ApolloWebSocket */,
 				09F5198428D1E81D00C8B1FD /* KeychainSwift */,
-				09F5198728D1E83100C8B1FD /* URLImage */,
-				09F5198D28D1E86000C8B1FD /* ImageViewer */,
+				093E9AFA28FE3F7900449E41 /* ImageViewer */,
+				093E9AFC28FE3F7900449E41 /* ImageViewerRemote */,
 			);
 			productName = "Goglobal School";
 			productReference = 09FEBC4B28B704E400E8B5B7 /* Goglobal School.app */;
@@ -339,8 +360,7 @@
 				09F5197628D1E79D00C8B1FD /* XCRemoteSwiftPackageReference "Alamofire" */,
 				09F5197928D1E80200C8B1FD /* XCRemoteSwiftPackageReference "apollo-ios" */,
 				09F5198328D1E81D00C8B1FD /* XCRemoteSwiftPackageReference "keychain-swift" */,
-				09F5198628D1E83100C8B1FD /* XCRemoteSwiftPackageReference "url-image" */,
-				09F5198C28D1E86000C8B1FD /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */,
+				093E9AF928FE3F7900449E41 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */,
 			);
 			productRefGroup = 09FEBC4C28B704E400E8B5B7 /* Products */;
 			projectDirPath = "";
@@ -362,10 +382,14 @@
 				09FEBC7428B7070500E8B5B7 /* Kantumruy-Light.ttf in Resources */,
 				091B223128CC379900FE9DBB /* apple-app-site-association in Resources */,
 				09FEBC7328B7070500E8B5B7 /* Kantumruy-Bold.ttf in Resources */,
+				09660B3928FE4BD800CEA9EA /* DeleteNotificationByMobileUserId.graphql in Resources */,
 				09F9140628D3271800BF252B /* schema.json in Resources */,
 				09FEBC5628B704E500E8B5B7 /* Preview Assets.xcassets in Resources */,
+				09903AD428F8FFB4009EA604 /* uploadDeviceToken.graphql in Resources */,
+				09D87E3F28FD46A100FB96B1 /* DeviceTokenLogout.graphql in Resources */,
 				09FEBC5328B704E500E8B5B7 /* Assets.xcassets in Resources */,
 				09FEBC7D28B707D700E8B5B7 /* upload.graphql in Resources */,
+				09660B3F28FE579A00CEA9EA /* notification.aiff in Resources */,
 				09FEBC7228B7070500E8B5B7 /* Bayon-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -376,7 +400,7 @@
 		09FEBC7E28B7080D00E8B5B7 /* Generate Apollo Graphql API */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -388,7 +412,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n# Don't run this during index builds\nif [ $ACTION = \"indexbuild\" ]; then exit 0; fi\n\n# Go to the build root and search up the chain to find the Derived Data Path where the source packages are checked out.\nDERIVED_DATA_CANDIDATE=\"${BUILD_ROOT}\"\n\nwhile ! [ -d \"${DERIVED_DATA_CANDIDATE}/SourcePackages\" ]; do\n  if [ \"${DERIVED_DATA_CANDIDATE}\" = / ]; then\n    echo >&2 \"error: Unable to locate SourcePackages directory from BUILD_ROOT: '${BUILD_ROOT}'\"\n    exit 1\n  fi\n\n  DERIVED_DATA_CANDIDATE=\"$(dirname \"${DERIVED_DATA_CANDIDATE}\")\"\ndone\n\n# Grab a reference to the directory where scripts are checked out\nSCRIPT_PATH=\"${DERIVED_DATA_CANDIDATE}/SourcePackages/checkouts/apollo-ios/scripts\"\n\nif [ -z \"${SCRIPT_PATH}\" ]; then\n    echo >&2 \"error: Couldn't find the CLI script in your checked out SPM packages; make sure to add the framework to your project.\"\n    exit 1\nfi\n\ncd \"${SRCROOT}/Goglobal School\"\n\"${SCRIPT_PATH}\"/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/*.graphql --localSchemaFile=\"schema.json\" API.swift\n";
 		};
@@ -423,10 +447,13 @@
 				092824C628DC17BF00320D33 /* EnrollmentViewModel.swift in Sources */,
 				0978944D28E7EC2300CB4C05 /* Payment.swift in Sources */,
 				09FEBC9A28B70B8500E8B5B7 /* TabView.swift in Sources */,
+				09D87E4128FD47F100FB96B1 /* MobileUserLogOutViewModel.swift in Sources */,
+				09903AD728F90013009EA604 /* UploadDeviceToken.swift in Sources */,
 				09094AC928ED60CB000F2F98 /* FlashScreen.swift in Sources */,
 				09178C2D28B9B28500A507EA /* SheetContact.swift in Sources */,
 				09FEBC8628B709D600E8B5B7 /* LoginViewModel.swift in Sources */,
 				09FEBCAE28B70CBD00E8B5B7 /* Grade.swift in Sources */,
+				09660B3B28FE4C0C00CEA9EA /* DeleteNotificationByMobileUserId.swift in Sources */,
 				09178C2728B9A43E00A507EA /* Annoucements.swift in Sources */,
 				09FEBC9428B70AA600E8B5B7 /* AnnouncementViewModel.swift in Sources */,
 				09FEBC4F28B704E400E8B5B7 /* Goglobal_SchoolApp.swift in Sources */,
@@ -495,7 +522,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -550,7 +577,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -568,7 +595,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Goglobal School/Goglobal School.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"Goglobal School/Preview Content\"";
 				DEVELOPMENT_TEAM = HZ73GSKF9X;
 				ENABLE_PREVIEWS = YES;
@@ -582,13 +609,14 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeRight UIInterfaceOrientationLandscapeLeft";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeRight UIInterfaceOrientationLandscapeLeft";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Second-dayofSwift-Testing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -606,7 +634,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Goglobal School/Goglobal School.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"Goglobal School/Preview Content\"";
 				DEVELOPMENT_TEAM = HZ73GSKF9X;
 				ENABLE_PREVIEWS = YES;
@@ -620,13 +648,14 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeRight UIInterfaceOrientationLandscapeLeft";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeRight UIInterfaceOrientationLandscapeLeft";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Second-dayofSwift-Testing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -660,6 +689,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		093E9AF928FE3F7900449E41 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Jake-Short/swiftui-image-viewer.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		09F5197628D1E79D00C8B1FD /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -684,25 +721,19 @@
 				kind = branch;
 			};
 		};
-		09F5198628D1E83100C8B1FD /* XCRemoteSwiftPackageReference "url-image" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dmytro-anokhin/url-image.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		09F5198C28D1E86000C8B1FD /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Jake-Short/swiftui-image-viewer.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		093E9AFA28FE3F7900449E41 /* ImageViewer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 093E9AF928FE3F7900449E41 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */;
+			productName = ImageViewer;
+		};
+		093E9AFC28FE3F7900449E41 /* ImageViewerRemote */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 093E9AF928FE3F7900449E41 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */;
+			productName = ImageViewerRemote;
+		};
 		09F5197728D1E79D00C8B1FD /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 09F5197628D1E79D00C8B1FD /* XCRemoteSwiftPackageReference "Alamofire" */;
@@ -727,16 +758,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 09F5198328D1E81D00C8B1FD /* XCRemoteSwiftPackageReference "keychain-swift" */;
 			productName = KeychainSwift;
-		};
-		09F5198728D1E83100C8B1FD /* URLImage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 09F5198628D1E83100C8B1FD /* XCRemoteSwiftPackageReference "url-image" */;
-			productName = URLImage;
-		};
-		09F5198D28D1E86000C8B1FD /* ImageViewer */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 09F5198C28D1E86000C8B1FD /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */;
-			productName = ImageViewer;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

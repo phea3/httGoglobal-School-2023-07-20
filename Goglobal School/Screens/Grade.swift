@@ -7,7 +7,6 @@
 import SwiftUI
 
 struct Grade: View {
-    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject var enrollments: ListStudentViewModel = ListStudentViewModel()
     @StateObject var enrollment: EnrollmentViewModel = EnrollmentViewModel()
@@ -108,18 +107,24 @@ struct Grade: View {
                                     image
                                         .resizable()
                                         .scaledToFill()
-                                        .cornerRadius(50)
                                         .clipped()
                                         .background(Color.black.opacity(0.2))
+                                        .overlay {
+                                            Circle()
+                                                .stroke(.orange, lineWidth: 1)
+                                        }
                                         .clipShape(Circle())
                                         .padding(-5)
                                         .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
                                 case .failure:
                                     Image(systemName: "person.fill")
-                                        .padding(2)
-                                        .font(.system(size:  prop.isLandscape ? 22 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20)))
-                                        .cornerRadius(50)
+                                        .padding(5)
+                                        .font(.system(size:  prop.isLandscape ? 22 : (prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)))
                                         .background(Color.white)
+                                        .overlay {
+                                            Circle()
+                                                .stroke(.orange, lineWidth: 1)
+                                        }
                                         .aspectRatio(contentMode: .fill)
                                         .clipShape(Circle())
                                         .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
@@ -134,7 +139,6 @@ struct Grade: View {
         }
 
 struct Choose: View {
-    
     @State var showsheet: Bool = false
     @State var Grade: String
     @State var Class: String
@@ -205,10 +209,23 @@ struct Choose: View {
                         .buttonStyle(PlainButtonStyle())
                     Spacer()
                 }
+                .padding(prop.isLandscape ? 50 : 20)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                .padding()
+                Button {
+                   showsheet = !showsheet
+                } label: {
+                    Image(systemName: "xmark.square.fill")
+                        .font(.system(size: 30))
+                        .foregroundColor(.red)
+                        .padding()
+                        .opacity(prop.isLandscape ? 1:0)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                .buttonStyle(PlainButtonStyle())
+                .padding(prop.isLandscape ? 20 : 0)
             }
             .ignoresSafeArea()
+           
         } onEnd: {
             print("")
         }

@@ -21,8 +21,8 @@ struct Goglobal_SchoolApp: App {
                         print("FROM DEEP LINK")
                     }else{
                         print("FALL BACK DEEP LINK")
-                    }
                 }
+            }
         }
     }
 }
@@ -36,7 +36,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
         let token = tokenParts.joined()
-        print("Device Token: \(token)")
+        ApiTokenSingleton.shared.setToken(newToken: token)
     };
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
