@@ -40,7 +40,7 @@ struct FlashScreen: View {
             Text("Power by:")
                 .font(.system( size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20))
                 .foregroundColor(Color("footerColor"))
-            Text("Go Global Tech")
+            Text("Go Global IT")
                 .font(.system(size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22).bold())
                 .foregroundColor(Color("footerColor"))
             FooterImg(prop: prop)
