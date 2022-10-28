@@ -2,6 +2,7 @@
 import SwiftUI
 import Alamofire
 import ImageViewer
+import LocalAuthentication
 
 struct Home: View {
     
@@ -11,10 +12,12 @@ struct Home: View {
     @StateObject var academiclist: ListViewModel =  ListViewModel()
     @StateObject var sendToken: UploadDeviceToken = UploadDeviceToken()
     @StateObject var monitor = Monitor()
+    
     init(){
         requestPushAuthorization();
         UITabBar.appearance().isHidden = true
     }
+    
     @State var currentTab: Tab = .dashboard
     @State var animationFinished: Bool = false
     @State var animationStarted: Bool = false
@@ -25,7 +28,7 @@ struct Home: View {
     @State var isLoading: Bool = false
     @State var showContact: Bool = false
     @State var hideTab: Bool = false
-    @State var checkState: Bool = false
+    @State var checkState: Bool = true
     @State var loggedIn: Bool = false
     @State var showingAlert: Bool = false
     @State var showingPassword: Bool = false
@@ -34,13 +37,20 @@ struct Home: View {
     @State var hidefooter: Bool = false
     @State var image = Image("GoGlobalSchool")
     @State var newToken: String = ""
+    @State private var isUnlocked = false
     
     var body: some View {
-        ResponsiveView{ prop in
+        
+        // MARK: Resposive App
+        ResponsiveView { prop in
+            // Login process
             ZStack{
+                // MARK: background image
                 ImageBackgroundSignIn()
-                if loginVM.isAuthenticated{
+                
+                if loginVM.isAuthenticated && ( gmail != "" && password != "" ){
                     ZStack{
+                        
                         if !loggedIn{
                             EmptyView()
                                 .setBG()
@@ -49,28 +59,31 @@ struct Home: View {
                         }
                     }
                     .onAppear{
+                        //login mutation
                         loginVM.login(email: gmail, password: password, checkState: checkState)
-                        loginVM.AskUserForNotification()
+                        
+                        // ask for notification
+//                        loginVM.AskUserForNotification()
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            // get active year
                             academiclist.activeAcademicYear()
                         }
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             loggedIn = true
                             if self.newToken != "" {
+                                // send token to backend
                                 sendToken.uploadToken(mobileUserId: loginVM.userprofileId, newToken:TokenInput(plateformToken: "ios", deviceToken: self.newToken))
                             }
                         }
                     }
-                }else if (!gmail.isEmpty && !gmail.isEmpty) && loginVM.isAuthenticated {
-                    EmptyView()
-                        .onAppear{
-                            loginVM.login(email: gmail, password: password, checkState: checkState)
-                        }
-                }else if !loginVM.isAuthenticated{
-                    LoginView(prop: prop)
                 }else{
-                    progressingView(prop: prop)
+                    
+                    // login screen
+                    LoginView(prop: prop)
                 }
+                // animation loading
                 FlashScreen(animationFinished: self.animationFinished, prop:prop)
             }
             .alert("គ្មានអ៉ីនធើណេត", isPresented: .constant(!monitor.connected)) {
@@ -78,11 +91,11 @@ struct Home: View {
             }
             .onAppear{
                 registerForNotifications()
+                VersionCheck.shared.checkAppStore()
+                monitor.checkConnection()
                 DispatchQueue.main.asyncAfter(deadline:.now()+2) {
                     self.newToken = ApiTokenSingleton.shared.token
                 }
-                VersionCheck.shared.checkAppStore()
-                monitor.checkConnection()
                 if !loginVM.isAuthenticated{
                     DispatchQueue.main.async {
                         self.isLoading = false
@@ -104,7 +117,7 @@ struct Home: View {
                     .tag(Tab.dashboard)
                 Education(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, parentId: loginVM.userId, academicYearName: academiclist.khmerYear, prop: prop)
                     .tag(Tab.education)
-                Calendar(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, prop: prop, activeYear: academiclist.academicYearId)
+                CalendarViewModel(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, prop: prop, activeYear: academiclist.academicYearId)
                     .tag(Tab.bag)
                 Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, hideTab: $hideTab, checkState: $checkState, prop: prop, devicetoken: self.newToken)
                     .tag(Tab.book)
@@ -159,7 +172,11 @@ struct Home: View {
                             self.gmail = $0.lowercased()
                         })
                         TextField("បញ្ជូលអ៉ីម៉ែល", text: binding)
-                            .keyboardType(.emailAddress)
+                            .submitLabel(.next)
+                            .onSubmit {
+                                print("GmailAddress")
+                            }
+                            .textContentType(.emailAddress)
                             .padding(prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)
                             .cornerRadius(10)
                             .overlay(
@@ -172,37 +189,63 @@ struct Home: View {
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 17 : prop.isiPhoneL ? 19 : 21, relativeTo: .body))
                             .foregroundColor(.blue)
                         SecureTextFieldToggle(text: $password, isempty: isempty, prop: prop)
+                            .onSubmit {
+                                print("Password")
+                            }
                     }
                     VStack{
                         Button {
+                            // login mutation
+                            
                             loginVM.login(email: gmail, password: password, checkState: checkState)
                             self.isLoading = true
+                            
                             if self.gmail.isEmpty || password.isEmpty {
                                 self.isempty = true
                                 self.isLoading = false
-                            }else{
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 3){
-                                    if !loginVM.isAuthenticated{
+                                
+                            } else {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7 ) {
+                                    if loginVM.failLogin{
                                         self.isLoading = false
                                         self.forget = true
-                                        showingAlert = true
-                                    }else{
-                                        if self.newToken != ""{
-                                            UserDefaults.standard.set(self.newToken, forKey: "DeviceToken")
-                                            sendToken.uploadToken(mobileUserId: loginVM.userprofileId, newToken:TokenInput(plateformToken: "ios", deviceToken: self.newToken))
+                                        if loginVM.failLogin{
+                                            showingAlert = true
                                         }
-                                        DispatchQueue.main.async{
-                                            self.isLoading = false
+                                    }else{
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+                                            if !loginVM.isAuthenticated{
+                                                self.isLoading = false
+                                                self.forget = true
+                                                if loginVM.failLogin{
+                                                    showingAlert = true
+                                                }
+                                            }else{
+                                                if self.newToken != "" {
+                                                    UserDefaults.standard.set(self.newToken, forKey: "DeviceToken")
+                                                    sendToken.uploadToken(mobileUserId: loginVM.userprofileId, newToken:TokenInput(plateformToken: "ios", deviceToken: self.newToken))
+                                                }
+                                                if !loginVM.failLogin && loginVM.isAuthenticated{
+                                                    DispatchQueue.main.async{
+                                                        self.isLoading = false
+                                                        self.forget = false
+                                                        self.isempty = false
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
+                                    
                                 }
                             }
                             if checkState{
+                                
                                 UserDefaults.standard.set(self.gmail, forKey: "Gmail")
                                 UserDefaults.standard.set(self.password, forKey: "Password")
                             }
                             
                         } label: {
+                            
                             Text("ចូលកម្មវិធី")
                                 .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 22 : 24, relativeTo: .largeTitle))
                                 .foregroundColor(.white)
@@ -212,9 +255,10 @@ struct Home: View {
                                 .cornerRadius(10)
                         }
                         .alert("គណនីរបស់លោកអ្នកមិនត្រឹមត្រូវទេ", isPresented: $showingAlert) {
-                            Button("OK", role: .cancel) { }
+                            Button("OK", role: .cancel) { loginVM.failLogin = false }
                         }
                         HStack(spacing: 0){
+                            
                             Button(action:
                                     {
                                 self.checkState.toggle()
@@ -249,6 +293,7 @@ struct Home: View {
                     .padding(.top,5)
                 }
                 .frame(maxWidth: prop.isiPad ? 400 : prop.isiPhone ? 400 : .infinity )
+                
                 if !hidefooter{
                     Spacer()
                 }
@@ -271,6 +316,7 @@ struct Home: View {
                 }
             }
             .padding(prop.isiPhoneS ? 25: prop.isiPhoneM ? 30 : prop.isiPhoneL ? 35 : 40)
+            
             if isLoading{
                 ZStack{
                     Rectangle()
@@ -304,6 +350,7 @@ struct Home: View {
                 .padding(.top, 8)
         }
     }
+    // MARK: ASK USER FOR NOTIFICATIOON
     func requestPushAuthorization() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
             if success {
@@ -315,9 +362,34 @@ struct Home: View {
             }
         }
     }
-
+    // MARK: GET DEVICE's token
     func registerForNotifications() {
         UIApplication.shared.registerForRemoteNotifications()
+    }
+    
+    // MARK: TouchID & FaceID
+    func authenticate() {
+        let context = LAContext()
+        var error: NSError?
+
+        // check whether biometric authentication is possible
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            // it's possible, so go ahead and use it
+            let reason = "We need to unlock your data."
+
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+                // authentication has now completed
+                if success {
+                    // authenticated successfully
+                    isUnlocked = true
+                } else {
+                    // there was a problem
+                }
+            }
+        } else {
+            // no biometrics
+            print("error")
+        }
     }
 }
 
@@ -349,6 +421,7 @@ struct SecureTextFieldToggle: View{
                     .foregroundColor(.blue)
             }
         }
+        .submitLabel(.next)
         .textContentType(.password)
         .padding(prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)
         .cornerRadius(10)
@@ -358,6 +431,7 @@ struct SecureTextFieldToggle: View{
         )
     }
 }
+
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()

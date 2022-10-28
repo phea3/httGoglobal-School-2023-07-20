@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Calendar: View {
+struct CalendarViewModel: View {
     
     @StateObject var academiclist: ListViewModel = ListViewModel()
     @State var colorBlue: String = "LightBlue"
@@ -61,7 +61,7 @@ struct Calendar: View {
                     }
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .frame(maxWidth: .infinity, alignment: .center)
             .onAppear {
                 academiclist.populateAllContinent(academicYearId: activeYear)
                 DispatchQueue.main.async {
@@ -138,10 +138,10 @@ struct Calendar: View {
     }
 }
 
-struct Calendar_Previews: PreviewProvider {
+struct CalendarViewModel_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Calendar(userProfileImg: "", isLoading: .constant(false), prop: prop, activeYear: "")
+        CalendarViewModel(userProfileImg: "", isLoading: .constant(false), prop: prop, activeYear: "")
     }
 }
 

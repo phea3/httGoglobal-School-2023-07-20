@@ -219,18 +219,18 @@ struct Dashboard: View {
                                                         .cornerRadius(20)
                                                 )
                                         }
-                                       
+                                        
                                         .overlay(
                                             Text(item.title)
-                                                   .font(.custom("Bayon", size: prop.isiPhoneS ? 6 : prop.isiPhoneM ? 8 : 10, relativeTo: .body))
-                                                   .foregroundColor(.blue)
-                                                   .multilineTextAlignment(.leading)
-                                                   .padding()
+                                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                                                .foregroundColor(.blue)
+                                                .multilineTextAlignment(.leading)
+                                                .padding()
                                             , alignment: .bottomLeading
-                                                   
+                                            
                                         )
                                         
-                                      
+                                        
                                     case .failure:
                                         Text("Not Found News")
                                             .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
@@ -239,7 +239,7 @@ struct Dashboard: View {
                                         fatalError()
                                     }
                                 }
-                               
+                                
                             }
                             .sheet(isPresented: $showingSheet) {
                                 Annoucements(prop: prop, postId: $detailId)

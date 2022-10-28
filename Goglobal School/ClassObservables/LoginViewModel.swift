@@ -20,6 +20,7 @@ class LoginViewModel: ObservableObject{
     @Published var userTel: String = ""
     @Published var userNationality: String = ""
     @Published var userProfileImg: String = ""
+    @Published var failLogin: Bool = false
     static var loginID = ""
     static var loginKeychainKey = ""
     
@@ -40,10 +41,17 @@ class LoginViewModel: ObservableObject{
     
     // MARK: LogIn Button
     func login(email: String, password: String, checkState: Bool) {
-        
         Network.shared.apollo.perform(mutation: LoginMutation(email: email, password: password)) { [weak self] result in
             switch result{
             case .success(let graphQLResult):
+                if let errors = graphQLResult.errors{
+                    print(errors)
+                }
+                if graphQLResult.data?.login?.token == nil {
+                    DispatchQueue.main.async {
+                        self?.failLogin = true
+                    }
+                }
                 if let token = graphQLResult.data?.login?.token {
                     let keychain = KeychainSwift()
                     keychain.set(token, forKey: LoginViewModel.loginKeychainKey)

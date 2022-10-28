@@ -23,5 +23,5 @@ class AppDataModel: ObservableObject{
     }
 }
 enum DeepLink: String{
-    case welcome = "mobileapp"
+    case welcome = "mobileapp.com"
 }

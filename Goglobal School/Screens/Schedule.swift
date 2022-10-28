@@ -109,7 +109,7 @@ struct Schedule: View {
                 .frame(width: prop.isiPad ? 60 : 40, height: prop.isiPad ? 60 : 40)
             Text(dayInKhmer)
                 .foregroundColor(Color(day))
-                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 25, relativeTo: .body))
+                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 25, relativeTo: .body))
         }
         .frame(width: prop.isiPad ? 85 : 55, height: prop.isiPad ? 85 : 55)
         .background(Color(day))

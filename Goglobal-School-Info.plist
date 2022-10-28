@@ -2,6 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string></string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>សូមធ្វើការយល់ព្រមការ Scan</string>
+	<key> Entitlements File</key>
+	<dict>
+		<key>com.apple.developer.associated-domains</key>
+		<array>
+			<string>webcredentials:go-globalschool.com</string>
+		</array>
+	</dict>
+	<key>AutoFill Credential Provider</key>
+	<true/>
 	<key>UILocalNotificationDefaultSoundName</key>
 	<array>
 		<string>notification.aiff</string>

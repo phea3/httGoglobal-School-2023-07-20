@@ -19,11 +19,14 @@
 		092824C628DC17BF00320D33 /* EnrollmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092824C528DC17BF00320D33 /* EnrollmentViewModel.swift */; };
 		093E9AFB28FE3F7900449E41 /* ImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 093E9AFA28FE3F7900449E41 /* ImageViewer */; };
 		093E9AFD28FE3F7900449E41 /* ImageViewerRemote in Frameworks */ = {isa = PBXBuildFile; productRef = 093E9AFC28FE3F7900449E41 /* ImageViewerRemote */; };
+		0949C3112907C5820076F382 /* CalendarWeekListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0949C3102907C5820076F382 /* CalendarWeekListView.swift */; };
 		09660B3928FE4BD800CEA9EA /* DeleteNotificationByMobileUserId.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 09660B3828FE4BD800CEA9EA /* DeleteNotificationByMobileUserId.graphql */; };
 		09660B3B28FE4C0C00CEA9EA /* DeleteNotificationByMobileUserId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09660B3A28FE4C0C00CEA9EA /* DeleteNotificationByMobileUserId.swift */; };
 		09660B3F28FE579A00CEA9EA /* notification.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 09660B3E28FE579A00CEA9EA /* notification.aiff */; };
 		0978944D28E7EC2300CB4C05 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0978944C28E7EC2300CB4C05 /* Payment.swift */; };
 		0978AA2C28C5CBC400CD9222 /* ScrollRefreshable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0978AA2B28C5CBC400CD9222 /* ScrollRefreshable.swift */; };
+		097A1350290684B9008B253D /* Babysitting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A134F290684B9008B253D /* Babysitting.swift */; };
+		097A13522906869D008B253D /* BabysittingVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A13512906869D008B253D /* BabysittingVIewModel.swift */; };
 		09903AD428F8FFB4009EA604 /* uploadDeviceToken.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 09903AD328F8FFB4009EA604 /* uploadDeviceToken.graphql */; };
 		09903AD728F90013009EA604 /* UploadDeviceToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09903AD628F90013009EA604 /* UploadDeviceToken.swift */; };
 		099ECD5F28EC384800D69557 /* InvoiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099ECD5E28EC384800D69557 /* InvoiceViewModel.swift */; };
@@ -69,7 +72,7 @@
 		09FEBCAA28B70C9100E8B5B7 /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCA928B70C9100E8B5B7 /* Dashboard.swift */; };
 		09FEBCAC28B70CA600E8B5B7 /* Education.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCAB28B70CA600E8B5B7 /* Education.swift */; };
 		09FEBCAE28B70CBD00E8B5B7 /* Grade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCAD28B70CBD00E8B5B7 /* Grade.swift */; };
-		09FEBCB028B70CD600E8B5B7 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCAF28B70CD600E8B5B7 /* Calendar.swift */; };
+		09FEBCB028B70CD600E8B5B7 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCAF28B70CD600E8B5B7 /* CalendarViewModel.swift */; };
 		09FEBCB228B70CEC00E8B5B7 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCB128B70CEC00E8B5B7 /* Profile.swift */; };
 		09FEBCB428B70D0000E8B5B7 /* Choosing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCB328B70D0000E8B5B7 /* Choosing.swift */; };
 /* End PBXBuildFile section */
@@ -85,11 +88,14 @@
 		091B223528CC465400FE9DBB /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		0925213228EEB3B900363609 /* ProgrammePayment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammePayment.swift; sourceTree = "<group>"; };
 		092824C528DC17BF00320D33 /* EnrollmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentViewModel.swift; sourceTree = "<group>"; };
+		0949C3102907C5820076F382 /* CalendarWeekListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWeekListView.swift; sourceTree = "<group>"; };
 		09660B3828FE4BD800CEA9EA /* DeleteNotificationByMobileUserId.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = DeleteNotificationByMobileUserId.graphql; sourceTree = "<group>"; };
 		09660B3A28FE4C0C00CEA9EA /* DeleteNotificationByMobileUserId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteNotificationByMobileUserId.swift; sourceTree = "<group>"; };
 		09660B3E28FE579A00CEA9EA /* notification.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = notification.aiff; path = "Goglobal School/notification.aiff"; sourceTree = SOURCE_ROOT; };
 		0978944C28E7EC2300CB4C05 /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		0978AA2B28C5CBC400CD9222 /* ScrollRefreshable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollRefreshable.swift; sourceTree = "<group>"; };
+		097A134F290684B9008B253D /* Babysitting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Babysitting.swift; sourceTree = "<group>"; };
+		097A13512906869D008B253D /* BabysittingVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BabysittingVIewModel.swift; sourceTree = "<group>"; };
 		09903AD328F8FFB4009EA604 /* uploadDeviceToken.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = uploadDeviceToken.graphql; sourceTree = "<group>"; };
 		09903AD628F90013009EA604 /* UploadDeviceToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadDeviceToken.swift; sourceTree = "<group>"; };
 		099ECD5E28EC384800D69557 /* InvoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceViewModel.swift; sourceTree = "<group>"; };
@@ -132,7 +138,7 @@
 		09FEBCA928B70C9100E8B5B7 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		09FEBCAB28B70CA600E8B5B7 /* Education.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Education.swift; sourceTree = "<group>"; };
 		09FEBCAD28B70CBD00E8B5B7 /* Grade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grade.swift; sourceTree = "<group>"; };
-		09FEBCAF28B70CD600E8B5B7 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
+		09FEBCAF28B70CD600E8B5B7 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		09FEBCB128B70CEC00E8B5B7 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		09FEBCB328B70D0000E8B5B7 /* Choosing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Choosing.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -159,6 +165,7 @@
 		09178C2828B9AA7D00A507EA /* ClassObservables */ = {
 			isa = PBXGroup;
 			children = (
+				097A13512906869D008B253D /* BabysittingVIewModel.swift */,
 				09D87E4028FD47F100FB96B1 /* MobileUserLogOutViewModel.swift */,
 				09903AD628F90013009EA604 /* UploadDeviceToken.swift */,
 				09FEBC8F28B70A7500E8B5B7 /* UpdateMobileUserProfileImg.swift */,
@@ -201,7 +208,7 @@
 			children = (
 				09FEBCA928B70C9100E8B5B7 /* Dashboard.swift */,
 				09FEBCAB28B70CA600E8B5B7 /* Education.swift */,
-				09FEBCAF28B70CD600E8B5B7 /* Calendar.swift */,
+				09FEBCAF28B70CD600E8B5B7 /* CalendarViewModel.swift */,
 				09FEBCB128B70CEC00E8B5B7 /* Profile.swift */,
 				09178C2628B9A43E00A507EA /* Annoucements.swift */,
 				09FEBCAD28B70CBD00E8B5B7 /* Grade.swift */,
@@ -212,6 +219,8 @@
 				0978944C28E7EC2300CB4C05 /* Payment.swift */,
 				09094AC828ED60CB000F2F98 /* FlashScreen.swift */,
 				0925213228EEB3B900363609 /* ProgrammePayment.swift */,
+				097A134F290684B9008B253D /* Babysitting.swift */,
+				0949C3102907C5820076F382 /* CalendarWeekListView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -428,13 +437,14 @@
 				09FEBCA828B70C6F00E8B5B7 /* Schedule.swift in Sources */,
 				091B223328CC3B9000FE9DBB /* DeepLink.swift in Sources */,
 				0978AA2C28C5CBC400CD9222 /* ScrollRefreshable.swift in Sources */,
+				097A13522906869D008B253D /* BabysittingVIewModel.swift in Sources */,
 				09FEBCA628B70C5600E8B5B7 /* ImagePicker.swift in Sources */,
 				099ECD5F28EC384800D69557 /* InvoiceViewModel.swift in Sources */,
 				09FEBCA228B70C0600E8B5B7 /* CustomDatePicker.swift in Sources */,
 				09FEBC9628B70B4500E8B5B7 /* Function.swift in Sources */,
 				0902C55A28CF174200F2A956 /* ShowAvailableVersion.swift in Sources */,
 				09FEBC9028B70A7500E8B5B7 /* UpdateMobileUserProfileImg.swift in Sources */,
-				09FEBCB028B70CD600E8B5B7 /* Calendar.swift in Sources */,
+				09FEBCB028B70CD600E8B5B7 /* CalendarViewModel.swift in Sources */,
 				09FEBC8A28B70A1E00E8B5B7 /* ListStudentViewModel.swift in Sources */,
 				09FEBC8828B709FE00E8B5B7 /* ListViewModel.swift in Sources */,
 				0902C55828CF0C3500F2A956 /* MonitorNetwork.swift in Sources */,
@@ -448,6 +458,7 @@
 				0978944D28E7EC2300CB4C05 /* Payment.swift in Sources */,
 				09FEBC9A28B70B8500E8B5B7 /* TabView.swift in Sources */,
 				09D87E4128FD47F100FB96B1 /* MobileUserLogOutViewModel.swift in Sources */,
+				097A1350290684B9008B253D /* Babysitting.swift in Sources */,
 				09903AD728F90013009EA604 /* UploadDeviceToken.swift in Sources */,
 				09094AC928ED60CB000F2F98 /* FlashScreen.swift in Sources */,
 				09178C2D28B9B28500A507EA /* SheetContact.swift in Sources */,
@@ -461,6 +472,7 @@
 				09FEBCB428B70D0000E8B5B7 /* Choosing.swift in Sources */,
 				09FEBCAA28B70C9100E8B5B7 /* Dashboard.swift in Sources */,
 				09FEBCA028B70BEE00E8B5B7 /* HalfSheetHelper.swift in Sources */,
+				0949C3112907C5820076F382 /* CalendarWeekListView.swift in Sources */,
 				09FEBCB228B70CEC00E8B5B7 /* Profile.swift in Sources */,
 				09FEBC8C28B70A4700E8B5B7 /* ListAttendanceViewModel.swift in Sources */,
 				09A060FD28BA199B00D1D1FA /* API.swift in Sources */,

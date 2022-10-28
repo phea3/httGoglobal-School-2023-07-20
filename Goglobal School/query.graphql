@@ -166,3 +166,26 @@ query GetInvoiceBystudentIdWithPagination($studentId: ID) {
       }
     }
   }
+
+query GetEYSReportPagination($stuId: String, $date: String) {
+  getEYSReportPagination(stuId: $stuId, date: $date) {
+    data {
+      _id
+      date
+      food {
+        iconsrc
+        iconname
+        title
+        qty
+        description
+      }
+      activities {
+        iconsrc
+        iconname
+        title
+        qty
+        description
+      }
+    }
+  }
+}
