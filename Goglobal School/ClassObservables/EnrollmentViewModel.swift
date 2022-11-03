@@ -71,4 +71,16 @@ struct EnrollmentModel{
     var AcademicId: String {
         enrollment?.academicYearId ?? ""
     }
+    
+    var ClassGroupId: String {
+        enrollment?.classGroupId ?? ""
+    }
+    
+    var ClassGroupNameEn: String {
+        enrollment?.classGroupNameEn ?? ""
+    }
+    
+    var classGroupName: String {
+        enrollment?.classGroupName ?? ""
+    }
 }

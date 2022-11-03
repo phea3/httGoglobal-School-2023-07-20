@@ -140,6 +140,9 @@ query GetEnrollmentByStudents($studentId: ID) {
     academicYearName
     academicYearId
     status
+    classGroupId
+    classGroupNameEn
+    classGroupName
   }
 }
 
@@ -149,8 +152,6 @@ query GetInvoiceBystudentIdWithPagination($studentId: ID) {
         _id
         Amount
         createdAt
-        invoiceId
-        paidStatus
         additionalFee {
           _id
           countMonth
@@ -162,11 +163,23 @@ query GetInvoiceBystudentIdWithPagination($studentId: ID) {
             incomeType
             note
           }
+          total
+        }
+        startDate
+        endDate
+        netAmount
+        grossAmount
+        groupFeeType
+        month
+        invoiceId
+        quarter
+        academicTermId {
+          _id
         }
       }
     }
   }
-
+  
 query GetEYSReportPagination($stuId: String, $date: String) {
   getEYSReportPagination(stuId: $stuId, date: $date) {
     data {
@@ -186,6 +199,7 @@ query GetEYSReportPagination($stuId: String, $date: String) {
         qty
         description
       }
+      parentsRequest
     }
   }
 }

@@ -91,18 +91,30 @@ class ScheduleViewModel: ObservableObject{
             else {
                 Day = "Monday"
             }
-            let filtered = self.allClasses.filter{
-                return $0.dayOfWeek == Day
-                
-            }
             
-            DispatchQueue.main.async {
-                withAnimation{
-                    self.filteredTasks = filtered
-                }
-            }
+            let filtered = self.allClasses.filter{
+                return  $0.dayOfWeek == Day || $0.breakTime == true
+             }
+                 .sorted { task1, task2 in
+                     return task1.startTime < task2.startTime
+                 }
+            
+             var res:[ScheduleModel] = []
+            
+             filtered.forEach{ (c) -> () in
+                 if !res.contains(where: {$0.startTime == c.startTime}){
+                     res.append(c)
+                 }
+             }
+             DispatchQueue.main.async {
+                 withAnimation{
+                     self.filteredTasks = res
+                 }
+             }
         }
     }
+    
+    
     func fetchCurrentWeek(){
         
         let today = Date()
@@ -124,9 +136,7 @@ class ScheduleViewModel: ObservableObject{
     // MARK: Extraction Date
     func extractDate(date: Date, format: String)->String{
         let formatter = DateFormatter()
-        
         formatter.dateFormat = format
-        
         return formatter.string(from: date)
     }
     
@@ -160,42 +170,42 @@ struct ScheduleModel{
         schedule?.dayOfWeek ?? ""
     }
     var subject: subjectIdModel{
-        (schedule?.subjectId.map(subjectIdModel.init))!
+        schedule?.subjectId.map(subjectIdModel.init) ?? subjectIdModel(subject: schedule?.subjectId)
     }
     var leadTeacherId: leadTeacherIdModel{
-        (schedule?.leadTeacherId.map(leadTeacherIdModel.init))!
+        schedule?.leadTeacherId.map(leadTeacherIdModel.init) ?? leadTeacherIdModel(leadTeacher: schedule?.leadTeacherId)
     }
     
 }
 
 struct subjectIdModel{
-    let subject: GetSectionShiftByClassIdQuery.Data.GetSectionShiftByClassId.Section.SubjectId
+    let subject: GetSectionShiftByClassIdQuery.Data.GetSectionShiftByClassId.Section.SubjectId?
     
     var id: String{
-        subject._id
+        subject?._id ?? ""
     }
     
     var subjectName: String{
-        subject.subjectName ?? ""
+        subject?.subjectName ?? ""
     }
 }
 
 struct leadTeacherIdModel{
-    let leadTeacher: GetSectionShiftByClassIdQuery.Data.GetSectionShiftByClassId.Section.LeadTeacherId
+    let leadTeacher: GetSectionShiftByClassIdQuery.Data.GetSectionShiftByClassId.Section.LeadTeacherId?
     
     var id: String{
-        leadTeacher._id ?? ""
+        leadTeacher?._id ?? ""
     }
     
     var firstName: String{
-        leadTeacher.firstName ?? ""
+        leadTeacher?.firstName ?? ""
     }
     
     var lastName: String{
-        leadTeacher.lastName ?? ""
+        leadTeacher?.lastName ?? ""
     }
     var englishName: String{
-        leadTeacher.englishName ?? ""
+        leadTeacher?.englishName ?? ""
     }
 }
 

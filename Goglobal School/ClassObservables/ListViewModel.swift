@@ -331,17 +331,17 @@ struct AcademicViewModel {
         academic.endEventDate ?? ""
     }
     var academicyear: AcademinYear {
-        academic.academicYearId.map(AcademinYear.init)!
+        academic.academicYearId.map(AcademinYear.init) ?? AcademinYear(academicyear: academic.academicYearId)
     }
 }
 
 struct AcademinYear{
-    let academicyear: GetEventsQuery.Data.GetEvent.AcademicYearId
+    let academicyear: GetEventsQuery.Data.GetEvent.AcademicYearId?
     var id: String{
-        academicyear._id ?? ""
+        academicyear?._id ?? ""
     }
     var year: String{
-        academicyear.academicYear ?? ""
+        academicyear?.academicYear ?? ""
     }
 }
 

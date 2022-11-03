@@ -242,6 +242,7 @@ struct Home: View {
                                 
                                 UserDefaults.standard.set(self.gmail, forKey: "Gmail")
                                 UserDefaults.standard.set(self.password, forKey: "Password")
+                                
                             }
                             
                         } label: {

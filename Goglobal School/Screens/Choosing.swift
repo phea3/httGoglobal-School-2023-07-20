@@ -30,7 +30,7 @@ struct Choosing: View {
                     .tag(Chose.absence)
                 Payment(studentId: studentId, prop: prop)
                     .tag(Chose.payment)
-                Babysitting(prop: prop)
+                Babysitting(prop: prop, stuId: self.studentId)
                     .tag(Chose.score)
             }
         }

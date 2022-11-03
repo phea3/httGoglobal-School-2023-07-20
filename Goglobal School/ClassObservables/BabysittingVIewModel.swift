@@ -32,7 +32,6 @@ class BadysittingViewModel: ObservableObject{
             case .success(let graphQLResult):
                 if let allReports = graphQLResult.data?.getEysReportPagination.data {
                     self?.allReports = allReports.map(BadysittingModel.init)
-                    print(self?.allReports as Any)
                 }
             case .failure(let grahphQLError):
                 print(grahphQLError.localizedDescription)
@@ -124,6 +123,10 @@ struct BadysittingModel {
     
     var Activity: [ActivityReportModel] {
         (allReports.activities?.map(ActivityReportModel.init)) ?? []
+    }
+    
+    var ParentsRequest: [String?] {
+        allReports.parentsRequest ?? []
     }
 }
 

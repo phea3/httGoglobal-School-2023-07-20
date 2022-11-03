@@ -45,26 +45,101 @@ struct Payment: View {
                             ForEach(paymentmethod.paymentmethod, id: \.Id){ payment in
                                 VStack(spacing: 20){
                                     HStack{
-                                        Image(systemName: "calendar.badge.clock")
-                                            .foregroundColor(.blue)
-                                        Text(getExactDate(date: payment.CreateAt))
-                                            .foregroundColor(.blue)
-                                        Spacer()
-                                        ForEach(payment.AdditionalFee, id: \.Id) { task in
-                                            Text(task.IncomeHead.IncomeHead)
+                                        HStack{
+                                            Image(systemName: "calendar.badge.clock")
                                                 .foregroundColor(.blue)
-                                                .fixedSize(horizontal: false, vertical: true)
-                                            Spacer()
-                                            Text("\(task.countMonth) \(task.IncomeHead.Unit)")
+                                            Text(getExactDate(date: payment.CreateAt))
                                                 .foregroundColor(.blue)
                                         }
                                         Spacer()
-                                        Text("$\(getExactPrice(price: payment.Amount))")
-                                            .foregroundColor(.red)
+                                        
+                                        if payment.NetAmount == 0.0 && payment.GrossAmount == 0.0 && payment.StartDate == "" && payment.EndDate == "" {
+                                            VStack{
+                                                ForEach(payment.AdditionalFee, id: \.Id) { task in
+                                                    HStack{
+                                                        Text(task.IncomeHead.IncomeHead)
+                                                            .foregroundColor(.blue)
+                                                            .fixedSize(horizontal: false, vertical: true)
+                                                        Spacer()
+                                                        Text("\(task.countMonth) \(task.IncomeHead.Unit)")
+                                                            .foregroundColor(.blue)
+                                                        Spacer()
+                                                        Text("$\(getExactPrice(price: task.Total ))")
+                                                            .foregroundColor(.red)
+                                                    }
+                                                    .padding(5)
+//                                                    .overlay(
+//                                                        RoundedRectangle(cornerRadius: 5)
+//                                                            .stroke(Color.orange, lineWidth: 1)
+//                                                    )
+                                                    Rectangle()
+                                                        .fill(.orange)
+                                                        .frame(width: .infinity, height: 1)
+                                                }
+                                            }
+                                           
+                                        } else {
+                                            VStack{
+                                                HStack{
+                                                    Text("ថ្លៃសិក្សា/Tuition Fee")
+                                                        .foregroundColor(.blue)
+                                                    Spacer()
+                                                    if !payment.Month.isEmpty{
+                                                        Text("1 Month")
+                                                           .foregroundColor(.blue)
+                                                    } else if !payment.Quarter.isEmpty {
+                                                        Text("1 Quarter")
+                                                            .foregroundColor(.blue)
+                                                    } else if !payment.AcademicTermId.isEmpty {
+                                                        Text("1 Semester")
+                                                            .foregroundColor(.blue)
+                                                    } else {
+                                                        Text("1 Year")
+                                                            .foregroundColor(.blue)
+                                                    }
+                                                    Spacer()
+                                                    Text("$\(getExactPrice(price: payment.Amount ))")
+                                                        .foregroundColor(.red)
+                                                }
+                                                .padding(5)
+//                                                .overlay(
+//                                                    RoundedRectangle(cornerRadius: 5)
+//                                                        .stroke(Color.orange, lineWidth: 1)
+//                                                )
+                                                Rectangle()
+                                                    .fill(.orange)
+                                                    .frame(width: .infinity, height: 1)
+                                                
+                                                if !payment.AdditionalFee.isEmpty{
+                                                   
+                                                    ForEach(payment.AdditionalFee, id: \.Id) { task in
+                                                        HStack{
+                                                            Text(task.IncomeHead.IncomeHead)
+                                                                .foregroundColor(.blue)
+                                                                .fixedSize(horizontal: false, vertical: true)
+                                                            Spacer()
+                                                            Text("\(task.countMonth) \(task.IncomeHead.Unit)")
+                                                                .foregroundColor(.blue)
+                                                            Spacer()
+                                                            Text("$\(getExactPrice(price: task.Total ))")
+                                                                .foregroundColor(.red)
+                                                        }
+                                                        .padding(5)
+//                                                        .overlay(
+//                                                            RoundedRectangle(cornerRadius: 5)
+//                                                                .stroke(Color.orange, lineWidth: 1)
+//                                                        )
+                                                        Rectangle()
+                                                            .fill(.orange)
+                                                            .frame(width: .infinity, height: 1)
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
                                     .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : 15, relativeTo: .body))
                                     .foregroundColor(.blue)
-                                    .padding()
+                                    .padding(.horizontal)
                                     .frame(maxWidth:.infinity)
                                     .background(Color("LightOrange").opacity(0.5))
                                     .cornerRadius(10)
@@ -79,6 +154,7 @@ struct Payment: View {
                     }
                 }
                 .padding(.horizontal)
+                .padding(.bottom,60)
             }
         }
         .setBG()

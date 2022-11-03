@@ -1,0 +1,7 @@
+
+mutation UpdateEYSReport($updateEysReport: EYSReportInputUpdate!) {
+  updateEYSReport(updateEYSReport: $updateEysReport) {
+    success
+    message
+  }
+}

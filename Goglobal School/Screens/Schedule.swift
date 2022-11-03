@@ -22,7 +22,7 @@ struct Schedule: View {
                 HStack(spacing: prop.isiPad ? 20 : 10){
                     ForEach(AllClasses.currentWeek, id: \.self){ day in
                         VStack{
-                            DayOfWeek(day: AllClasses.extractDate(date: day, format: "EEE"),dayInKhmer: AllClasses.extractDate(date: day, format: "EEE"))
+                            DayOfWeek(day: AllClasses.extractDate(date: day, format: "EEE"), dayInKhmer: AllClasses.extractDate(date: day, format: "EEE"))
                             Rectangle()
                                 .fill(.blue)
                                 .frame(width: .infinity, height:prop.isiPad ? 6 :  4)

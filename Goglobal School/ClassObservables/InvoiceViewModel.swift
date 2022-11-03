@@ -9,7 +9,7 @@ import Foundation
 
 class InvoiceViewModel: ObservableObject{
     @Published var paymentmethod: [invoiceModel] = []
-    
+    @Published var unitPeriod: String = ""
     func getInvoice(studentId: String){
         Network.shared.apollo.fetch(query: GetInvoiceBystudentIdWithPaginationQuery(studentId: studentId)){ [weak self] result in
             switch result{
@@ -47,17 +47,38 @@ class InvoiceViewModel: ObservableObject{
         var Amount: Double {
             invoice.amount ?? 0.0
         }
+        var NetAmount: Double {
+            invoice.netAmount ?? 0.0
+        }
+        var GrossAmount: Double {
+            invoice.grossAmount ?? 0.0
+        }
+        var StartDate: String {
+            invoice.startDate ?? ""
+        }
+        var EndDate: String {
+            invoice.endDate ?? ""
+        }
         var CreateAt: String {
             invoice.createdAt ?? ""
+        }
+        var Month: String {
+            invoice.month ?? ""
+        }
+        var Quarter: String {
+            invoice.quarter ?? ""
+        }
+        var AcademicTermId: String {
+            invoice.academicTermId?._id ?? ""
+        }
+        var GroupFeeType: String {
+            invoice.groupFeeType ?? ""
         }
         var InvoiceId: Int {
             invoice.invoiceId ?? 0
         }
-        var PaidStatus: Bool {
-            invoice.paidStatus ?? false
-        }
         var AdditionalFee: [additionalFeeModel]{
-            (invoice.additionalFee?.map(additionalFeeModel.init))!
+            invoice.additionalFee?.map(additionalFeeModel.init) ?? []
         }
     }
 struct additionalFeeModel{
@@ -66,33 +87,42 @@ struct additionalFeeModel{
     var Id: String {
         additionalFee?._id ?? ""
     }
+    
+    var Price: Double {
+        additionalFee?.incomeHead?.price ?? 0.0
+    }
+    
     var countMonth: Int{
         additionalFee?.countMonth ?? 0
     }
     var IncomeHead: incomeHeadModel {
-        (additionalFee?.incomeHead.map(incomeHeadModel.init))!
+        additionalFee?.incomeHead.map(incomeHeadModel.init) ?? incomeHeadModel(incomeHead: additionalFee?.incomeHead)
+    }
+    
+    var Total: Double {
+        additionalFee?.total ?? 0.0
     }
 }
 
 struct incomeHeadModel{
-    var incomeHead : GetInvoiceBystudentIdWithPaginationQuery.Data.GetInvoiceBystudentIdWithPagination.Invoice.AdditionalFee.IncomeHead
+    var incomeHead : GetInvoiceBystudentIdWithPaginationQuery.Data.GetInvoiceBystudentIdWithPagination.Invoice.AdditionalFee.IncomeHead?
     var Id: String {
-        incomeHead._id
+        incomeHead?._id ?? ""
     }
     var IncomeHead: String {
-        incomeHead.incomeHead ?? ""
+        incomeHead?.incomeHead ?? ""
     }
     
     var Price: Double {
-        incomeHead.price ?? 0.0
+        incomeHead?.price ?? 0.0
     }
     var Unit: String {
-        incomeHead.unit ?? ""
+        incomeHead?.unit ?? ""
     }
     var IncomeType: String {
-        incomeHead.incomeType ?? ""
+        incomeHead?.incomeType ?? ""
     }
     var Note: String {
-        incomeHead.note ?? ""
+        incomeHead?.note ?? ""
     }
 }

@@ -69,7 +69,7 @@ struct Grade: View {
             }else{
                 VStack(spacing: 0){
                     List(Array(enrollment.enrollments.enumerated()), id: \.element.EnrollmentId){ index, item in
-                        Choose( Grade: item.GradeName, Class: item.Classname, Year: item.AcademicYearName, Programme: item.Programme, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.ClassId, academicYearId: item.AcademicId, programId: item.ProgrammeId, color: index % 2 == 0 ? colorOrg: colorBlue, prop: prop)
+                        Choose( Grade: item.GradeName, Class: item.Classname, Year: item.AcademicYearName, Programme: item.Programme, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.ClassId, academicYearId: item.AcademicId, programId: item.ProgrammeId, color: index % 2 == 0 ? colorOrg: colorBlue, earlyStage: item.ClassGroupNameEn, prop: prop)
                             .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
                             .backgroundRemover()
                     }
@@ -155,6 +155,7 @@ struct Choose: View {
     var academicYearId: String
     var programId: String
     var color: String
+    var earlyStage: String
     var prop: Properties
     var body: some View {
         
@@ -204,10 +205,13 @@ struct Choose: View {
                         .buttonStyle(PlainButtonStyle())
                     TabButton(title: "វត្តមានសិស្ស", image: "checklist", chose: .absence, selection: "absence")
                         .buttonStyle(PlainButtonStyle())
-                    TabButton(title: "របាយការណ៍កុមារដ្ឋាន", image: "newspaper.fill", chose: .score, selection: "score")
-                        .buttonStyle(PlainButtonStyle())
                     TabButton(title: "ប្រវត្តិបង់ថ្លៃសិក្សា", image: "dollarsign.square.fill", chose: .payment, selection: "payment")
                         .buttonStyle(PlainButtonStyle())
+                    if (earlyStage == "Early Childhood Education") || (earlyStage == "ECE") {
+                        TabButton(title: "របាយការណ៍កុមារដ្ឋាន", image: "newspaper.fill", chose: .score, selection: "score")
+                            .buttonStyle(PlainButtonStyle())
+                    }
+                   
                     Spacer()
                 }
                 .padding(prop.isLandscape ? 50 : 20)

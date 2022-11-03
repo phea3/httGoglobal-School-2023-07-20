@@ -4,6 +4,232 @@
 import Apollo
 import Foundation
 
+public struct EYSReportInputUpdate: GraphQLMapConvertible {
+  public var graphQLMap: GraphQLMap
+
+  /// - Parameters:
+  ///   - _id
+  ///   - date
+  ///   - stuId
+  ///   - food
+  ///   - activities
+  ///   - atSchool
+  ///   - parentsCheck
+  ///   - parentsRequest
+  ///   - nurseComment
+  ///   - parentsComment
+  public init(_id: Swift.Optional<String?> = nil, date: Swift.Optional<String?> = nil, stuId: Swift.Optional<String?> = nil, food: Swift.Optional<[EYSReportDesInput?]?> = nil, activities: Swift.Optional<[EYSReportDesInput?]?> = nil, atSchool: Swift.Optional<AtSchoolInput?> = nil, parentsCheck: Swift.Optional<ParentsCheckInput?> = nil, parentsRequest: Swift.Optional<[String?]?> = nil, nurseComment: Swift.Optional<String?> = nil, parentsComment: Swift.Optional<String?> = nil) {
+    graphQLMap = ["_id": _id, "date": date, "stuId": stuId, "food": food, "activities": activities, "atSchool": atSchool, "parentsCheck": parentsCheck, "parentsRequest": parentsRequest, "nurseComment": nurseComment, "parentsComment": parentsComment]
+  }
+
+  public var _id: Swift.Optional<String?> {
+    get {
+      return graphQLMap["_id"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "_id")
+    }
+  }
+
+  public var date: Swift.Optional<String?> {
+    get {
+      return graphQLMap["date"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "date")
+    }
+  }
+
+  public var stuId: Swift.Optional<String?> {
+    get {
+      return graphQLMap["stuId"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "stuId")
+    }
+  }
+
+  public var food: Swift.Optional<[EYSReportDesInput?]?> {
+    get {
+      return graphQLMap["food"] as? Swift.Optional<[EYSReportDesInput?]?> ?? Swift.Optional<[EYSReportDesInput?]?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "food")
+    }
+  }
+
+  public var activities: Swift.Optional<[EYSReportDesInput?]?> {
+    get {
+      return graphQLMap["activities"] as? Swift.Optional<[EYSReportDesInput?]?> ?? Swift.Optional<[EYSReportDesInput?]?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "activities")
+    }
+  }
+
+  public var atSchool: Swift.Optional<AtSchoolInput?> {
+    get {
+      return graphQLMap["atSchool"] as? Swift.Optional<AtSchoolInput?> ?? Swift.Optional<AtSchoolInput?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "atSchool")
+    }
+  }
+
+  public var parentsCheck: Swift.Optional<ParentsCheckInput?> {
+    get {
+      return graphQLMap["parentsCheck"] as? Swift.Optional<ParentsCheckInput?> ?? Swift.Optional<ParentsCheckInput?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "parentsCheck")
+    }
+  }
+
+  public var parentsRequest: Swift.Optional<[String?]?> {
+    get {
+      return graphQLMap["parentsRequest"] as? Swift.Optional<[String?]?> ?? Swift.Optional<[String?]?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "parentsRequest")
+    }
+  }
+
+  public var nurseComment: Swift.Optional<String?> {
+    get {
+      return graphQLMap["nurseComment"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "nurseComment")
+    }
+  }
+
+  public var parentsComment: Swift.Optional<String?> {
+    get {
+      return graphQLMap["parentsComment"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "parentsComment")
+    }
+  }
+}
+
+public struct EYSReportDesInput: GraphQLMapConvertible {
+  public var graphQLMap: GraphQLMap
+
+  /// - Parameters:
+  ///   - iconsrc
+  ///   - iconname
+  ///   - title
+  ///   - qty
+  ///   - description
+  public init(iconsrc: Swift.Optional<String?> = nil, iconname: Swift.Optional<String?> = nil, title: Swift.Optional<String?> = nil, qty: Swift.Optional<Int?> = nil, description: Swift.Optional<String?> = nil) {
+    graphQLMap = ["iconsrc": iconsrc, "iconname": iconname, "title": title, "qty": qty, "description": description]
+  }
+
+  public var iconsrc: Swift.Optional<String?> {
+    get {
+      return graphQLMap["iconsrc"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "iconsrc")
+    }
+  }
+
+  public var iconname: Swift.Optional<String?> {
+    get {
+      return graphQLMap["iconname"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "iconname")
+    }
+  }
+
+  public var title: Swift.Optional<String?> {
+    get {
+      return graphQLMap["title"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "title")
+    }
+  }
+
+  public var qty: Swift.Optional<Int?> {
+    get {
+      return graphQLMap["qty"] as? Swift.Optional<Int?> ?? Swift.Optional<Int?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "qty")
+    }
+  }
+
+  public var description: Swift.Optional<String?> {
+    get {
+      return graphQLMap["description"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "description")
+    }
+  }
+}
+
+public struct AtSchoolInput: GraphQLMapConvertible {
+  public var graphQLMap: GraphQLMap
+
+  /// - Parameters:
+  ///   - title
+  ///   - description
+  public init(title: Swift.Optional<Bool?> = nil, description: Swift.Optional<String?> = nil) {
+    graphQLMap = ["title": title, "description": description]
+  }
+
+  public var title: Swift.Optional<Bool?> {
+    get {
+      return graphQLMap["title"] as? Swift.Optional<Bool?> ?? Swift.Optional<Bool?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "title")
+    }
+  }
+
+  public var description: Swift.Optional<String?> {
+    get {
+      return graphQLMap["description"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "description")
+    }
+  }
+}
+
+public struct ParentsCheckInput: GraphQLMapConvertible {
+  public var graphQLMap: GraphQLMap
+
+  /// - Parameters:
+  ///   - title
+  ///   - description
+  public init(title: Swift.Optional<Bool?> = nil, description: Swift.Optional<String?> = nil) {
+    graphQLMap = ["title": title, "description": description]
+  }
+
+  public var title: Swift.Optional<Bool?> {
+    get {
+      return graphQLMap["title"] as? Swift.Optional<Bool?> ?? Swift.Optional<Bool?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "title")
+    }
+  }
+
+  public var description: Swift.Optional<String?> {
+    get {
+      return graphQLMap["description"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "description")
+    }
+  }
+}
+
 public struct TokenInput: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
@@ -2480,6 +2706,9 @@ public final class GetEnrollmentByStudentsQuery: GraphQLQuery {
         academicYearName
         academicYearId
         status
+        classGroupId
+        classGroupNameEn
+        classGroupName
       }
     }
     """
@@ -2545,6 +2774,9 @@ public final class GetEnrollmentByStudentsQuery: GraphQLQuery {
           GraphQLField("academicYearName", type: .scalar(String.self)),
           GraphQLField("academicYearId", type: .scalar(GraphQLID.self)),
           GraphQLField("status", type: .scalar(Bool.self)),
+          GraphQLField("classGroupId", type: .scalar(GraphQLID.self)),
+          GraphQLField("classGroupNameEn", type: .scalar(String.self)),
+          GraphQLField("classGroupName", type: .scalar(String.self)),
         ]
       }
 
@@ -2554,8 +2786,8 @@ public final class GetEnrollmentByStudentsQuery: GraphQLQuery {
         self.resultMap = unsafeResultMap
       }
 
-      public init(enrollmentId: GraphQLID? = nil, firstName: String? = nil, lastName: String? = nil, englishName: String? = nil, programName: String? = nil, programId: GraphQLID? = nil, gradeName: String? = nil, gradeId: GraphQLID? = nil, shiftName: String? = nil, shiftId: GraphQLID? = nil, className: String? = nil, classId: GraphQLID? = nil, academicYearName: String? = nil, academicYearId: GraphQLID? = nil, status: Bool? = nil) {
-        self.init(unsafeResultMap: ["__typename": "GetEnrollmentDataActiveYear", "enrollmentId": enrollmentId, "firstName": firstName, "lastName": lastName, "englishName": englishName, "programName": programName, "programId": programId, "gradeName": gradeName, "gradeId": gradeId, "shiftName": shiftName, "shiftId": shiftId, "className": className, "classId": classId, "academicYearName": academicYearName, "academicYearId": academicYearId, "status": status])
+      public init(enrollmentId: GraphQLID? = nil, firstName: String? = nil, lastName: String? = nil, englishName: String? = nil, programName: String? = nil, programId: GraphQLID? = nil, gradeName: String? = nil, gradeId: GraphQLID? = nil, shiftName: String? = nil, shiftId: GraphQLID? = nil, className: String? = nil, classId: GraphQLID? = nil, academicYearName: String? = nil, academicYearId: GraphQLID? = nil, status: Bool? = nil, classGroupId: GraphQLID? = nil, classGroupNameEn: String? = nil, classGroupName: String? = nil) {
+        self.init(unsafeResultMap: ["__typename": "GetEnrollmentDataActiveYear", "enrollmentId": enrollmentId, "firstName": firstName, "lastName": lastName, "englishName": englishName, "programName": programName, "programId": programId, "gradeName": gradeName, "gradeId": gradeId, "shiftName": shiftName, "shiftId": shiftId, "className": className, "classId": classId, "academicYearName": academicYearName, "academicYearId": academicYearId, "status": status, "classGroupId": classGroupId, "classGroupNameEn": classGroupNameEn, "classGroupName": classGroupName])
       }
 
       public var __typename: String {
@@ -2701,6 +2933,33 @@ public final class GetEnrollmentByStudentsQuery: GraphQLQuery {
           resultMap.updateValue(newValue, forKey: "status")
         }
       }
+
+      public var classGroupId: GraphQLID? {
+        get {
+          return resultMap["classGroupId"] as? GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "classGroupId")
+        }
+      }
+
+      public var classGroupNameEn: String? {
+        get {
+          return resultMap["classGroupNameEn"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "classGroupNameEn")
+        }
+      }
+
+      public var classGroupName: String? {
+        get {
+          return resultMap["classGroupName"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "classGroupName")
+        }
+      }
     }
   }
 }
@@ -2717,8 +2976,6 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
           _id
           Amount
           createdAt
-          invoiceId
-          paidStatus
           additionalFee {
             __typename
             _id
@@ -2732,6 +2989,19 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
               incomeType
               note
             }
+            total
+          }
+          startDate
+          endDate
+          netAmount
+          grossAmount
+          groupFeeType
+          month
+          invoiceId
+          quarter
+          academicTermId {
+            __typename
+            _id
           }
         }
       }
@@ -2825,9 +3095,16 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
             GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
             GraphQLField("Amount", type: .scalar(Double.self)),
             GraphQLField("createdAt", type: .scalar(String.self)),
-            GraphQLField("invoiceId", type: .scalar(Int.self)),
-            GraphQLField("paidStatus", type: .scalar(Bool.self)),
             GraphQLField("additionalFee", type: .list(.object(AdditionalFee.selections))),
+            GraphQLField("startDate", type: .scalar(String.self)),
+            GraphQLField("endDate", type: .scalar(String.self)),
+            GraphQLField("netAmount", type: .scalar(Double.self)),
+            GraphQLField("grossAmount", type: .scalar(Double.self)),
+            GraphQLField("groupFeeType", type: .scalar(String.self)),
+            GraphQLField("month", type: .scalar(String.self)),
+            GraphQLField("invoiceId", type: .scalar(Int.self)),
+            GraphQLField("quarter", type: .scalar(String.self)),
+            GraphQLField("academicTermId", type: .object(AcademicTermId.selections)),
           ]
         }
 
@@ -2837,8 +3114,8 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
           self.resultMap = unsafeResultMap
         }
 
-        public init(_id: GraphQLID, amount: Double? = nil, createdAt: String? = nil, invoiceId: Int? = nil, paidStatus: Bool? = nil, additionalFee: [AdditionalFee?]? = nil) {
-          self.init(unsafeResultMap: ["__typename": "Invoice", "_id": _id, "Amount": amount, "createdAt": createdAt, "invoiceId": invoiceId, "paidStatus": paidStatus, "additionalFee": additionalFee.flatMap { (value: [AdditionalFee?]) -> [ResultMap?] in value.map { (value: AdditionalFee?) -> ResultMap? in value.flatMap { (value: AdditionalFee) -> ResultMap in value.resultMap } } }])
+        public init(_id: GraphQLID, amount: Double? = nil, createdAt: String? = nil, additionalFee: [AdditionalFee?]? = nil, startDate: String? = nil, endDate: String? = nil, netAmount: Double? = nil, grossAmount: Double? = nil, groupFeeType: String? = nil, month: String? = nil, invoiceId: Int? = nil, quarter: String? = nil, academicTermId: AcademicTermId? = nil) {
+          self.init(unsafeResultMap: ["__typename": "Invoice", "_id": _id, "Amount": amount, "createdAt": createdAt, "additionalFee": additionalFee.flatMap { (value: [AdditionalFee?]) -> [ResultMap?] in value.map { (value: AdditionalFee?) -> ResultMap? in value.flatMap { (value: AdditionalFee) -> ResultMap in value.resultMap } } }, "startDate": startDate, "endDate": endDate, "netAmount": netAmount, "grossAmount": grossAmount, "groupFeeType": groupFeeType, "month": month, "invoiceId": invoiceId, "quarter": quarter, "academicTermId": academicTermId.flatMap { (value: AcademicTermId) -> ResultMap in value.resultMap }])
         }
 
         public var __typename: String {
@@ -2877,6 +3154,69 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
           }
         }
 
+        public var additionalFee: [AdditionalFee?]? {
+          get {
+            return (resultMap["additionalFee"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [AdditionalFee?] in value.map { (value: ResultMap?) -> AdditionalFee? in value.flatMap { (value: ResultMap) -> AdditionalFee in AdditionalFee(unsafeResultMap: value) } } }
+          }
+          set {
+            resultMap.updateValue(newValue.flatMap { (value: [AdditionalFee?]) -> [ResultMap?] in value.map { (value: AdditionalFee?) -> ResultMap? in value.flatMap { (value: AdditionalFee) -> ResultMap in value.resultMap } } }, forKey: "additionalFee")
+          }
+        }
+
+        public var startDate: String? {
+          get {
+            return resultMap["startDate"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "startDate")
+          }
+        }
+
+        public var endDate: String? {
+          get {
+            return resultMap["endDate"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "endDate")
+          }
+        }
+
+        public var netAmount: Double? {
+          get {
+            return resultMap["netAmount"] as? Double
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "netAmount")
+          }
+        }
+
+        public var grossAmount: Double? {
+          get {
+            return resultMap["grossAmount"] as? Double
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "grossAmount")
+          }
+        }
+
+        public var groupFeeType: String? {
+          get {
+            return resultMap["groupFeeType"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "groupFeeType")
+          }
+        }
+
+        public var month: String? {
+          get {
+            return resultMap["month"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "month")
+          }
+        }
+
         public var invoiceId: Int? {
           get {
             return resultMap["invoiceId"] as? Int
@@ -2886,21 +3226,21 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
           }
         }
 
-        public var paidStatus: Bool? {
+        public var quarter: String? {
           get {
-            return resultMap["paidStatus"] as? Bool
+            return resultMap["quarter"] as? String
           }
           set {
-            resultMap.updateValue(newValue, forKey: "paidStatus")
+            resultMap.updateValue(newValue, forKey: "quarter")
           }
         }
 
-        public var additionalFee: [AdditionalFee?]? {
+        public var academicTermId: AcademicTermId? {
           get {
-            return (resultMap["additionalFee"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [AdditionalFee?] in value.map { (value: ResultMap?) -> AdditionalFee? in value.flatMap { (value: ResultMap) -> AdditionalFee in AdditionalFee(unsafeResultMap: value) } } }
+            return (resultMap["academicTermId"] as? ResultMap).flatMap { AcademicTermId(unsafeResultMap: $0) }
           }
           set {
-            resultMap.updateValue(newValue.flatMap { (value: [AdditionalFee?]) -> [ResultMap?] in value.map { (value: AdditionalFee?) -> ResultMap? in value.flatMap { (value: AdditionalFee) -> ResultMap in value.resultMap } } }, forKey: "additionalFee")
+            resultMap.updateValue(newValue?.resultMap, forKey: "academicTermId")
           }
         }
 
@@ -2913,6 +3253,7 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
               GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
               GraphQLField("countMonth", type: .scalar(Int.self)),
               GraphQLField("incomeHead", type: .object(IncomeHead.selections)),
+              GraphQLField("total", type: .scalar(Double.self)),
             ]
           }
 
@@ -2922,8 +3263,8 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public init(_id: GraphQLID, countMonth: Int? = nil, incomeHead: IncomeHead? = nil) {
-            self.init(unsafeResultMap: ["__typename": "AdditionalFee", "_id": _id, "countMonth": countMonth, "incomeHead": incomeHead.flatMap { (value: IncomeHead) -> ResultMap in value.resultMap }])
+          public init(_id: GraphQLID, countMonth: Int? = nil, incomeHead: IncomeHead? = nil, total: Double? = nil) {
+            self.init(unsafeResultMap: ["__typename": "AdditionalFee", "_id": _id, "countMonth": countMonth, "incomeHead": incomeHead.flatMap { (value: IncomeHead) -> ResultMap in value.resultMap }, "total": total])
           }
 
           public var __typename: String {
@@ -2959,6 +3300,15 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
             }
             set {
               resultMap.updateValue(newValue?.resultMap, forKey: "incomeHead")
+            }
+          }
+
+          public var total: Double? {
+            get {
+              return resultMap["total"] as? Double
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "total")
             }
           }
 
@@ -3051,6 +3401,45 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
             }
           }
         }
+
+        public struct AcademicTermId: GraphQLSelectionSet {
+          public static let possibleTypes: [String] = ["AcademicTerm"]
+
+          public static var selections: [GraphQLSelection] {
+            return [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+              GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+            ]
+          }
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(_id: GraphQLID) {
+            self.init(unsafeResultMap: ["__typename": "AcademicTerm", "_id": _id])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          public var _id: GraphQLID {
+            get {
+              return resultMap["_id"]! as! GraphQLID
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "_id")
+            }
+          }
+        }
       }
     }
   }
@@ -3083,6 +3472,7 @@ public final class GetEysReportPaginationQuery: GraphQLQuery {
             qty
             description
           }
+          parentsRequest
         }
       }
     }
@@ -3178,6 +3568,7 @@ public final class GetEysReportPaginationQuery: GraphQLQuery {
             GraphQLField("date", type: .scalar(String.self)),
             GraphQLField("food", type: .list(.object(Food.selections))),
             GraphQLField("activities", type: .list(.object(Activity.selections))),
+            GraphQLField("parentsRequest", type: .list(.scalar(String.self))),
           ]
         }
 
@@ -3187,8 +3578,8 @@ public final class GetEysReportPaginationQuery: GraphQLQuery {
           self.resultMap = unsafeResultMap
         }
 
-        public init(_id: GraphQLID? = nil, date: String? = nil, food: [Food?]? = nil, activities: [Activity?]? = nil) {
-          self.init(unsafeResultMap: ["__typename": "EYSReport", "_id": _id, "date": date, "food": food.flatMap { (value: [Food?]) -> [ResultMap?] in value.map { (value: Food?) -> ResultMap? in value.flatMap { (value: Food) -> ResultMap in value.resultMap } } }, "activities": activities.flatMap { (value: [Activity?]) -> [ResultMap?] in value.map { (value: Activity?) -> ResultMap? in value.flatMap { (value: Activity) -> ResultMap in value.resultMap } } }])
+        public init(_id: GraphQLID? = nil, date: String? = nil, food: [Food?]? = nil, activities: [Activity?]? = nil, parentsRequest: [String?]? = nil) {
+          self.init(unsafeResultMap: ["__typename": "EYSReport", "_id": _id, "date": date, "food": food.flatMap { (value: [Food?]) -> [ResultMap?] in value.map { (value: Food?) -> ResultMap? in value.flatMap { (value: Food) -> ResultMap in value.resultMap } } }, "activities": activities.flatMap { (value: [Activity?]) -> [ResultMap?] in value.map { (value: Activity?) -> ResultMap? in value.flatMap { (value: Activity) -> ResultMap in value.resultMap } } }, "parentsRequest": parentsRequest])
         }
 
         public var __typename: String {
@@ -3233,6 +3624,15 @@ public final class GetEysReportPaginationQuery: GraphQLQuery {
           }
           set {
             resultMap.updateValue(newValue.flatMap { (value: [Activity?]) -> [ResultMap?] in value.map { (value: Activity?) -> ResultMap? in value.flatMap { (value: Activity) -> ResultMap in value.resultMap } } }, forKey: "activities")
+          }
+        }
+
+        public var parentsRequest: [String?]? {
+          get {
+            return resultMap["parentsRequest"] as? [String?]
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "parentsRequest")
           }
         }
 
@@ -3392,6 +3792,110 @@ public final class GetEysReportPaginationQuery: GraphQLQuery {
               resultMap.updateValue(newValue, forKey: "description")
             }
           }
+        }
+      }
+    }
+  }
+}
+
+public final class UpdateEysReportMutation: GraphQLMutation {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    mutation UpdateEYSReport($updateEysReport: EYSReportInputUpdate!) {
+      updateEYSReport(updateEYSReport: $updateEysReport) {
+        __typename
+        success
+        message
+      }
+    }
+    """
+
+  public let operationName: String = "UpdateEYSReport"
+
+  public var updateEysReport: EYSReportInputUpdate
+
+  public init(updateEysReport: EYSReportInputUpdate) {
+    self.updateEysReport = updateEysReport
+  }
+
+  public var variables: GraphQLMap? {
+    return ["updateEysReport": updateEysReport]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Mutation"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("updateEYSReport", arguments: ["updateEYSReport": GraphQLVariable("updateEysReport")], type: .nonNull(.object(UpdateEysReport.selections))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(updateEysReport: UpdateEysReport) {
+      self.init(unsafeResultMap: ["__typename": "Mutation", "updateEYSReport": updateEysReport.resultMap])
+    }
+
+    public var updateEysReport: UpdateEysReport {
+      get {
+        return UpdateEysReport(unsafeResultMap: resultMap["updateEYSReport"]! as! ResultMap)
+      }
+      set {
+        resultMap.updateValue(newValue.resultMap, forKey: "updateEYSReport")
+      }
+    }
+
+    public struct UpdateEysReport: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["EYSReportResponse"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("success", type: .nonNull(.scalar(Bool.self))),
+          GraphQLField("message", type: .nonNull(.scalar(String.self))),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(success: Bool, message: String) {
+        self.init(unsafeResultMap: ["__typename": "EYSReportResponse", "success": success, "message": message])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var success: Bool {
+        get {
+          return resultMap["success"]! as! Bool
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "success")
+        }
+      }
+
+      public var message: String {
+        get {
+          return resultMap["message"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "message")
         }
       }
     }
