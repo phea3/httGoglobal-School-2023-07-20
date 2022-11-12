@@ -22,7 +22,7 @@ struct Home: View {
     @State var animationFinished: Bool = false
     @State var animationStarted: Bool = false
     @State var gmail: String = (UserDefaults.standard.string(forKey: "Gmail") ?? "")
-    @State var password: String = (UserDefaults.standard.string(forKey: "Password") ?? "")
+    @State var pass: String = (UserDefaults.standard.string(forKey: "Password") ?? "")
     @State var forget: Bool = false
     @State var isempty: Bool = false
     @State var isLoading: Bool = false
@@ -38,7 +38,10 @@ struct Home: View {
     @State var image = Image("GoGlobalSchool")
     @State var newToken: String = ""
     @State private var isUnlocked = false
-    
+    enum Field {
+            case gmail, pass
+        }
+    @FocusState private var focusedField: Field?
     var body: some View {
         
         // MARK: Resposive App
@@ -48,7 +51,7 @@ struct Home: View {
                 // MARK: background image
                 ImageBackgroundSignIn()
                 
-                if loginVM.isAuthenticated && ( gmail != "" && password != "" ){
+                if loginVM.isAuthenticated && ( gmail != "" && pass != "" ){
                     ZStack{
                         
                         if !loggedIn{
@@ -60,7 +63,7 @@ struct Home: View {
                     }
                     .onAppear{
                         //login mutation
-                        loginVM.login(email: gmail, password: password, checkState: checkState)
+                        loginVM.login(email: gmail, password: pass, checkState: checkState)
                         
                         // ask for notification
 //                        loginVM.AskUserForNotification()
@@ -172,13 +175,11 @@ struct Home: View {
                             self.gmail = $0.lowercased()
                         })
                         TextField("បញ្ជូលអ៉ីម៉ែល", text: binding)
-                            .submitLabel(.next)
-                            .onSubmit {
-                                print("GmailAddress")
-                            }
                             .textContentType(.emailAddress)
+                            .focused($focusedField, equals: .gmail)
                             .padding(prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)
                             .cornerRadius(10)
+                            .submitLabel(.next)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
                                     .stroke(isempty ? .red:.blue.opacity(0.5), lineWidth: 1)
@@ -188,7 +189,10 @@ struct Home: View {
                         Text("ពាក្យសម្ងាត់")
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 17 : prop.isiPhoneL ? 19 : 21, relativeTo: .body))
                             .foregroundColor(.blue)
-                        SecureTextFieldToggle(text: $password, isempty: isempty, prop: prop)
+                        SecureTextFieldToggle(text: $pass, isempty: isempty, prop: prop)
+                            .textContentType(.password)
+                            .focused($focusedField, equals: .pass)
+                            .submitLabel(.return)
                             .onSubmit {
                                 print("Password")
                             }
@@ -197,10 +201,10 @@ struct Home: View {
                         Button {
                             // login mutation
                             
-                            loginVM.login(email: gmail, password: password, checkState: checkState)
+                            loginVM.login(email: gmail, password: pass, checkState: checkState)
                             self.isLoading = true
                             
-                            if self.gmail.isEmpty || password.isEmpty {
+                            if self.gmail.isEmpty || pass.isEmpty {
                                 self.isempty = true
                                 self.isLoading = false
                                 
@@ -241,7 +245,7 @@ struct Home: View {
                             if checkState{
                                 
                                 UserDefaults.standard.set(self.gmail, forKey: "Gmail")
-                                UserDefaults.standard.set(self.password, forKey: "Password")
+                                UserDefaults.standard.set(self.pass, forKey: "Password")
                                 
                             }
                             
@@ -422,8 +426,6 @@ struct SecureTextFieldToggle: View{
                     .foregroundColor(.blue)
             }
         }
-        .submitLabel(.next)
-        .textContentType(.password)
         .padding(prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)
         .cornerRadius(10)
         .overlay(

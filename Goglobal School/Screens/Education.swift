@@ -10,6 +10,7 @@ import SwiftUI
 struct Education: View {
     
     @StateObject var students: ListStudentViewModel = ListStudentViewModel()
+    @State var DummyBoolean: Bool = false
     @State var axcessPadding: CGFloat = 0
     @State var currentProgress: CGFloat = 0.0
     @State var userProfileImg: String
@@ -26,7 +27,7 @@ struct Education: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                if students.AllStudents.isEmpty{
+                if DummyBoolean{
                     ZStack{
                         if viewLoading{
                             progressingView(prop: prop)
@@ -156,8 +157,8 @@ struct Education: View {
                 Text(Firstname)
             }
             .padding(2)
+            .padding(.horizontal, 5)
             .font(.custom("kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
-            .frame(maxWidth: prop.isiPhoneS ? 100 : prop.isiPhoneM ? 110 : prop.isiPhoneL ? 120 : 130)
             .background(.blue)
             .cornerRadius(5)
             .padding(.bottom, 10)
@@ -178,20 +179,33 @@ struct Education: View {
                 .background(.clear)
             ZStack {
                 imageStuBG(prop: prop)
-                ScrollView(.horizontal, showsIndicators: false){
-                    HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : prop.isiPhoneL ? 12 : 14){
-                        ForEach(students.AllStudents,id: \.Id){ student in
-                            NavigationLink(
-                                destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: "ឆ្នាំសិក្សា \(academicYearName)",studentID: student.Id, prop: prop),
-                                label: {
-                                    widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
+                if students.AllStudents.isEmpty{
+                    Text("មិនមានកូន")
+                        .foregroundColor(.blue)
+                        .onAppear{
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                if students.AllStudents.isEmpty{
+                                    self.onAppearImg = false
                                 }
-                            )
+                            }
                         }
+                } else {
+                    ScrollView(.horizontal, showsIndicators: false){
+                        HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : prop.isiPhoneL ? 12 : 14){
+                            ForEach(students.AllStudents,id: \.Id){ student in
+                                NavigationLink(
+                                    destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: "ឆ្នាំសិក្សា \(academicYearName)",studentID: student.Id, prop: prop),
+                                    label: {
+                                        widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
+                                    }
+                                )
+                            }
+                        }
+                        .frame(width: (prop.isLandscape && (prop.isiPhone || prop.isiPad)) || prop.isiPad ? prop.size.width : .infinity)
                     }
-                    .frame(width: (prop.isLandscape && (prop.isiPhone || prop.isiPad)) || prop.isiPad ? prop.size.width : .infinity)
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .center)
             .padding(.bottom)
             Divider()
         }

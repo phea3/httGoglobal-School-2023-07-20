@@ -5,11 +5,14 @@
 //  Created by Leng Mouyngech on 25/8/22.
 //
 import SwiftUI
+import CoreImage.CIFilterBuiltins
 
 struct Grade: View {
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject var enrollments: ListStudentViewModel = ListStudentViewModel()
     @StateObject var enrollment: EnrollmentViewModel = EnrollmentViewModel()
+    @StateObject var studentqr: GetStudentCardByStudentIDViewModel = GetStudentCardByStudentIDViewModel()
     @State var ChoseTitle: String = ""
     @State var chose: Chose = .attendance
     @State var isShow: Bool = false
@@ -23,6 +26,7 @@ struct Grade: View {
     @State var academicYearId: String = ""
     @State var programId: String = ""
     @State var clasLoading: Bool = false
+    @State var showqr: Bool = false
     let gradient = Color("BG")
     let Student: String
     var parentId: String
@@ -30,25 +34,15 @@ struct Grade: View {
     var studentID: String
     var prop: Properties
     var btnBack : some View { Button(action: {
-        self.presentationMode.wrappedValue.dismiss()
-    }) {
-        backButtonView(prop: prop, barTitle: barTitle)
-    }
+            self.presentationMode.wrappedValue.dismiss()
+        }) {
+            backButtonView(prop: prop, barTitle: barTitle)
+        }
     }
     
     var body: some View {
         VStack(spacing: 0){
             Divider()
-            HStack{
-                Text("ថ្នាក់រៀន \(Student)")
-                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
-                Rectangle()
-                    .frame(maxHeight: 1)
-            }
-            .foregroundColor(Color("Blue"))
-            .padding(.top)
-            .padding(.horizontal)
-            .frame(width: .infinity, height: .infinity, alignment: .leading)
             if enrollment.enrollments.isEmpty{
                 ZStack{
                     if clasLoading{
@@ -67,77 +61,236 @@ struct Grade: View {
                     }
                 }
             }else{
-                VStack(spacing: 0){
-                    List(Array(enrollment.enrollments.enumerated()), id: \.element.EnrollmentId){ index, item in
-                        Choose( Grade: item.GradeName, Class: item.Classname, Year: item.AcademicYearName, Programme: item.Programme, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.ClassId, academicYearId: item.AcademicId, programId: item.ProgrammeId, color: index % 2 == 0 ? colorOrg: colorBlue, earlyStage: item.ClassGroupNameEn, prop: prop)
-                            .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
-                            .backgroundRemover()
+                VStack(spacing: 20){
+                    HStack{
+                        Text("ថ្នាក់រៀន \(Student)")
+                            .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                        Rectangle()
+                            .frame(maxHeight: 1)
                     }
-                    .listStyle(GroupedListStyle())
+                    .foregroundColor(Color("Blue"))
+                    .frame(width: .infinity, height: .infinity, alignment: .leading)
+                    
+                    ForEach(Array(enrollment.enrollments.enumerated()), id: \.element.EnrollmentId){ index, item in
+                        Button {
+                            
+                        } label: {
+                            Choose( Grade: item.GradeName, Class: item.Classname, Year: item.AcademicYearName, Programme: item.Programme, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.ClassId, academicYearId: item.AcademicId, programId: item.ProgrammeId, color: index % 2 == 0 ? colorOrg: colorBlue, earlyStage: item.ClassGroupNameEn, prop: prop)
+                                .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
+                        }
+                    }
+                    HStack{
+                        Text("QR CODE")
+                            .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                        Rectangle()
+                            .frame(maxHeight: 1)
+                    }
+                    .foregroundColor(Color("Blue"))
+                    .frame(width: .infinity, height: .infinity, alignment: .leading)
+                    
+                    if #available(iOS 16.0, *) {
+                        QRView(stuName: Student, studentQR: studentqr.studentId, prop: prop, showqr: $showqr)
+                    } else {
+                        // Fallback on earlier versions
+                        QrView(stuName: Student, studentQR: studentqr.studentId, prop: prop, showqr: $showqr)
+                    }
                     NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "attendance", selection: $selection) { EmptyView() }
                     NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "absence", selection: $selection) { EmptyView() }
                     NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "payment", selection: $selection) { EmptyView() }
                     NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "score", selection: $selection) { EmptyView() }
                     
                 }
+                .padding()
             }
-            Spacer()
+            
         }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-            .navigationBarTitleDisplayMode(.inline)
-            .setBG()
-            .onAppear(perform: {
-                enrollments.StundentAmount(parentId: parentId)
-                enrollment.getEnrollment(studentId: studentId)
-            })
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .navigationBarTitleDisplayMode(.inline)
+        .setBG()
+        .onAppear(perform: {
+            enrollments.StundentAmount(parentId: parentId)
+            enrollment.getEnrollment(studentId: studentId)
+            studentqr.getQRCode(stuID: studentId)
+        })
         .navigationBarItems(leading: btnBack)
         .navigationBarBackButtonHidden(true)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        HStack{
-                            AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(userProfileImg)"), scale: 2){image in
-                                
-                                switch  image {
-                                    
-                                case .empty:
-                                    ProgressView()
-                                        .progressViewStyle(.circular)
-                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
-                                case .success(let image):
-                                    image
-                                        .resizable()
-                                        .scaledToFill()
-                                        .clipped()
-                                        .background(Color.black.opacity(0.2))
-                                        .overlay {
-                                            Circle()
-                                                .stroke(.orange, lineWidth: 1)
-                                        }
-                                        .clipShape(Circle())
-                                        .padding(-5)
-                                        .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
-                                case .failure:
-                                    Image(systemName: "person.fill")
-                                        .padding(5)
-                                        .font(.system(size:  prop.isLandscape ? 22 : (prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)))
-                                        .background(Color.white)
-                                        .overlay {
-                                            Circle()
-                                                .stroke(.orange, lineWidth: 1)
-                                        }
-                                        .aspectRatio(contentMode: .fill)
-                                        .clipShape(Circle())
-                                        .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
-                                @unknown default:
-                                    fatalError()
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                HStack{
+                    AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(userProfileImg)"), scale: 2){image in
+                        
+                        switch  image {
+                            
+                        case .empty:
+                            ProgressView()
+                                .progressViewStyle(.circular)
+                                .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .clipped()
+                                .background(Color.black.opacity(0.2))
+                                .overlay {
+                                    Circle()
+                                        .stroke(.orange, lineWidth: 1)
                                 }
-                            }
+                                .clipShape(Circle())
+                                .padding(-5)
+                                .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
+                        case .failure:
+                            Image(systemName: "person.fill")
+                                .padding(5)
+                                .font(.system(size:  prop.isLandscape ? 22 : (prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)))
+                                .background(Color.white)
+                                .overlay {
+                                    Circle()
+                                        .stroke(.orange, lineWidth: 1)
+                                }
+                                .aspectRatio(contentMode: .fill)
+                                .clipShape(Circle())
+                                .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
+                        @unknown default:
+                            fatalError()
                         }
                     }
                 }
             }
         }
-
+        
+    }
+}
+@available(iOS 16.0, *)
+struct QRView: View {
+    let context = CIContext()
+    let filter = CIFilter.qrCodeGenerator()
+    @State var selectedDetent: PresentationDetent = .medium
+    @State var detents: Set<PresentationDetent> = [.large, .medium]
+    var stuName: String
+    var studentQR: String
+    var prop: Properties
+    @Binding var showqr: Bool
+    var body: some View{
+        HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+            Image(systemName: "qrcode")
+                .font(.system(size: 30))
+                .foregroundColor(.blue)
+                .background(
+                    Circle()
+                        .fill(.white)
+                        .frame(width: 50, height: 50)
+                )
+            Text("បង្ហាញ QR CODE ទីនេះ!")
+                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                .foregroundColor(Color("bodyOrange"))
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color("LightOrange"))
+        .cornerRadius(15)
+        .onTapGesture {
+            self.showqr = true
+        }
+        
+        .sheet(isPresented: $showqr) {
+            ZStack{
+                Color.white
+                    .frame(width: .infinity, height: .infinity)
+                VStack{
+                    HStack{
+                        Text("\(stuName) QR Code")
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
+                            .foregroundColor(Color("bodyBlue"))
+                        
+                        Spacer()
+                        
+                        Button {
+                            selectedDetent = selectedDetent == .large ? .medium : .large
+                        } label: {
+                            Image(systemName: selectedDetent == .large ? "hand.point.down" : "hand.point.up")
+                                .font(.system(size: 25))
+                                .foregroundColor(.gray)
+                        }
+                        .presentationDetents(detents, selection: $selectedDetent)
+                        .onChange(of: selectedDetent) { newValue in
+                            if newValue == .large {
+                                updateDetentsWithDelay()
+                            } else {
+                                detents = [.large, .medium]
+                            }
+                        }
+                        
+                        Button {
+                            self.showqr = false
+                        } label: {
+                            Image(systemName: "multiply")
+                                .font(.system(size: 25))
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    if studentQR.isEmpty{
+                        HStack{
+                            Text("មិនមាន QR Code!")
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                            Image(systemName: "qrcode.viewfinder")
+                                .font(.system(size: 20))
+                        }
+                        .foregroundColor(.red)
+                        .frame(width: selectedDetent == .large ?  300 : 200 , height: selectedDetent == .large ?  300 : 200)
+                        .border(.black)
+                    }else{
+                        Image(uiImage: generateQRCode(from: studentQR))
+                            .resizable()
+                            .interpolation(.none)
+                            .scaledToFit()
+                            .frame(width: selectedDetent == .large ?  300 : 200 , height: selectedDetent == .large ?  300 : 200)
+                    }
+                   
+                    HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                        Image(systemName: "exclamationmark.circle")
+                            .font(.system(size: 30))
+                            .foregroundColor(Color("bodyBlue"))
+                        VStack(alignment: .leading){
+                            Text("សម្គាល់")
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                                .foregroundColor(Color("bodyBlue"))
+                            Text("លោកអ្នកអាចស្កែនដើម្បីធ្វើការ Pickup កូន!")
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                                .foregroundColor(Color("bodyBlue"))
+                        }
+                        
+                    }
+                    .padding(20)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color("LightBlue"))
+                    .cornerRadius(15)
+                    Spacer()
+                }
+                .padding()
+            }
+            .ignoresSafeArea()
+        }
+    }
+    func generateQRCode(from string: String) -> UIImage {
+        filter.message = Data(string.utf8)
+        
+        if let outputImage = filter.outputImage {
+            if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+                return UIImage(cgImage: cgimg)
+            }
+        }
+        
+        return UIImage(systemName: "xmark.circle") ?? UIImage()
+    }
+    func updateDetentsWithDelay() {
+        Task {
+            //(1 second = 1_000_000_000 nanoseconds)
+            try? await Task.sleep(nanoseconds: 100_000_000)
+            guard selectedDetent == .large else { return }
+            detents = [.large]
+        }
+    }
+}
 struct Choose: View {
     @State var showsheet: Bool = false
     @State var Grade: String
@@ -158,9 +311,8 @@ struct Choose: View {
     var earlyStage: String
     var prop: Properties
     var body: some View {
-        
+       
         HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-            
             Circle()
                 .frame(width: 49, height: 49, alignment: .center)
                 .overlay(
@@ -189,6 +341,7 @@ struct Choose: View {
         .hLeading()
         .background(Color(color))
         .cornerRadius(15)
+      
         .onTapGesture {
             showsheet.toggle()
         }
@@ -211,13 +364,13 @@ struct Choose: View {
                         TabButton(title: "របាយការណ៍កុមារដ្ឋាន", image: "newspaper.fill", chose: .score, selection: "score")
                             .buttonStyle(PlainButtonStyle())
                     }
-                   
+                    
                     Spacer()
                 }
                 .padding(prop.isLandscape ? 50 : 20)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                 Button {
-                   showsheet = !showsheet
+                    showsheet = !showsheet
                 } label: {
                     Image(systemName: "xmark.square.fill")
                         .font(.system(size: 30))
@@ -230,7 +383,7 @@ struct Choose: View {
                 .padding(prop.isLandscape ? 20 : 0)
             }
             .ignoresSafeArea()
-           
+            
         } onEnd: {
             print("")
         }
@@ -258,7 +411,116 @@ struct Choose: View {
         }
     }
 }
+struct QrView: View {
+    let context = CIContext()
+    let filter = CIFilter.qrCodeGenerator()
+    var stuName: String
+    var studentQR: String
+    var prop: Properties
+    @Binding var showqr: Bool
+    var body: some View{
+        Button {
+            self.showqr = true
+        } label: {
+            
+            HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                Image(systemName: "qrcode")
+                    .font(.system(size: 30))
+                    .foregroundColor(.blue)
+                    .background(
+                        Circle()
+                            .fill(.white)
+                            .frame(width: 50, height: 50)
+                    )
+                Text("បង្ហាញ QR CODE ទីនេះ!")
+                    .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                    .foregroundColor(Color("bodyOrange"))
+            }
+            .padding(20)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color("LightOrange"))
+            .cornerRadius(15)
+        }
 
+//        .onTapGesture {
+//            self.showqr = true
+//        }
+        
+        .sheet(isPresented: $showqr) {
+            ZStack{
+                Color.white
+                    .frame(width: .infinity, height: .infinity)
+                VStack{
+                    HStack{
+                        Text("\(stuName) QR Code")
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
+                            .foregroundColor(Color("bodyBlue"))
+                        
+                        Spacer()
+                        Button {
+                            self.showqr = false
+                        } label: {
+                            Image(systemName: "multiply")
+                                .font(.system(size: 25))
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    if studentQR.isEmpty{
+                        HStack{
+                            Text("មិនមាន QR Code!")
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                            Image(systemName: "qrcode.viewfinder")
+                                .font(.system(size: 20))
+                        }
+                        .foregroundColor(.red)
+                        .frame(width: 300, height: 300)
+                        .border(.black)
+                    }else{
+                        Image(uiImage: generateQRCode(from: studentQR))
+                            .resizable()
+                            .interpolation(.none)
+                            .scaledToFit()
+                            .frame(width: 300, height: 300)
+                    }
+                   
+                    
+                    HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                        Image(systemName: "exclamationmark.circle")
+                            .font(.system(size: 30))
+                            .foregroundColor(Color("bodyBlue"))
+                        VStack(alignment: .leading){
+                            Text("សម្គាល់")
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                                .foregroundColor(Color("bodyBlue"))
+                            Text("លោកអ្នកអាចស្កែនដើម្បីធ្វើការ Pickup កូន!")
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                                .foregroundColor(Color("bodyBlue"))
+                        }
+                        
+                    }
+                    .padding(20)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color("LightBlue"))
+                    .cornerRadius(15)
+                    Spacer()
+                }
+                .padding()
+            }
+            .ignoresSafeArea()
+        }
+    }
+    func generateQRCode(from string: String) -> UIImage {
+        filter.message = Data(string.utf8)
+        
+        if let outputImage = filter.outputImage {
+            if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+                return UIImage(cgImage: cgimg)
+            }
+        }
+        
+        return UIImage(systemName: "xmark.circle") ?? UIImage()
+    }
+}
 struct Grade_Previews: PreviewProvider {
     static var previews: some View {
         

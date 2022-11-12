@@ -29,6 +29,7 @@ struct ScrollRefreshable<Content: View>: View {
             .scrollContentBackground(.hidden)
             .listStyle(.plain)
             .listStyle(InsetGroupedListStyle())
+            .scrollIndicators(.hidden)
         } else {
             // Fallback on earlier versions
             List{

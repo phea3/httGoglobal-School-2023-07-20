@@ -38,7 +38,7 @@ struct Dashboard: View {
         
         NavigationView {
             VStack(spacing:0){
-                if students.AllStudents.isEmpty{
+                if students.AllStudents.isEmpty && AnnoucementList.Annouces.isEmpty && academiclist.academicYear.isEmpty {
                     ZStack{
                         if viewLoading{
                             progressingView(prop: prop)
@@ -130,20 +130,26 @@ struct Dashboard: View {
         VStack(alignment: .leading,spacing: 0 ){
             ZStack{
                 imageStuBG(prop: prop)
-                ScrollView(.horizontal, showsIndicators: false){
-                    HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
-                        ForEach(students.AllStudents,id: \.Id) { student in
-                            NavigationLink(
-                                destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: barTitle,studentID: student.Id, prop: prop),
-                                label: {
-                                    widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
-                                }
-                            )
+                if students.AllStudents.isEmpty {
+                    Text("មិនមានកូន")
+                        .foregroundColor(.blue)
+                } else {
+                    ScrollView(.horizontal, showsIndicators: false){
+                        HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
+                            ForEach(students.AllStudents,id: \.Id) { student in
+                                NavigationLink(
+                                    destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: barTitle,studentID: student.Id, prop: prop),
+                                    label: {
+                                        widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
+                                    }
+                                )
+                            }
                         }
+                        .frame(width: (prop.isLandscape && (prop.isiPhone || prop.isiPad)) || prop.isiPad ? prop.size.width : .infinity)
                     }
-                    .frame(width: (prop.isLandscape && (prop.isiPhone || prop.isiPad)) || prop.isiPad ? prop.size.width : .infinity)
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .center)
             .padding(.vertical)
             Divider()
             HStack(spacing: prop.isiPhoneS ? 2 : prop.isiPhoneM ? 3 : 5){
@@ -252,7 +258,7 @@ struct Dashboard: View {
                 VStack(spacing: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 17 : 18 ){
                     
                     ForEach(AnnoucementList.Annouces, id: \.id) { item in
-                        AnnouceButtonView(showingSheet: $showingSheet, detailId: $detailId, itemImg: item.img, itemTitle: item.title, itemId: item.id, prop: prop)
+                        AnnouceButtonView(showingSheet: $showingSheet, detailId: $detailId, onAppearImg: $onAppearImg, itemImg: item.img, itemTitle: item.title, itemId: item.id, prop: prop, students: students)
                             .buttonStyle(PlainButtonStyle())
                             .sheet(isPresented: $showingSheet) {
                                 Annoucements(prop: prop, postId: $detailId)
@@ -313,8 +319,8 @@ struct Dashboard: View {
                 Text(Firstname)
             }
             .padding(2)
+            .padding(.horizontal, 5)
             .font(.custom("kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
-            .frame(maxWidth: prop.isiPhoneS ? 100 : prop.isiPhoneM ? 110 : prop.isiPhoneL ? 120 : 130)
             .background(.blue)
             .cornerRadius(5)
             .padding(.bottom, 10)
@@ -334,10 +340,12 @@ struct Dashboard_Previews: PreviewProvider {
 struct AnnouceButtonView: View{
     @Binding var showingSheet: Bool
     @Binding var detailId: String
+    @Binding var onAppearImg: Bool
     var itemImg: String
     var itemTitle: String
     var itemId: String
     var prop: Properties
+    var students: ListStudentViewModel
     var body: some View{
         Button {
             self.showingSheet.toggle()
@@ -378,10 +386,20 @@ struct AnnouceButtonView: View{
                             
                         }
                     }
+                    .onAppear{
+                        if students.AllStudents.isEmpty{
+                            self.onAppearImg = false
+                        }
+                    }
                 case .failure:
                     Text("មិនអាចទាញទិន្ន័យបាន")
                         .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
                         .foregroundColor(.pink)
+                        .onAppear{
+                            if students.AllStudents.isEmpty{
+                                self.onAppearImg = false
+                            }
+                        }
                 @unknown default:
                     fatalError()
                 }

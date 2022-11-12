@@ -78,6 +78,7 @@
 		09FEBCB028B70CD600E8B5B7 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCAF28B70CD600E8B5B7 /* CalendarViewModel.swift */; };
 		09FEBCB228B70CEC00E8B5B7 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCB128B70CEC00E8B5B7 /* Profile.swift */; };
 		09FEBCB428B70D0000E8B5B7 /* Choosing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCB328B70D0000E8B5B7 /* Choosing.swift */; };
+		775BE506291CE12000A915B3 /* GetStudentCardByStudentIDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775BE505291CE12000A915B3 /* GetStudentCardByStudentIDViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -146,6 +147,7 @@
 		09FEBCAF28B70CD600E8B5B7 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		09FEBCB128B70CEC00E8B5B7 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		09FEBCB328B70D0000E8B5B7 /* Choosing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Choosing.swift; sourceTree = "<group>"; };
+		775BE505291CE12000A915B3 /* GetStudentCardByStudentIDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStudentCardByStudentIDViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +188,7 @@
 				099ECD5E28EC384800D69557 /* InvoiceViewModel.swift */,
 				09660B3A28FE4C0C00CEA9EA /* DeleteNotificationByMobileUserId.swift */,
 				097DAEBF2912079C00018CD9 /* updateEYSReport.swift */,
+				775BE505291CE12000A915B3 /* GetStudentCardByStudentIDViewModel.swift */,
 			);
 			path = ClassObservables;
 			sourceTree = "<group>";
@@ -487,6 +490,7 @@
 				0949C3112907C5820076F382 /* CalendarWeekListView.swift in Sources */,
 				09FEBCB228B70CEC00E8B5B7 /* Profile.swift in Sources */,
 				09FEBC8C28B70A4700E8B5B7 /* ListAttendanceViewModel.swift in Sources */,
+				775BE506291CE12000A915B3 /* GetStudentCardByStudentIDViewModel.swift in Sources */,
 				09A060FD28BA199B00D1D1FA /* API.swift in Sources */,
 				09A060FB28BA18A200D1D1FA /* ScheduleViewModel.swift in Sources */,
 			);
@@ -619,7 +623,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Goglobal School/Goglobal School.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"Goglobal School/Preview Content\"";
 				DEVELOPMENT_TEAM = HZ73GSKF9X;
 				ENABLE_PREVIEWS = YES;
@@ -640,7 +644,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "Second-dayofSwift-Testing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -658,7 +662,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Goglobal School/Goglobal School.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"Goglobal School/Preview Content\"";
 				DEVELOPMENT_TEAM = HZ73GSKF9X;
 				ENABLE_PREVIEWS = YES;
@@ -679,7 +683,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "Second-dayofSwift-Testing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

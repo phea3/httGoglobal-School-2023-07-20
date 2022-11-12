@@ -203,3 +203,10 @@ query GetEYSReportPagination($stuId: String, $date: String) {
     }
   }
 }
+
+query GetStudentCardByStudentID($studentId: ID) {
+  getStudentCardByStudentID(studentID: $studentId) {
+    _id
+    status
+  }
+}

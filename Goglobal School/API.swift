@@ -3798,6 +3798,110 @@ public final class GetEysReportPaginationQuery: GraphQLQuery {
   }
 }
 
+public final class GetStudentCardByStudentIdQuery: GraphQLQuery {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    query GetStudentCardByStudentID($studentId: ID) {
+      getStudentCardByStudentID(studentID: $studentId) {
+        __typename
+        _id
+        status
+      }
+    }
+    """
+
+  public let operationName: String = "GetStudentCardByStudentID"
+
+  public var studentId: GraphQLID?
+
+  public init(studentId: GraphQLID? = nil) {
+    self.studentId = studentId
+  }
+
+  public var variables: GraphQLMap? {
+    return ["studentId": studentId]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Query"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("getStudentCardByStudentID", arguments: ["studentID": GraphQLVariable("studentId")], type: .object(GetStudentCardByStudentId.selections)),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(getStudentCardByStudentId: GetStudentCardByStudentId? = nil) {
+      self.init(unsafeResultMap: ["__typename": "Query", "getStudentCardByStudentID": getStudentCardByStudentId.flatMap { (value: GetStudentCardByStudentId) -> ResultMap in value.resultMap }])
+    }
+
+    public var getStudentCardByStudentId: GetStudentCardByStudentId? {
+      get {
+        return (resultMap["getStudentCardByStudentID"] as? ResultMap).flatMap { GetStudentCardByStudentId(unsafeResultMap: $0) }
+      }
+      set {
+        resultMap.updateValue(newValue?.resultMap, forKey: "getStudentCardByStudentID")
+      }
+    }
+
+    public struct GetStudentCardByStudentId: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["Card"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("_id", type: .scalar(GraphQLID.self)),
+          GraphQLField("status", type: .scalar(Bool.self)),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(_id: GraphQLID? = nil, status: Bool? = nil) {
+        self.init(unsafeResultMap: ["__typename": "Card", "_id": _id, "status": status])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var _id: GraphQLID? {
+        get {
+          return resultMap["_id"] as? GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "_id")
+        }
+      }
+
+      public var status: Bool? {
+        get {
+          return resultMap["status"] as? Bool
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "status")
+        }
+      }
+    }
+  }
+}
+
 public final class UpdateEysReportMutation: GraphQLMutation {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =

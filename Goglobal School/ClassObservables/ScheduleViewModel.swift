@@ -87,7 +87,7 @@ class ScheduleViewModel: ObservableObject{
             }
             else if Day == "Sunday" || Day == "អាទិត្យ"{
                 Day = "Sunday"
-            }
+            } 
             else {
                 Day = "Monday"
             }
