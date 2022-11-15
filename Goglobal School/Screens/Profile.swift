@@ -290,6 +290,7 @@ struct Profile: View {
                                 AnnoucementList.resetAnnounce()
                                 AllClasses.resetSchedule()
                                 Attendance.resetAttendance()
+                                Attendance.clearCache()
                                 UserDefaults.standard.removeObject(forKey: "DeviceToken")
                                 self.logoutLoading = false
                             }

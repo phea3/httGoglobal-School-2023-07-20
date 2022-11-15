@@ -117,6 +117,13 @@ struct BadysittingModel {
         allReports.date ?? ""
     }
     
+    var NureComment: String {
+        allReports.nurseComment ?? ""
+    }
+    
+    var ParentsComment: String {
+        allReports.parentsComment ?? ""
+    }
     var Food: [FoodReportModel] {
         (allReports.food?.map(FoodReportModel.init)) ?? []
     }
@@ -127,6 +134,18 @@ struct BadysittingModel {
     
     var ParentsRequest: [String?] {
         allReports.parentsRequest ?? []
+    }
+    
+    var atSchool: AtSchoolModel {
+        allReports.atSchool.map(AtSchoolModel.init) ?? AtSchoolModel(atSchool: allReports.atSchool)
+    }
+    
+    var stuID: String{
+        allReports.stuId?._id ?? ""
+    }
+    
+    var atHome: AtHomeModel {
+        allReports.parentsCheck.map(AtHomeModel.init) ?? AtHomeModel(atHome: allReports.parentsCheck)
     }
 }
 
@@ -179,4 +198,28 @@ struct ActivityReportModel {
         allActivityReport?.description ?? ""
     }
     
+}
+
+struct AtSchoolModel {
+    let atSchool: GetEysReportPaginationQuery.Data.GetEysReportPagination.Datum.AtSchool?
+    
+    var title: Bool {
+        atSchool?.title ?? false
+    }
+    
+    var discription: String {
+        atSchool?.description ?? ""
+    }
+}
+
+struct AtHomeModel{
+    let atHome: GetEysReportPaginationQuery.Data.GetEysReportPagination.Datum.ParentsCheck?
+    
+    var title: Bool {
+        atHome?.title ?? false
+    }
+    
+    var description: String {
+        atHome?.description ?? ""
+    }
 }

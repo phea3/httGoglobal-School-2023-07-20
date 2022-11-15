@@ -3466,13 +3466,29 @@ public final class GetEysReportPaginationQuery: GraphQLQuery {
           }
           activities {
             __typename
-            iconsrc
+            description
             iconname
-            title
+            iconsrc
             qty
+            title
+          }
+          atSchool {
+            __typename
+            description
+            title
+          }
+          parentsCheck {
+            __typename
+            title
             description
           }
           parentsRequest
+          nurseComment
+          parentsComment
+          stuId {
+            __typename
+            _id
+          }
         }
       }
     }
@@ -3568,7 +3584,12 @@ public final class GetEysReportPaginationQuery: GraphQLQuery {
             GraphQLField("date", type: .scalar(String.self)),
             GraphQLField("food", type: .list(.object(Food.selections))),
             GraphQLField("activities", type: .list(.object(Activity.selections))),
+            GraphQLField("atSchool", type: .object(AtSchool.selections)),
+            GraphQLField("parentsCheck", type: .object(ParentsCheck.selections)),
             GraphQLField("parentsRequest", type: .list(.scalar(String.self))),
+            GraphQLField("nurseComment", type: .scalar(String.self)),
+            GraphQLField("parentsComment", type: .scalar(String.self)),
+            GraphQLField("stuId", type: .object(StuId.selections)),
           ]
         }
 
@@ -3578,8 +3599,8 @@ public final class GetEysReportPaginationQuery: GraphQLQuery {
           self.resultMap = unsafeResultMap
         }
 
-        public init(_id: GraphQLID? = nil, date: String? = nil, food: [Food?]? = nil, activities: [Activity?]? = nil, parentsRequest: [String?]? = nil) {
-          self.init(unsafeResultMap: ["__typename": "EYSReport", "_id": _id, "date": date, "food": food.flatMap { (value: [Food?]) -> [ResultMap?] in value.map { (value: Food?) -> ResultMap? in value.flatMap { (value: Food) -> ResultMap in value.resultMap } } }, "activities": activities.flatMap { (value: [Activity?]) -> [ResultMap?] in value.map { (value: Activity?) -> ResultMap? in value.flatMap { (value: Activity) -> ResultMap in value.resultMap } } }, "parentsRequest": parentsRequest])
+        public init(_id: GraphQLID? = nil, date: String? = nil, food: [Food?]? = nil, activities: [Activity?]? = nil, atSchool: AtSchool? = nil, parentsCheck: ParentsCheck? = nil, parentsRequest: [String?]? = nil, nurseComment: String? = nil, parentsComment: String? = nil, stuId: StuId? = nil) {
+          self.init(unsafeResultMap: ["__typename": "EYSReport", "_id": _id, "date": date, "food": food.flatMap { (value: [Food?]) -> [ResultMap?] in value.map { (value: Food?) -> ResultMap? in value.flatMap { (value: Food) -> ResultMap in value.resultMap } } }, "activities": activities.flatMap { (value: [Activity?]) -> [ResultMap?] in value.map { (value: Activity?) -> ResultMap? in value.flatMap { (value: Activity) -> ResultMap in value.resultMap } } }, "atSchool": atSchool.flatMap { (value: AtSchool) -> ResultMap in value.resultMap }, "parentsCheck": parentsCheck.flatMap { (value: ParentsCheck) -> ResultMap in value.resultMap }, "parentsRequest": parentsRequest, "nurseComment": nurseComment, "parentsComment": parentsComment, "stuId": stuId.flatMap { (value: StuId) -> ResultMap in value.resultMap }])
         }
 
         public var __typename: String {
@@ -3627,12 +3648,57 @@ public final class GetEysReportPaginationQuery: GraphQLQuery {
           }
         }
 
+        public var atSchool: AtSchool? {
+          get {
+            return (resultMap["atSchool"] as? ResultMap).flatMap { AtSchool(unsafeResultMap: $0) }
+          }
+          set {
+            resultMap.updateValue(newValue?.resultMap, forKey: "atSchool")
+          }
+        }
+
+        public var parentsCheck: ParentsCheck? {
+          get {
+            return (resultMap["parentsCheck"] as? ResultMap).flatMap { ParentsCheck(unsafeResultMap: $0) }
+          }
+          set {
+            resultMap.updateValue(newValue?.resultMap, forKey: "parentsCheck")
+          }
+        }
+
         public var parentsRequest: [String?]? {
           get {
             return resultMap["parentsRequest"] as? [String?]
           }
           set {
             resultMap.updateValue(newValue, forKey: "parentsRequest")
+          }
+        }
+
+        public var nurseComment: String? {
+          get {
+            return resultMap["nurseComment"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "nurseComment")
+          }
+        }
+
+        public var parentsComment: String? {
+          get {
+            return resultMap["parentsComment"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "parentsComment")
+          }
+        }
+
+        public var stuId: StuId? {
+          get {
+            return (resultMap["stuId"] as? ResultMap).flatMap { StuId(unsafeResultMap: $0) }
+          }
+          set {
+            resultMap.updateValue(newValue?.resultMap, forKey: "stuId")
           }
         }
 
@@ -3721,11 +3787,11 @@ public final class GetEysReportPaginationQuery: GraphQLQuery {
           public static var selections: [GraphQLSelection] {
             return [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-              GraphQLField("iconsrc", type: .scalar(String.self)),
-              GraphQLField("iconname", type: .scalar(String.self)),
-              GraphQLField("title", type: .scalar(String.self)),
-              GraphQLField("qty", type: .scalar(Int.self)),
               GraphQLField("description", type: .scalar(String.self)),
+              GraphQLField("iconname", type: .scalar(String.self)),
+              GraphQLField("iconsrc", type: .scalar(String.self)),
+              GraphQLField("qty", type: .scalar(Int.self)),
+              GraphQLField("title", type: .scalar(String.self)),
             ]
           }
 
@@ -3735,8 +3801,8 @@ public final class GetEysReportPaginationQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public init(iconsrc: String? = nil, iconname: String? = nil, title: String? = nil, qty: Int? = nil, description: String? = nil) {
-            self.init(unsafeResultMap: ["__typename": "EYSReportDes", "iconsrc": iconsrc, "iconname": iconname, "title": title, "qty": qty, "description": description])
+          public init(description: String? = nil, iconname: String? = nil, iconsrc: String? = nil, qty: Int? = nil, title: String? = nil) {
+            self.init(unsafeResultMap: ["__typename": "EYSReportDes", "description": description, "iconname": iconname, "iconsrc": iconsrc, "qty": qty, "title": title])
           }
 
           public var __typename: String {
@@ -3748,12 +3814,12 @@ public final class GetEysReportPaginationQuery: GraphQLQuery {
             }
           }
 
-          public var iconsrc: String? {
+          public var description: String? {
             get {
-              return resultMap["iconsrc"] as? String
+              return resultMap["description"] as? String
             }
             set {
-              resultMap.updateValue(newValue, forKey: "iconsrc")
+              resultMap.updateValue(newValue, forKey: "description")
             }
           }
 
@@ -3766,12 +3832,12 @@ public final class GetEysReportPaginationQuery: GraphQLQuery {
             }
           }
 
-          public var title: String? {
+          public var iconsrc: String? {
             get {
-              return resultMap["title"] as? String
+              return resultMap["iconsrc"] as? String
             }
             set {
-              resultMap.updateValue(newValue, forKey: "title")
+              resultMap.updateValue(newValue, forKey: "iconsrc")
             }
           }
 
@@ -3784,12 +3850,149 @@ public final class GetEysReportPaginationQuery: GraphQLQuery {
             }
           }
 
+          public var title: String? {
+            get {
+              return resultMap["title"] as? String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "title")
+            }
+          }
+        }
+
+        public struct AtSchool: GraphQLSelectionSet {
+          public static let possibleTypes: [String] = ["AtSchool"]
+
+          public static var selections: [GraphQLSelection] {
+            return [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+              GraphQLField("description", type: .scalar(String.self)),
+              GraphQLField("title", type: .scalar(Bool.self)),
+            ]
+          }
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(description: String? = nil, title: Bool? = nil) {
+            self.init(unsafeResultMap: ["__typename": "AtSchool", "description": description, "title": title])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
           public var description: String? {
             get {
               return resultMap["description"] as? String
             }
             set {
               resultMap.updateValue(newValue, forKey: "description")
+            }
+          }
+
+          public var title: Bool? {
+            get {
+              return resultMap["title"] as? Bool
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "title")
+            }
+          }
+        }
+
+        public struct ParentsCheck: GraphQLSelectionSet {
+          public static let possibleTypes: [String] = ["ParentsCheck"]
+
+          public static var selections: [GraphQLSelection] {
+            return [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+              GraphQLField("title", type: .scalar(Bool.self)),
+              GraphQLField("description", type: .scalar(String.self)),
+            ]
+          }
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(title: Bool? = nil, description: String? = nil) {
+            self.init(unsafeResultMap: ["__typename": "ParentsCheck", "title": title, "description": description])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          public var title: Bool? {
+            get {
+              return resultMap["title"] as? Bool
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "title")
+            }
+          }
+
+          public var description: String? {
+            get {
+              return resultMap["description"] as? String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "description")
+            }
+          }
+        }
+
+        public struct StuId: GraphQLSelectionSet {
+          public static let possibleTypes: [String] = ["PersonalInfo"]
+
+          public static var selections: [GraphQLSelection] {
+            return [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+              GraphQLField("_id", type: .scalar(GraphQLID.self)),
+            ]
+          }
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(_id: GraphQLID? = nil) {
+            self.init(unsafeResultMap: ["__typename": "PersonalInfo", "_id": _id])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          public var _id: GraphQLID? {
+            get {
+              return resultMap["_id"] as? GraphQLID
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "_id")
             }
           }
         }

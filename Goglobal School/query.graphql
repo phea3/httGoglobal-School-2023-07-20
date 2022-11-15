@@ -193,13 +193,26 @@ query GetEYSReportPagination($stuId: String, $date: String) {
         description
       }
       activities {
-        iconsrc
+        description
         iconname
-        title
+        iconsrc
         qty
+        title
+      }
+      atSchool {
+        description
+        title
+      }
+      parentsCheck {
+        title
         description
       }
       parentsRequest
+      nurseComment
+      parentsComment
+      stuId {
+        _id
+      }
     }
   }
 }

@@ -9,8 +9,14 @@ struct Home: View {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @Environment(\.openURL) var openURL
     @StateObject var loginVM: LoginViewModel = LoginViewModel()
+    @StateObject var userProfile: MobileUserViewModel = MobileUserViewModel()
     @StateObject var academiclist: ListViewModel =  ListViewModel()
+    @StateObject var students: ListStudentViewModel = ListStudentViewModel()
     @StateObject var sendToken: UploadDeviceToken = UploadDeviceToken()
+    @StateObject var DeviceUserLogOut: MobileUserLogOutViewModel = MobileUserLogOutViewModel()
+    @StateObject var AnnoucementList: AnnouncementViewModel = AnnouncementViewModel()
+    @StateObject var AllClasses: ScheduleViewModel = ScheduleViewModel()
+    @StateObject var Attendance: ListAttendanceViewModel = ListAttendanceViewModel()
     @StateObject var monitor = Monitor()
     
     init(){
@@ -53,7 +59,6 @@ struct Home: View {
                 
                 if loginVM.isAuthenticated && ( gmail != "" && pass != "" ){
                     ZStack{
-                        
                         if !loggedIn{
                             EmptyView()
                                 .setBG()
@@ -126,8 +131,19 @@ struct Home: View {
                     .tag(Tab.book)
             }
             .alert("សូមធ្វើការដំឡើង Version \(VersionCheck.shared.appStoreVersion ?? "") នៅក្នុង App Store!", isPresented: .constant(VersionCheck.shared.newVersionAvailable ?? false)) {
-                Button("យល់ព្រម") {openURL(URL(string: VersionCheck.shared.appLinkToAppStore ?? "")!) }
-                Button("មិនយល់ព្រម", role: .cancel)  { }
+                Button("យល់ព្រម") {
+                    openURL(URL(string: VersionCheck.shared.appLinkToAppStore ?? "")!)
+                    DeviceUserLogOut.MobileUserLogOut(mobileUserId: loginVM.userprofileId, token: self.newToken)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        loginVM.signout()
+                        Attendance.clearCache()
+                        UserDefaults.standard.removeObject(forKey: "DeviceToken")
+                    }
+                    UserDefaults.standard.removeObject(forKey: "Gmail")
+                    UserDefaults.standard.removeObject(forKey: "Password")
+                    UserDefaults.standard.removeObject(forKey: "isAuthenticated")
+                }
+//                Button("មិនយល់ព្រម", role: .cancel)  { }
             }
             // MARK: Custom to Bar
             CustomTabBar(currentTab: $currentTab,prop: prop)

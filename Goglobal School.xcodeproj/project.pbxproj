@@ -29,7 +29,6 @@
 		097A13522906869D008B253D /* BabysittingVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097A13512906869D008B253D /* BabysittingVIewModel.swift */; };
 		097DAEBE2912076500018CD9 /* updateEYSReport.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 097DAEBD2912076500018CD9 /* updateEYSReport.graphql */; };
 		097DAEC02912079C00018CD9 /* updateEYSReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097DAEBF2912079C00018CD9 /* updateEYSReport.swift */; };
-		097DAEC329121C7600018CD9 /* TextFieldAlert in Frameworks */ = {isa = PBXBuildFile; productRef = 097DAEC229121C7600018CD9 /* TextFieldAlert */; };
 		09903AD428F8FFB4009EA604 /* uploadDeviceToken.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 09903AD328F8FFB4009EA604 /* uploadDeviceToken.graphql */; };
 		09903AD728F90013009EA604 /* UploadDeviceToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09903AD628F90013009EA604 /* UploadDeviceToken.swift */; };
 		099ECD5F28EC384800D69557 /* InvoiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099ECD5E28EC384800D69557 /* InvoiceViewModel.swift */; };
@@ -157,7 +156,6 @@
 			files = (
 				091B223628CC465400FE9DBB /* AuthenticationServices.framework in Frameworks */,
 				09F5197D28D1E80200C8B1FD /* ApolloSQLite in Frameworks */,
-				097DAEC329121C7600018CD9 /* TextFieldAlert in Frameworks */,
 				093E9AFD28FE3F7900449E41 /* ImageViewerRemote in Frameworks */,
 				093E9AFB28FE3F7900449E41 /* ImageViewer in Frameworks */,
 				09F5198528D1E81D00C8B1FD /* KeychainSwift in Frameworks */,
@@ -347,7 +345,6 @@
 				09F5198428D1E81D00C8B1FD /* KeychainSwift */,
 				093E9AFA28FE3F7900449E41 /* ImageViewer */,
 				093E9AFC28FE3F7900449E41 /* ImageViewerRemote */,
-				097DAEC229121C7600018CD9 /* TextFieldAlert */,
 			);
 			productName = "Goglobal School";
 			productReference = 09FEBC4B28B704E400E8B5B7 /* Goglobal School.app */;
@@ -382,7 +379,6 @@
 				09F5197928D1E80200C8B1FD /* XCRemoteSwiftPackageReference "apollo-ios" */,
 				09F5198328D1E81D00C8B1FD /* XCRemoteSwiftPackageReference "keychain-swift" */,
 				093E9AF928FE3F7900449E41 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */,
-				097DAEC129121C7600018CD9 /* XCRemoteSwiftPackageReference "TextFieldAlert" */,
 			);
 			productRefGroup = 09FEBC4C28B704E400E8B5B7 /* Products */;
 			projectDirPath = "";
@@ -725,14 +721,6 @@
 				kind = branch;
 			};
 		};
-		097DAEC129121C7600018CD9 /* XCRemoteSwiftPackageReference "TextFieldAlert" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sochalewski/TextFieldAlert.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 		09F5197628D1E79D00C8B1FD /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -769,11 +757,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 093E9AF928FE3F7900449E41 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */;
 			productName = ImageViewerRemote;
-		};
-		097DAEC229121C7600018CD9 /* TextFieldAlert */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 097DAEC129121C7600018CD9 /* XCRemoteSwiftPackageReference "TextFieldAlert" */;
-			productName = TextFieldAlert;
 		};
 		09F5197728D1E79D00C8B1FD /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
