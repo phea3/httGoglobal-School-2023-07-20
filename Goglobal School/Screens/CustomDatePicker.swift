@@ -13,6 +13,7 @@ struct CustomDatePicker: View {
     @State var currentMonth: Int = 0
     @State var studentId: String
     @Binding var currentDate: Date
+    var sectionShiftId: String
     var prop: Properties
     var body: some View {
         VStack(spacing: 0){
@@ -102,7 +103,7 @@ struct CustomDatePicker: View {
             currentDate = getCurrentMont()
         }
         .onAppear(perform: {
-            Attendance.GetAllAttendance(studentId: studentId)
+            Attendance.GetAllAttendance(studentId: studentId, sectionShiftId: self.sectionShiftId)
         })
     }
     

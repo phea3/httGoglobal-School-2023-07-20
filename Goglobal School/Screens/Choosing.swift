@@ -26,7 +26,7 @@ struct Choosing: View {
             TabView(selection: $chose){
                 Schedule(prop: prop,classId: classId, academicYearId: academicYearId, programId: programId)
                     .tag(Chose.attendance)
-                Attendant(studentId: studentId,prop: prop)
+                Attendant(studentId: studentId,classId: self.classId,academicYearId: self.academicYearId,programId: self.programId, prop: prop)
                     .tag(Chose.absence)
                 Payment(studentId: studentId, prop: prop)
                     .tag(Chose.payment)
@@ -45,6 +45,6 @@ struct Choosing: View {
 struct Choose_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Choosing(chose: .attendance, studentId: "", barTitle: "",prop: prop,classId: "",academicYearId: "",programId: "")
+        Choosing(chose: .attendance, studentId: "", barTitle: "", prop: prop,classId: "",academicYearId: "",programId: "")
     }
 }

@@ -223,3 +223,11 @@ query GetStudentCardByStudentID($studentId: ID) {
     status
   }
 }
+
+query GetAttendanceByStudentIdForMobile($studentId: ID!, $sectionShiftId: ID) {
+  getAttendanceByStudentIdForMobile(studentId: $studentId, sectionShiftId: $sectionShiftId) {
+    attendanceDate
+    attendanceId
+    status
+  }
+}

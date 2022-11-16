@@ -62,47 +62,53 @@ struct Grade: View {
                 }
             }else{
                 VStack(spacing: 20){
-                    HStack{
-                        Text("ថ្នាក់រៀន \(Student)")
-                            .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
-                        Rectangle()
-                            .frame(maxHeight: 1)
-                    }
-                    .foregroundColor(Color("Blue"))
-                    .frame(width: .infinity, height: .infinity, alignment: .leading)
-                    
-                    ForEach(Array(enrollment.enrollments.enumerated()), id: \.element.EnrollmentId){ index, item in
-                        Button {
-                            
-                        } label: {
-                            Choose( Grade: item.GradeName, Class: item.Classname, Year: item.AcademicYearName, Programme: item.Programme, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.ClassId, academicYearId: item.AcademicId, programId: item.ProgrammeId, color: index % 2 == 0 ? colorOrg: colorBlue, earlyStage: item.ClassGroupNameEn, prop: prop)
-                                .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
+                    List{
+                        HStack{
+                            Text("ថ្នាក់រៀន \(Student)")
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                            Rectangle()
+                                .frame(maxHeight: 1)
+                        }
+                        .foregroundColor(Color("Blue"))
+                        .frame(width: .infinity, height: .infinity, alignment: .leading)
+                        .backgroundRemover()
+                        
+                        ForEach(Array(enrollment.enrollments.enumerated()), id: \.element.EnrollmentId){ index, item in
+                            VStack{
+                                Choose( Grade: item.GradeName, Class: item.Classname, Year: item.AcademicYearName, Programme: item.Programme, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.ClassId, academicYearId: item.AcademicId, programId: item.ProgrammeId, color: index % 2 == 0 ? colorOrg: colorBlue, earlyStage: item.ClassGroupNameEn, prop: prop)
+                                        .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
+                                        .listRowInsets(EdgeInsets())
+                            }
+                            .backgroundRemover()
+                        }
+                       
+                        
+                        HStack{
+                            Text("QR CODE")
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                            Rectangle()
+                                .frame(maxHeight: 1)
+                        }
+                        .foregroundColor(Color("Blue"))
+                        .frame(width: .infinity, height: .infinity, alignment: .leading)
+                        .backgroundRemover()
+                        if #available(iOS 16.0, *) {
+                            QRView(stuName: Student, studentQR: studentqr.studentId, prop: prop, showqr: $showqr)
+                                .backgroundRemover()
+                        } else {
+                            // Fallback on earlier versions
+                            QrView(stuName: Student, studentQR: studentqr.studentId, prop: prop, showqr: $showqr)
+                                .backgroundRemover()
                         }
                     }
-                    HStack{
-                        Text("QR CODE")
-                            .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
-                        Rectangle()
-                            .frame(maxHeight: 1)
-                    }
-                    .foregroundColor(Color("Blue"))
-                    .frame(width: .infinity, height: .infinity, alignment: .leading)
-                    
-                    if #available(iOS 16.0, *) {
-                        QRView(stuName: Student, studentQR: studentqr.studentId, prop: prop, showqr: $showqr)
-                    } else {
-                        // Fallback on earlier versions
-                        QrView(stuName: Student, studentQR: studentqr.studentId, prop: prop, showqr: $showqr)
-                    }
+                    .listStyle(GroupedListStyle())
                     NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "attendance", selection: $selection) { EmptyView() }
                     NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "absence", selection: $selection) { EmptyView() }
                     NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "payment", selection: $selection) { EmptyView() }
                     NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "score", selection: $selection) { EmptyView() }
-                    
                 }
-                .padding()
             }
-            
+                Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .navigationBarTitleDisplayMode(.inline)

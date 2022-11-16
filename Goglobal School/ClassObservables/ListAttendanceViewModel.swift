@@ -27,11 +27,11 @@ class ListAttendanceViewModel: ObservableObject {
         // add our notification request
         UNUserNotificationCenter.current().add(request)
     }
-    func GetAllAttendance(studentId: String){
-        Network.shared.apollo.fetch(query: GetAttendanceByStudentIdQuery(studentId: studentId)){ [weak self] result in
+    func GetAllAttendance(studentId: String,sectionShiftId: String){
+        Network.shared.apollo.fetch(query: GetAttendanceByStudentIdForMobileQuery(studentId: studentId, sectionShiftId: sectionShiftId)){ [weak self] result in
             switch result{
             case .success(let graphQLResult):
-                if let Attendances = graphQLResult.data?.getAttendanceByStudentId{
+                if let Attendances = graphQLResult.data?.getAttendanceByStudentIdForMobile{
                     DispatchQueue.main.async {
                         self?.Attendances = Attendances.map(AttendanceViewModel.init)
                     }
@@ -52,7 +52,7 @@ class ListAttendanceViewModel: ObservableObject {
 }
 
 struct AttendanceViewModel {
-    let attendance: GetAttendanceByStudentIdQuery.Data.GetAttendanceByStudentId
+    let attendance: GetAttendanceByStudentIdForMobileQuery.Data.GetAttendanceByStudentIdForMobile
     var AttendanceId: String {
         attendance.attendanceId!
     }

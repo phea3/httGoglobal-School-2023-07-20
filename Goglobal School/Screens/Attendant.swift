@@ -12,8 +12,12 @@ struct Attendant: View {
     @State private var date = Date()
     @State var studentId: String
     @StateObject var Attendance: ListAttendanceViewModel = ListAttendanceViewModel()
+    @StateObject var AllClasses: ScheduleViewModel = ScheduleViewModel()
     @State var loadingScreen: Bool = false
     @State var currentProgress: CGFloat = 0
+    var classId: String
+    var academicYearId: String
+    var programId: String
     var prop: Properties
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
@@ -22,20 +26,20 @@ struct Attendant: View {
                     Spacer()
                     .onAppear{
                         self.currentProgress = 250
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                             self.currentProgress = 500
                         }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9){
                             self.currentProgress = 750
                         }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8){
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5){
                             self.currentProgress = 1000
                         }
                     }
                    
             }else{
                 VStack(spacing: 0){
-                    CustomDatePicker(studentId: studentId, currentDate: $currentDate,prop: prop)
+                    CustomDatePicker(studentId: studentId, currentDate: $currentDate,sectionShiftId: AllClasses.id, prop: prop)
                         .padding(.bottom,prop.isiPhoneS ? 10 : prop.isiPhoneM ? 15 : prop.isiPhoneL ? 20 : 25)
                         .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
                 }
@@ -44,9 +48,9 @@ struct Attendant: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .setBG()
         .onAppear(perform: {
-            Attendance.GetAllAttendance(studentId: studentId)
+            AllClasses.getClasses(classId: self.classId, academicYearId: self.academicYearId, programId: self.programId)
             self.loadingScreen = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 self.loadingScreen = false
             }
         })
@@ -56,7 +60,7 @@ struct Attendant: View {
 struct Attendant_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Attendant(studentId: "",prop: prop)
+        Attendant(studentId: "",classId: "",academicYearId: "",programId: "", prop: prop)
     }
 }
 
