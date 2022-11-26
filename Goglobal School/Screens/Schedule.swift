@@ -16,31 +16,33 @@ struct Schedule: View {
     var classId: String
     var academicYearId: String
     var programId: String
+    var language: String
     var body: some View {
         VStack(spacing:0){
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: prop.isiPad ? 20 : 10){
-                    ForEach(AllClasses.currentWeek, id: \.self){ day in
+            HStack{
+                ForEach(AllClasses.currentWeek, id: \.self){ day in
+                    if (AllClasses.extractDate(date: day, format: "EEE") != "Sun") && (AllClasses.extractDate(date: day, format: "EEE") != "អាទិត្យ") {
                         VStack{
                             DayOfWeek(day: AllClasses.extractDate(date: day, format: "EEE"), dayInKhmer: AllClasses.extractDate(date: day, format: "EEE"))
                             Rectangle()
                                 .fill(.blue)
-                                .frame(width: .infinity, height:prop.isiPad ? 6 :  4)
-//                                .cornerRadius(10)
+                                .frame(width: prop.isiPad ? 85 : prop.isiPhoneS ?  40 : prop.isiPhoneM ? 45 : 55, height: prop.isiPad ? 6 :  4)
+                            //                                .cornerRadius(10)
                                 .opacity(AllClasses.isToday(date: day) ? 1 : 0)
                         }
                         .onTapGesture {
                             // Updating Current Day
                             withAnimation{
                                 AllClasses.currentDay = day
-                            }
+                            
                         }
                     }
                 }
-                .frame(maxWidth: .infinity)
             }
-            .padding(.top)
-            .padding(.horizontal)
+        }
+        .padding(.top)
+        .padding(.horizontal)
+        .frame(maxWidth: .infinity, alignment: .center)
             
             if loadingScreen{
                 ProgressView(value: currentProgress, total: 1000)
@@ -63,7 +65,7 @@ struct Schedule: View {
                 VStack{
                     if let tasks = AllClasses.filteredTasks{
                         if tasks.isEmpty{
-                            Text("មិនមានម៉ោងសិក្សា!!!")
+                            Text("មិនមានម៉ោងសិក្សា!!!".localizedLanguage(language: self.language))
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
                                 .fontWeight(.light)
                                 .offset(y: prop.isLandscape ? 100 :  300)
@@ -106,12 +108,12 @@ struct Schedule: View {
         ZStack{
             Circle()
                 .fill(.white)
-                .frame(width: prop.isiPad ? 60 : 40, height: prop.isiPad ? 60 : 40)
+                .frame(width: prop.isiPad ? 60 : prop.isiPhoneS ?  30 : prop.isiPhoneM ? 35  : 40, height: prop.isiPad ? 60 : prop.isiPhoneS ?  30 : prop.isiPhoneM ? 35 : 40)
             Text(dayInKhmer)
                 .foregroundColor(Color(day))
                 .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 25, relativeTo: .body))
         }
-        .frame(width: prop.isiPad ? 85 : 55, height: prop.isiPad ? 85 : 55)
+        .frame(width: prop.isiPad ? 85 : prop.isiPhoneS ?  40 : prop.isiPhoneM ? 45 : 55, height: prop.isiPad ? 85 : prop.isiPhoneS ?  40 : prop.isiPhoneM ? 45 : 55)
         .background(Color(day))
         .cornerRadius( prop.isiPad ? 10 : 5)
     }
@@ -133,7 +135,7 @@ struct Schedule: View {
                     Rectangle()
                         .frame(maxHeight: 1)
                         .foregroundColor(Color("redding"))
-                    Text("ម៉ោងចេញលេង")
+                    Text("ម៉ោងចេញលេង".localizedLanguage(language: self.language))
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                         .foregroundColor(Color("redding"))
                         .frame(width: 90)
@@ -184,6 +186,6 @@ struct Schedule: View {
 struct Schedule_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Schedule(prop: prop, classId: "", academicYearId: "", programId: "")
+        Schedule(prop: prop, classId: "", academicYearId: "", programId: "", language: "em")
     }
 }

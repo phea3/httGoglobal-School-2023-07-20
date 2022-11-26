@@ -34,6 +34,7 @@ struct Home: View {
     @State var isLoading: Bool = false
     @State var showContact: Bool = false
     @State var hideTab: Bool = false
+    @State var showFlag: Bool = false
     @State var checkState: Bool = true
     @State var loggedIn: Bool = false
     @State var showingAlert: Bool = false
@@ -44,6 +45,7 @@ struct Home: View {
     @State var image = Image("GoGlobalSchool")
     @State var newToken: String = ""
     @State private var isUnlocked = false
+    @State private var language = "km-KH"
     enum Field {
             case gmail, pass
         }
@@ -87,15 +89,20 @@ struct Home: View {
                         }
                     }
                 }else{
-                    
                     // login screen
-                    LoginView(prop: prop)
+                    ZStack{
+                        LoginView(prop: prop)
+                            ChangeLanguage()
+                            .frame(maxWidth:.infinity, maxHeight: .infinity,alignment: .bottomTrailing)
+                            .padding(.bottom, 80)
+                            .opacity( showFlag ? 0 : 1)
+                    }
                 }
                 // animation loading
-                FlashScreen(animationFinished: self.animationFinished, prop:prop)
+                FlashScreen(animationFinished: self.animationFinished, language: self.language, prop:prop)
             }
-            .alert("គ្មានអ៉ីនធើណេត", isPresented: .constant(!monitor.connected)) {
-                Button("OK", role: .cancel) { }
+            .alert("គ្មានអ៉ីនធើណេត".localizedLanguage(language: self.language), isPresented: .constant(!monitor.connected)) {
+                Button("យល់ព្រម".localizedLanguage(language: self.language), role: .cancel) { }
             }
             .onAppear{
                 registerForNotifications()
@@ -121,29 +128,28 @@ struct Home: View {
     func MainView(prop: Properties)-> some View{
         ZStack{
             TabView(selection: $currentTab){
-                Dashboard(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, parentId: loginVM.userId, activeYear: academiclist.academicYearId, prop: prop, mobileUserId: loginVM.userprofileId)
+                Dashboard(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, parentId: loginVM.userId, activeYear: academiclist.academicYearId, prop: prop, mobileUserId: loginVM.userprofileId, language: self.language)
                     .tag(Tab.dashboard)
-                Education(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, parentId: loginVM.userId, academicYearName: academiclist.khmerYear, prop: prop)
+                Education(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, parentId: loginVM.userId, academicYearName: academiclist.khmerYear, language: self.language, prop: prop)
                     .tag(Tab.education)
-                CalendarViewModel(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, prop: prop, activeYear: academiclist.academicYearId)
+                CalendarViewModel(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, language: self.language, prop: prop, activeYear: academiclist.academicYearId)
                     .tag(Tab.bag)
-                Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, hideTab: $hideTab, checkState: $checkState, prop: prop, devicetoken: self.newToken)
+                Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, hideTab: $hideTab, checkState: $checkState, prop: prop, devicetoken: self.newToken, language: self.language)
                     .tag(Tab.book)
             }
-            .alert("សូមធ្វើការដំឡើង Version \(VersionCheck.shared.appStoreVersion ?? "") នៅក្នុង App Store!", isPresented: .constant(VersionCheck.shared.newVersionAvailable ?? false)) {
-                Button("យល់ព្រម") {
-                    openURL(URL(string: VersionCheck.shared.appLinkToAppStore ?? "")!)
-                    DeviceUserLogOut.MobileUserLogOut(mobileUserId: loginVM.userprofileId, token: self.newToken)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        loginVM.signout()
-                        Attendance.clearCache()
-                        UserDefaults.standard.removeObject(forKey: "DeviceToken")
-                    }
-                    UserDefaults.standard.removeObject(forKey: "Gmail")
-                    UserDefaults.standard.removeObject(forKey: "Password")
-                    UserDefaults.standard.removeObject(forKey: "isAuthenticated")
-                }
-//                Button("មិនយល់ព្រម", role: .cancel)  { }
+            .alert(isPresented: .constant(VersionCheck.shared.newVersionAvailable ?? false)) {
+                Alert(title: Text("សូមធ្វើការដំឡើង Version \(VersionCheck.shared.appStoreVersion ?? "") នៅក្នុង App Store!"), message: Text("Please update to version \(VersionCheck.shared.appStoreVersion ?? "") in The App Store!"), dismissButton: .default(Text("យល់ព្រម".localizedLanguage(language: self.language)), action: {
+                        openURL(URL(string: VersionCheck.shared.appLinkToAppStore ?? "")!)
+                       DeviceUserLogOut.MobileUserLogOut(mobileUserId: loginVM.userprofileId, token: self.newToken)
+                       DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                           loginVM.signout()
+                           Attendance.clearCache()
+                           UserDefaults.standard.removeObject(forKey: "DeviceToken")
+                       }
+                       UserDefaults.standard.removeObject(forKey: "Gmail")
+                       UserDefaults.standard.removeObject(forKey: "Password")
+                       UserDefaults.standard.removeObject(forKey: "isAuthenticated")
+                }))
             }
             // MARK: Custom to Bar
             CustomTabBar(currentTab: $currentTab,prop: prop)
@@ -154,12 +160,61 @@ struct Home: View {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                         withAnimation(.easeInOut(duration: 1)){
                             animationStarted = true
+                            self.showFlag = true
+                        }
+                    }
+                }
+           ChangeLanguage()
+                .frame(maxWidth:.infinity, maxHeight: .infinity,alignment: .bottomTrailing)
+                .padding(.bottom, 80)
+                .opacity( hideTab ? 0 : animationStarted ? 1:0)
+                .onAppear{
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        withAnimation(.easeInOut(duration: 1)){
+                            animationStarted = true
                         }
                     }
                 }
         }
     }
-    
+    func ChangeLanguage()-> some View {
+        HStack{
+            Menu {
+//                    Button {
+//                        self.language = "ch"
+//                    } label: {
+//                        Text("中文")
+//                    }
+                Button {
+                    // Step #3
+                    self.language = "en"
+                } label: {
+                    Text("English(US)")
+                    Image("en")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                }
+                Button {
+                    self.language = "km-KH"
+                } label: {
+                    Text("ភាសាខ្មែរ")
+                    Image("km")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                }
+                
+            } label: {
+               
+                Image(language == "ch" ? "ch" : language == "km-KH" ? "km" : "en")
+                    .resizable()
+                    .frame(width: 40, height: 40)
+                    .overlay {
+                        Circle()
+                            .stroke(.yellow, lineWidth: 1)
+                    }
+            }.padding()
+        }
+    }
     // MARK: View of login Screen
     func LoginView(prop: Properties)-> some View{
         ZStack{
@@ -172,7 +227,7 @@ struct Home: View {
                 LogoGoglobal(prop:prop)
                     .opacity(prop.isLandscape && prop.isiPhone ? 0:1)
                 VStack{
-                    Text("ចូលប្រើកម្មវិធី")
+                    Text("ចូលប្រើកម្មវិធី".localizedLanguage(language: self.language))
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 21 : prop.isiPhoneM ? 23 : prop.isiPhoneL ? 25 : 27, relativeTo: .largeTitle))
                         .foregroundColor(Color("ColorTitle"))
                 }
@@ -182,7 +237,7 @@ struct Home: View {
                 }
                 VStack(spacing: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20){
                     VStack(alignment: .leading, spacing: prop.isiPhoneS ? 4 : prop.isiPhoneM ? 6 : prop.isiPhoneL ? 8 : 10) {
-                        Text("អ៉ីម៉ែល")
+                        Text("អ៉ីម៉ែល".localizedLanguage(language: self.language))
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 17 : prop.isiPhoneL ? 19 : 21, relativeTo: .body))
                             .foregroundColor(.blue)
                         let binding = Binding<String>(get: {
@@ -190,7 +245,7 @@ struct Home: View {
                         }, set: {
                             self.gmail = $0.lowercased()
                         })
-                        TextField("បញ្ជូលអ៉ីម៉ែល", text: binding)
+                        TextField("បញ្ជូលអ៉ីម៉ែល".localizedLanguage(language: self.language), text: binding)
                             .textContentType(.emailAddress)
                             .focused($focusedField, equals: .gmail)
                             .padding(prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)
@@ -202,21 +257,17 @@ struct Home: View {
                             )
                     }
                     VStack(alignment: .leading, spacing: prop.isiPhoneS ? 4 : prop.isiPhoneM ? 6 : prop.isiPhoneL ? 8 : 10) {
-                        Text("ពាក្យសម្ងាត់")
+                        Text("ពាក្យសម្ងាត់".localizedLanguage(language: self.language))
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 17 : prop.isiPhoneL ? 19 : 21, relativeTo: .body))
                             .foregroundColor(.blue)
-                        SecureTextFieldToggle(text: $pass, isempty: isempty, prop: prop)
+                        SecureTextFieldToggle(text: $pass, isempty: isempty, prop: prop, language: self.language)
                             .textContentType(.password)
                             .focused($focusedField, equals: .pass)
                             .submitLabel(.return)
-                            .onSubmit {
-                                print("Password")
-                            }
                     }
                     VStack{
                         Button {
                             // login mutation
-                            
                             loginVM.login(email: gmail, password: pass, checkState: checkState)
                             self.isLoading = true
                             
@@ -267,7 +318,7 @@ struct Home: View {
                             
                         } label: {
                             
-                            Text("ចូលកម្មវិធី")
+                            Text("ចូលកម្មវិធី".localizedLanguage(language: self.language))
                                 .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 22 : 24, relativeTo: .largeTitle))
                                 .foregroundColor(.white)
                                 .padding(prop.isiPhoneS ? 6 : prop.isiPhoneM ? 7 : prop.isiPhoneL ? 8 : 10)
@@ -275,7 +326,7 @@ struct Home: View {
                                 .background(.blue)
                                 .cornerRadius(10)
                         }
-                        .alert("គណនីរបស់លោកអ្នកមិនត្រឹមត្រូវទេ", isPresented: $showingAlert) {
+                        .alert("គណនីរបស់លោកអ្នកមិនត្រឹមត្រូវទេ".localizedLanguage(language: self.language), isPresented: $showingAlert) {
                             Button("OK", role: .cancel) { loginVM.failLogin = false }
                         }
                         HStack(spacing: 0){
@@ -288,7 +339,7 @@ struct Home: View {
                                     Image(systemName: self.checkState ? "checkmark.square" : "square")
                                         .font(.system(size: 20))
                                         .padding(.bottom, 5)
-                                    Text("ចងចាំពាក្យសម្ងាត់?")
+                                    Text("ចងចាំពាក្យសម្ងាត់?".localizedLanguage(language: self.language))
                                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : prop.isiPhoneL ? 15 : 17, relativeTo: .body))
                                         .foregroundColor(.blue)
                                 }
@@ -299,12 +350,12 @@ struct Home: View {
                             Button {
                                 self.showContact = true
                             } label: {
-                                Text("ភ្លេចពាក្យសម្ងាត់?")
+                                Text("ភ្លេចពាក្យសម្ងាត់?".localizedLanguage(language: self.language))
                                     .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : prop.isiPhoneL ? 15 : 17, relativeTo: .body))
                                     .foregroundColor(forget ? .red : .blue)
                             }
                             .sheet(isPresented: $showContact) {
-                                SheetContact(prop: prop)
+                                SheetContact(prop: prop, language: self.language)
                             }
                             
                         }
@@ -348,7 +399,7 @@ struct Home: View {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: .white))
                             .scaleEffect(prop.isiPhoneS ? 1 : prop.isiPhoneM ? 1: prop.isiPhoneL ? 1 : 1)
-                        Text("កំពុងភ្ជាប់")
+                        Text("កំពុងភ្ជាប់".localizedLanguage(language: self.language))
                             .foregroundColor(.white)
                     }
                 }
@@ -361,10 +412,10 @@ struct Home: View {
     
     func footer(prop:Properties)-> some View{
         VStack(spacing:  prop.isiPhoneS ? 1 : prop.isiPhoneM ? 2 : prop.isiPhoneL ? 3 : 10){
-            Text("Power by:")
+            Text("បង្កើតដោយ:".localizedLanguage(language: self.language))
                 .font(.system( size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20))
                 .foregroundColor(Color("footerColor"))
-            Text("Go Global IT")
+            Text("ហ្គោគ្លូប៊លអាយធី".localizedLanguage(language: self.language))
                 .font(.system(size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22).bold())
                 .foregroundColor(Color("footerColor"))
             FooterImg(prop: prop)
@@ -419,21 +470,23 @@ struct SecureTextFieldToggle: View{
     @Binding var text: String
     var isempty: Bool
     var prop: Properties
+    var language: String
     var body: some View{
         
         HStack{
             HStack{
                 if isSecureField{
-                    SecureField("បញ្ជូលពាក្យសម្ងាត់", text: $text)
+                    SecureField("បញ្ជូលពាក្យសម្ងាត់".localizedLanguage(language: self.language), text: $text)
                 }else{
                     let binding = Binding<String>(get: {
                         self.text
                     }, set: {
                         self.text = $0.lowercased()
                     })
-                    TextField("បញ្ជូលពាក្យសម្ងាត់", text: binding)
+                    TextField("បញ្ជូលពាក្យសម្ងាត់".localizedLanguage(language: self.language), text: binding)
                 }
             }
+          
             Spacer()
             Button {
                 self.isSecureField.toggle()

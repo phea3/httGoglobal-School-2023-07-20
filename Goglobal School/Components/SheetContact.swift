@@ -10,9 +10,10 @@ import SwiftUI
 struct SheetContact: View {
     @Environment(\.dismiss) var dismiss
     var prop: Properties
+    var language: String
     var body: some View {
         ScrollView{
-            Button("ចាកចេញ") {
+            Button("ចាកចេញ".localizedLanguage(language: self.language)) {
                 dismiss()
             }
             .font(.custom("Bayon", size: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 24 : prop.isiPhoneL ? 26 : 30, relativeTo: .largeTitle))
@@ -75,6 +76,6 @@ struct SheetContact: View {
 struct SheetContact_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        SheetContact( prop: prop)
+        SheetContact( prop: prop, language: "em")
     }
 }

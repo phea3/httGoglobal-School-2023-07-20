@@ -34,6 +34,7 @@ struct Dashboard: View {
     var activeYear: String
     var prop: Properties
     var mobileUserId: String
+    var language: String
     var body: some View {
         
         NavigationView {
@@ -41,9 +42,9 @@ struct Dashboard: View {
                 if students.AllStudents.isEmpty && AnnoucementList.Annouces.isEmpty && academiclist.academicYear.isEmpty {
                     ZStack{
                         if viewLoading{
-                            progressingView(prop: prop)
+                            progressingView(prop: prop, language: self.language)
                         }else{
-                            Text("មិនមានទិន្ន័យ!")
+                            Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
                                 .foregroundColor(.blue)
                         }
                     }
@@ -54,24 +55,24 @@ struct Dashboard: View {
                         }
                     }
                 }else if students.Error{
-                    Text("សូមព្យាយាមម្តងទៀត")
+                Text("សូមព្យាយាមម្តងទៀត".localizedLanguage(language: self.language))
                         .foregroundColor(.blue)
                 }else{
                     Divider()
                         .opacity(hidingDivider ? 0:1)
                     if refreshing {
                         Spacer()
-                        progressingView(prop: prop)
+                        progressingView(prop: prop, language: self.language)
                         Spacer()
                     }
                     else{
-                        ScrollRefreshable(title: "កំពុងភ្ជាប់", tintColor: .blue){
+                        ScrollRefreshable(langauge: self.language, title: "កំពុងភ្ជាប់", tintColor: .blue){
                             ZStack{
                                 mainView()
                                     .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
                                     .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
                                     .navigationBarTitleDisplayMode(.inline)
-                                    .toolbarView(prop: prop, barTitle: barTitle, profileImg: userProfileImg)
+                                    .toolbarView(prop: prop, barTitle: barTitle, profileImg: userProfileImg,language: self.language)
                                 if onAppearImg{
                                     ZStack{
                                         Color("BG")
@@ -131,14 +132,14 @@ struct Dashboard: View {
             ZStack{
                 imageStuBG(prop: prop)
                 if students.AllStudents.isEmpty {
-                    Text("មិនមានកូន")
+                    Text("មិនមានកូន".localizedLanguage(language: self.language))
                         .foregroundColor(.blue)
                 } else {
                     ScrollView(.horizontal, showsIndicators: false){
                         HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
                             ForEach(students.AllStudents,id: \.Id) { student in
                                 NavigationLink(
-                                    destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: barTitle,studentID: student.Id, prop: prop),
+                                    destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: barTitle,studentID: student.Id, language: self.language, prop: prop),
                                     label: {
                                         widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
                                     }
@@ -156,7 +157,8 @@ struct Dashboard: View {
                 Image(systemName: "bell.fill")
                     .font(.system(size:prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20))
                     .foregroundColor(.blue)
-                Text("ព្រឹត្តិការណ៍នាពេលខាងមុខ")
+                Text("ព្រឹត្តិការណ៍នាពេលខាងមុខ".localizedLanguage(language: self.language))
+                    .textCase(.lowercase)
                     .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
                     .foregroundColor(.blue)
             }
@@ -184,7 +186,7 @@ struct Dashboard: View {
                 Image(systemName: "megaphone.fill")
                     .font(.system(size:prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18))
                     .foregroundColor(Color("News"))
-                Text("ដំណឹងថ្មីៗ")
+                Text("ដំណឹងថ្មីៗ".localizedLanguage(language: self.language))
                     .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
                     .foregroundColor(Color("News"))
             }
@@ -207,7 +209,7 @@ struct Dashboard: View {
                                             ProgressView()
                                                 .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                                                 .progressViewStyle(.circular)
-                                            Text("សូមរងចាំ")
+                                            Text("សូមរងចាំ".localizedLanguage(language: self.language))
                                                 .foregroundColor(.blue)
                                         }
                                     case .success(let image):
@@ -236,9 +238,8 @@ struct Dashboard: View {
                                             
                                         )
                                         
-                                        
                                     case .failure:
-                                        Text("Not Found News")
+                                        Text("មិនរកដំណឹងថ្មីៗបាន".localizedLanguage(language: self.language))
                                             .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
                                             .foregroundColor(.pink)
                                     @unknown default:
@@ -248,7 +249,7 @@ struct Dashboard: View {
                                 
                             }
                             .sheet(isPresented: $showingSheet) {
-                                Annoucements(prop: prop, postId: $detailId)
+                                Annoucements(prop: prop, postId: $detailId, language: self.language)
                             }
                         }
                     }
@@ -258,10 +259,10 @@ struct Dashboard: View {
                 VStack(spacing: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 17 : 18 ){
                     
                     ForEach(AnnoucementList.Annouces, id: \.id) { item in
-                        AnnouceButtonView(showingSheet: $showingSheet, detailId: $detailId, onAppearImg: $onAppearImg, itemImg: item.img, itemTitle: item.title, itemId: item.id, prop: prop, students: students)
+                        AnnouceButtonView(showingSheet: $showingSheet, detailId: $detailId, onAppearImg: $onAppearImg, itemImg: item.img, itemTitle: item.title, itemId: item.id, prop: prop, students: students, language: self.language)
                             .buttonStyle(PlainButtonStyle())
                             .sheet(isPresented: $showingSheet) {
-                                Annoucements(prop: prop, postId: $detailId)
+                                Annoucements(prop: prop, postId: $detailId, language: self.language)
                             }
                     }
                 }
@@ -288,7 +289,7 @@ struct Dashboard: View {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                             .progressViewStyle(.circular)
-                        Text("សូមរង់ចាំ")
+                        Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
                             .foregroundColor(.blue)
                     }
                 case .success(let image):
@@ -334,7 +335,7 @@ struct Dashboard: View {
 struct Dashboard_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Dashboard(userProfileImg: "", isLoading: .constant(false), parentId: "",activeYear: "", prop: prop, mobileUserId: "")
+        Dashboard(userProfileImg: "", isLoading: .constant(false), parentId: "",activeYear: "", prop: prop, mobileUserId: "", language: "em")
     }
 }
 struct AnnouceButtonView: View{
@@ -346,6 +347,7 @@ struct AnnouceButtonView: View{
     var itemId: String
     var prop: Properties
     var students: ListStudentViewModel
+    var language: String
     var body: some View{
         Button {
             self.showingSheet.toggle()
@@ -360,7 +362,7 @@ struct AnnouceButtonView: View{
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                             .progressViewStyle(.circular)
-                        Text("សូមរង់ចាំ")
+                        Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
                             .foregroundColor(.blue)
                     }
                 case .success(let image):
@@ -392,7 +394,7 @@ struct AnnouceButtonView: View{
                         }
                     }
                 case .failure:
-                    Text("មិនអាចទាញទិន្ន័យបាន")
+                    Text("មិនអាចទាញទិន្ន័យបាន".localizedLanguage(language: self.language))
                         .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
                         .foregroundColor(.pink)
                         .onAppear{

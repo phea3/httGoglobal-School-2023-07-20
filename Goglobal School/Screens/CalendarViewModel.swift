@@ -19,6 +19,7 @@ struct CalendarViewModel: View {
     @State var hidingDivider: Bool = false
     @Binding var isLoading: Bool
     let gradient = Color("BG")
+    var language: String
     var prop: Properties
     var activeYear: String
     var body: some View {
@@ -27,9 +28,9 @@ struct CalendarViewModel: View {
                 if academiclist.academicYear.isEmpty{
                     ZStack{
                         if viewLoading{
-                            progressingView(prop: prop)
+                            progressingView(prop: prop, language: self.language)
                         }else{
-                            Text("មិនមានទិន្ន័យ!")
+                            Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
                                 .foregroundColor(.blue)
                         }
                     }
@@ -40,23 +41,23 @@ struct CalendarViewModel: View {
                         }
                     }
                 }else if academiclist.Error{
-                    Text("សូមព្យាយាមម្តងទៀត")
+                    Text("សូមព្យាយាមម្តងទៀត".localizedLanguage(language: self.language))
                         .foregroundColor(.blue)
                 }else{
                     Divider()
                         .opacity(hidingDivider ? 0:1)
                     if refreshing {
                         Spacer()
-                        progressingView(prop: prop)
+                        progressingView(prop: prop, language: self.language)
                         Spacer()
                     }else{
-                        ScrollRefreshable(title: "កំពុងភ្ជាប់", tintColor: .blue){
+                        ScrollRefreshable(langauge: self.language, title: "កំពុងភ្ជាប់", tintColor: .blue){
                             mainView()
                                 .navigationBarTitleDisplayMode(.inline)
                                 .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
                                 .padding(.top)
                                 .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
-                                .toolbarView(prop: prop, barTitle: "ប្រតិទិនសិក្សា", profileImg: userProfileImg)
+                                .toolbarView(prop: prop, barTitle: "ប្រតិទិនសិក្សា", profileImg: userProfileImg, language: self.language)
                         }
                     }
                 }
@@ -92,14 +93,14 @@ struct CalendarViewModel: View {
             HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
                 graduatedLogo()
                 VStack(alignment: .leading){
-                    Text("ឆ្នាំសិក្សា ២០២១~២០២២")
+                    Text("ឆ្នាំសិក្សា ២០២១~២០២២".localizedLanguage(language: self.language))
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .largeTitle))
                 }
             }
             .foregroundColor(Color("ColorTitle"))
             .setBackgroundRow(color: colorBlue, prop: prop)
             HStack{
-                Text("ខែ កញ្ញា ឆ្នាំ ២០២២")
+                Text("ខែ កញ្ញា ឆ្នាំ ២០២២".localizedLanguage(language: self.language))
                     .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15))
                 Rectangle()
                     .frame(maxHeight: 1)
@@ -141,7 +142,7 @@ struct CalendarViewModel: View {
 struct CalendarViewModel_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        CalendarViewModel(userProfileImg: "", isLoading: .constant(false), prop: prop, activeYear: "")
+        CalendarViewModel(userProfileImg: "", isLoading: .constant(false), language: "em", prop: prop, activeYear: "")
     }
 }
 

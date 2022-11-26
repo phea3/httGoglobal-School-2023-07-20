@@ -23,6 +23,7 @@ struct Education: View {
     let gradient = Color("BG")
     var parentId: String
     var academicYearName: String
+    var language: String
     var prop: Properties
     var body: some View {
         NavigationView {
@@ -30,9 +31,9 @@ struct Education: View {
                 if DummyBoolean{
                     ZStack{
                         if viewLoading{
-                            progressingView(prop: prop)
+                            progressingView(prop: prop,language: self.language)
                         }else{
-                            Text("មិនមានទិន្ន័យ!")
+                            Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
                                 .foregroundColor(.blue)
                         }
                     }
@@ -43,17 +44,17 @@ struct Education: View {
                         }
                     }
                 }else if students.Error{
-                    Text("សូមព្យាយាមម្តងទៀត")
+                    Text("សូមព្យាយាមម្តងទៀត".localizedLanguage(language: self.language))
                         .foregroundColor(.blue)
                 }else{
                     Divider()
                         .opacity(hidingDivider ? 0:1)
                     if !refreshing{
-                        ScrollRefreshable(title: "កំពុងភ្ជាប់", tintColor: .blue) {
+                        ScrollRefreshable(langauge: self.language,title: "កំពុងភ្ជាប់", tintColor: .blue) {
                             ZStack{
                                 mainView()
                                     .navigationBarTitleDisplayMode(.inline)
-                                    .toolbarView(prop: prop, barTitle: "ឆ្នាំសិក្សា \(academicYearName)", profileImg: userProfileImg)
+                                    .toolbarView(prop: prop, barTitle: "ឆ្នាំសិក្សា \(academicYearName)", profileImg: userProfileImg, language: self.language)
                                     .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
                                     .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
                                 if onAppearImg{
@@ -80,7 +81,7 @@ struct Education: View {
                         }
                     }else{
                         Spacer()
-                        progressingView(prop: prop)
+                        progressingView(prop: prop, language: self.language)
                         Spacer()
                     }
                 }
@@ -125,7 +126,7 @@ struct Education: View {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                             .progressViewStyle(.circular)
-                        Text("សូមរង់ចាំ")
+                        Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
                             .foregroundColor(.blue)
                     }
                 case .success(let image):
@@ -171,7 +172,7 @@ struct Education: View {
     @ViewBuilder
     private func mainView()-> some View{
         VStack(alignment: .leading, spacing: 0){
-            Text("បុត្រធីតា")
+            Text("បុត្រធីតា".localizedLanguage(language: self.language))
                 .foregroundColor(.blue)
                 .font(.custom("Bayon", size: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 22 : prop.isiPhoneL ? 24:26, relativeTo: .largeTitle))
                 .hLeading()
@@ -180,7 +181,7 @@ struct Education: View {
             ZStack {
                 imageStuBG(prop: prop)
                 if students.AllStudents.isEmpty{
-                    Text("មិនមានកូន")
+                    Text("មិនមានកូន".localizedLanguage(language: self.language))
                         .foregroundColor(.blue)
                         .onAppear{
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -194,7 +195,7 @@ struct Education: View {
                         HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : prop.isiPhoneL ? 12 : 14){
                             ForEach(students.AllStudents,id: \.Id){ student in
                                 NavigationLink(
-                                    destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: "ឆ្នាំសិក្សា \(academicYearName)",studentID: student.Id, prop: prop),
+                                    destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: "ឆ្នាំសិក្សា \(academicYearName)",studentID: student.Id, language: self.language, prop: prop),
                                     label: {
                                         widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
                                     }
@@ -215,6 +216,6 @@ struct Education: View {
 struct Education_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0.0, height:  0.0))
-        Education(userProfileImg: "", isLoading: .constant(false), parentId: "", academicYearName: "", prop: prop)
+        Education(userProfileImg: "", isLoading: .constant(false), parentId: "", academicYearName: "", language: "", prop: prop)
     }
 }

@@ -32,11 +32,12 @@ struct Grade: View {
     var parentId: String
     var barTitle: String
     var studentID: String
+    var language: String
     var prop: Properties
     var btnBack : some View { Button(action: {
             self.presentationMode.wrappedValue.dismiss()
         }) {
-            backButtonView(prop: prop, barTitle: barTitle)
+            backButtonView(language: self.language, prop: prop, barTitle: barTitle)
         }
     }
     
@@ -49,7 +50,7 @@ struct Grade: View {
                         ProgressView()
                             .offset(y:30)
                     }else{
-                        Text("មិនមានទិន្ន័យ!")
+                        Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
                             .foregroundColor(.blue)
                             .offset(y:30)
                     }
@@ -64,7 +65,9 @@ struct Grade: View {
                 VStack(spacing: 20){
                     List{
                         HStack{
-                            Text("ថ្នាក់រៀន \(Student)")
+                            Text("ថ្នាក់រៀន ".localizedLanguage(language: self.language))
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                            Text(Student)
                                 .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
                             Rectangle()
                                 .frame(maxHeight: 1)
@@ -75,7 +78,7 @@ struct Grade: View {
                         
                         ForEach(Array(enrollment.enrollments.enumerated()), id: \.element.EnrollmentId){ index, item in
                             VStack{
-                                Choose( Grade: item.GradeName, Class: item.Classname, Year: item.AcademicYearName, Programme: item.Programme, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.ClassId, academicYearId: item.AcademicId, programId: item.ProgrammeId, color: index % 2 == 0 ? colorOrg: colorBlue, earlyStage: item.ClassGroupNameEn, prop: prop)
+                                Choose( Grade: item.GradeName, Class: item.Classname, Year: item.AcademicYearName, Programme: item.Programme, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.ClassId, academicYearId: item.AcademicId, programId: item.ProgrammeId, color: index % 2 == 0 ? colorOrg: colorBlue, earlyStage: item.ClassGroupNameEn, prop: prop, language: self.language)
                                         .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
                                         .listRowInsets(EdgeInsets())
                             }
@@ -84,7 +87,7 @@ struct Grade: View {
                        
                         
                         HStack{
-                            Text("QR CODE")
+                            Text("QR កូដ".localizedLanguage(language: self.language))
                                 .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
                             Rectangle()
                                 .frame(maxHeight: 1)
@@ -93,22 +96,22 @@ struct Grade: View {
                         .frame(width: .infinity, height: .infinity, alignment: .leading)
                         .backgroundRemover()
                         if #available(iOS 16.0, *) {
-                            QRView(stuName: Student, studentQR: studentqr.studentId, prop: prop, showqr: $showqr)
+                            QRView(stuName: Student, studentQR: studentqr.studentId, prop: prop, language: self.language, showqr: $showqr)
                                 .backgroundRemover()
                         } else {
                             // Fallback on earlier versions
-                            QrView(stuName: Student, studentQR: studentqr.studentId, prop: prop, showqr: $showqr)
+                            QrView(stuName: Student, studentQR: studentqr.studentId, prop: prop, showqr: $showqr, language: self.language)
                                 .backgroundRemover()
                         }
                     }
                     .listStyle(GroupedListStyle())
-                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "attendance", selection: $selection) { EmptyView() }
-                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "absence", selection: $selection) { EmptyView() }
-                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "payment", selection: $selection) { EmptyView() }
-                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId), tag: "score", selection: $selection) { EmptyView() }
+                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "attendance", selection: $selection) { EmptyView() }
+                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "absence", selection: $selection) { EmptyView() }
+                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "payment", selection: $selection) { EmptyView() }
+                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "score", selection: $selection) { EmptyView() }
                 }
             }
-                Spacer()
+            Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .navigationBarTitleDisplayMode(.inline)
@@ -175,6 +178,7 @@ struct QRView: View {
     var stuName: String
     var studentQR: String
     var prop: Properties
+    var language: String
     @Binding var showqr: Bool
     var body: some View{
         HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
@@ -186,7 +190,7 @@ struct QRView: View {
                         .fill(.white)
                         .frame(width: 50, height: 50)
                 )
-            Text("បង្ហាញ QR CODE ទីនេះ!")
+            Text("បង្ហាញ QR កូដ ទីនេះ!".localizedLanguage(language: self.language))
                 .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                 .foregroundColor(Color("bodyOrange"))
         }
@@ -204,9 +208,14 @@ struct QRView: View {
                     .frame(width: .infinity, height: .infinity)
                 VStack{
                     HStack{
-                        Text("\(stuName) QR Code")
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
-                            .foregroundColor(Color("bodyBlue"))
+                        HStack(spacing: 0) {
+                            Text(stuName)
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
+                                .foregroundColor(Color("bodyBlue"))
+                            Text("'s QR Code")
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
+                                .foregroundColor(Color("bodyBlue"))
+                        }
                         
                         Spacer()
                         
@@ -236,7 +245,7 @@ struct QRView: View {
                     }
                     if studentQR.isEmpty{
                         HStack{
-                            Text("មិនមាន QR Code!")
+                            Text("មិនមាន QR កូដ!".localizedLanguage(language: self.language))
                                 .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                             Image(systemName: "qrcode.viewfinder")
                                 .font(.system(size: 20))
@@ -257,10 +266,10 @@ struct QRView: View {
                             .font(.system(size: 30))
                             .foregroundColor(Color("bodyBlue"))
                         VStack(alignment: .leading){
-                            Text("សម្គាល់")
+                            Text("សម្គាល់".localizedLanguage(language: self.language))
                                 .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                                 .foregroundColor(Color("bodyBlue"))
-                            Text("លោកអ្នកអាចស្កែនដើម្បីធ្វើការ Pickup កូន!")
+                            Text("លោកអ្នកអាចស្កែនដើម្បីធ្វើការ Pickup កូន!".localizedLanguage(language: self.language))
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                                 .foregroundColor(Color("bodyBlue"))
                         }
@@ -316,6 +325,7 @@ struct Choose: View {
     var color: String
     var earlyStage: String
     var prop: Properties
+    var language: String
     var body: some View {
        
         HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
@@ -357,7 +367,7 @@ struct Choose: View {
                 Color.white
                     .frame(width: .infinity, height: .infinity, alignment: .leading)
                 VStack(alignment: .leading,spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                    Text("ជ្រើសរើស")
+                    Text("ជ្រើសរើស".localizedLanguage(language: self.language))
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .title2))
                         .foregroundColor(Color("Blue"))
                     TabButton(title: "កាលវិភាគសិក្សា", image: "calendar.badge.clock", chose: .attendance, selection: "attendance")
@@ -410,7 +420,7 @@ struct Choose: View {
             HStack(spacing: prop.isiPhoneS ? 6 : prop.isiPhoneM ? 8 : 10){
                 Image(systemName: image)
                     .font(.title)
-                Text(title)
+                Text(title.localizedLanguage(language: self.language))
                     .font(.custom("Bayon", size: 20, relativeTo: .title2))
             }
             .foregroundColor(Color("Blue"))
@@ -424,6 +434,7 @@ struct QrView: View {
     var studentQR: String
     var prop: Properties
     @Binding var showqr: Bool
+    var language: String
     var body: some View{
         Button {
             self.showqr = true
@@ -438,7 +449,7 @@ struct QrView: View {
                             .fill(.white)
                             .frame(width: 50, height: 50)
                     )
-                Text("បង្ហាញ QR CODE ទីនេះ!")
+                Text("បង្ហាញ QR CODE ទីនេះ!".localizedLanguage(language: self.language))
                     .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                     .foregroundColor(Color("bodyOrange"))
             }
@@ -458,7 +469,10 @@ struct QrView: View {
                     .frame(width: .infinity, height: .infinity)
                 VStack{
                     HStack{
-                        Text("\(stuName) QR Code")
+                        HStack(spacing: 0){
+                            Text(stuName)
+                            Text("'s QR Code".localizedLanguage(language: self.language))
+                        }
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
                             .foregroundColor(Color("bodyBlue"))
                         
@@ -473,7 +487,7 @@ struct QrView: View {
                     }
                     if studentQR.isEmpty{
                         HStack{
-                            Text("មិនមាន QR Code!")
+                            Text("មិនមាន QR Code!".localizedLanguage(language: self.language))
                                 .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                             Image(systemName: "qrcode.viewfinder")
                                 .font(.system(size: 20))
@@ -495,10 +509,10 @@ struct QrView: View {
                             .font(.system(size: 30))
                             .foregroundColor(Color("bodyBlue"))
                         VStack(alignment: .leading){
-                            Text("សម្គាល់")
+                            Text("សម្គាល់".localizedLanguage(language: self.language))
                                 .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                                 .foregroundColor(Color("bodyBlue"))
-                            Text("លោកអ្នកអាចស្កែនដើម្បីធ្វើការ Pickup កូន!")
+                            Text("លោកអ្នកអាចស្កែនដើម្បីធ្វើការ Pickup កូន!".localizedLanguage(language: self.language))
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                                 .foregroundColor(Color("bodyBlue"))
                         }
@@ -531,7 +545,7 @@ struct Grade_Previews: PreviewProvider {
     static var previews: some View {
         
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Grade(studentId: "", userProfileImg: "", Student: "", parentId: "", barTitle: "",studentID: "", prop: prop)
+        Grade(studentId: "", userProfileImg: "", Student: "", parentId: "", barTitle: "",studentID: "", language: "em", prop: prop)
     }
 }
 

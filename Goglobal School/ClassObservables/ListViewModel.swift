@@ -23,7 +23,7 @@ class ListViewModel: ObservableObject{
     
     var khmerYear: String{
         get {
-            academicYearName == "2023-2024" ? "២០២៣~២០២៤" : academicYearName == "2022-2023" ? "២០២២~២០២៣" : academicYearName == "2021-2022" ? "២០២១~២០២២" : "២០១៥~២០២២"
+            academicYearName == "2023-2024" ? "២០២៣~២០២៤" : academicYearName == "2022-2023" ? "២០២២~២០២៣" : academicYearName == "2021-2022" ? "២០២១~២០២២" : "២០២១~២០២២"
         }set{
             academicYearName = newValue
         }

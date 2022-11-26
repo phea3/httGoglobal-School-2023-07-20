@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FlashScreen: View {
     @State var animationFinished: Bool
+    var language: String
     var prop: Properties
     var body: some View {
         ZStack{
@@ -37,10 +38,10 @@ struct FlashScreen: View {
     }
     func footer(prop:Properties)-> some View{
         VStack(spacing:  prop.isiPhoneS ? 1 : prop.isiPhoneM ? 2 : prop.isiPhoneL ? 3 : 10){
-            Text("Power by:")
+            Text("បង្កើតដោយ:".localizedLanguage(language: self.language))
                 .font(.system( size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20))
                 .foregroundColor(Color("footerColor"))
-            Text("Go Global IT")
+            Text("ហ្គោគ្លូប៊លអាយធី".localizedLanguage(language: self.language))
                 .font(.system(size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22).bold())
                 .foregroundColor(Color("footerColor"))
             FooterImg(prop: prop)
@@ -52,6 +53,6 @@ struct FlashScreen: View {
 struct FlashScreen_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        FlashScreen(animationFinished: false, prop: prop)
+        FlashScreen(animationFinished: false, language: "em", prop: prop)
     }
 }

@@ -15,6 +15,7 @@ struct CustomDatePicker: View {
     @Binding var currentDate: Date
     var sectionShiftId: String
     var prop: Properties
+    var language: String
     var body: some View {
         VStack(spacing: 0){
             let days: [String] = ["អាទិត្យ","ចន្ទ","អង្គារ","ពុធ","ព្រហ","សុក្រ","សៅរ៍"]
@@ -112,7 +113,7 @@ struct CustomDatePicker: View {
             Image(systemName: "square.fill")
                 .font(.system(size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14))
                 .foregroundColor(color)
-            Text(text)
+            Text(text.localizedLanguage(language: self.language))
                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .callout).bold())
                 .foregroundColor(.gray)
         }

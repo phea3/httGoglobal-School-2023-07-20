@@ -18,19 +18,19 @@ struct Choosing: View {
     var classId: String
     var academicYearId: String
     var programId: String
-    var btnBack : some View { Button(action:{self.presentationMode.wrappedValue.dismiss()}) {backButtonView(prop: prop, barTitle: barTitle)}}
-    
+    var btnBack : some View { Button(action:{self.presentationMode.wrappedValue.dismiss()}) {backButtonView(language: self.language, prop: prop, barTitle: barTitle)}}
+    var language: String
     var body: some View {
         VStack(spacing: 0){
             Divider()
             TabView(selection: $chose){
-                Schedule(prop: prop,classId: classId, academicYearId: academicYearId, programId: programId)
+                Schedule(prop: prop,classId: classId, academicYearId: academicYearId, programId: programId, language: self.language)
                     .tag(Chose.attendance)
-                Attendant(studentId: studentId,classId: self.classId,academicYearId: self.academicYearId,programId: self.programId, prop: prop)
+                Attendant(studentId: studentId,classId: self.classId,academicYearId: self.academicYearId,programId: self.programId, prop: prop, language: self.language)
                     .tag(Chose.absence)
-                Payment(studentId: studentId, prop: prop)
+                Payment(studentId: studentId, prop: prop, language: self.language)
                     .tag(Chose.payment)
-                Babysitting(prop: prop, stuId: self.studentId)
+                Babysitting(prop: prop, language: self.language, stuId: self.studentId)
                     .tag(Chose.score)
             }
         }
@@ -45,6 +45,6 @@ struct Choosing: View {
 struct Choose_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Choosing(chose: .attendance, studentId: "", barTitle: "", prop: prop,classId: "",academicYearId: "",programId: "")
+        Choosing(chose: .attendance, studentId: "", barTitle: "", prop: prop,classId: "",academicYearId: "",programId: "", language: "em")
     }
 }

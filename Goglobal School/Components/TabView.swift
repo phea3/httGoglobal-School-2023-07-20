@@ -29,4 +29,14 @@ struct DateValue: Identifiable{
     var date: Date
 }
 
-
+extension String {
+    func localizedLanguage(language: String) -> String {
+        if let bundlePath = Bundle.main.path(forResource: language, ofType: "lproj") {
+            if let bundle = Bundle(path: bundlePath) {
+                return bundle.localizedString(forKey: self, value: self, table: nil)
+            }
+        }
+    
+        return self
+    }
+}

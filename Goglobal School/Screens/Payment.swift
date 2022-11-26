@@ -13,6 +13,7 @@ struct Payment: View {
     @State var currentProgress: CGFloat = 0
     var studentId: String
     var prop: Properties
+    var language: String
     var body: some View {
         VStack{
             if loadingScreen{
@@ -37,7 +38,7 @@ struct Payment: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     if let tasks = paymentmethod.paymentmethod{
                         if tasks.isEmpty{
-                            Text("មិនមានការទូទាត់ថ្លៃសិក្សា!!!")
+                            Text("មិនមានការទូទាត់ថ្លៃសិក្សា!!!".localizedLanguage(language: self.language))
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
                                 .fontWeight(.light)
                                 .offset(y: prop.isLandscape ? 100 :  300)
@@ -61,7 +62,7 @@ struct Payment: View {
                                                             .foregroundColor(.blue)
                                                             .fixedSize(horizontal: false, vertical: true)
                                                         Spacer()
-                                                        Text("\(task.countMonth) \(task.IncomeHead.Unit)")
+                                                        Text("\(task.countMonth) \(task.IncomeHead.Unit)".localizedLanguage(language: self.language))
                                                             .foregroundColor(.blue)
                                                         Spacer()
                                                         Text("$\(getExactPrice(price: task.Total ))")
@@ -85,16 +86,16 @@ struct Payment: View {
                                                         .foregroundColor(.blue)
                                                     Spacer()
                                                     if !payment.Month.isEmpty{
-                                                        Text("1 Month")
+                                                        Text("១ ខែ".localizedLanguage(language: self.language))
                                                            .foregroundColor(.blue)
                                                     } else if !payment.Quarter.isEmpty {
-                                                        Text("1 Quarter")
+                                                        Text("១ ត្រីមាស".localizedLanguage(language: self.language))
                                                             .foregroundColor(.blue)
                                                     } else if !payment.AcademicTermId.isEmpty {
-                                                        Text("1 Semester")
+                                                        Text("១ ឆមាស".localizedLanguage(language: self.language))
                                                             .foregroundColor(.blue)
                                                     } else {
-                                                        Text("1 Year")
+                                                        Text("១ ឆ្នាំ".localizedLanguage(language: self.language))
                                                             .foregroundColor(.blue)
                                                     }
                                                     Spacer()
@@ -118,8 +119,9 @@ struct Payment: View {
                                                                 .foregroundColor(.blue)
                                                                 .fixedSize(horizontal: false, vertical: true)
                                                             Spacer()
-                                                            Text("\(task.countMonth) \(task.IncomeHead.Unit)")
+                                                            Text("\(task.countMonth) \(task.IncomeHead.Unit)".localizedLanguage(language: self.language))
                                                                 .foregroundColor(.blue)
+                                                                
                                                             Spacer()
                                                             Text("$\(getExactPrice(price: task.Total ))")
                                                                 .foregroundColor(.red)
@@ -174,13 +176,13 @@ struct Payment: View {
     }
     func rowView(dater: String, pay: String, period: String, total: String)-> some View {
         HStack{
-            Text(dater)
+            Text(dater.localizedLanguage(language: self.language))
             Spacer()
-            Text(pay)
+            Text(pay.localizedLanguage(language: self.language))
             Spacer()
-            Text(period)
+            Text(period.localizedLanguage(language: self.language))
             Spacer()
-            Text(total)
+            Text(total.localizedLanguage(language: self.language))
         }
         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : 15, relativeTo: .body))
         .foregroundColor(.blue)
@@ -194,17 +196,17 @@ struct Payment: View {
         HStack{
             Image(systemName: "calendar.badge.clock")
                 .foregroundColor(.blue)
-            Text(dater)
+            Text(dater.localizedLanguage(language: self.language))
                 .foregroundColor(.blue)
             Spacer()
-            Text(pay)
+            Text(pay.localizedLanguage(language: self.language))
                 .foregroundColor(.blue)
                 .fixedSize(horizontal: false, vertical: true)
             Spacer()
-            Text(period)
+            Text(period.localizedLanguage(language: self.language))
                 .foregroundColor(.blue)
             Spacer()
-            Text(total)
+            Text(total.localizedLanguage(language: self.language))
                 .foregroundColor(.red)
         }
         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : 15, relativeTo: .body))
@@ -220,6 +222,6 @@ struct Payment: View {
 struct Payment_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Payment(studentId: "", prop: prop)
+        Payment(studentId: "", prop: prop, language: "em")
     }
 }

@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCalendarsUsageDescription</key>
-	<string></string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>សូមធ្វើការយល់ព្រមការ Scan</string>
 	<key> Entitlements File</key>
 	<dict>
 		<key>com.apple.developer.associated-domains</key>
@@ -15,10 +11,6 @@
 	</dict>
 	<key>AutoFill Credential Provider</key>
 	<true/>
-	<key>UILocalNotificationDefaultSoundName</key>
-	<array>
-		<string>notification.aiff</string>
-	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -32,10 +24,19 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSExtension</key>
+	<dict>
+		<key>ASCredentialProviderExtensionShowsConfigurationUl</key>
+		<true/>
+	</dict>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Bayon-Regular.ttf</string>
 		<string>Kantumruy-Regular.ttf</string>
+	</array>
+	<key>UILocalNotificationDefaultSoundName</key>
+	<array>
+		<string>notification.aiff</string>
 	</array>
 </dict>
 </plist>

@@ -1,0 +1,86 @@
+/* 
+  Localizable.strings
+  Goglobal School
+
+  Created by Luon Sokphea on 22/11/22.
+  
+*/
+
+"ទំព័រដើម" = "Dashboard";
+"មិនមានទិន្ន័យ!" = "No data!";
+"មិនមានកូន" = "No Children";
+"សូមព្យាយាមម្តងទៀត" = "Try again";
+"កំពុងភ្ជាប់" = "Connect";
+"ព្រឹត្តិការណ៍នាពេលខាងមុខ" = "Upcoming News";
+"ដំណឹងថ្មីៗ" = "News";
+"សូមរង់ចាំ" = "Wait";
+"មិនរកដំណឹងថ្មីៗបាន" = "Not Found News";
+"មិនអាចទាញទិន្ន័យបាន" = "Not Found Data";
+"យល់ព្រម" = "ok";
+"ឆ្នាំសិក្សា ២០២៣~២០២៤" = "Academic Year 2023-2024";
+"ឆ្នាំសិក្សា ២០២២~២០២៣" = "Academic Year 2022-2023";
+"ប្រតិទិនសិក្សា" = "Calendar";
+"គណនី" = "Profile";
+"គ្មានអ៉ីនធើណេត" = "No internet";
+"បុត្រធីតា" = "Children";
+"ថ្នាក់រៀន " = "Class of ";
+"QR កូដ" = "QR Code";
+"បង្ហាញ QR កូដ ទីនេះ!" = "Show QR code here";
+"មិនមាន QR កូដ!" = "No QR code";
+"សម្គាល់" = "Notice";
+"លោកអ្នកអាចស្កែនដើម្បីធ្វើការ Pickup កូន!" = "Please scan for picking up your kids!";
+"ជ្រើសរើស" = "Choose";
+"កាលវិភាគសិក្សា" = "Schedule";
+"វត្តមានសិស្ស" = "Attendant";
+"ប្រវត្តិបង់ថ្លៃសិក្សា" = "School Fee";
+"របាយការណ៍កុមារដ្ឋាន" = "EYFS Report";
+"មិនមានម៉ោងសិក្សា!!!" = "No Classes";
+"ម៉ោងចេញលេង" = "Break Time";
+"វត្តមាន" = "Present";
+"មកយឺត" = "Late";
+"សុំច្បាប់" = "Permission";
+"អវត្តមាន" = "Absent";
+"១ ខែ" = "1 Month";
+"១ ត្រីមាស" = "1 Quarter";
+"១ ឆមាស" = "1 Semester";
+"១ ឆ្នាំ" = "1 Year";
+"1 Month" = "1 Month";
+"10 Month" = "10 Months";
+"មិនមានការទូទាត់ថ្លៃសិក្សា!!!" = "No payments";
+"កាលបរិច្ឆេទ" = "Date";
+"បង់ថ្លៃ" = "Paid";
+"បរិយាយ" = "Period";
+"សរុប" = "Total";
+"បង្កើតដោយ:" = "Power by:";
+"ហ្គោគ្លូប៊លអាយធី" = "Go Global IT";
+"ផ្ញើ" = "Send";
+"សរសេរ" = "type";
+"កន្លែងបញ្ជូលមតិយោបល់" = "Comment Here";
+"Click ទីនេះដើម្បីចូលកន្លែងសរសេរមតិ" = "Click here for your commentation";
+"សូមមាតាបិតាជួយដាក់បន្ថែម " = "Please bring extra ";
+" ឱ្យកូន៖" = " for your kids";
+"សាប៊ូកក់សក់, សម្លៀកបំពាក់, កន្ទបទឹកនោម" = "hair shampoo, clothes, diaper";
+"សាប៊ូកក់សក់, សម្លៀកបំពាក់" = "hair shampoo, clothes";
+"សម្លៀកបំពាក់, កន្ទបទឹកនោម" = "clothes, diaper";
+"សាប៊ូកក់សក់, កន្ទបទឹកនោម" = "hair shampoo, diaper";
+"សាប៊ូកក់សក់" = "Hair shampoo";
+"សម្លៀកបំពាក់" = "Clothes";
+"កន្ទបទឹកនោម" = "Diaper";
+"ផ្នែកបញ្ចូលព៏ត៍មាន" = "info section";
+"Click ទីនេះដើម្បីចូលកន្លែងបញ្ជូលសុខភាពកូន" = "Click here for info the kids' condition";
+"ចាកចេញ" = "Logout";
+"អ៉ីម៉ែល" = "Email Address";
+"លេខទូរស័ព្ធ" = "Contact";
+"សញ្ជាតិ" = "Nationality";
+"តើអ្នកចង់ចាកចេញពីកម្មវិធីទេ?" = "Are you sure?";
+"មិនចាកចេញ" = "No";
+"រក្សាទុក" = "Save";
+"ឆ្នាំសិក្សា ២០២១~២០២២" = "Year 2021~2022";
+"ខែ កញ្ញា ឆ្នាំ ២០២២" = "september 2022";
+"ចូលប្រើកម្មវិធី" = "Login";
+"បញ្ជូលអ៉ីម៉ែល" = "email";
+"បញ្ជូលពាក្យសម្ងាត់" = "password";
+"ពាក្យសម្ងាត់" = "password";
+"គណនីរបស់លោកអ្នកមិនត្រឹមត្រូវទេ" = "Wrong gmail & password";
+"ចងចាំពាក្យសម្ងាត់?" = "remember me";
+"ភ្លេចពាក្យសម្ងាត់?" = "forgot password?";

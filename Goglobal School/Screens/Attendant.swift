@@ -19,6 +19,7 @@ struct Attendant: View {
     var academicYearId: String
     var programId: String
     var prop: Properties
+    var language: String
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
             if loadingScreen{
@@ -39,7 +40,7 @@ struct Attendant: View {
                    
             }else{
                 VStack(spacing: 0){
-                    CustomDatePicker(studentId: studentId, currentDate: $currentDate,sectionShiftId: AllClasses.id, prop: prop)
+                    CustomDatePicker(studentId: studentId, currentDate: $currentDate,sectionShiftId: AllClasses.id, prop: prop, language: self.language)
                         .padding(.bottom,prop.isiPhoneS ? 10 : prop.isiPhoneM ? 15 : prop.isiPhoneL ? 20 : 25)
                         .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
                 }
@@ -60,7 +61,7 @@ struct Attendant: View {
 struct Attendant_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Attendant(studentId: "",classId: "",academicYearId: "",programId: "", prop: prop)
+        Attendant(studentId: "",classId: "",academicYearId: "",programId: "", prop: prop, language: "em")
     }
 }
 

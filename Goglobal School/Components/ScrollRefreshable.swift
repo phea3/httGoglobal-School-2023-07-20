@@ -10,11 +10,11 @@ import SwiftUI
 struct ScrollRefreshable<Content: View>: View {
     var content: Content
     var attr = [NSAttributedString.Key.foregroundColor:UIColor.systemBlue]
-    init(title: String, tintColor: Color, @ViewBuilder content: @escaping ()-> Content){
+    init(langauge: String, title: String, tintColor: Color, @ViewBuilder content: @escaping ()-> Content){
         
         self.content = content()
        
-        UIRefreshControl.appearance().attributedTitle = NSAttributedString(string: title,attributes: attr)
+        UIRefreshControl.appearance().attributedTitle = NSAttributedString(string: title.localizedLanguage(language: langauge),attributes: attr)
         UIRefreshControl.appearance().tintColor = UIColor(tintColor)
         UITableView.appearance().showsVerticalScrollIndicator = false
     }
@@ -41,7 +41,6 @@ struct ScrollRefreshable<Content: View>: View {
             .listStyle(.plain)
             .listStyle(InsetGroupedListStyle())
         }
-        
     }
 }
 

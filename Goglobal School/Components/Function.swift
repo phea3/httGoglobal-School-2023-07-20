@@ -71,14 +71,14 @@ extension View{
             .resizable()
             .ignoresSafeArea()
     }
-    func toolbarView(prop:Properties, barTitle: String, profileImg: String)->some View {
+    func toolbarView(prop:Properties, barTitle: String, profileImg: String, language: String)->some View {
         self
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     HStack{
                         Image(systemName: "line.3.horizontal.decrease")
                             .padding(.bottom, prop.isiPhoneS ? 3 : prop.isiPhoneM ? 4 : prop.isiPhoneL ? 5 : 5)
-                        Text(barTitle)
+                        Text(barTitle.localizedLanguage(language: language))
                             .font(.custom("Bayon", size: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 :  prop.isiPhoneL ? 18 : 20, relativeTo: .largeTitle))
                     }
                     .foregroundColor(Color("Blue"))
@@ -176,28 +176,29 @@ extension View{
             .ignoresSafeArea()
             .frame(maxWidth: .infinity, maxHeight: prop.isLandscape ? 10 : 1)
     }
-    func btnBackView(prop:Properties, title: String)->some View {
+    func btnBackView(language: String,prop:Properties, title: String)->some View {
         HStack {
             Image(systemName: "line.3.horizontal.decrease") // set image here
                 .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 18, relativeTo: .largeTitle))
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.blue)
                 .padding(.bottom,prop.isiPhoneS ? 2 : prop.isiPhoneM ? 3 : prop.isiPhoneL ? 4 : 5)
-            Text(title)
+            Text(title.localizedLanguage(language: language))
                 .font(.custom("Bayon", size: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20, relativeTo: .body))
                 .foregroundColor(Color("Blue"))
         }
     }
-    func backButtonView(prop:Properties, barTitle: String) -> some View {
+    func backButtonView(language:String, prop:Properties, barTitle: String) -> some View {
         HStack {
             Image(systemName: "chevron.backward") // set image here
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(Color("Blue"))
-            Text(barTitle)
+            Text(barTitle.localizedLanguage(language: language))
+                .textCase(.lowercase)
                 .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20, relativeTo: .body))
         }
     }
-    func progressingView(prop:Properties) -> some View {
+    func progressingView(prop:Properties, language: String) -> some View {
         ZStack{
             Rectangle()
                 .fill(.white)
@@ -207,7 +208,7 @@ extension View{
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                     .scaleEffect(prop.isiPhoneS ? 1 : prop.isiPhoneM ? 1: prop.isiPhoneL ? 1 : 1)
-                Text("កំពុងភ្ជាប់")
+                Text("កំពុងភ្ជាប់".localizedLanguage(language: language))
                     .foregroundColor(.blue)
             }
         }

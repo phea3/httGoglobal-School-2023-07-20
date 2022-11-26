@@ -28,13 +28,15 @@ struct CalendarWeekListViewModel: View {
     @State private var selectDate = Self.now
     var prop: Properties
     var stuId: String
-    init(calendar: Calendar, prop: Properties, stuId: String){
+    var language: String
+    init(calendar: Calendar, prop: Properties, stuId: String, language: String){
         self.calendar = calendar
         self.monthDayFormatter = DateFormatter(dateFormat: "EEEE, d MMM yyyy", calendar: calendar)
         self.dayFormatter = DateFormatter(dateFormat: "d", calendar: calendar)
         self.weekDayFormatter = DateFormatter(dateFormat: "E", calendar: calendar)
         self.prop = prop
         self.stuId = stuId
+        self.language = language
     }
    
     var body: some View {
@@ -59,43 +61,68 @@ struct CalendarWeekListViewModel: View {
                                     taskData.currentDay = date
                                 }
                             }){
-                                Text("00")
-                                    .font(.system(size: 13))
-                                    .padding(10)
-                                    .foregroundColor(.clear)
+                                VStack{
+                                    Text("00")
+                                        .font(.system(size: 15))
+                                        .foregroundColor(.clear)
+                                    Text("00")
+                                        .font(.system(size: 15))
+                                        .foregroundColor(.clear)
+                                }
+                                .padding(12)
                                     .overlay(
                                         Circle()
-                                            .fill(Color(weekDayFormatter.string(from: date)))
-                                            .foregroundColor(.black)
+//                                            .fill(Color(weekDayFormatter.string(from: date)))
+                                            .fill(.blue)
+                                            .foregroundColor(.white)
                                             .opacity(calendar.isDate(date, inSameDayAs: selectDate) ? 1:0)
                                     )
                                     .overlay(
-                                        Text(dayFormatter.string(from: date))
-                                            .fontWeight(.bold)
-                                            .foregroundColor(
-                                                calendar.isDate(date, inSameDayAs: selectDate) ? .white : calendar.isDateInToday(date) ? .blue : .black
-                                            )
+                                        VStack{
+                                            Text(weekDayFormatter.string(from: date))
+                                                .fontWeight(.bold)
+                                                .font(.system(size: 13))
+        //                                        .foregroundColor(
+        //                                            Color(weekDayFormatter.string(from: date))
+        //                                        )
+                                                .foregroundColor(
+                                                    calendar.isDate(date, inSameDayAs: selectDate) ? .white : calendar.isDateInToday(date) ? .blue : .black
+                                                )
+                                            
+                                            Text(dayFormatter.string(from: date))
+                                                .fontWeight(.bold)
+                                                .font(.system(size: 15))
+    //                                            .foregroundColor(
+    //                                                calendar.isDate(date, inSameDayAs: selectDate) ? .white : calendar.isDateInToday(date) ? .blue : .black
+    //                                            )
+                                                .foregroundColor(
+                                                    calendar.isDate(date, inSameDayAs: selectDate) ? .white : calendar.isDateInToday(date) ? .blue : .black
+                                                )
+                                          
+                                        }
                                     )
                                 
                                     .overlay(
                                         Circle()
-                                            .stroke(Color(weekDayFormatter.string(from: date)), lineWidth: 1)
+//                                            .stroke(Color(weekDayFormatter.string(from: date)), lineWidth: 1)
+                                            .stroke(.blue, lineWidth: 1)
                                             .opacity(calendar.isDate(date, inSameDayAs: selectDate) ? 0:1)
                                     )
                             }
                         }, header: { date in
                             Text("00")
                                 .font(.system(size: 13))
-                                .padding(10)
+//                                .padding(10)
                                 .foregroundColor(.clear)
-                                .overlay(
-                                    Text(weekDayFormatter.string(from: date))
-                                        .fontWeight(.bold)
-                                        .font(.system(size: 15))
-                                        .foregroundColor(
-                                            Color(weekDayFormatter.string(from: date))
-                                        )
-                                )
+//                                .overlay(
+//                                    Text(weekDayFormatter.string(from: date))
+//                                        .fontWeight(.bold)
+//                                        .font(.system(size: 15))
+//                                        .foregroundColor(
+//                                            Color(weekDayFormatter.string(from: date))
+//                                        )
+//                                        .foregroundColor(.blue)
+//                                )
                             
                         }, title: { date in
                             HStack{
@@ -136,9 +163,7 @@ struct CalendarWeekListViewModel: View {
                         }
                     )
                     ScrollView(.vertical, showsIndicators: false) {
-                        
                         VStack(spacing: 0){
-                           
                             ReportView()
                                 .padding(.bottom, 60)
                             
@@ -199,10 +224,10 @@ struct CalendarWeekListViewModel: View {
         LazyVStack{
             if let tasks = taskData.filteredTasks{
                 if tasks.isEmpty{
-                    Text("មិនមានទិន្នន័យ!!!")
+                    Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
                         .fontWeight(.light)
-                        .offset(y: prop.isLandscape ? 100 :  300)
+                        .padding()
                 } else {
                     ForEach(tasks, id: \.Id){ task in
                         taskView(task: task)
@@ -223,7 +248,7 @@ struct CalendarWeekListViewModel: View {
             VStack{
                 titleView(title: "អាហារ/Food")
                 if task.Activity.isEmpty{
-                    Text("មិនមានទិន្នន័យ!!!")
+                    Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
                         .fontWeight(.light)
                 } else {
@@ -238,10 +263,10 @@ struct CalendarWeekListViewModel: View {
             }
            
             VStack{
-                titleView(title: "សកម្មភាព")
+                titleView(title: "សកម្មភាព/Activity")
                 
                 if task.Activity.isEmpty{
-                    Text("មិនមានទិន្នន័យ!!!")
+                    Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
                         .fontWeight(.light)
                 } else {
@@ -295,7 +320,7 @@ struct CalendarWeekListViewModel: View {
                     Image("nurse")
                         .resizable()
                         .frame(width: 50, height: 50)
-                    Text("មតិពេទ្យ: \(task.NureComment)")
+                    Text("មតិពេទ្យ/nurse's comment: \(task.NureComment)")
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                         .foregroundColor(Color("bodyOrange"))
                 }
@@ -305,21 +330,26 @@ struct CalendarWeekListViewModel: View {
                 .cornerRadius(15)
             }
             VStack{
-                HStack{
-                    Text("សូមមាតាបិតាជួយដាក់បន្ថែម \(task.ParentsRequest.map{$0!}.joined(separator:", "))ឱ្យកូន៖")
+                HStack(spacing: 0){
+                    if self.language == "km" {
+                        Text("សូមមាតាបិតាជួយដាក់បន្ថែម \(task.ParentsRequest.map{$0!}.joined(separator:", ")) ឱ្យកូន៖".localizedLanguage(language: self.language))
+                    }else{
+                        Text("\("សូមមាតាបិតាជួយដាក់បន្ថែម ".localizedLanguage(language:self.language))\("\(task.ParentsRequest.map{$0!}.joined(separator:", "))".localizedLanguage(language: self.language))\(" ឱ្យកូន៖".localizedLanguage(language: self.language))")
+                    }
+                   
                 }
                 .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
                 .foregroundColor(Color("Blue"))
                 .padding(.top)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                
+                .opacity(task.ParentsRequest.isEmpty ? 0:1)
                 VStack(alignment:.leading){
                     ForEach(task.ParentsRequest, id: \.self){ img in
                         HStack(spacing: 20){
                             Image(img ?? "")
                                 .resizable()
                                 .frame(width: 50, height: 50)
-                            Text(img ?? "")
+                            Text((img ?? "").localizedLanguage(language: self.language))
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14))
                                 .foregroundColor(Color("bodyOrange"))
                         }
@@ -369,7 +399,7 @@ struct CalendarWeekListViewModel: View {
                         .resizable()
                         .frame(width: 50, height: 50)
                   
-                    Text("មតិមាតាបិតា: \(parentAlertCommentResult.isEmpty ? task.ParentsComment : parentAlertCommentResult )")
+                    Text("មតិមាតាបិតា/Parents' comments: \(parentAlertCommentResult.isEmpty ? task.ParentsComment : parentAlertCommentResult )")
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                             .foregroundColor(Color("bodyBlue"))
                 }
@@ -381,14 +411,14 @@ struct CalendarWeekListViewModel: View {
                
             }
             
-            titleView(title: "ផ្នែកបញ្ចូលព៏ត៍មាន")
+            titleView(title: "ផ្នែកបញ្ចូលព៏ត៍មាន".localizedLanguage(language: self.language))
             
             VStack{
                 HStack{
                     Button {
                         self.parentAlert = true
                     } label: {
-                        Text("Click ទីនេះដើម្បីចូលកន្លែងបញ្ជូលសុខភាពកូន")
+                        Text("Click ទីនេះដើម្បីចូលកន្លែងបញ្ជូលសុខភាពកូន".localizedLanguage(language: self.language))
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                             .padding(10)
                             .foregroundColor(.white)
@@ -396,9 +426,9 @@ struct CalendarWeekListViewModel: View {
                             .background(Color("bodyOrange"))
                             .cornerRadius(10)
                     }
-                    .alert("កន្លែងបញ្ជូលមតិយោបល់", isPresented: $parentAlert, actions: {
+                    .alert("កន្លែងបញ្ជូលមតិយោបល់".localizedLanguage(language: self.language), isPresented: $parentAlert, actions: {
                         // Any view other than Button would be ignored
-                            TextField("សរសេរ", text: $parentComment)
+                        TextField("សរសេរ".localizedLanguage(language: self.language), text: $parentComment)
                     })
                     
                     Button(action:
@@ -424,7 +454,7 @@ struct CalendarWeekListViewModel: View {
                 Button {
                     self.parentAlertComment = true
                 } label: {
-                    Text("Click ទីនេះដើម្បីចូលកន្លែងសរសេរមតិ")
+                    Text("Click ទីនេះដើម្បីចូលកន្លែងសរសេរមតិ".localizedLanguage(language: self.language))
                         .font(.custom("kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                         .padding(10)
                         .foregroundColor(.white)
@@ -432,9 +462,9 @@ struct CalendarWeekListViewModel: View {
                         .background(Color("bodyOrange"))
                         .cornerRadius(10)
                 }
-                .alert("កន្លែងបញ្ជូលមតិយោបល់", isPresented: $parentAlertComment, actions: {
+                .alert("កន្លែងបញ្ជូលមតិយោបល់".localizedLanguage(language: self.language), isPresented: $parentAlertComment, actions: {
                     // Any view other than Button would be ignored
-                    TextField("សរសេរ", text: $parentAlertCommentResult)
+                    TextField("សរសេរ".localizedLanguage(language: self.language), text: $parentAlertCommentResult)
                 })
                 
                 Button {
@@ -443,7 +473,7 @@ struct CalendarWeekListViewModel: View {
                         updateReport.clearCache()
                     }
                 } label: {
-                    Text("រក្សាទុក")
+                    Text("ផ្ញើ".localizedLanguage(language: self.language))
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18, relativeTo: .body))
                         .padding(10)
                         .frame(maxWidth:.infinity)
@@ -573,7 +603,7 @@ struct CalendarWeekListViewModel: View {
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                         .listRowBackground(Color.yellow)
                         .foregroundColor(Color(index % 2 == 0 ?"bodyOrange":"bodyBlue"))
-                    Text("ចំនួនដង/Times: \(count) ")
+                    Text("ចំនួនដង/Times: \(count)")
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                         .listRowBackground(Color.yellow)
                         .foregroundColor(Color(index % 2 == 0 ?"bodyOrange":"bodyBlue"))
@@ -612,7 +642,7 @@ struct CalendarWeekListViewModel: View {
 struct CalendarWeekListViewModel_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        CalendarWeekListViewModel(calendar: Calendar(identifier: .gregorian), prop: prop, stuId: "")
+        CalendarWeekListViewModel(calendar: Calendar(identifier: .gregorian), prop: prop, stuId: "", language: "km")
     }
 }
 
@@ -653,13 +683,12 @@ struct CalendarWeekListView <Day: View, Header: View, Title: View,  WeekSwitcher
             }
             .padding(.horizontal)
             
-            HStack(spacing: prop.isiPhoneS ?  12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18){
+            HStack(spacing: prop.isiPhoneS ?  6 : prop.isiPhoneM ? 8 : prop.isiPhoneL ? 10 : 12){
                 ForEach(days, id: \.self){ date in
                     content(date)
                 }
             }
-            
-            HStack(spacing: prop.isiPhoneS ?  12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18 ){
+            HStack(spacing: prop.isiPhoneS ?  6 : prop.isiPhoneM ? 8 : prop.isiPhoneL ? 10 : 12 ){
                 ForEach(days.prefix(daysInWeek), id: \.self, content: header)
             }
             

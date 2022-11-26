@@ -45,7 +45,8 @@ struct Profile: View {
     let gradient = Color("BG")
     var prop: Properties
     var devicetoken: String
-    var btnBack : some View { btnBackView(prop: prop, title: "គណនី").opacity(showImage || showingBG ? 0:1)}
+    var language: String
+    var btnBack : some View { btnBackView(language: self.language, prop: prop, title: "គណនី").opacity(showImage || showingBG ? 0:1)}
     
     var body: some View {
         NavigationView{
@@ -55,9 +56,9 @@ struct Profile: View {
                         if userProfile.userID.isEmpty{
                             ZStack{
                                 if viewLoading{
-                                    progressingView(prop: prop)
+                                    progressingView(prop: prop, language: self.language)
                                 }else{
-                                    Text("មិនមានទិន្ន័យ!")
+                                    Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
                                         .foregroundColor(.blue)
                                 }
                             }
@@ -68,17 +69,17 @@ struct Profile: View {
                                 }
                             }
                         }else if userProfile.Error{
-                            Text("សូមព្យាយាមម្តងទៀត")
+                            Text("សូមព្យាយាមម្តងទៀត".localizedLanguage(language: self.language))
                                 .foregroundColor(.blue)
                         }else{
                             Divider()
                                 .opacity(hidingDivider ? 0:1)
                             if refreshing {
                                 Spacer()
-                                progressingView(prop: prop)
+                                progressingView(prop: prop, language: self.language)
                                 Spacer()
                             }else{
-                                ScrollRefreshable(title: "កំពុងភ្ជាប់", tintColor: .blue){
+                                ScrollRefreshable(langauge: self.language, title: "កំពុងភ្ជាប់", tintColor: .blue){
                                     ScrollView(.vertical, showsIndicators: false){
                                         ZStack{
                                             mainView()
@@ -130,7 +131,7 @@ struct Profile: View {
                         })
                     }
                     if logoutLoading{
-                        progressingView(prop: prop)
+                        progressingView(prop: prop, language: self.language)
                     }
                     if showingBG{
                         VStack {
@@ -257,16 +258,16 @@ struct Profile: View {
                 rectangleBetweenButtonSave()
             }
             VStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                ViewlistBelowProfileImg(Title: "Email Address", Description: userProfile.gmail)
+                ViewlistBelowProfileImg(Title: "អ៉ីម៉ែល", Description: userProfile.gmail)
                 Divider()
-                ViewlistBelowProfileImg(Title: "Contact", Description: logout.userTel)
+                ViewlistBelowProfileImg(Title: "លេខទូរស័ព្ធ", Description: logout.userTel)
                 Divider()
-                ViewlistBelowProfileImg(Title: "Nationality", Description: logout.userNationality)
+                ViewlistBelowProfileImg(Title: "សញ្ជាតិ", Description: logout.userNationality)
                 Divider()
                 Button {
                     self.showingAlert = true
                 } label: {
-                    Text("ចាកចេញ")
+                    Text("ចាកចេញ".localizedLanguage(language: self.language))
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .largeTitle))
                         .fontWeight(.bold)
                         .foregroundColor(.white)
@@ -278,8 +279,8 @@ struct Profile: View {
               
                 .alert(isPresented:$showingAlert) {
                     Alert(
-                        title: Text("តើអ្នកចង់ចាកចេញពីកម្មវិធីទេ?"),
-                        primaryButton: .destructive(Text("ចាកចេញ")) {
+                        title: Text("តើអ្នកចង់ចាកចេញពីកម្មវិធីទេ?".localizedLanguage(language: self.language)),
+                        primaryButton: .destructive(Text("ចាកចេញ".localizedLanguage(language: self.language))) {
                             self.logoutLoading = true
                             DeviceUserLogOut.MobileUserLogOut(mobileUserId: logout.userprofileId, token: devicetoken)
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
@@ -298,7 +299,7 @@ struct Profile: View {
                             UserDefaults.standard.removeObject(forKey: "Password")
                             UserDefaults.standard.removeObject(forKey: "isAuthenticated")
                         },
-                        secondaryButton: .cancel(Text("មិនចាកចេញ"))
+                        secondaryButton: .cancel(Text("មិនចាកចេញ".localizedLanguage(language: self.language)))
                     )
                 }
             }
@@ -483,7 +484,7 @@ struct Profile: View {
                     .background(Color("LightBlue"))
                     .cornerRadius(5)
             }else{
-                Text("Save")
+                Text("រក្សាទុក".localizedLanguage(language: self.language))
                     .font(.system(size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20))
                     .frame(width: 150, height: 30)
                     .background(Color("LightBlue"))
@@ -494,9 +495,9 @@ struct Profile: View {
     private func generateBoundary() -> String {
         return "Boundary-\(NSUUID().uuidString)"
     }
-    private func ViewlistBelowProfileImg(Title: String,Description: String)->some View{
+    private func ViewlistBelowProfileImg(Title: String, Description: String)->some View{
         HStack{
-            Text(Title)
+            Text(Title.localizedLanguage(language: self.language))
                 .font(.system(size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14))
                 .foregroundColor(.gray)
             Spacer()
@@ -521,7 +522,7 @@ struct Profile: View {
 struct Profile_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Profile(logout: LoginViewModel(), uploadImg: UpdateMobileUserProfileImg(), Loading: .constant(false), hideTab: .constant(false), checkState: .constant(false), prop: prop, devicetoken: "")
+        Profile(logout: LoginViewModel(), uploadImg: UpdateMobileUserProfileImg(), Loading: .constant(false), hideTab: .constant(false), checkState: .constant(false), prop: prop, devicetoken: "", language: "em")
     }
 }
 

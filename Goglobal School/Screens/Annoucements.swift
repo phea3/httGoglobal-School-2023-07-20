@@ -14,6 +14,7 @@ struct Annoucements: View {
     @State var showViewer: Bool = false
     @State var imgUrl: String = ""
     @Binding var postId: String
+    var language: String
     @StateObject var DetailAnnoucementList: AnnouncementViewModel = AnnouncementViewModel()
     
     var body: some View {
@@ -149,6 +150,6 @@ struct Annoucements: View {
 struct Annoucements_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Annoucements(prop: prop, postId: .constant(""))
+        Annoucements(prop: prop, postId: .constant(""), language: "em")
     }
 }
