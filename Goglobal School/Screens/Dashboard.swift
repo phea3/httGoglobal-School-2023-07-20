@@ -13,6 +13,7 @@ struct Dashboard: View {
     @StateObject var academiclist: ListViewModel = ListViewModel()
     @StateObject var AnnoucementList: AnnouncementViewModel = AnnouncementViewModel()
     @StateObject var deleteBadge: DeleteNotificationByMobileUserIdViewModel = DeleteNotificationByMobileUserIdViewModel()
+    
     @State var colorBlue: String = "LightBlue"
     @State var colorOrg: String = "LightOrange"
     @State var ImageStudent: String = ""
@@ -36,7 +37,6 @@ struct Dashboard: View {
     var mobileUserId: String
     var language: String
     var body: some View {
-        
         NavigationView {
             VStack(spacing:0){
                 if students.AllStudents.isEmpty && AnnoucementList.Annouces.isEmpty && academiclist.academicYear.isEmpty {

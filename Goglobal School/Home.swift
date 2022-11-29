@@ -51,7 +51,6 @@ struct Home: View {
         }
     @FocusState private var focusedField: Field?
     var body: some View {
-        
         // MARK: Resposive App
         ResponsiveView { prop in
             // Login process
