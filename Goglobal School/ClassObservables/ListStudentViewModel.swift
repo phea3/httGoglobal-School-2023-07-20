@@ -49,6 +49,9 @@ struct StudentsViewModel {
     var Lastname: String{
         student?.lastName ?? ""
     }
+    var EnglishName: String {
+        student?.englishName ?? ""
+    }
     var profileImage: String {
         student?.profileImg  ?? ""
     }

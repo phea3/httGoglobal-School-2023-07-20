@@ -25,7 +25,7 @@ class MobileUserViewModel: ObservableObject{
                 }
                 if let userProfileImg = graphQLResult.data?.getMobileUserById?.profileImage{
                     DispatchQueue.main.async {
-                        self?.userProfileImg = userProfileImg
+                        self?.userProfileImg = "https://storage.go-globalschool.com/api\(userProfileImg)"
                     }
                 }
                 if let email = graphQLResult.data?.getMobileUserById?.email{

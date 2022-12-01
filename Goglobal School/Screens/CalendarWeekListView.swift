@@ -18,6 +18,8 @@ struct CalendarWeekListViewModel: View {
     @State var parentAlert = false
     @State var parentAlertComment = false
     @State var parentAlertCommentResult = ""
+    @State var reloadingFoodImg: Bool = false
+    @State var reloadingActionImg: Bool = false
     @State private var items = ""
     @Namespace var animation
     private let calendar: Calendar
@@ -202,7 +204,7 @@ struct CalendarWeekListViewModel: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0){
                     taskData.filterTodayTasks()
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                     self.loadingScreen = false
                 }
             }
@@ -418,7 +420,7 @@ struct CalendarWeekListViewModel: View {
                     Button {
                         self.parentAlert = true
                     } label: {
-                        Text("Click ទីនេះដើម្បីចូលកន្លែងបញ្ជូលសុខភាពកូន".localizedLanguage(language: self.language))
+                        Text("Click ទីនេះដើម្បីចូលកន្លែងបញ្ចូលសុខភាពកូន".localizedLanguage(language: self.language))
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                             .padding(10)
                             .foregroundColor(.white)
@@ -462,7 +464,7 @@ struct CalendarWeekListViewModel: View {
                         .background(Color("bodyOrange"))
                         .cornerRadius(10)
                 }
-                .alert("កន្លែងបញ្ជូលមតិយោបល់".localizedLanguage(language: self.language), isPresented: $parentAlertComment, actions: {
+                .alert("កន្លែងបញ្ចូលមតិយោបល់".localizedLanguage(language: self.language), isPresented: $parentAlertComment, actions: {
                     // Any view other than Button would be ignored
                     TextField("សរសេរ".localizedLanguage(language: self.language), text: $parentAlertCommentResult)
                 })
@@ -504,39 +506,52 @@ struct CalendarWeekListViewModel: View {
     func tasks(imageURL: String, title: String, body: String, index: Int, count: Int, description: String) -> some View {
         HStack{
             HStack(spacing: 20){
-                AsyncImage(url: URL(string: imageURL)) { phase in
-                    switch phase {
-                    case .empty:
-                        ProgressView()
-                            .frame(width: 50, height: 50)
-                           
-                    case .success(let image):
-                        image.resizable()
-                            .clipShape(Circle())
-                            .frame(width: 50, height: 50)
-                            .onAppear{
-                                self.loadingScreen = false
+                if reloadingFoodImg{
+                    ProgressView()
+                        .onAppear{
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                                self.reloadingFoodImg = false
                             }
-                    case .failure:
-                        Image(systemName: "photo")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .background(
-                                Circle()
-                                    .fill(.white)
-                                    .frame(width: 45 , height: 45)
-                            )
-                            .onAppear{
-                                self.loadingScreen = false
-                            }
-                    @unknown default:
-                        // Since the AsyncImagePhase enum isn't frozen,
-                        // we need to add this currently unused fallback
-                        // to handle any new cases that might be added
-                        // in the future:
-                        EmptyView()
+                        }
+                } else {
+                    AsyncImage(url: URL(string: imageURL)) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(width: 50, height: 50)
+                               
+                        case .success(let image):
+                            image.resizable()
+                                .clipShape(Circle())
+                                .frame(width: 50, height: 50)
+                                .onAppear{
+                                    self.loadingScreen = false
+                                }
+                        case .failure:
+                            Image(systemName: "photo")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .background(
+                                    Circle()
+                                        .fill(.white)
+                                        .frame(width: 45 , height: 45)
+                                )
+                                .onAppear{
+                                    self.loadingScreen = false
+                                    if !imageURL.isEmpty{
+                                        self.reloadingFoodImg = true
+                                    }
+                                }
+                        @unknown default:
+                            // Since the AsyncImagePhase enum isn't frozen,
+                            // we need to add this currently unused fallback
+                            // to handle any new cases that might be added
+                            // in the future:
+                            EmptyView()
+                        }
                     }
                 }
+              
                 VStack(alignment:.leading){
                        
                     Text(body)
@@ -564,39 +579,53 @@ struct CalendarWeekListViewModel: View {
     func tasksAction(imageURL: String, title: String, body: String, index: Int, count: Int, description: String) -> some View {
         HStack{
             HStack(spacing: 20){
-                AsyncImage(url: URL(string: imageURL)) { phase in
-                    switch phase {
-                    case .empty:
-                        ProgressView()
-                            .frame(width: 50, height: 50)
-                           
-                    case .success(let image):
-                        image.resizable()
-                            .clipShape(Circle())
-                            .frame(width: 50, height: 50)
-                            .onAppear{
-                                self.loadingScreen = false
+                if reloadingActionImg{
+                    ProgressView()
+                        .onAppear{
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                                self.reloadingActionImg = false
                             }
-                    case .failure:
-                        Image(systemName: "photo")
-                            .resizable()
-                            .frame(width: 30, height: 30)
-                            .background(
-                                Circle()
-                                    .fill(.white)
-                                    .frame(width: 45 , height: 45)
-                            )
-                            .onAppear{
-                                self.loadingScreen = false
-                            }
-                    @unknown default:
-                        // Since the AsyncImagePhase enum isn't frozen,
-                        // we need to add this currently unused fallback
-                        // to handle any new cases that might be added
-                        // in the future:
-                        EmptyView()
+                        }
+                }else{
+                    AsyncImage(url: URL(string: imageURL)) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(width: 50, height: 50)
+                               
+                        case .success(let image):
+                            image.resizable()
+                                .clipShape(Circle())
+                                .frame(width: 50, height: 50)
+                                .onAppear{
+                                    self.loadingScreen = false
+                                }
+                        case .failure:
+                            Image(systemName: "photo")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .background(
+                                    Circle()
+                                        .fill(.white)
+                                        .frame(width: 45 , height: 45)
+                                )
+                                .onAppear{
+                                    self.loadingScreen = false
+                                    if !imageURL.isEmpty{
+                                        self.reloadingActionImg = true
+                                    }
+                                   
+                                }
+                        @unknown default:
+                            // Since the AsyncImagePhase enum isn't frozen,
+                            // we need to add this currently unused fallback
+                            // to handle any new cases that might be added
+                            // in the future:
+                            EmptyView()
+                        }
                     }
                 }
+               
                 VStack(alignment:.leading){
 
                     Text(body)

@@ -108,7 +108,7 @@ struct CalendarViewModel: View {
             .foregroundColor(Color("ColorTitle"))
             .hLeading()
             ForEach(Array(academiclist.sortedAcademicYear.enumerated()), id: \.element.code){ index,academic in
-                datingEditer(inputCode: academic.date,inputAnotherDate: academic.enddate, EventName: academic.eventnameKhmer, index: index)
+                datingEditer(inputCode: academic.date,inputAnotherDate: academic.enddate, EventName: academic.eventnameKhmer, index: index, Englishname: academic.eventname)
                
             }
         }
@@ -119,7 +119,26 @@ struct CalendarViewModel: View {
             self.refreshing = false
         }
     }
-    func datingEditer(inputCode: String, inputAnotherDate: String, EventName: String, index: Int) -> some View {
+    func datingEditer(inputCode: String, inputAnotherDate: String, EventName: String, index: Int, Englishname: String) -> some View {
+        language == "en" ?
+        ForEach(Array(academiclist.convertDateFormatToEnglish(inputDate: inputCode,inputAnotherDate: inputAnotherDate).enumerated()), id: \.element.self){ dex, id in
+            HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                graduatedLogo()
+                VStack(alignment: .leading){
+                   Text(id)
+                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
+                        .listRowBackground(Color.yellow)
+                    Text(Englishname)
+                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
+                        .listRowBackground(Color.yellow)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            .foregroundColor(((index % 2 == 0) == (dex % 2 == 0)) ? Color("bodyOrange") : Color("bodyBlue") )
+            .setBackgroundRow(color: ((index % 2 == 0) == (dex % 2 == 0)) ? colorOrg : colorBlue, prop: prop)
+        }
+        
+        :
         ForEach(Array(academiclist.convertDateFormat(inputDate: inputCode,inputAnotherDate: inputAnotherDate).enumerated()), id: \.element.self){ dex, id in
             HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
                 graduatedLogo()

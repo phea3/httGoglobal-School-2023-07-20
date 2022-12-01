@@ -29,6 +29,7 @@ struct Grade: View {
     @State var showqr: Bool = false
     let gradient = Color("BG")
     let Student: String
+    let StudentEnglishName: String
     var parentId: String
     var barTitle: String
     var studentID: String
@@ -65,9 +66,9 @@ struct Grade: View {
                 VStack(spacing: 20){
                     List{
                         HStack{
-                            Text("ថ្នាក់រៀន ".localizedLanguage(language: self.language))
+                            Text("ថ្នាក់រៀន".localizedLanguage(language: self.language))
                                 .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
-                            Text(Student)
+                            Text(language == "en" ? StudentEnglishName : Student)
                                 .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
                             Rectangle()
                                 .frame(maxHeight: 1)
@@ -96,11 +97,11 @@ struct Grade: View {
                         .frame(width: .infinity, height: .infinity, alignment: .leading)
                         .backgroundRemover()
                         if #available(iOS 16.0, *) {
-                            QRView(stuName: Student, studentQR: studentqr.studentId, prop: prop, language: self.language, showqr: $showqr)
+                            QRView(stuName: Student, stuEngName: StudentEnglishName, studentQR: studentqr.studentId, prop: prop, language: self.language, showqr: $showqr)
                                 .backgroundRemover()
                         } else {
                             // Fallback on earlier versions
-                            QrView(stuName: Student, studentQR: studentqr.studentId, prop: prop, showqr: $showqr, language: self.language)
+                            QrView(stuName: Student, stuEngName: StudentEnglishName, studentQR: studentqr.studentId, prop: prop, showqr: $showqr, language: self.language)
                                 .backgroundRemover()
                         }
                     }
@@ -176,6 +177,7 @@ struct QRView: View {
     @State var selectedDetent: PresentationDetent = .medium
     @State var detents: Set<PresentationDetent> = [.large, .medium]
     var stuName: String
+    let stuEngName: String
     var studentQR: String
     var prop: Properties
     var language: String
@@ -209,7 +211,7 @@ struct QRView: View {
                 VStack{
                     HStack{
                         HStack(spacing: 0) {
-                            Text(stuName)
+                            Text(language == "en" ? stuEngName : stuName)
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
                                 .foregroundColor(Color("bodyBlue"))
                             Text("'s QR Code")
@@ -431,6 +433,7 @@ struct QrView: View {
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()
     var stuName: String
+    let stuEngName: String
     var studentQR: String
     var prop: Properties
     @Binding var showqr: Bool
@@ -470,7 +473,7 @@ struct QrView: View {
                 VStack{
                     HStack{
                         HStack(spacing: 0){
-                            Text(stuName)
+                            Text(language == "en" ? stuEngName : stuName)
                             Text("'s QR Code".localizedLanguage(language: self.language))
                         }
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
@@ -545,7 +548,7 @@ struct Grade_Previews: PreviewProvider {
     static var previews: some View {
         
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Grade(studentId: "", userProfileImg: "", Student: "", parentId: "", barTitle: "",studentID: "", language: "em", prop: prop)
+        Grade(studentId: "", userProfileImg: "", Student: "", StudentEnglishName: "", parentId: "", barTitle: "",studentID: "", language: "em", prop: prop)
     }
 }
 

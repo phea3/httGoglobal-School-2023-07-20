@@ -14,6 +14,8 @@ struct Dashboard: View {
     @StateObject var AnnoucementList: AnnouncementViewModel = AnnouncementViewModel()
     @StateObject var deleteBadge: DeleteNotificationByMobileUserIdViewModel = DeleteNotificationByMobileUserIdViewModel()
     
+    @State private var reloadingImg: Bool = false
+    @State private var reloadingAnn: Bool = false
     @State var colorBlue: String = "LightBlue"
     @State var colorOrg: String = "LightOrange"
     @State var ImageStudent: String = ""
@@ -37,6 +39,7 @@ struct Dashboard: View {
     var mobileUserId: String
     var language: String
     var body: some View {
+        
         NavigationView {
             VStack(spacing:0){
                 if students.AllStudents.isEmpty && AnnoucementList.Annouces.isEmpty && academiclist.academicYear.isEmpty {
@@ -55,7 +58,7 @@ struct Dashboard: View {
                         }
                     }
                 }else if students.Error{
-                Text("សូមព្យាយាមម្តងទៀត".localizedLanguage(language: self.language))
+                    Text("សូមព្យាយាមម្តងទៀត".localizedLanguage(language: self.language))
                         .foregroundColor(.blue)
                 }else{
                     Divider()
@@ -66,37 +69,40 @@ struct Dashboard: View {
                         Spacer()
                     }
                     else{
-                        ScrollRefreshable(langauge: self.language, title: "កំពុងភ្ជាប់", tintColor: .blue){
-                            ZStack{
+                        
+                        ZStack{
+                            ScrollRefreshable(langauge: self.language, title: "កំពុងភ្ជាប់", tintColor: .blue){
                                 mainView()
                                     .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
                                     .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
                                     .navigationBarTitleDisplayMode(.inline)
                                     .toolbarView(prop: prop, barTitle: barTitle, profileImg: userProfileImg,language: self.language)
-                                if onAppearImg{
-                                    ZStack{
-                                        Color("BG")
-                                            .frame(maxWidth:.infinity, maxHeight: .infinity)
-                                        VStack{
-                                            ProgressView(value: currentProgress, total: 1000)
-                                                .onAppear{
-                                                    self.currentProgress = 250
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2){
-                                                        self.currentProgress = 500
-                                                    }
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 4){
-                                                        self.currentProgress = 750
-                                                    }
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 6){
-                                                        self.currentProgress = 1000
-                                                    }
+                            }
+                            if onAppearImg{
+                                ZStack{
+                                    Color("BG")
+                                        .frame(maxWidth:.infinity, maxHeight: .infinity)
+                                        .ignoresSafeArea()
+                                    VStack{
+                                        ProgressView(value: currentProgress, total: 1000)
+                                            .onAppear{
+                                                self.currentProgress = 250
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                                                    self.currentProgress = 500
                                                 }
-                                            Spacer()
-                                        }
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+                                                    self.currentProgress = 750
+                                                }
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 6){
+                                                    self.currentProgress = 1000
+                                                }
+                                            }
+                                        Spacer()
                                     }
                                 }
                             }
                         }
+                        
                     }
                 }
             }
@@ -139,9 +145,9 @@ struct Dashboard: View {
                         HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
                             ForEach(students.AllStudents,id: \.Id) { student in
                                 NavigationLink(
-                                    destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Student: "\(student.Lastname) \(student.Firstname)", parentId: parentId, barTitle: barTitle,studentID: student.Id, language: self.language, prop: prop),
+                                    destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Student: "\(student.Lastname) \(student.Firstname)", StudentEnglishName: student.EnglishName, parentId: parentId, barTitle: barTitle,studentID: student.Id, language: self.language, prop: prop),
                                     label: {
-                                        widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop)
+                                        widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop, Englishname: student.EnglishName)
                                     }
                                 )
                             }
@@ -172,7 +178,7 @@ struct Dashboard: View {
                             datingEditer(inputCode: academic.date, inputAnotherDate: academic.enddate)
                                 .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
                                 .listRowBackground(Color.yellow)
-                            Text(academic.eventnameKhmer)
+                            Text(language == "en" ? academic.eventname : academic.eventnameKhmer)
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : 15, relativeTo: .body))
                                 .listRowBackground(Color.yellow)
                                 .fixedSize(horizontal: false, vertical: true)
@@ -196,60 +202,83 @@ struct Dashboard: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16){
                         ForEach(AnnoucementList.Annouces, id: \.id) { item in
-                            Button {
-                                self.showingSheet.toggle()
-                                detailId = item.id
-                            } label: {
-                                AsyncImage(url: URL(string: item.img ), scale: 2){image in
-                                    
-                                    switch  image {
-                                        
-                                    case .empty:
-                                        VStack{
-                                            ProgressView()
-                                                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                                                .progressViewStyle(.circular)
-                                            Text("សូមរងចាំ".localizedLanguage(language: self.language))
-                                                .foregroundColor(.blue)
-                                        }
-                                    case .success(let image):
-                                        ZStack(alignment: .bottomLeading) {
-                                            image
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fill)
-                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                                .cornerRadius(20)
-                                            Rectangle()
-                                                .foregroundColor(.clear)
-                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                                .overlay(
-                                                    getGradientOverlay()
-                                                        .cornerRadius(20)
-                                                )
-                                        }
-                                        
-                                        .overlay(
-                                            Text(item.title)
-                                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
-                                                .foregroundColor(.blue)
-                                                .multilineTextAlignment(.leading)
-                                                .padding()
-                                            , alignment: .bottomLeading
-                                            
-                                        )
-                                        
-                                    case .failure:
-                                        Text("មិនរកដំណឹងថ្មីៗបាន".localizedLanguage(language: self.language))
-                                            .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
-                                            .foregroundColor(.pink)
-                                    @unknown default:
-                                        fatalError()
-                                    }
+                            
+                            if reloadingAnn{
+                                VStack{
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                        .progressViewStyle(.circular)
+                                    Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
+                                        .foregroundColor(.blue)
                                 }
-                                
-                            }
-                            .sheet(isPresented: $showingSheet) {
-                                Annoucements(prop: prop, postId: $detailId, language: self.language)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                    .onAppear{
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                                            self.reloadingAnn = false
+                                        }
+                                    }
+                            } else {
+                                Button {
+                                    self.showingSheet.toggle()
+                                    detailId = item.id
+                                } label: {
+                                    
+                                    AsyncImage(url: URL(string: item.img ), scale: 2){image in
+                                        
+                                        switch  image {
+                                            
+                                        case .empty:
+                                            VStack{
+                                                ProgressView()
+                                                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                                    .progressViewStyle(.circular)
+                                                Text("សូមរងចាំ".localizedLanguage(language: self.language))
+                                                    .foregroundColor(.blue)
+                                            }
+                                        case .success(let image):
+                                            ZStack(alignment: .bottomLeading) {
+                                                image
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                                    .cornerRadius(20)
+                                                Rectangle()
+                                                    .foregroundColor(.clear)
+                                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                                    .overlay(
+                                                        getGradientOverlay()
+                                                            .cornerRadius(20)
+                                                    )
+                                            }
+                                            
+                                            .overlay(
+                                                Text(item.title)
+                                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                                                    .foregroundColor(.blue)
+                                                    .multilineTextAlignment(.leading)
+                                                    .padding()
+                                                , alignment: .bottomLeading
+                                                
+                                            )
+                                            
+                                        case .failure:
+                                            Text("មិនរកដំណឹងថ្មីៗបាន".localizedLanguage(language: self.language))
+                                                .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
+                                                .foregroundColor(.pink)
+                                                .onAppear{
+                                                    if !item.img.isEmpty{
+                                                        self.reloadingAnn = true
+                                                    }
+                                                }
+                                        @unknown default:
+                                            fatalError()
+                                        }
+                                    }
+                                    
+                                }
+                                .sheet(isPresented: $showingSheet) {
+                                    Annoucements(prop: prop, postId: $detailId, language: self.language)
+                                }
                             }
                         }
                     }
@@ -277,14 +306,14 @@ struct Dashboard: View {
         }
     }
     func datingEditer(inputCode: String, inputAnotherDate: String) -> some View {
-        Text(academiclist.convertDateFormater(inputDate: inputCode,inputAnotherDate: inputAnotherDate))
+        language == "km-KH" ? Text(academiclist.convertDateFormater(inputDate: inputCode,inputAnotherDate: inputAnotherDate)) : Text(academiclist.convertDateFormaterForEnglish(inputDate: inputCode, inputAnotherDate: inputAnotherDate))
     }
-    func widgetStu(ImageStudent: String, Firstname: String, Lastname: String,prop:Properties) -> some View {
+    func widgetStu(ImageStudent: String, Firstname: String, Lastname: String,prop:Properties, Englishname: String) -> some View {
         
         VStack(alignment: .center, spacing: 0){
-            AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(ImageStudent)"), scale: 2){image in
-                switch  image {
-                case .empty:
+            
+            if reloadingImg {
+                VStack{
                     VStack{
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: .blue))
@@ -292,39 +321,61 @@ struct Dashboard: View {
                         Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
                             .foregroundColor(.blue)
                     }
-                case .success(let image):
-                    image
-                        .resizable()
-                        .clipShape(Circle())
-                        .aspectRatio(contentMode: .fill)
-                        .padding(prop.isiPhoneS ? 20 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 24 : 25)
-                        .onAppear{
-                            self.onAppearImg = false
+                    .frame(height: prop.isiPhoneS ? 140 : prop.isiPhoneM ? 150 : prop.isiPhoneL ? 170 : 180)
+                    .onAppear{
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.reloadingImg = false
                         }
-                case .failure:
-                    Image("student")
-                        .resizable()
-                        .clipShape(Circle())
-                        .aspectRatio(contentMode: .fit)
-                        .padding()
-                        .onAppear{
-                            self.onAppearImg = false
-                        }
-                @unknown default:
-                    fatalError()
+                    }
                 }
+                .frame(height: prop.isiPhoneS ? 140 : prop.isiPhoneM ? 150 : prop.isiPhoneL ? 170 : 180,alignment: .center)
+                
+            } else {
+                AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(ImageStudent)"), scale: 2){image in
+                    switch  image {
+                    case .empty:
+                        VStack{
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                .progressViewStyle(.circular)
+                            Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
+                                .foregroundColor(.blue)
+                        }
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .clipShape(Circle())
+                            .aspectRatio(contentMode: .fill)
+                            .padding(prop.isiPhoneS ? 20 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 24 : 25)
+                            .onAppear{
+                                self.onAppearImg = false
+                            }
+                    case .failure:
+                        Image("student")
+                            .resizable()
+                            .clipShape(Circle())
+                            .aspectRatio(contentMode: .fit)
+                            .padding()
+                            .onAppear{
+                                self.onAppearImg = false
+                                if !ImageStudent.isEmpty{
+                                    self.reloadingImg = true
+                                }
+                            }
+                    @unknown default:
+                        fatalError()
+                    }
+                }
+                .frame(height: prop.isiPhoneS ? 140 : prop.isiPhoneM ? 150 : prop.isiPhoneL ? 170 : 180)
             }
-            .frame(height: prop.isiPhoneS ? 140 : prop.isiPhoneM ? 150 : prop.isiPhoneL ? 170 : 180)
-            HStack{
-                Text(Lastname)
-                Text(Firstname)
-            }
-            .padding(2)
-            .padding(.horizontal, 5)
-            .font(.custom("kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
-            .background(.blue)
-            .cornerRadius(5)
-            .padding(.bottom, 10)
+            
+            HStack{ language == "en" ? Text(Englishname) : Text("\(Lastname) \(Firstname)") }
+                .padding(5)
+                .padding(.horizontal, 5)
+                .font(.custom("kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
+                .background(.blue)
+                .cornerRadius(5)
+                .padding(.bottom, 10)
         }
         .background(.clear)
         .foregroundColor(.white)
@@ -342,6 +393,7 @@ struct AnnouceButtonView: View{
     @Binding var showingSheet: Bool
     @Binding var detailId: String
     @Binding var onAppearImg: Bool
+    @State private var reloadingAnn: Bool = false
     var itemImg: String
     var itemTitle: String
     var itemId: String
@@ -353,60 +405,79 @@ struct AnnouceButtonView: View{
             self.showingSheet.toggle()
             detailId = itemId
         } label: {
-            
-            AsyncImage(url: URL(string: itemImg ), scale: 1){image in
-                switch  image {
-                    
-                case .empty:
-                    VStack{
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                            .progressViewStyle(.circular)
-                        Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
-                            .foregroundColor(.blue)
-                    }
-                case .success(let image):
-                    ZStack(alignment:.bottom){
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(maxWidth: .infinity,maxHeight: .infinity)
-                            .cornerRadius(30)
-                        Rectangle()
-                            .frame(maxWidth: .infinity, maxHeight: prop.isiPhoneS ? 80 : prop.isiPhoneM ? 90 : prop.isiPhoneL ? 150 : 120)
-                            .foregroundColor(.clear)
-                            .overlay(
-                                getGradientOverlay()
-                                    .cornerRadius(30)
-                            )
-                        HStack(spacing: 0){
-                            Text(itemTitle)
-                                .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18, relativeTo: .body))
-                                .foregroundColor(.blue)
-                                .padding()
-                                .frame(maxWidth:.infinity, alignment: .leading)
-                            
-                        }
-                    }
+            if reloadingAnn{
+                VStack{
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                        .progressViewStyle(.circular)
+                    Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
+                        .foregroundColor(.blue)
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
                     .onAppear{
-                        if students.AllStudents.isEmpty{
-                            self.onAppearImg = false
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                            self.reloadingAnn = false
                         }
                     }
-                case .failure:
-                    Text("មិនអាចទាញទិន្ន័យបាន".localizedLanguage(language: self.language))
-                        .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
-                        .foregroundColor(.pink)
+            } else {
+                AsyncImage(url: URL(string: itemImg ), scale: 1){image in
+                    switch  image {
+                        
+                    case .empty:
+                        VStack{
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                .progressViewStyle(.circular)
+                            Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
+                                .foregroundColor(.blue)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    case .success(let image):
+                        ZStack(alignment:.bottom){
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(maxWidth: .infinity,maxHeight: .infinity)
+                                .cornerRadius(30)
+                            Rectangle()
+                                .frame(maxWidth: .infinity, maxHeight: prop.isiPhoneS ? 80 : prop.isiPhoneM ? 90 : prop.isiPhoneL ? 150 : 120)
+                                .foregroundColor(.clear)
+                                .overlay(
+                                    getGradientOverlay()
+                                        .cornerRadius(30)
+                                )
+                            HStack(spacing: 0){
+                                Text(itemTitle)
+                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18, relativeTo: .body))
+                                    .foregroundColor(.blue)
+                                    .padding()
+                                    .frame(maxWidth:.infinity, alignment: .leading)
+                                
+                            }
+                        }
                         .onAppear{
                             if students.AllStudents.isEmpty{
                                 self.onAppearImg = false
                             }
                         }
-                @unknown default:
-                    fatalError()
+                    case .failure:
+                        Text("មិនអាចទាញទិន្ន័យបាន".localizedLanguage(language: self.language))
+                            .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
+                            .foregroundColor(.pink)
+                            .onAppear{
+                                if students.AllStudents.isEmpty{
+                                    self.onAppearImg = false
+                                }
+                                if !itemImg.isEmpty{
+                                    self.reloadingAnn = true
+                                }
+                               
+                            }
+                    @unknown default:
+                        fatalError()
+                    }
                 }
             }
-            
         }
     }
 }

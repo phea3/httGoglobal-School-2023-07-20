@@ -1165,6 +1165,7 @@ public final class GetStudentsByParentsQuery: GraphQLQuery {
         _id
         firstName
         lastName
+        englishName
         enrollments {
           __typename
           _id
@@ -1246,6 +1247,7 @@ public final class GetStudentsByParentsQuery: GraphQLQuery {
           GraphQLField("_id", type: .scalar(GraphQLID.self)),
           GraphQLField("firstName", type: .scalar(String.self)),
           GraphQLField("lastName", type: .scalar(String.self)),
+          GraphQLField("englishName", type: .scalar(String.self)),
           GraphQLField("enrollments", type: .list(.object(Enrollment.selections))),
           GraphQLField("profileImg", type: .scalar(String.self)),
         ]
@@ -1257,8 +1259,8 @@ public final class GetStudentsByParentsQuery: GraphQLQuery {
         self.resultMap = unsafeResultMap
       }
 
-      public init(_id: GraphQLID? = nil, firstName: String? = nil, lastName: String? = nil, enrollments: [Enrollment?]? = nil, profileImg: String? = nil) {
-        self.init(unsafeResultMap: ["__typename": "PersonalInfo", "_id": _id, "firstName": firstName, "lastName": lastName, "enrollments": enrollments.flatMap { (value: [Enrollment?]) -> [ResultMap?] in value.map { (value: Enrollment?) -> ResultMap? in value.flatMap { (value: Enrollment) -> ResultMap in value.resultMap } } }, "profileImg": profileImg])
+      public init(_id: GraphQLID? = nil, firstName: String? = nil, lastName: String? = nil, englishName: String? = nil, enrollments: [Enrollment?]? = nil, profileImg: String? = nil) {
+        self.init(unsafeResultMap: ["__typename": "PersonalInfo", "_id": _id, "firstName": firstName, "lastName": lastName, "englishName": englishName, "enrollments": enrollments.flatMap { (value: [Enrollment?]) -> [ResultMap?] in value.map { (value: Enrollment?) -> ResultMap? in value.flatMap { (value: Enrollment) -> ResultMap in value.resultMap } } }, "profileImg": profileImg])
       }
 
       public var __typename: String {
@@ -1294,6 +1296,15 @@ public final class GetStudentsByParentsQuery: GraphQLQuery {
         }
         set {
           resultMap.updateValue(newValue, forKey: "lastName")
+        }
+      }
+
+      public var englishName: String? {
+        get {
+          return resultMap["englishName"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "englishName")
         }
       }
 

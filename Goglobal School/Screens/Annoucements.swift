@@ -19,81 +19,81 @@ struct Annoucements: View {
     
     var body: some View {
         ZStack{
-                VStack{
-                    Button {
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Image(systemName: "xmark.square.fill")
-                            .font(.system(size: 30))
-                            .foregroundColor(.white)
-                            .padding()
-                            .opacity(prop.isLandscape ? 1:0)
-                    }
-                    .hTrailing()
-                    if postId == ""{
-                        Text("")
-                    }else{
-                        VStack{
-                            ForEach(DetailAnnoucementList.Annouces, id: \.id){ Annouce in
-                                if self.postId == Annouce.id {
-                                    ScrollView(.vertical, showsIndicators: false){
-                                        AsyncImage(url: URL(string: Annouce.img ), scale: 2){image in
+            VStack{
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "xmark.square.fill")
+                        .font(.system(size: 30))
+                        .foregroundColor(.white)
+                        .padding()
+                        .opacity(prop.isLandscape ? 1:0)
+                }
+                .hTrailing()
+                if postId == ""{
+                    Text("")
+                }else{
+                    VStack{
+                        ForEach(DetailAnnoucementList.Annouces, id: \.id){ Annouce in
+                            if self.postId == Annouce.id {
+                                ScrollView(.vertical, showsIndicators: false){
+                                    AsyncImage(url: URL(string: Annouce.img ), scale: 2){image in
+                                        
+                                        switch  image {
                                             
-                                            switch  image {
-                                                
-                                            case .empty:
-                                                VStack{
-                                                    ProgressView()
-                                                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                                                        .progressViewStyle(.circular)
-                                                    Text("សូមរង់ចាំ")
-                                                        .foregroundColor(.blue)
-                                                }
-                                            case .success(let image):
-                                                Button {
-                                                    self.showViewer = !showViewer
-                                                } label: {
-                                                    image
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .cornerRadius(20)
-                                                        .padding()
-                                                        .onAppear{
-                                                            self.imgUrl = Annouce.img
-                                                        }
-                                                }
-                                            case .failure:
-                                                Text("មិនអាចទាញទិន្ន័យបាន")
-                                                    .foregroundColor(.red)
-                                                    .hCenter()
-                                            @unknown default:
-                                                fatalError()
+                                        case .empty:
+                                            VStack{
+                                                ProgressView()
+                                                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                                    .progressViewStyle(.circular)
+                                                Text("សូមរង់ចាំ")
+                                                    .foregroundColor(.blue)
                                             }
+                                        case .success(let image):
+                                            Button {
+                                                self.showViewer = !showViewer
+                                            } label: {
+                                                image
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .cornerRadius(20)
+                                                    .padding()
+                                                    .onAppear{
+                                                        self.imgUrl = Annouce.img
+                                                    }
+                                            }
+                                        case .failure:
+                                            Text("មិនអាចទាញទិន្ន័យបាន")
+                                                .foregroundColor(.red)
+                                                .hCenter()
+                                        @unknown default:
+                                            fatalError()
                                         }
-                                        .frame( maxHeight: prop.isLandscape ? 300 : prop.isiPad ? 400 : .infinity)
+                                    }
+                                    .frame( maxHeight: prop.isLandscape ? 300 : prop.isiPad ? 400 : .infinity)
                                     
-                                  
-                                        Text(Annouce.title)
-                                            .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
-                                            .foregroundColor(.blue)
-                                            .padding(.horizontal)
-                                            .shadow(color: .white, radius: 5)
-                                            .frame(maxWidth:.infinity, alignment: .leading)
-                                        VStack{
-                                            Text(Annouce.description)
-                                        }
-                                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                                    
+                                    Text(Annouce.title)
+                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
                                         .foregroundColor(.blue)
                                         .padding(.horizontal)
                                         .shadow(color: .white, radius: 5)
                                         .frame(maxWidth:.infinity, alignment: .leading)
+                                    VStack{
+                                        Text(Annouce.description)
                                     }
+                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                                    .foregroundColor(.blue)
+                                    .padding(.horizontal)
+                                    .shadow(color: .white, radius: 5)
+                                    .frame(maxWidth:.infinity, alignment: .leading)
                                 }
                             }
                         }
                     }
-                    Spacer()
                 }
+                Spacer()
+            }
             .setBG()
             .onAppear{
                 DetailAnnoucementList.getAnnoucement()
@@ -122,7 +122,7 @@ struct Annoucements: View {
                                 .scaledToFit()
                                 .clipShape(Rectangle())
                                 .modifier(ImageModifier(contentSize: CGSize(width: prop.size.width, height: prop.size.height)))
-                                
+                            
                         case .failure:
                             Text("មិនអាចទាញទិន្ន័យបាន")
                                 .foregroundColor(.red)
@@ -135,7 +135,7 @@ struct Annoucements: View {
                     Button {
                         self.showViewer = !showViewer
                     } label: {
-                       Image(systemName: "xmark.square.fill")
+                        Image(systemName: "xmark.square.fill")
                             .font(.system(size: 30))
                             .foregroundColor(.white)
                             .padding()

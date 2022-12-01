@@ -25,6 +25,7 @@ query GetStudentsByParents($parentId: ID) {
     _id
     firstName
     lastName
+    englishName
     enrollments {
       _id
       programId {

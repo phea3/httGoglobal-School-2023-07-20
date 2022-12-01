@@ -119,12 +119,15 @@ struct Schedule: View {
     }
     func customList(startTime: String, endTime: String, subject: String, lastName: String, firstName: String, breaktime: Bool, index: Int)-> some View{
         HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-            VStack(spacing: 0){
-                Text(startTime)
+            VStack(alignment: .leading, spacing: 0){
+                Text(language == "en" ? startTime : convertStartTime(startTime: startTime))
                     .font(.system(size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20))
+                    .offset(y: 8)
                 Text("-")
-                Text(endTime)
+                    .padding(.leading, 5)
+                Text(language == "en" ? endTime :convertEndTime(endTime: endTime))
                     .font(.system(size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20))
+                    .offset(y: -8)
             }
             .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18, relativeTo: .callout))
             .foregroundColor(Color(breaktime ? "redding" : index % 2 == 0 ?  "bodyOrange" : "bodyBlue"))
@@ -188,4 +191,82 @@ struct Schedule_Previews: PreviewProvider {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
         Schedule(prop: prop, classId: "", academicYearId: "", programId: "", language: "em")
     }
+}
+
+private func convertStartTime(startTime: String)-> String{
+    
+    let newTime = startTime
+                .replacingOccurrences(of: "0", with: "០", options: .literal, range: nil)
+                .replacingOccurrences(of: "1", with: "១", options: .literal, range: nil)
+                .replacingOccurrences(of: "2", with: "២", options: .literal, range: nil)
+                .replacingOccurrences(of: "3", with: "៣", options: .literal, range: nil)
+                .replacingOccurrences(of: "4", with: "៤", options: .literal, range: nil)
+                .replacingOccurrences(of: "5", with: "៥", options: .literal, range: nil)
+                .replacingOccurrences(of: "6", with: "៦", options: .literal, range: nil)
+                .replacingOccurrences(of: "7", with: "៧", options: .literal, range: nil)
+                .replacingOccurrences(of: "8", with: "៨", options: .literal, range: nil)
+                .replacingOccurrences(of: "9", with: "៩", options: .literal, range: nil)
+                .replacingOccurrences(of: "10", with: "១០", options: .literal, range: nil)
+                .replacingOccurrences(of: "11", with: "១១", options: .literal, range: nil)
+                .replacingOccurrences(of: "12", with: "១២", options: .literal, range: nil)
+                .replacingOccurrences(of: "13", with: "១៣", options: .literal, range: nil)
+                .replacingOccurrences(of: "14", with: "១៤", options: .literal, range: nil)
+                .replacingOccurrences(of: "15", with: "១៥", options: .literal, range: nil)
+                .replacingOccurrences(of: "16", with: "១៦", options: .literal, range: nil)
+                .replacingOccurrences(of: "17", with: "១៧", options: .literal, range: nil)
+                .replacingOccurrences(of: "18", with: "១៨", options: .literal, range: nil)
+                .replacingOccurrences(of: "19", with: "១៩", options: .literal, range: nil)
+                .replacingOccurrences(of: "20", with: "២០", options: .literal, range: nil)
+                .replacingOccurrences(of: "21", with: "២១", options: .literal, range: nil)
+                .replacingOccurrences(of: "22", with: "២២", options: .literal, range: nil)
+                .replacingOccurrences(of: "23", with: "២៣", options: .literal, range: nil)
+                .replacingOccurrences(of: "24", with: "២៤", options: .literal, range: nil)
+                .replacingOccurrences(of: "25", with: "២៥", options: .literal, range: nil)
+                .replacingOccurrences(of: "26", with: "២៦", options: .literal, range: nil)
+                .replacingOccurrences(of: "27", with: "២៧", options: .literal, range: nil)
+                .replacingOccurrences(of: "28", with: "២៨", options: .literal, range: nil)
+                .replacingOccurrences(of: "29", with: "២៩", options: .literal, range: nil)
+                .replacingOccurrences(of: "30", with: "៣០", options: .literal, range: nil)
+                .replacingOccurrences(of: "31", with: "៣១", options: .literal, range: nil)
+    
+    return newTime
+}
+
+private func convertEndTime(endTime: String)-> String{
+    
+    let newTime = endTime
+                .replacingOccurrences(of: "0", with: "០", options: .literal, range: nil)
+                .replacingOccurrences(of: "1", with: "១", options: .literal, range: nil)
+                .replacingOccurrences(of: "2", with: "២", options: .literal, range: nil)
+                .replacingOccurrences(of: "3", with: "៣", options: .literal, range: nil)
+                .replacingOccurrences(of: "4", with: "៤", options: .literal, range: nil)
+                .replacingOccurrences(of: "5", with: "៥", options: .literal, range: nil)
+                .replacingOccurrences(of: "6", with: "៦", options: .literal, range: nil)
+                .replacingOccurrences(of: "7", with: "៧", options: .literal, range: nil)
+                .replacingOccurrences(of: "8", with: "៨", options: .literal, range: nil)
+                .replacingOccurrences(of: "9", with: "៩", options: .literal, range: nil)
+                .replacingOccurrences(of: "10", with: "១០", options: .literal, range: nil)
+                .replacingOccurrences(of: "11", with: "១១", options: .literal, range: nil)
+                .replacingOccurrences(of: "12", with: "១២", options: .literal, range: nil)
+                .replacingOccurrences(of: "13", with: "១៣", options: .literal, range: nil)
+                .replacingOccurrences(of: "14", with: "១៤", options: .literal, range: nil)
+                .replacingOccurrences(of: "15", with: "១៥", options: .literal, range: nil)
+                .replacingOccurrences(of: "16", with: "១៦", options: .literal, range: nil)
+                .replacingOccurrences(of: "17", with: "១៧", options: .literal, range: nil)
+                .replacingOccurrences(of: "18", with: "១៨", options: .literal, range: nil)
+                .replacingOccurrences(of: "19", with: "១៩", options: .literal, range: nil)
+                .replacingOccurrences(of: "20", with: "២០", options: .literal, range: nil)
+                .replacingOccurrences(of: "21", with: "២១", options: .literal, range: nil)
+                .replacingOccurrences(of: "22", with: "២២", options: .literal, range: nil)
+                .replacingOccurrences(of: "23", with: "២៣", options: .literal, range: nil)
+                .replacingOccurrences(of: "24", with: "២៤", options: .literal, range: nil)
+                .replacingOccurrences(of: "25", with: "២៥", options: .literal, range: nil)
+                .replacingOccurrences(of: "26", with: "២៦", options: .literal, range: nil)
+                .replacingOccurrences(of: "27", with: "២៧", options: .literal, range: nil)
+                .replacingOccurrences(of: "28", with: "២៨", options: .literal, range: nil)
+                .replacingOccurrences(of: "29", with: "២៩", options: .literal, range: nil)
+                .replacingOccurrences(of: "30", with: "៣០", options: .literal, range: nil)
+                .replacingOccurrences(of: "31", with: "៣១", options: .literal, range: nil)
+    
+    return newTime
 }

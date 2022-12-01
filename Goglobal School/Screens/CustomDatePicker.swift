@@ -19,6 +19,7 @@ struct CustomDatePicker: View {
     var body: some View {
         VStack(spacing: 0){
             let days: [String] = ["អាទិត្យ","ចន្ទ","អង្គារ","ពុធ","ព្រហ","សុក្រ","សៅរ៍"]
+            let englishdays: [String] = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
             
             HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
                 VStack(alignment: .leading, spacing: prop.isiPhoneS ? 6 : prop.isiPhoneM ? 8 : 10) {
@@ -51,6 +52,19 @@ struct CustomDatePicker: View {
             .padding()
             
             // Day View...
+            language == "en" ?
+                
+            HStack(spacing: 0){
+                ForEach(englishdays, id: \.self){ day in
+                    Text(day)
+                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .callout).bold())
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(day == "Sun" ? .red : .gray)
+                }
+            }
+            
+            :
+            
             HStack(spacing: 0){
                 ForEach(days, id: \.self){ day in
                     Text(day)
@@ -58,8 +72,8 @@ struct CustomDatePicker: View {
                         .frame(maxWidth: .infinity)
                         .foregroundColor(day == "អាទិត្យ" ? .red : .gray)
                 }
+                
             }
-            
             // Dates...
             //Lazy Grid
             
@@ -70,16 +84,16 @@ struct CustomDatePicker: View {
                 ForEach(extractDate()){ value in
                     
                     CardView(value: value)
-//                        .overlay(
-//                            Text("ថ្ងៃនេះ")
-//                                .font(.system(size: 10))
-//                                .foregroundColor(.blue)
-//                                .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1:0)
-//                                .offset(y: 30)
-//                        )
-//                        .onTapGesture {
-//                            currentDate = value.date
-//                        }
+                    //                        .overlay(
+                    //                            Text("ថ្ងៃនេះ")
+                    //                                .font(.system(size: 10))
+                    //                                .foregroundColor(.blue)
+                    //                                .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1:0)
+                    //                                .offset(y: 30)
+                    //                        )
+                    //                        .onTapGesture {
+                    //                            currentDate = value.date
+                    //                        }
                 }
             }
             .padding(.top)
@@ -143,12 +157,12 @@ struct CustomDatePicker: View {
                         .font(.system(size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16).bold())
                         .foregroundColor(getSunday(dateofday: value.date) ? .red : isSameDay(date1: value.date, date2: currentDate) ? .primary : .primary)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                        .background(
-//                            Circle()
-//                                .strokeBorder(Color.blue,lineWidth: 2)
-//                                .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1:0)
-//                                .frame(width:prop.isLandscape ? 40 : .infinity)
-//                        )
+                    //                        .background(
+                    //                            Circle()
+                    //                                .strokeBorder(Color.blue,lineWidth: 2)
+                    //                                .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1:0)
+                    //                                .frame(width:prop.isLandscape ? 40 : .infinity)
+                    //                        )
                 }
             }
         }

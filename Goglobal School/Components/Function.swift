@@ -57,7 +57,8 @@ extension View{
         Image("Footer")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(maxWidth:prop.isiPhoneS ? 80 : prop.isiPhoneM ? 90 : prop.isiPhoneL ? 100 : 140)
+            .frame(maxWidth: 110)
+            .padding(.bottom, 40)
     }
     func LogoGoglobal(prop:Properties)->some View {
         Image("GoGlobalSchool")

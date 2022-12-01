@@ -47,8 +47,8 @@ struct Home: View {
     @State private var isUnlocked = false
     @State private var language = "km-KH"
     enum Field {
-            case gmail, pass
-        }
+        case gmail, pass
+    }
     @FocusState private var focusedField: Field?
     var body: some View {
         // MARK: Resposive App
@@ -57,11 +57,13 @@ struct Home: View {
             ZStack{
                 // MARK: background image
                 ImageBackgroundSignIn()
-                
-                if loginVM.isAuthenticated && ( gmail != "" && pass != "" ){
+                // perform login again if authentication is true, know gmail & password and we have token
+                if (loginVM.isAuthenticated && (( gmail != "" && pass != "" ) && (loginVM.failLogin == false))){
+                    
                     ZStack{
                         if !loggedIn{
-                            EmptyView()
+                            // 3s progressing
+                            progressingView(prop: prop, language: self.language)
                                 .setBG()
                         }else{
                             MainView(prop: prop)
@@ -71,44 +73,70 @@ struct Home: View {
                         //login mutation
                         loginVM.login(email: gmail, password: pass, checkState: checkState)
                         
-                        // ask for notification
-//                        loginVM.AskUserForNotification()
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             // get active year
                             academiclist.activeAcademicYear()
                         }
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                            loggedIn = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             if self.newToken != "" {
                                 // send token to backend
                                 sendToken.uploadToken(mobileUserId: loginVM.userprofileId, newToken:TokenInput(plateformToken: "ios", deviceToken: self.newToken))
                             }
                         }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            loggedIn = true
+                        }
                     }
+                    
                 }else{
                     // login screen
                     ZStack{
+                        
+                        // login screen
                         LoginView(prop: prop)
-                            ChangeLanguage()
+                        
+                        // change language
+                        ChangeLanguage()
                             .frame(maxWidth:.infinity, maxHeight: .infinity,alignment: .bottomTrailing)
                             .padding(.bottom, 80)
                             .opacity( showFlag ? 0 : 1)
                     }
                 }
                 // animation loading
-                FlashScreen(animationFinished: self.animationFinished, language: self.language, prop:prop)
+                FlashScreen(animationFinished: self.animationFinished, prop: prop)
+            }
+            .alert(isPresented: .constant(VersionCheck.shared.newVersionAvailable ?? false)) {
+                Alert(title: Text("សូមធ្វើការដំឡើង Version \(VersionCheck.shared.appStoreVersion ?? "") នៅក្នុង App Store!"), message: Text("Please update to version \(VersionCheck.shared.appStoreVersion ?? "") in the App Store!"), dismissButton: .default(Text("យល់ព្រម".localizedLanguage(language: self.language)), action: {
+                    openURL(URL(string: VersionCheck.shared.appLinkToAppStore ?? "")!)
+                    DeviceUserLogOut.MobileUserLogOut(mobileUserId: loginVM.userprofileId, token: self.newToken)
+                    // 3s
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        loginVM.signout()
+                        Attendance.clearCache()
+                        showFlag = false
+                        UserDefaults.standard.removeObject(forKey: "DeviceToken")
+                    }
+                    UserDefaults.standard.removeObject(forKey: "Gmail")
+                    UserDefaults.standard.removeObject(forKey: "Password")
+                    UserDefaults.standard.removeObject(forKey: "isAuthenticated")
+                }))
             }
             .alert("គ្មានអ៉ីនធើណេត".localizedLanguage(language: self.language), isPresented: .constant(!monitor.connected)) {
                 Button("យល់ព្រម".localizedLanguage(language: self.language), role: .cancel) { }
             }
             .onAppear{
+                // allow noti
                 registerForNotifications()
+                // check version in appstore
                 VersionCheck.shared.checkAppStore()
+                // check internet connection
                 monitor.checkConnection()
-                DispatchQueue.main.asyncAfter(deadline:.now()+2) {
+                // get device's token
+                DispatchQueue.main.asyncAfter(deadline:.now() + 1 ) {
                     self.newToken = ApiTokenSingleton.shared.token
+//                    print("newtoke's phone: \(newToken)")
                 }
                 if !loginVM.isAuthenticated{
                     DispatchQueue.main.async {
@@ -133,23 +161,10 @@ struct Home: View {
                     .tag(Tab.education)
                 CalendarViewModel(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, language: self.language, prop: prop, activeYear: academiclist.academicYearId)
                     .tag(Tab.bag)
-                Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, hideTab: $hideTab, checkState: $checkState, prop: prop, devicetoken: self.newToken, language: self.language)
+                Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, hideTab: $hideTab, checkState: $checkState, showFlag: $showFlag, prop: prop, devicetoken: self.newToken, language: self.language)
                     .tag(Tab.book)
             }
-            .alert(isPresented: .constant(VersionCheck.shared.newVersionAvailable ?? false)) {
-                Alert(title: Text("សូមធ្វើការដំឡើង Version \(VersionCheck.shared.appStoreVersion ?? "") នៅក្នុង App Store!"), message: Text("Please update to version \(VersionCheck.shared.appStoreVersion ?? "") in The App Store!"), dismissButton: .default(Text("យល់ព្រម".localizedLanguage(language: self.language)), action: {
-                        openURL(URL(string: VersionCheck.shared.appLinkToAppStore ?? "")!)
-                       DeviceUserLogOut.MobileUserLogOut(mobileUserId: loginVM.userprofileId, token: self.newToken)
-                       DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                           loginVM.signout()
-                           Attendance.clearCache()
-                           UserDefaults.standard.removeObject(forKey: "DeviceToken")
-                       }
-                       UserDefaults.standard.removeObject(forKey: "Gmail")
-                       UserDefaults.standard.removeObject(forKey: "Password")
-                       UserDefaults.standard.removeObject(forKey: "isAuthenticated")
-                }))
-            }
+            
             // MARK: Custom to Bar
             CustomTabBar(currentTab: $currentTab,prop: prop)
                 .background(RoundedCorners(color: .white, tl: 30, tr: 30, bl: 0, br: 0))
@@ -163,7 +178,8 @@ struct Home: View {
                         }
                     }
                 }
-           ChangeLanguage()
+            // MARK: option language
+            ChangeLanguage()
                 .frame(maxWidth:.infinity, maxHeight: .infinity,alignment: .bottomTrailing)
                 .padding(.bottom, 80)
                 .opacity( hideTab ? 0 : animationStarted ? 1:0)
@@ -176,14 +192,16 @@ struct Home: View {
                 }
         }
     }
+    
+    @ViewBuilder
     func ChangeLanguage()-> some View {
         HStack{
             Menu {
-//                    Button {
-//                        self.language = "ch"
-//                    } label: {
-//                        Text("中文")
-//                    }
+                //                    Button {
+                //                        self.language = "ch"
+                //                    } label: {
+                //                        Text("中文")
+                //                    }
                 Button {
                     // Step #3
                     self.language = "en"
@@ -203,7 +221,7 @@ struct Home: View {
                 }
                 
             } label: {
-               
+                
                 Image(language == "ch" ? "ch" : language == "km-KH" ? "km" : "en")
                     .resizable()
                     .frame(width: 40, height: 40)
@@ -214,6 +232,7 @@ struct Home: View {
             }.padding()
         }
     }
+    
     // MARK: View of login Screen
     func LoginView(prop: Properties)-> some View{
         ZStack{
@@ -225,15 +244,18 @@ struct Home: View {
                 Spacer()
                 LogoGoglobal(prop:prop)
                     .opacity(prop.isLandscape && prop.isiPhone ? 0:1)
+                
                 VStack{
                     Text("ចូលប្រើកម្មវិធី".localizedLanguage(language: self.language))
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 21 : prop.isiPhoneM ? 23 : prop.isiPhoneL ? 25 : 27, relativeTo: .largeTitle))
                         .foregroundColor(Color("ColorTitle"))
                 }
                 .opacity(prop.isLandscape && prop.isiPhone ? 0:1)
+                
                 if !hidefooter{
                     Spacer()
                 }
+                
                 VStack(spacing: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20){
                     VStack(alignment: .leading, spacing: prop.isiPhoneS ? 4 : prop.isiPhoneM ? 6 : prop.isiPhoneL ? 8 : 10) {
                         Text("អ៉ីម៉ែល".localizedLanguage(language: self.language))
@@ -244,7 +266,7 @@ struct Home: View {
                         }, set: {
                             self.gmail = $0.lowercased()
                         })
-                        TextField("បញ្ជូលអ៉ីម៉ែល".localizedLanguage(language: self.language), text: binding)
+                        TextField("បញ្ចូលអ៉ីម៉ែល".localizedLanguage(language: self.language), text: binding)
                             .textContentType(.emailAddress)
                             .focused($focusedField, equals: .gmail)
                             .padding(prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)
@@ -255,6 +277,7 @@ struct Home: View {
                                     .stroke(isempty ? .red:.blue.opacity(0.5), lineWidth: 1)
                             )
                     }
+                    
                     VStack(alignment: .leading, spacing: prop.isiPhoneS ? 4 : prop.isiPhoneM ? 6 : prop.isiPhoneL ? 8 : 10) {
                         Text("ពាក្យសម្ងាត់".localizedLanguage(language: self.language))
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 17 : prop.isiPhoneL ? 19 : 21, relativeTo: .body))
@@ -264,6 +287,7 @@ struct Home: View {
                             .focused($focusedField, equals: .pass)
                             .submitLabel(.return)
                     }
+                    
                     VStack{
                         Button {
                             // login mutation
@@ -308,6 +332,7 @@ struct Home: View {
                                     
                                 }
                             }
+                            
                             if checkState{
                                 
                                 UserDefaults.standard.set(self.gmail, forKey: "Gmail")
@@ -328,6 +353,7 @@ struct Home: View {
                         .alert("គណនីរបស់លោកអ្នកមិនត្រឹមត្រូវទេ".localizedLanguage(language: self.language), isPresented: $showingAlert) {
                             Button("OK", role: .cancel) { loginVM.failLogin = false }
                         }
+                        
                         HStack(spacing: 0){
                             
                             Button(action:
@@ -368,7 +394,8 @@ struct Home: View {
                 if !hidefooter{
                     Spacer()
                 }
-                footer(prop: prop)
+                
+                FooterImg(prop: prop)
                     .opacity(prop.isLandscape && prop.isiPhone ? 0 : 1)
                 
             }
@@ -409,30 +436,19 @@ struct Home: View {
         }
     }
     
-    func footer(prop:Properties)-> some View{
-        VStack(spacing:  prop.isiPhoneS ? 1 : prop.isiPhoneM ? 2 : prop.isiPhoneL ? 3 : 10){
-            Text("បង្កើតដោយ:".localizedLanguage(language: self.language))
-                .font(.system( size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20))
-                .foregroundColor(Color("footerColor"))
-            Text("ហ្គោគ្លូប៊លអាយធី".localizedLanguage(language: self.language))
-                .font(.system(size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22).bold())
-                .foregroundColor(Color("footerColor"))
-            FooterImg(prop: prop)
-                .padding(.top, 8)
-        }
-    }
     // MARK: ASK USER FOR NOTIFICATIOON
     func requestPushAuthorization() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
             if success {
                 print("")
-//                Push Notification Allowed
+                //                Push Notification Allowed
                 
             } else if let error = error {
                 print(error.localizedDescription)
             }
         }
     }
+    
     // MARK: GET DEVICE's token
     func registerForNotifications() {
         UIApplication.shared.registerForRemoteNotifications()
@@ -442,12 +458,12 @@ struct Home: View {
     func authenticate() {
         let context = LAContext()
         var error: NSError?
-
+        
         // check whether biometric authentication is possible
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
             // it's possible, so go ahead and use it
             let reason = "We need to unlock your data."
-
+            
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
                 // authentication has now completed
                 if success {
@@ -475,17 +491,17 @@ struct SecureTextFieldToggle: View{
         HStack{
             HStack{
                 if isSecureField{
-                    SecureField("បញ្ជូលពាក្យសម្ងាត់".localizedLanguage(language: self.language), text: $text)
+                    SecureField("បញ្ចូលពាក្យសម្ងាត់".localizedLanguage(language: self.language), text: $text)
                 }else{
                     let binding = Binding<String>(get: {
                         self.text
                     }, set: {
                         self.text = $0.lowercased()
                     })
-                    TextField("បញ្ជូលពាក្យសម្ងាត់".localizedLanguage(language: self.language), text: binding)
+                    TextField("បញ្ចូលពាក្យសម្ងាត់".localizedLanguage(language: self.language), text: binding)
                 }
             }
-          
+            
             Spacer()
             Button {
                 self.isSecureField.toggle()
