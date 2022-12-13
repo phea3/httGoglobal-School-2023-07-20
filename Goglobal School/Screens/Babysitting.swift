@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Babysitting: View {
+    @Environment(\.colorScheme) var colorScheme
     var prop: Properties
     var language: String
     var stuId: String
@@ -15,7 +16,7 @@ struct Babysitting: View {
         VStack{
             CalendarWeekListViewModel(calendar: Calendar(identifier: .gregorian), prop: self.prop, stuId: self.stuId, language: self.language)
         }
-        .setBG()
+        .setBG(colorScheme: colorScheme)
     }
 }
 

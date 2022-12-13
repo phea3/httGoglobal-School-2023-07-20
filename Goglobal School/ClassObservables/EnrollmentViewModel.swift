@@ -83,4 +83,8 @@ struct EnrollmentModel{
     var classGroupName: String {
         enrollment?.classGroupName ?? ""
     }
+    
+    var studentId: String {
+        enrollment?.studentId ?? ""
+    }
 }

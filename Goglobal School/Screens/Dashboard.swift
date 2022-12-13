@@ -6,14 +6,15 @@
 //
 
 import SwiftUI
+import MarqueeText
 
 struct Dashboard: View {
-    
+    @Environment(\.colorScheme) var colorScheme
+    @StateObject var totalStu: GetTotalStudentViewModel = GetTotalStudentViewModel()
     @StateObject var students: ListStudentViewModel = ListStudentViewModel()
     @StateObject var academiclist: ListViewModel = ListViewModel()
     @StateObject var AnnoucementList: AnnouncementViewModel = AnnouncementViewModel()
     @StateObject var deleteBadge: DeleteNotificationByMobileUserIdViewModel = DeleteNotificationByMobileUserIdViewModel()
-    
     @State private var reloadingImg: Bool = false
     @State private var reloadingAnn: Bool = false
     @State var colorBlue: String = "LightBlue"
@@ -31,6 +32,9 @@ struct Dashboard: View {
     @State var hidingDivider: Bool = false
     @State var currentProgress: CGFloat = 0.0
     @Binding var isLoading: Bool
+    @Binding var bindingLanguage: String
+    @Binding var showTeacherImage: Bool
+    @Binding var UrlImg: String
     let gradient = Color.clear
     var barTitle: String = "ទំព័រដើម"
     var parentId: String
@@ -38,6 +42,7 @@ struct Dashboard: View {
     var prop: Properties
     var mobileUserId: String
     var language: String
+    
     var body: some View {
         
         NavigationView {
@@ -45,7 +50,7 @@ struct Dashboard: View {
                 if students.AllStudents.isEmpty && AnnoucementList.Annouces.isEmpty && academiclist.academicYear.isEmpty {
                     ZStack{
                         if viewLoading{
-                            progressingView(prop: prop, language: self.language)
+                            progressingView(prop: prop, language: self.language, colorScheme: colorScheme)
                         }else{
                             Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
                                 .foregroundColor(.blue)
@@ -65,7 +70,7 @@ struct Dashboard: View {
                         .opacity(hidingDivider ? 0:1)
                     if refreshing {
                         Spacer()
-                        progressingView(prop: prop, language: self.language)
+                        progressingView(prop: prop, language: self.language, colorScheme: colorScheme)
                         Spacer()
                     }
                     else{
@@ -77,10 +82,15 @@ struct Dashboard: View {
                                     .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
                                     .navigationBarTitleDisplayMode(.inline)
                                     .toolbarView(prop: prop, barTitle: barTitle, profileImg: userProfileImg,language: self.language)
+                                    .toolbar {
+                                        ToolbarItemGroup(placement: .navigationBarTrailing) {
+                                            ChangeLanguage()
+                                        }
+                                    }
                             }
                             if onAppearImg{
                                 ZStack{
-                                    Color("BG")
+                                    Color(colorScheme == .dark ? "Black" : "BG")
                                         .frame(maxWidth:.infinity, maxHeight: .infinity)
                                         .ignoresSafeArea()
                                     VStack{
@@ -106,13 +116,14 @@ struct Dashboard: View {
                     }
                 }
             }
-            .setBG()
+            .setBG(colorScheme: colorScheme)
             .onAppear{
                 UIApplication.shared.applicationIconBadgeNumber = 0
                 AnnoucementList.getAnnoucement()
                 academiclist.populateAllContinent(academicYearId: activeYear)
                 students.StundentAmount(parentId: parentId)
                 deleteBadge.DeleteNotificationByMobileUserId(mobileUserId: mobileUserId)
+                totalStu.getTotal()
             }
         }
         .padOnlyStackNavigationView()
@@ -128,24 +139,82 @@ struct Dashboard: View {
             }
             refreshingView()
             AnnoucementList.getAnnoucement()
-            academiclist.populateAllContinent(academicYearId: academiclist.academicYearId)
+            academiclist.populateAllContinent(academicYearId: academiclist.academicYearId.isEmpty ? "62f079626cf8a36847d31d2d" : academiclist.academicYearId)
             students.StundentAmount(parentId: parentId)
+        }
+    }
+    @ViewBuilder
+    private func ChangeLanguage()-> some View {
+        HStack{
+            Menu {
+                //                    Button {
+                //                        self.language = "ch"
+                //                    } label: {
+                //                        Text("中文")
+                //                    }
+                Button {
+                    // Step #3
+                    self.bindingLanguage = "en"
+                } label: {
+                    Text("English(US)")
+                    Image("en")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                }
+                Button {
+                    self.bindingLanguage = "km-KH"
+                } label: {
+                    Text("ភាសាខ្មែរ")
+                    Image("km")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                }
+                
+            } label: {
+                
+                Image(language == "ch" ? "ch" : language == "km-KH" ? "km" : "en")
+                    .resizable()
+                    .frame(width: 28, height: 28)
+                    .overlay {
+                        Circle()
+                            .stroke(.yellow, lineWidth: 1)
+                    }
+            }
         }
     }
     @ViewBuilder
     private func mainView()-> some View{
         VStack(alignment: .leading,spacing: 0 ){
+            
+//            MarqueeText(
+//                text: "Our Vision to educate Cambodian future generations to become international human resources.".localizedLanguage(language: self.language),
+//                 font: UIFont(name: "Bayon", size:  prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16)!,
+//                 leftFade: 16,
+//                 rightFade: 16,
+//                 startDelay: 1
+//                 )
+//                .foregroundColor(.pink)
+//                .padding(.top)
+            
+            Text("បុត្រធីតា".localizedLanguage(language: self.language))
+                .foregroundColor(.blue)
+                .font(.custom("Bayon", size: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 22 : prop.isiPhoneL ? 24:26, relativeTo: .largeTitle))
+                .hLeading()
+                .padding([.top, .horizontal])
+                .background(.clear)
+            
             ZStack{
                 imageStuBG(prop: prop)
                 if students.AllStudents.isEmpty {
                     Text("មិនមានកូន".localizedLanguage(language: self.language))
                         .foregroundColor(.blue)
                 } else {
+                    
                     ScrollView(.horizontal, showsIndicators: false){
                         HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
                             ForEach(students.AllStudents,id: \.Id) { student in
                                 NavigationLink(
-                                    destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, Student: "\(student.Lastname) \(student.Firstname)", StudentEnglishName: student.EnglishName, parentId: parentId, barTitle: barTitle,studentID: student.Id, language: self.language, prop: prop),
+                                    destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, showTeacherImage: $showTeacherImage,UrlImg: $UrlImg, Student: "\(student.Lastname) \(student.Firstname)", StudentEnglishName: student.EnglishName, parentId: parentId, barTitle: barTitle,studentID: student.Id, language: self.language, prop: prop),
                                     label: {
                                         widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop, Englishname: student.EnglishName)
                                     }
@@ -173,7 +242,7 @@ struct Dashboard: View {
             VStack(spacing:prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 ){
                 ForEach(Array(academiclist.removeExpireDate.prefix(3).enumerated()), id: \.element.code){ index,academic in
                     HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                        graduatedLogo()
+                        graduatedLogo(colorScheme: colorScheme)
                         VStack(alignment: .leading){
                             datingEditer(inputCode: academic.date, inputAnotherDate: academic.enddate)
                                 .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
@@ -185,7 +254,11 @@ struct Dashboard: View {
                         }
                     }
                     .foregroundColor(index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
-                    .setBackgroundRow(color: index % 2 == 0 ?  colorOrg : colorBlue, prop: prop)
+                    .setBackgroundRow( color: colorScheme == .dark ? "Black" : index % 2 == 0 ?  colorOrg : colorBlue, prop: prop)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                    )
                 }
             }
             HStack(spacing: prop.isiPhoneS ? 2 : prop.isiPhoneM ? 3 : 5){
@@ -214,7 +287,7 @@ struct Dashboard: View {
                                 .frame(maxWidth: .infinity, alignment: .center)
                                     .onAppear{
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                                            self.reloadingAnn = false
+                                            self.reloadingAnn = false 
                                         }
                                     }
                             } else {
@@ -373,7 +446,7 @@ struct Dashboard: View {
                 .padding(5)
                 .padding(.horizontal, 5)
                 .font(.custom("kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
-                .background(.blue)
+                .background(colorScheme == .dark ? .clear : .blue)
                 .cornerRadius(5)
                 .padding(.bottom, 10)
         }
@@ -386,7 +459,7 @@ struct Dashboard: View {
 struct Dashboard_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Dashboard(userProfileImg: "", isLoading: .constant(false), parentId: "",activeYear: "", prop: prop, mobileUserId: "", language: "em")
+        Dashboard(userProfileImg: "", isLoading: .constant(false), bindingLanguage: .constant(""),showTeacherImage: .constant(false),UrlImg: .constant(""), parentId: "",activeYear: "", prop: prop, mobileUserId: "", language: "em")
     }
 }
 struct AnnouceButtonView: View{

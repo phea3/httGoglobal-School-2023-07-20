@@ -66,6 +66,7 @@ class LoginViewModel: ObservableObject{
                 if let userId = graphQLResult.data?.login?.user?.parentId?._id{
                     DispatchQueue.main.async {
                         self?.userId = userId
+//                        print(self?.userId as Any)
                     }
                 }
                 if let userprofileId = graphQLResult.data?.login?.user?._id{
@@ -115,12 +116,6 @@ class LoginViewModel: ObservableObject{
         keychain.delete(LoginViewModel.loginKeychainKey)
         DispatchQueue.main.async {
             self.isAuthenticated = false
-            self.userId = ""
-            self.userName = ""
-            self.userTel = ""
-            self.userNationality = ""
-            self.userprofileId = ""
-            self.userProfileImg = ""
         }
     }
 }

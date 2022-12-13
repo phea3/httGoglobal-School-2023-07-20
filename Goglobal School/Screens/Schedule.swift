@@ -8,16 +8,20 @@
 import SwiftUI
 
 struct Schedule: View {
-    
+    @Environment(\.colorScheme) var colorScheme
     @StateObject var AllClasses: ScheduleViewModel = ScheduleViewModel()
     @State var loadingScreen: Bool = false
     @State var currentProgress: CGFloat = 0
+    @State var loadingImg: Bool = false
+    @Binding var showTeacherImage: Bool
+    @Binding var UrlImg: String
     var prop: Properties
     var classId: String
     var academicYearId: String
     var programId: String
     var language: String
     var body: some View {
+        
         VStack(spacing:0){
             HStack{
                 ForEach(AllClasses.currentWeek, id: \.self){ day in
@@ -71,7 +75,7 @@ struct Schedule: View {
                                 .offset(y: prop.isLandscape ? 100 :  300)
                         } else{
                             List(Array(AllClasses.filteredTasks.enumerated()), id: \.element.id){ index, item in
-                                customList(startTime: String(format: "%.2f", item.startTime), endTime: String(format: "%.2f", item.endTime), subject: item.subject.subjectName, lastName: item.leadTeacherId.lastName, firstName: item.leadTeacherId.firstName, breaktime: item.breakTime, index: index)
+                                customList(startTime: String(format: "%.2f", item.startTime), endTime: String(format: "%.2f", item.endTime), subject: item.subject.subjectName, lastName: item.leadTeacherId.lastName, firstName: item.leadTeacherId.firstName, breaktime: item.breakTime, index: index, profileImg: item.leadTeacherId.teacherProfileImg)
                                     .listRowInsets(.init(top: 5, leading: 0, bottom: 5, trailing: 0))
                                     .backgroundRemover()
                                     .padding(.vertical , prop.isiPad ? 5: 0 )
@@ -94,7 +98,7 @@ struct Schedule: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-        .setBG()
+        .setBG(colorScheme: colorScheme)
         .onAppear {
             AllClasses.getClasses(classId: classId, academicYearId: academicYearId, programId: programId)
             self.loadingScreen = true
@@ -117,7 +121,7 @@ struct Schedule: View {
         .background(Color(day))
         .cornerRadius( prop.isiPad ? 10 : 5)
     }
-    func customList(startTime: String, endTime: String, subject: String, lastName: String, firstName: String, breaktime: Bool, index: Int)-> some View{
+    func customList(startTime: String, endTime: String, subject: String, lastName: String, firstName: String, breaktime: Bool, index: Int, profileImg: String)-> some View{
         HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
             VStack(alignment: .leading, spacing: 0){
                 Text(language == "en" ? startTime : convertStartTime(startTime: startTime))
@@ -152,12 +156,49 @@ struct Schedule: View {
                     Circle()
                         .font(.system(size: 50))
                         .frame(width: 49, height: 49, alignment: .center)
-                        .foregroundColor(Color(index % 4 == 0 ?"bodyOrange":"bodyBlue"))
+                        .foregroundColor(Color(index % 4 == 0 ?"LightOrange":"LightBlue"))
                         .overlay(
-                            Image(systemName: "graduationcap.circle.fill")
-                                .font(.system(size: 50))
-                                .frame(width: 50, height: 50, alignment: .center)
-                                .foregroundColor(.white)
+                            ZStack{
+                                    AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(profileImg)"), content: { image in
+                                        switch image{
+                                        case .empty:
+                                            ProgressView()
+                                                .progressViewStyle(CircularProgressViewStyle(tint: Color(index % 4 == 0 ?"bodyOrange":"bodyBlue")))
+                                                .frame(width: 50, height: 50)
+                                        case .success(let image):
+                                            Button {
+                                                DispatchQueue.main.asyncAfter(deadline:.now() + 0.2){
+                                                    self.showTeacherImage = true
+                                                }
+                                                self.UrlImg = "https://storage.go-globalschool.com/api\(profileImg)"
+                                            } label: {
+                                                image
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .clipShape(Circle())
+                                                .frame(width: 50, height: 50)
+                                            }
+                                        case .failure:
+                                            Image(systemName: "person.fill")
+                                                .resizable()
+                                                .frame(width: 30, height: 30)
+                                                .foregroundColor(Color(index % 4 == 0 ?"bodyOrange":"bodyBlue"))
+                                                .background(
+                                                    Circle()
+                                                        .fill(.white)
+                                                        .frame(width: 45 , height: 45)
+                                                )
+                                        @unknown default:
+                                            // Since the AsyncImagePhase enum isn't frozen,
+                                            // we need to add this currently unused fallback
+                                            // to handle any new cases that might be added
+                                            // in the future:
+                                            EmptyView()
+                                        }
+                                    })
+//                                }
+                            }
+                                
                         )
                         .padding(.leading)
                     VStack(alignment: .leading){
@@ -178,8 +219,12 @@ struct Schedule: View {
                     }
                     .frame(maxWidth:.infinity,maxHeight: .infinity,alignment: .leading)
                 }
-                .background(Color( index % 4 == 0 ? "LightOrange" : "LightBlue"))
+                .background(Color(colorScheme == .dark ? "Black" : index % 4 == 0 ? "LightOrange" : "LightBlue"))
                 .cornerRadius(15)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                )
             }
         }
         .frame(maxWidth:.infinity,maxHeight: .infinity,alignment: .leading)
@@ -189,7 +234,7 @@ struct Schedule: View {
 struct Schedule_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Schedule(prop: prop, classId: "", academicYearId: "", programId: "", language: "em")
+        Schedule(showTeacherImage: .constant(false), UrlImg: .constant(""), prop: prop, classId: "", academicYearId: "", programId: "", language: "em")
     }
 }
 

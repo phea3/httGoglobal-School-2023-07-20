@@ -10,6 +10,7 @@ import Foundation
 class updateEYSReportViewModel: ObservableObject {
     @Published var success: Bool = false
     @Published var message: String = ""
+    
     func updateEYSR(id: String, date: String, stuId: String,title: Bool, description: String,parentsComment:String){
         Network.shared.apollo.perform(mutation: UpdateEysReportMutation(updateEysReport: EYSReportInputUpdate(_id: id, date: date, stuId: stuId, parentsCheck: ParentsCheckInput(title: title, description: description),  parentsComment: parentsComment))) { [weak self] result in
             switch result{
@@ -25,6 +26,7 @@ class updateEYSReportViewModel: ObservableObject {
             }
         }
     }
+    
     func clearCache(){
         Network.shared.apollo.clearCache()
     }

@@ -82,6 +82,8 @@ class ListViewModel: ObservableObject{
                     DispatchQueue.main.async {
                         self?.academicYearId = firstElement.id
                         self?.academicYearName = firstElement.activeYearName
+//                        print(self?.academicYearId as Any)
+//                        print(self?.academicYearName as Any)
                     }
                 }
             case .failure(let graphQLError):

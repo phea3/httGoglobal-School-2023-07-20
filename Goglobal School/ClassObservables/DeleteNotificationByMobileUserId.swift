@@ -11,6 +11,7 @@ class DeleteNotificationByMobileUserIdViewModel: ObservableObject{
     @Published var success: Bool =  false
     @Published var Error: Bool = false
     @Published var ErrorWord: String = ""
+    
     func DeleteNotificationByMobileUserId(mobileUserId: String){
         Network.shared.apollo.perform(mutation: DeleteNotificationByMobileUserIdMutation(mobileUserId: mobileUserId)){ [weak self] result in
             switch result{

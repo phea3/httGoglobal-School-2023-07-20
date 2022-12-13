@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Payment: View {
+    @Environment(\.colorScheme) var colorScheme
     @StateObject var paymentmethod: InvoiceViewModel = InvoiceViewModel()
     @State var loadingScreen: Bool = false
     @State var currentProgress: CGFloat = 0
@@ -143,7 +144,7 @@ struct Payment: View {
                                     .foregroundColor(.blue)
                                     .padding(.horizontal)
                                     .frame(maxWidth:.infinity)
-                                    .background(Color("LightOrange").opacity(0.5))
+                                    .background(Color(colorScheme == .dark ? "" : "LightOrange").opacity(0.5))
                                     .cornerRadius(10)
                                 }
                             }
@@ -159,7 +160,7 @@ struct Payment: View {
                 .padding(.bottom,60)
             }
         }
-        .setBG()
+        .setBG(colorScheme: colorScheme)
         .onAppear{
             paymentmethod.getInvoice(studentId: studentId)
             self.loadingScreen = true
@@ -188,9 +189,12 @@ struct Payment: View {
         .foregroundColor(.blue)
         .padding()
         .frame(maxWidth:.infinity, maxHeight:50)
-        .background(Color("LightBlue"))
+        .background(Color(colorScheme == .dark ? "Black" :"LightBlue"))
         .cornerRadius(10)
-        
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+        )
     }
     func rowdata(dater: String, pay: String, period: String, total: String)-> some View {
         HStack{
@@ -215,6 +219,8 @@ struct Payment: View {
         .frame(maxWidth:.infinity)
         .background(Color("LightOrange").opacity(0.5))
         .cornerRadius(10)
+        
+
         
     }
 }

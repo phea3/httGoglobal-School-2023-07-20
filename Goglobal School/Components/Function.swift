@@ -42,7 +42,7 @@ extension View{
             .aspectRatio(contentMode: .fit)
             .frame(width: prop.isiPadPro ? 400 : prop.isiPadMini ? 450 : prop.isLandscape && prop.isiPad ? 600 : prop.isLandscape && prop.isiPhoneS ? 360 : prop.isLandscape && prop.isiPhoneM ? 370 : prop.isLandscape && prop.isiPhoneL ? 380 : 300)
     }
-    func graduatedLogo()->some View{
+    func graduatedLogo(colorScheme: ColorScheme)->some View{
         Circle()
             .font(.system(size: 50))
             .frame(width: 49, height: 49, alignment: .center)
@@ -57,7 +57,7 @@ extension View{
         Image("Footer")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: 110)
+            .frame(maxWidth: prop.isLandscape ? 112 : prop.isLandscape && prop.isiPad ? 150 : prop.isiPad && !prop.isLandscape ? 140 : 110)
             .padding(.bottom, 40)
     }
     func LogoGoglobal(prop:Properties)->some View {
@@ -170,6 +170,8 @@ extension View{
                         }
                     }
                 }
+                
+                
             }
     }
     func gradientView(prop:Properties, gradient: Color) -> some View {
@@ -199,10 +201,10 @@ extension View{
                 .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20, relativeTo: .body))
         }
     }
-    func progressingView(prop:Properties, language: String) -> some View {
+    func progressingView(prop:Properties, language: String, colorScheme: ColorScheme) -> some View {
         ZStack{
             Rectangle()
-                .fill(.white)
+                .fill(colorScheme == .dark ? .clear : .white)
                 .frame(width: 100, height: 100, alignment: .center)
                 .cornerRadius(20)
             VStack{
@@ -229,11 +231,11 @@ extension View{
             self
         }
     }
-    func applyBG()-> some View{
+    func applyBG(colorScheme: ColorScheme)-> some View{
         self
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(
-                Color("BG")
+                Color(colorScheme == .dark ? "Black" : "BG")
             )
     }
     
@@ -252,10 +254,12 @@ extension View{
             .frame(maxWidth: .infinity,alignment: .center)
     }
     
-    func setBG() -> some View {
+    func setBG(colorScheme: ColorScheme) -> some View {
         self
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color("BG"))
+            .background(
+                Color(colorScheme == .dark ? "Black" : "BG")
+            )
     }
     func setBackgroundRow(color: String, prop: Properties) -> some View {
         self

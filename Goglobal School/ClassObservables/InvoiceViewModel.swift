@@ -10,6 +10,7 @@ import Foundation
 class InvoiceViewModel: ObservableObject{
     @Published var paymentmethod: [invoiceModel] = []
     @Published var unitPeriod: String = ""
+    
     func getInvoice(studentId: String){
         Network.shared.apollo.fetch(query: GetInvoiceBystudentIdWithPaginationQuery(studentId: studentId)){ [weak self] result in
             switch result{
@@ -22,6 +23,7 @@ class InvoiceViewModel: ObservableObject{
             }
         }
     }
+    
     func convertToExactForm(getDate: String) -> String {
         let isoDate = getDate
         let dateFormatter = DateFormatter()

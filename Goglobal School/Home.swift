@@ -3,11 +3,13 @@ import SwiftUI
 import Alamofire
 import ImageViewer
 import LocalAuthentication
+import ImageViewerRemote
 
 struct Home: View {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @Environment(\.openURL) var openURL
+    @Environment(\.colorScheme) var colorScheme
     @StateObject var loginVM: LoginViewModel = LoginViewModel()
     @StateObject var userProfile: MobileUserViewModel = MobileUserViewModel()
     @StateObject var academiclist: ListViewModel =  ListViewModel()
@@ -18,7 +20,7 @@ struct Home: View {
     @StateObject var AllClasses: ScheduleViewModel = ScheduleViewModel()
     @StateObject var Attendance: ListAttendanceViewModel = ListAttendanceViewModel()
     @StateObject var monitor = Monitor()
-    
+    @StateObject var student: ListStudentViewModel = ListStudentViewModel()
     init(){
         requestPushAuthorization();
         UITabBar.appearance().isHidden = true
@@ -44,12 +46,17 @@ struct Home: View {
     @State var hidefooter: Bool = false
     @State var image = Image("GoGlobalSchool")
     @State var newToken: String = ""
+    @State var showTeacherImage: Bool = false
+    @State var UrlImg: String = ""
     @State private var isUnlocked = false
     @State private var language = "km-KH"
+
     enum Field {
         case gmail, pass
     }
+    
     @FocusState private var focusedField: Field?
+    
     var body: some View {
         // MARK: Resposive App
         ResponsiveView { prop in
@@ -63,8 +70,8 @@ struct Home: View {
                     ZStack{
                         if !loggedIn{
                             // 3s progressing
-                            progressingView(prop: prop, language: self.language)
-                                .setBG()
+                            progressingView(prop: prop, language: self.language, colorScheme: colorScheme)
+                                .setBG(colorScheme: colorScheme)
                         }else{
                             MainView(prop: prop)
                         }
@@ -73,7 +80,7 @@ struct Home: View {
                         //login mutation
                         loginVM.login(email: gmail, password: pass, checkState: checkState)
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             // get active year
                             academiclist.activeAcademicYear()
                         }
@@ -85,7 +92,7 @@ struct Home: View {
                             }
                         }
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
                             loggedIn = true
                         }
                     }
@@ -99,13 +106,26 @@ struct Home: View {
                         
                         // change language
                         ChangeLanguage()
-                            .frame(maxWidth:.infinity, maxHeight: .infinity,alignment: .bottomTrailing)
-                            .padding(.bottom, 80)
+                            .padding()
+                            .padding(.top,40)
+                            .frame(maxWidth:.infinity, maxHeight: .infinity,alignment: .topTrailing)
                             .opacity( showFlag ? 0 : 1)
                     }
                 }
                 // animation loading
-                FlashScreen(animationFinished: self.animationFinished, prop: prop)
+                FlashScreen(animationFinished: self.animationFinished, language: language, prop: prop)
+                
+                if showTeacherImage{
+                    VStack {
+                        ProgressView()
+                    }
+                    .padding(30)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .overlay(
+                        ImageViewerRemote(imageURL: .constant(UrlImg), viewerShown: $showTeacherImage, disableCache: true, closeButtonTopRight: true)
+                            .padding(.top)
+                    )
+                }
             }
             .alert(isPresented: .constant(VersionCheck.shared.newVersionAvailable ?? false)) {
                 Alert(title: Text("សូមធ្វើការដំឡើង Version \(VersionCheck.shared.appStoreVersion ?? "") នៅក្នុង App Store!"), message: Text("Please update to version \(VersionCheck.shared.appStoreVersion ?? "") in the App Store!"), dismissButton: .default(Text("យល់ព្រម".localizedLanguage(language: self.language)), action: {
@@ -155,19 +175,19 @@ struct Home: View {
     func MainView(prop: Properties)-> some View{
         ZStack{
             TabView(selection: $currentTab){
-                Dashboard(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, parentId: loginVM.userId, activeYear: academiclist.academicYearId, prop: prop, mobileUserId: loginVM.userprofileId, language: self.language)
+                Dashboard(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, bindingLanguage: $language,showTeacherImage: $showTeacherImage,UrlImg: $UrlImg, parentId: loginVM.userId, activeYear: academiclist.academicYearId, prop: prop, mobileUserId: loginVM.userprofileId, language: self.language)
                     .tag(Tab.dashboard)
-                Education(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, parentId: loginVM.userId, academicYearName: academiclist.khmerYear, language: self.language, prop: prop)
+                Education(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, bindingLanguage: $language,showTeacherImage: $showTeacherImage,UrlImg: $UrlImg, parentId: loginVM.userId, academicYearName: academiclist.khmerYear, language: self.language, prop: prop)
                     .tag(Tab.education)
-                CalendarViewModel(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, language: self.language, prop: prop, activeYear: academiclist.academicYearId)
+                CalendarViewModel(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, bindingLanguage: $language, language: self.language, prop: prop, activeYear: academiclist.academicYearId)
                     .tag(Tab.bag)
-                Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, hideTab: $hideTab, checkState: $checkState, showFlag: $showFlag, prop: prop, devicetoken: self.newToken, language: self.language)
+                Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, hideTab: $hideTab, checkState: $checkState, showFlag: $showFlag, bindingLanguage: $language, prop: prop, devicetoken: self.newToken, language: self.language)
                     .tag(Tab.book)
             }
             
             // MARK: Custom to Bar
             CustomTabBar(currentTab: $currentTab,prop: prop)
-                .background(RoundedCorners(color: .white, tl: 30, tr: 30, bl: 0, br: 0))
+                .background(RoundedCorners(color: colorScheme == .dark ? .black :  .white, tl: 30, tr: 30, bl: 0, br: 0))
                 .frame(maxWidth: prop.isLandscape || prop.isSplit ? 400 : prop.isiPad ? 400 : .infinity, maxHeight: .infinity, alignment: .bottom)
                 .opacity( hideTab ? 0 : animationStarted ? 1:0)
                 .onAppear{
@@ -178,23 +198,12 @@ struct Home: View {
                         }
                     }
                 }
-            // MARK: option language
-            ChangeLanguage()
-                .frame(maxWidth:.infinity, maxHeight: .infinity,alignment: .bottomTrailing)
-                .padding(.bottom, 80)
-                .opacity( hideTab ? 0 : animationStarted ? 1:0)
-                .onAppear{
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                        withAnimation(.easeInOut(duration: 1)){
-                            animationStarted = true
-                        }
-                    }
-                }
+            
         }
     }
     
     @ViewBuilder
-    func ChangeLanguage()-> some View {
+    private func ChangeLanguage()-> some View {
         HStack{
             Menu {
                 //                    Button {
@@ -224,12 +233,12 @@ struct Home: View {
                 
                 Image(language == "ch" ? "ch" : language == "km-KH" ? "km" : "en")
                     .resizable()
-                    .frame(width: 40, height: 40)
+                    .frame(width: 30, height: 30)
                     .overlay {
                         Circle()
                             .stroke(.yellow, lineWidth: 1)
                     }
-            }.padding()
+            }
         }
     }
     
@@ -237,7 +246,7 @@ struct Home: View {
     func LoginView(prop: Properties)-> some View{
         ZStack{
             Rectangle()
-                .fill(.white)
+                .fill(colorScheme == .dark ? .black : .white)
                 .frame(maxWidth:.infinity,maxHeight:.infinity)
             ImageBackgroundSignIn()
             VStack{
@@ -307,7 +316,7 @@ struct Home: View {
                                             showingAlert = true
                                         }
                                     }else{
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 4){
                                             if !loginVM.isAuthenticated{
                                                 self.isLoading = false
                                                 self.forget = true

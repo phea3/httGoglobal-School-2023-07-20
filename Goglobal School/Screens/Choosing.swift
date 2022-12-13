@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct Choosing: View {
-    
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var chose: Chose
     @State var studentId: String
+    @Binding var showTeacherImage: Bool
+    @Binding var UrlImg: String
     let gradient = Color("BG")
     var barTitle: String
     var prop: Properties
@@ -24,7 +26,7 @@ struct Choosing: View {
         VStack(spacing: 0){
             Divider()
             TabView(selection: $chose){
-                Schedule(prop: prop,classId: classId, academicYearId: academicYearId, programId: programId, language: self.language)
+                Schedule(showTeacherImage: $showTeacherImage,UrlImg: $UrlImg,prop: prop,classId: classId, academicYearId: academicYearId, programId: programId, language: self.language)
                     .tag(Chose.attendance)
                 Attendant(studentId: studentId,classId: self.classId,academicYearId: self.academicYearId,programId: self.programId, prop: prop, language: self.language)
                     .tag(Chose.absence)
@@ -35,7 +37,7 @@ struct Choosing: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-        .setBG()
+        .setBG(colorScheme: colorScheme)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(leading: btnBack)
         .navigationBarBackButtonHidden(true)
@@ -45,6 +47,6 @@ struct Choosing: View {
 struct Choose_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Choosing(chose: .attendance, studentId: "", barTitle: "", prop: prop,classId: "",academicYearId: "",programId: "", language: "em")
+        Choosing(chose: .attendance, studentId: "", showTeacherImage: .constant(false), UrlImg: .constant(""), barTitle: "", prop: prop, classId: "", academicYearId: "", programId: "", language: "em")
     }
 }

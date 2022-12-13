@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct SheetContact: View {
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     var prop: Properties
     var language: String
     var body: some View {
         ScrollView{
-            Button("ចាកចេញ".localizedLanguage(language: self.language)) {
+            Button("Leave".localizedLanguage(language: self.language)) {
                 dismiss()
             }
             .font(.custom("Bayon", size: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 24 : prop.isiPhoneL ? 26 : 30, relativeTo: .largeTitle))
             .foregroundColor(.red)
             .padding()
-            .opacity(prop.isLandscape && prop.isiPhone ? 1:0)
-            Text("សូមទំនាក់ទំនងតាមពត័មានខាងក្រោម")
+            Text("សូមទំនាក់ទំនងតាមពត័មានខាងក្រោម".localizedLanguage(language: self.language))
                 .font(.custom("Bayon", size: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 24 : prop.isiPhoneL ? 26 : 30, relativeTo: .largeTitle))
                 .foregroundColor(Color("Blue"))
                 .padding()
@@ -64,12 +64,13 @@ struct SheetContact: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 24 : prop.isiPhoneL ? 26 : 30)
-                    Text("Thmey Village, Sangkut Svay Dangkum, Krong Siem Reap, Siem Reap")
+                    Text("Thmey Village, Sangkut Svay Dangkum, Krong Siem Reap, Siem Reap".localizedLanguage(language: self.language))
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .body))
                 }
             }
         }
-        .setBG()
+        .padding()
+        .setBG(colorScheme: colorScheme)
     }
 }
 

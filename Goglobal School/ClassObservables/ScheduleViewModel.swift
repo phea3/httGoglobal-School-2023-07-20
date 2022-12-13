@@ -20,17 +20,21 @@ class ScheduleViewModel: ObservableObject{
     @Published var currentWeek: [Date] = []
     // MARK: Current Day
     @Published var currentDay: Date = Date()
+    
     init(){
         fetchCurrentWeek()
         filterTodayTasks()
     }
+    
     func clearCache(){
         Network.shared.apollo.clearCache()
     }
+    
     func resetSchedule(){
         self.allClasses = []
         self.filteredTasks = []
     }
+    
     func getClasses(classId: String,academicYearId: String, programId: String){
         Network.shared.apollo.fetch(query: GetSectionShiftByClassIdQuery(classId: classId, academicYearId: academicYearId, programId: programId)){ [weak self] result in
             switch result{
@@ -150,6 +154,7 @@ class ScheduleViewModel: ObservableObject{
 
 
 struct ScheduleModel{
+    
     let schedule: GetSectionShiftByClassIdQuery.Data.GetSectionShiftByClassId.Section?
     
     var id: String{
@@ -207,6 +212,10 @@ struct leadTeacherIdModel{
     }
     var englishName: String{
         leadTeacher?.englishName ?? ""
+    }
+    
+    var teacherProfileImg: String {
+        leadTeacher?.profileImg ?? ""
     }
 }
 

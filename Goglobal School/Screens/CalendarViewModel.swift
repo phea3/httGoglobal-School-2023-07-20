@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CalendarViewModel: View {
-    
+    @Environment(\.colorScheme) var colorScheme
     @StateObject var academiclist: ListViewModel = ListViewModel()
     @State var colorBlue: String = "LightBlue"
     @State var colorOrg: String = "LightOrange"
@@ -18,6 +18,7 @@ struct CalendarViewModel: View {
     @State var viewLoading: Bool = false
     @State var hidingDivider: Bool = false
     @Binding var isLoading: Bool
+    @Binding var bindingLanguage: String
     let gradient = Color("BG")
     var language: String
     var prop: Properties
@@ -28,7 +29,7 @@ struct CalendarViewModel: View {
                 if academiclist.academicYear.isEmpty{
                     ZStack{
                         if viewLoading{
-                            progressingView(prop: prop, language: self.language)
+                            progressingView(prop: prop, language: self.language, colorScheme: colorScheme)
                         }else{
                             Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
                                 .foregroundColor(.blue)
@@ -48,7 +49,7 @@ struct CalendarViewModel: View {
                         .opacity(hidingDivider ? 0:1)
                     if refreshing {
                         Spacer()
-                        progressingView(prop: prop, language: self.language)
+                        progressingView(prop: prop, language: self.language, colorScheme: colorScheme)
                         Spacer()
                     }else{
                         ScrollRefreshable(langauge: self.language, title: "កំពុងភ្ជាប់", tintColor: .blue){
@@ -58,6 +59,11 @@ struct CalendarViewModel: View {
                                 .padding(.top)
                                 .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
                                 .toolbarView(prop: prop, barTitle: "ប្រតិទិនសិក្សា", profileImg: userProfileImg, language: self.language)
+                                .toolbar {
+                                    ToolbarItemGroup(placement: .navigationBarTrailing) {
+                                        ChangeLanguage()
+                                    }
+                                }
                         }
                     }
                 }
@@ -69,7 +75,7 @@ struct CalendarViewModel: View {
                     self.isLoading = false
                 }
             }
-            .applyBG()
+            .applyBG(colorScheme: colorScheme)
         }
         .phoneOnlyStackNavigationView()
         .padOnlyStackNavigationView()
@@ -91,14 +97,18 @@ struct CalendarViewModel: View {
     private func mainView()-> some View{
         VStack(spacing: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 18){
             HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                graduatedLogo()
+                graduatedLogo(colorScheme: colorScheme)
                 VStack(alignment: .leading){
                     Text("ឆ្នាំសិក្សា ២០២១~២០២២".localizedLanguage(language: self.language))
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20, relativeTo: .largeTitle))
                 }
             }
             .foregroundColor(Color("ColorTitle"))
-            .setBackgroundRow(color: colorBlue, prop: prop)
+            .setBackgroundRow(color: colorScheme == .dark ? "Black" : colorBlue, prop: prop)
+            .overlay(
+                RoundedRectangle(cornerRadius: 15)
+                    .stroke(Color("ColorTitle"), lineWidth: colorScheme == .dark ? 1 : 0)
+            )
             HStack{
                 Text("ខែ កញ្ញា ឆ្នាំ ២០២២".localizedLanguage(language: self.language))
                     .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15))
@@ -123,7 +133,7 @@ struct CalendarViewModel: View {
         language == "en" ?
         ForEach(Array(academiclist.convertDateFormatToEnglish(inputDate: inputCode,inputAnotherDate: inputAnotherDate).enumerated()), id: \.element.self){ dex, id in
             HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                graduatedLogo()
+                graduatedLogo(colorScheme: colorScheme)
                 VStack(alignment: .leading){
                    Text(id)
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
@@ -135,13 +145,17 @@ struct CalendarViewModel: View {
                 }
             }
             .foregroundColor(((index % 2 == 0) == (dex % 2 == 0)) ? Color("bodyOrange") : Color("bodyBlue") )
-            .setBackgroundRow(color: ((index % 2 == 0) == (dex % 2 == 0)) ? colorOrg : colorBlue, prop: prop)
+            .setBackgroundRow(color: colorScheme == .dark ? "Black" : ((index % 2 == 0) == (dex % 2 == 0)) ? colorOrg : colorBlue, prop: prop)
+            .overlay(
+                RoundedRectangle(cornerRadius: 15)
+                    .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+            )
         }
         
         :
         ForEach(Array(academiclist.convertDateFormat(inputDate: inputCode,inputAnotherDate: inputAnotherDate).enumerated()), id: \.element.self){ dex, id in
             HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                graduatedLogo()
+                graduatedLogo(colorScheme: colorScheme)
                 VStack(alignment: .leading){
                    Text(id)
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
@@ -153,7 +167,50 @@ struct CalendarViewModel: View {
                 }
             }
             .foregroundColor(((index % 2 == 0) == (dex % 2 == 0)) ? Color("bodyOrange") : Color("bodyBlue") )
-            .setBackgroundRow(color: ((index % 2 == 0) == (dex % 2 == 0)) ? colorOrg : colorBlue, prop: prop)
+            .setBackgroundRow(color: colorScheme == .dark ? "Black" : ((index % 2 == 0) == (dex % 2 == 0)) ? colorOrg : colorBlue, prop: prop)
+            .overlay(
+                RoundedRectangle(cornerRadius: 15)
+                    .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+            )
+        }
+    }
+    @ViewBuilder
+    private func ChangeLanguage()-> some View {
+        HStack{
+            Menu {
+                //                    Button {
+                //                        self.language = "ch"
+                //                    } label: {
+                //                        Text("中文")
+                //                    }
+                Button {
+                    // Step #3
+                    self.bindingLanguage = "en"
+                } label: {
+                    Text("English(US)")
+                    Image("en")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                }
+                Button {
+                    self.bindingLanguage = "km-KH"
+                } label: {
+                    Text("ភាសាខ្មែរ")
+                    Image("km")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                }
+                
+            } label: {
+                
+                Image(language == "ch" ? "ch" : language == "km-KH" ? "km" : "en")
+                    .resizable()
+                    .frame(width: 28, height: 28)
+                    .overlay {
+                        Circle()
+                            .stroke(.yellow, lineWidth: 1)
+                    }
+            }
         }
     }
 }
@@ -161,7 +218,7 @@ struct CalendarViewModel: View {
 struct CalendarViewModel_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        CalendarViewModel(userProfileImg: "", isLoading: .constant(false), language: "em", prop: prop, activeYear: "")
+        CalendarViewModel(userProfileImg: "", isLoading: .constant(false), bindingLanguage: .constant(""), language: "em", prop: prop, activeYear: "")
     }
 }
 

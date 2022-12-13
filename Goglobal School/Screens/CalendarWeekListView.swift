@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CalendarWeekListViewModel: View {
+    @Environment(\.colorScheme) var colorScheme
     @StateObject var taskData: BadysittingViewModel = BadysittingViewModel()
     @StateObject var updateReport: updateEYSReportViewModel = updateEYSReportViewModel()
     @State var loadingScreen: Bool = false
@@ -88,7 +89,7 @@ struct CalendarWeekListViewModel: View {
         //                                            Color(weekDayFormatter.string(from: date))
         //                                        )
                                                 .foregroundColor(
-                                                    calendar.isDate(date, inSameDayAs: selectDate) ? .white : calendar.isDateInToday(date) ? .blue : .black
+                                                    calendar.isDate(date, inSameDayAs: selectDate) ? .white : calendar.isDateInToday(date) ? .blue : colorScheme == .dark ? .white : .black
                                                 )
                                             
                                             Text(dayFormatter.string(from: date))
@@ -98,7 +99,7 @@ struct CalendarWeekListViewModel: View {
     //                                                calendar.isDate(date, inSameDayAs: selectDate) ? .white : calendar.isDateInToday(date) ? .blue : .black
     //                                            )
                                                 .foregroundColor(
-                                                    calendar.isDate(date, inSameDayAs: selectDate) ? .white : calendar.isDateInToday(date) ? .blue : .black
+                                                    calendar.isDate(date, inSameDayAs: selectDate) ? .white : calendar.isDateInToday(date) ? .blue : colorScheme == .dark ? .white : .black
                                                 )
                                           
                                         }
@@ -175,7 +176,7 @@ struct CalendarWeekListViewModel: View {
                 VStack{
                     if loadingScreen{
                         ZStack{
-                            Color("BG")
+                            Color(colorScheme == .dark ? "Black" : "BG")
                                 .frame(width: .infinity, height: .infinity)
                                 .ignoresSafeArea()
                             VStack{
@@ -248,7 +249,7 @@ struct CalendarWeekListViewModel: View {
     func taskView(task: BadysittingModel) -> some View{
         VStack{
             VStack{
-                titleView(title: "អាហារ/Food")
+                titleView(title: "អាហារ/ Food")
                 if task.Activity.isEmpty{
                     Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
@@ -265,7 +266,7 @@ struct CalendarWeekListViewModel: View {
             }
            
             VStack{
-                titleView(title: "សកម្មភាព/Activity")
+                titleView(title: "សកម្មភាព/Activities")
                 
                 if task.Activity.isEmpty{
                     Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
@@ -283,7 +284,8 @@ struct CalendarWeekListViewModel: View {
                 
             }
             VStack{
-                titleView(title: "សុខភាពកូន នៅសាលា/At School")
+                titleView(title: "ផ្នែកសុខភាព/ Health")
+                
                 HStack(spacing: 20){
                     VStack(alignment:.leading){
                         HStack{
@@ -291,18 +293,21 @@ struct CalendarWeekListViewModel: View {
                                 .resizable()
                                 .frame(width: 50, height: 50)
                             
-                            Text("ធម្មតា/Normal :")
-                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
-                                .foregroundColor(Color("bodyOrange"))
-                            
-                           
-                            HStack(alignment: .center, spacing: 10) {
-                                Image(systemName: task.atSchool.title ? "checkmark.square" : "square")
-                                    .font(.system(size: 20))
-                                    .padding(.bottom, 5)
+                            VStack{
+                                Text("នៅសាលា/At school")
+                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                                     .foregroundColor(Color("bodyOrange"))
+                                HStack{
+                                    Text("ធម្មតា/Normal :")
+                                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                                        .foregroundColor(Color("bodyOrange"))
+                                    Image(systemName: task.atSchool.title ? "checkmark.square" : "square")
+                                        .font(.system(size: 20))
+                                        .padding(.bottom, 5)
+                                        .foregroundColor(Color("bodyOrange"))
+                                }
+                               
                             }
-                            
                         }
                         HStack{
                             Text("ផ្សេងៗ/Other : \(task.atSchool.discription)")
@@ -313,10 +318,53 @@ struct CalendarWeekListViewModel: View {
                 }
                 .padding()
                 .frame(maxWidth:.infinity,alignment: .leading)
-                .background(Color("LightOrange"))
+                .background(Color(colorScheme == .dark ? "Black" :"LightOrange"))
                 .cornerRadius(15)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                )
                 
-                titleView(title: "មតិពេទ្យ Nurse’s Comment")
+                HStack(spacing: 20){
+                    VStack(alignment:.leading){
+                        HStack{
+                            Image("house")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                            VStack{
+                                
+                                Text("នៅផ្ទះ/at school :")
+                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                                    .foregroundColor(Color("bodyBlue"))
+                                
+                                HStack{
+                                    Text("ធម្មតា/Normal :")
+                                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                                        .foregroundColor(Color("bodyBlue"))
+                                    
+                                    Image(systemName: (checkbox == true ? checkbox : task.atHome.title) ? "checkmark.square" : "square")
+                                        .font(.system(size: 20))
+                                        .padding(.bottom, 5)
+                                        .foregroundColor(Color("bodyBlue"))
+                                }
+                            }
+                        }
+                        Text("ផ្សេងៗ/Other : \( parentComment.isEmpty ? task.atHome.description :  parentComment )")
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                                .foregroundColor(Color("bodyBlue"))
+                     
+                    }
+                }
+                .padding()
+                .frame(maxWidth:.infinity,alignment: .leading)
+                .background(Color(colorScheme == .dark ? "Black" :"LightBlue"))
+                .cornerRadius(15)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                )
+                
+                titleView(title: "មតិយោបល់/ feedback")
                 
                 HStack{
                     Image("nurse")
@@ -328,74 +376,13 @@ struct CalendarWeekListViewModel: View {
                 }
                 .padding()
                 .frame(maxWidth:.infinity,alignment: .leading)
-                .background(Color("LightOrange"))
+                .background(Color(colorScheme == .dark ? "Black" :"LightOrange"))
                 .cornerRadius(15)
-            }
-            VStack{
-                HStack(spacing: 0){
-                    if self.language == "km" {
-                        Text("សូមមាតាបិតាជួយដាក់បន្ថែម \(task.ParentsRequest.map{$0!}.joined(separator:", ")) ឱ្យកូន៖".localizedLanguage(language: self.language))
-                    }else{
-                        Text("\("សូមមាតាបិតាជួយដាក់បន្ថែម ".localizedLanguage(language:self.language))\("\(task.ParentsRequest.map{$0!}.joined(separator:", "))".localizedLanguage(language: self.language))\(" ឱ្យកូន៖".localizedLanguage(language: self.language))")
-                    }
-                   
-                }
-                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
-                .foregroundColor(Color("Blue"))
-                .padding(.top)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .opacity(task.ParentsRequest.isEmpty ? 0:1)
-                VStack(alignment:.leading){
-                    ForEach(task.ParentsRequest, id: \.self){ img in
-                        HStack(spacing: 20){
-                            Image(img ?? "")
-                                .resizable()
-                                .frame(width: 50, height: 50)
-                            Text((img ?? "").localizedLanguage(language: self.language))
-                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14))
-                                .foregroundColor(Color("bodyOrange"))
-                        }
-                        .padding()
-                        .frame(maxWidth:.infinity,alignment: .leading)
-                        .background(Color("LightOrange"))
-                        .cornerRadius(15)
-                    }
-                }
-            }
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                )
                 
-            VStack{
-                
-                titleView(title: "សុខភាពកូន នៅផ្ទះ/At home")
-                
-                HStack(spacing: 20){
-                    VStack(alignment:.leading){
-                        HStack{
-                            Image("house")
-                                .resizable()
-                                .frame(width: 50, height: 50)
-                            
-                            Text("ធម្មតា/Normal :")
-                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
-                                .foregroundColor(Color("bodyBlue"))
-                            
-                            Image(systemName: (checkbox == true ? checkbox : task.atHome.title) ? "checkmark.square" : "square")
-                                .font(.system(size: 20))
-                                .padding(.bottom, 5)
-                                .foregroundColor(Color("bodyBlue"))
-                        
-                            
-                        }
-                        Text("ផ្សេងៗ/Other : \( parentComment.isEmpty ? task.atHome.description :  parentComment )")
-                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
-                                .foregroundColor(Color("bodyBlue"))
-                     
-                    }
-                }
-                .padding()
-                .frame(maxWidth:.infinity,alignment: .leading)
-                .background(Color("LightBlue"))
-                .cornerRadius(15)
-                titleView(title: "មតិមាតាបិតា Parents’ Comment")
                 HStack{
                     Image("parents")
                         .resizable()
@@ -407,38 +394,48 @@ struct CalendarWeekListViewModel: View {
                 }
                 .padding()
                 .frame(maxWidth:.infinity,alignment: .leading)
-                .background(Color("LightBlue"))
+                .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
                 .cornerRadius(15)
-                
-               
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                )
             }
             
-            titleView(title: "ផ្នែកបញ្ចូលព៏ត៍មាន".localizedLanguage(language: self.language))
+            VStack{
+                HStack(spacing: 0){
+                    if self.language == "km" {
+                        Text("សូមមាតាបិតាជួយដាក់បន្ថែម \(task.ParentsRequest.map{$0!}.joined(separator:", ")) ឱ្យកូន".localizedLanguage(language: self.language))
+                    }else{
+                        Text("\("សូមមាតាបិតាជួយដាក់បន្ថែម ".localizedLanguage(language:self.language))\("\(task.ParentsRequest.map{$0!}.joined(separator:", "))".localizedLanguage(language: self.language))\(" ឱ្យកូន".localizedLanguage(language: self.language))")
+                    }
+                   
+                }
+                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                .foregroundColor(Color("bodyOrange"))
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color(colorScheme == .dark ? "Black":"LightOrange"))
+                .cornerRadius(15)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                )
+                .opacity(task.ParentsRequest.isEmpty ? 0:1)
+                
+
+            }
+            
+            titleView(title: "ផ្នែកបញ្ចូលព៏ត៍មាន/ input information")
             
             VStack{
                 HStack{
-                    Button {
-                        self.parentAlert = true
-                    } label: {
-                        Text("Click ទីនេះដើម្បីចូលកន្លែងបញ្ចូលសុខភាពកូន".localizedLanguage(language: self.language))
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
-                            .padding(10)
-                            .foregroundColor(.white)
-                            .frame(maxWidth:.infinity)
-                            .background(Color("bodyOrange"))
-                            .cornerRadius(10)
-                    }
-                    .alert("កន្លែងបញ្ជូលមតិយោបល់".localizedLanguage(language: self.language), isPresented: $parentAlert, actions: {
-                        // Any view other than Button would be ignored
-                        TextField("សរសេរ".localizedLanguage(language: self.language), text: $parentComment)
-                    })
-                    
                     Button(action:
                             {
                         self.checkbox.toggle()
                     }) {
                         HStack(alignment: .center, spacing: 10) {
-                            Text("សុខភាពកូន ធម្មតា/Normal :")
+                            Text("\("សុខភាពកូន".localizedLanguage(language: self.language)) ធម្មតា/Normal :")
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                                 .foregroundColor(.white)
                             Image(systemName: checkbox ? "checkmark.square" : "square")
@@ -448,26 +445,67 @@ struct CalendarWeekListViewModel: View {
                         .padding(10)
                         .foregroundColor(.white)
                         .frame(maxWidth:.infinity)
-                        .background(Color("bodyOrange"))
+                        .background(Color(colorScheme == .dark ? "Black":"bodyOrange"))
                         .cornerRadius(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                        )
                     }
+                    
+                    Button {
+                        self.parentAlert = true
+                    } label: {
+                        Text("សូមបញ្ចូលព័ត៍មានសុខភាពកូននៅទីនេះ".localizedLanguage(language: self.language))
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                            .padding(10)
+                            .foregroundColor(.white)
+                            .frame(maxWidth:.infinity)
+                            .background(Color(colorScheme == .dark ? "Black" : "bodyOrange"))
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                            )
+                    }
+                    .alert("កន្លែងបញ្ជូលមតិយោបល់".localizedLanguage(language: self.language), isPresented: $parentAlert, actions: {
+                        // Any view other than Button would be ignored
+                        TextField("សរសេរ".localizedLanguage(language: self.language), text: $parentComment)
+                    })
+                    
+                    
                 }
                 
-                Button {
-                    self.parentAlertComment = true
-                } label: {
-                    Text("Click ទីនេះដើម្បីចូលកន្លែងសរសេរមតិ".localizedLanguage(language: self.language))
-                        .font(.custom("kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
-                        .padding(10)
-                        .foregroundColor(.white)
-                        .frame(maxWidth:.infinity)
-                        .background(Color("bodyOrange"))
-                        .cornerRadius(10)
+                HStack{
+                    VStack{
+                        Text("សូមមាតាបិតាផ្តល់មតិយោបល់")
+                            .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18, relativeTo: .body))
+                            .foregroundColor(Color("bodyOrange"))
+                        Text("Please parents comment")
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .body))
+                            .foregroundColor(Color("bodyOrange"))
+                    }
+                    Spacer()
+                    Button {
+                        self.parentAlertComment = true
+                    } label: {
+                        Text("បញ្ចូល".localizedLanguage(language: self.language))
+                            .font(.custom("kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18, relativeTo: .body))
+                            .padding(10)
+                            .foregroundColor(.white)
+                            .background(Color(colorScheme == .dark ? "Black":"bodyOrange"))
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                            )
+                    }
+                    .alert("កន្លែងបញ្ចូលមតិយោបល់".localizedLanguage(language: self.language), isPresented: $parentAlertComment, actions: {
+                        // Any view other than Button would be ignored
+                        TextField("សរសេរ".localizedLanguage(language: self.language), text: $parentAlertCommentResult)
+                    })
                 }
-                .alert("កន្លែងបញ្ចូលមតិយោបល់".localizedLanguage(language: self.language), isPresented: $parentAlertComment, actions: {
-                    // Any view other than Button would be ignored
-                    TextField("សរសេរ".localizedLanguage(language: self.language), text: $parentAlertCommentResult)
-                })
+                
                 
                 Button {
                     updateReport.updateEYSR(id: task.Id, date: task.Date, stuId: task.stuID, title: checkbox, description: parentComment, parentsComment: parentAlertCommentResult)
@@ -475,20 +513,27 @@ struct CalendarWeekListViewModel: View {
                         updateReport.clearCache()
                     }
                 } label: {
-                    Text("ផ្ញើ".localizedLanguage(language: self.language))
+                    Text("រក្សាទុក".localizedLanguage(language: self.language))
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18, relativeTo: .body))
                         .padding(10)
                         .frame(maxWidth:.infinity)
-                        .foregroundColor(.black)
-                        .background(.green)
+                        .foregroundColor(.white)
+                        .background(colorScheme == .dark ? .black :.blue)
                         .cornerRadius(10)
-                    
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                        )
                 }
             }
             .padding()
             .frame(maxWidth:.infinity,alignment: .leading)
-            .background(Color("LightOrange"))
+            .background(Color(colorScheme == .dark ? "Black": "LightOrange"))
             .cornerRadius(15)
+            .overlay(
+                RoundedRectangle(cornerRadius: 15)
+                    .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+            )
         }
         .padding()
     }
@@ -573,8 +618,12 @@ struct CalendarWeekListViewModel: View {
             .frame(maxWidth:.infinity,alignment: .leading)
         }
         .frame(maxWidth:.infinity,alignment: .leading)
-        .background(Color( index % 2 == 0 ? "LightOrange" : "LightBlue"))
+        .background(Color(colorScheme == .dark ? "Black" : index % 2 == 0 ? "LightOrange" : "LightBlue"))
         .cornerRadius(15)
+        .overlay(
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+        )
     }
     func tasksAction(imageURL: String, title: String, body: String, index: Int, count: Int, description: String) -> some View {
         HStack{
@@ -647,8 +696,12 @@ struct CalendarWeekListViewModel: View {
             .frame(maxWidth:.infinity,alignment: .leading)
         }
         .frame(maxWidth:.infinity,alignment: .leading)
-        .background(Color( index % 2 == 0 ? "LightOrange" : "LightBlue"))
+        .background(Color(colorScheme == .dark ? "Black" : index % 2 == 0 ? "LightOrange" : "LightBlue"))
         .cornerRadius(15)
+        .overlay(
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+        )
     }
     private func isSameDay(date1: Date, date2: Date)-> Bool {
         let calendar = NSCalendar.current
@@ -785,3 +838,20 @@ private extension DateFormatter{
         self.locale = Locale(identifier: "en_US_POSIX")
     }
 }
+
+//                VStack(alignment:.leading){
+//                    ForEach(task.ParentsRequest, id: \.self){ img in
+//                        HStack(spacing: 20){
+//                            Image(img ?? "")
+//                                .resizable()
+//                                .frame(width: 50, height: 50)
+//                            Text((img ?? "").localizedLanguage(language: self.language))
+//                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14))
+//                                .foregroundColor(Color("bodyOrange"))
+//                        }
+//                        .padding()
+//                        .frame(maxWidth:.infinity,alignment: .leading)
+//                        .background(Color("LightOrange"))
+//                        .cornerRadius(15)
+//                    }
+//                }

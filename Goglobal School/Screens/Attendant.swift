@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Attendant: View {
+    @Environment(\.colorScheme) var colorScheme
     @State var currentDate: Date = Date()
     @State private var date = Date()
     @State var studentId: String
@@ -47,7 +48,7 @@ struct Attendant: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-        .setBG()
+        .setBG(colorScheme: colorScheme)
         .onAppear(perform: {
             AllClasses.getClasses(classId: self.classId, academicYearId: self.academicYearId, programId: self.programId)
             self.loadingScreen = true

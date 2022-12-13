@@ -11,7 +11,7 @@ import ImageViewer
 import ImageViewerRemote
 
 struct Profile: View {
-    
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject var logout: LoginViewModel
     @StateObject var uploadImg: UpdateMobileUserProfileImg
@@ -43,6 +43,7 @@ struct Profile: View {
     @Binding var hideTab: Bool
     @Binding var checkState: Bool
     @Binding var showFlag: Bool
+    @Binding var bindingLanguage: String
     let gradient = Color("BG")
     var prop: Properties
     var devicetoken: String
@@ -57,7 +58,7 @@ struct Profile: View {
                         if userProfile.userID.isEmpty{
                             ZStack{
                                 if viewLoading{
-                                    progressingView(prop: prop, language: self.language)
+                                    progressingView(prop: prop, language: self.language, colorScheme: colorScheme)
                                 }else{
                                     Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
                                         .foregroundColor(.blue)
@@ -77,7 +78,7 @@ struct Profile: View {
                                 .opacity(hidingDivider ? 0:1)
                             if refreshing {
                                 Spacer()
-                                progressingView(prop: prop, language: self.language)
+                                progressingView(prop: prop, language: self.language, colorScheme: colorScheme)
                                 Spacer()
                             }else{
                                 ZStack{
@@ -90,11 +91,17 @@ struct Profile: View {
                                         }
                                         .navigationBarItems(leading: btnBack)
                                         .navigationBarTitleDisplayMode(.inline)
+                                        .toolbar {
+                                            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                                                ChangeLanguage()
+                                                    .opacity(showImage || showingBG ? 0:1)
+                                            }
+                                        }
                                         
                                     }
                                     if onAppearImg{
                                         ZStack{
-                                            Color("BG")
+                                            Color(colorScheme == .dark ? "Black" : "BG")
                                                 .frame(maxWidth:.infinity, maxHeight: .infinity)
                                             VStack{
                                                 ProgressView(value: currentProgress, total: 1000)
@@ -137,7 +144,7 @@ struct Profile: View {
                     }
                     
                     if logoutLoading{
-                        progressingView(prop: prop, language: self.language)
+                        progressingView(prop: prop, language: self.language, colorScheme: colorScheme)
                     }
                     
                     if showingBG{
@@ -154,9 +161,10 @@ struct Profile: View {
                     
                 }
             }
-            .setBG()
+            .setBG(colorScheme: colorScheme)
             .onAppear{
                 userProfile.getProfileImage(mobileUserId: logout.userprofileId)
+                students.StundentAmount(parentId: logout.userId)
                 DispatchQueue.main.async {
                     self.isLoading = false
                 }
@@ -177,6 +185,45 @@ struct Profile: View {
         }
         .phoneOnlyStackNavigationView()
         .padOnlyStackNavigationView()
+    }
+    @ViewBuilder
+    private func ChangeLanguage()-> some View {
+        HStack{
+            Menu {
+                //                    Button {
+                //                        self.language = "ch"
+                //                    } label: {
+                //                        Text("中文")
+                //                    }
+                Button {
+                    // Step #3
+                    self.bindingLanguage = "en"
+                } label: {
+                    Text("English(US)")
+                    Image("en")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                }
+                Button {
+                    self.bindingLanguage = "km-KH"
+                } label: {
+                    Text("ភាសាខ្មែរ")
+                    Image("km")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                }
+                
+            } label: {
+                
+                Image(language == "ch" ? "ch" : language == "km-KH" ? "km" : "en")
+                    .resizable()
+                    .frame(width: 28, height: 28)
+                    .overlay {
+                        Circle()
+                            .stroke(.yellow, lineWidth: 1)
+                    }
+            }
+        }
     }
     @ViewBuilder
     private func mainView()-> some View{
@@ -253,7 +300,7 @@ struct Profile: View {
                 VStack(alignment: .center){
                     HStack{
                         language == "en" ?
-                        Text(logout.userName.isEmpty ? "No english name" : logout.userName) :
+                        Text(logout.userName.isEmpty ? "\(logout.userLastname) \(logout.userFirstname)" : logout.userName) :
                         Text("\(logout.userLastname) \(logout.userFirstname)")
                     }
                     .font(.system(size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20))
@@ -295,13 +342,6 @@ struct Profile: View {
                             DeviceUserLogOut.MobileUserLogOut(mobileUserId: logout.userprofileId, token: devicetoken)
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                 logout.signout()
-                                userProfile.resetMobileUser()
-                                students.resetStudent()
-                                academiclist.resetEvent()
-                                AnnoucementList.resetAnnounce()
-                                AllClasses.resetSchedule()
-                                Attendance.resetAttendance()
-                                Attendance.clearCache()
                                 showFlag = false
                                 UserDefaults.standard.removeObject(forKey: "DeviceToken")
                                 self.logoutLoading = false
@@ -542,14 +582,18 @@ struct Profile: View {
                     .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                     .scaleEffect(1)
                     .frame(width: 150, height: 30)
-                    .background(Color("LightBlue"))
+                    .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
                     .cornerRadius(5)
             }else{
                 Text("រក្សាទុក".localizedLanguage(language: self.language))
                     .font(.system(size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20))
                     .frame(width: 150, height: 30)
-                    .background(Color("LightBlue"))
+                    .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
                     .cornerRadius(5)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                    )
             }
         }
     }
@@ -583,7 +627,7 @@ struct Profile: View {
 struct Profile_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Profile(logout: LoginViewModel(), uploadImg: UpdateMobileUserProfileImg(), Loading: .constant(false), hideTab: .constant(false), checkState: .constant(false), showFlag: .constant(false), prop: prop, devicetoken: "", language: "em")
+        Profile(logout: LoginViewModel(), uploadImg: UpdateMobileUserProfileImg(), Loading: .constant(false), hideTab: .constant(false), checkState: .constant(false), showFlag: .constant(false), bindingLanguage: .constant(""), prop: prop, devicetoken: "", language: "em")
     }
 }
 

@@ -109,6 +109,7 @@ query GetSectionShiftByClassId($classId: ID, $academicYearId: ID, $programId: ID
         firstName
         lastName
         englishName
+        profileImg
       }
       duration
       startTime
@@ -144,6 +145,7 @@ query GetEnrollmentByStudents($studentId: ID) {
     classGroupId
     classGroupNameEn
     classGroupName
+    studentId
   }
 }
 
@@ -232,3 +234,12 @@ query GetAttendanceByStudentIdForMobile($studentId: ID!, $sectionShiftId: ID) {
     status
   }
 }
+
+query GetTotalStudentForApp {
+    getTotalStudentForApp {
+      total
+      studentId
+      gradeId
+      classId
+    }
+  }

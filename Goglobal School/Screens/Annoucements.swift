@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Annoucements: View {
     var prop: Properties
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) var dismiss
     @Environment(\.presentationMode) var presentationMode
     @State var showViewer: Bool = false
@@ -25,9 +26,8 @@ struct Annoucements: View {
                 } label: {
                     Image(systemName: "xmark.square.fill")
                         .font(.system(size: 30))
-                        .foregroundColor(.white)
+                        .foregroundColor(.red)
                         .padding()
-                        .opacity(prop.isLandscape ? 1:0)
                 }
                 .hTrailing()
                 if postId == ""{
@@ -94,7 +94,7 @@ struct Annoucements: View {
                 }
                 Spacer()
             }
-            .setBG()
+            .setBG(colorScheme: colorScheme)
             .onAppear{
                 DetailAnnoucementList.getAnnoucement()
             }
@@ -137,7 +137,7 @@ struct Annoucements: View {
                     } label: {
                         Image(systemName: "xmark.square.fill")
                             .font(.system(size: 30))
-                            .foregroundColor(.white)
+                            .foregroundColor(.red)
                             .padding()
                     }
                     .frame(maxWidth:.infinity,maxHeight:.infinity,alignment:.topTrailing)

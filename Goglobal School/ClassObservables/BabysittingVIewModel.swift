@@ -31,7 +31,9 @@ class BadysittingViewModel: ObservableObject{
             switch result{
             case .success(let graphQLResult):
                 if let allReports = graphQLResult.data?.getEysReportPagination.data {
-                    self?.allReports = allReports.map(BadysittingModel.init)
+                    DispatchQueue.main.async {
+                        self?.allReports = allReports.map(BadysittingModel.init)
+                    }
                 }
             case .failure(let grahphQLError):
                 print(grahphQLError.localizedDescription)

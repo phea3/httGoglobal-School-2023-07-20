@@ -6,10 +6,14 @@
 //
 import SwiftUI
 import CoreImage.CIFilterBuiltins
+import _MapKit_SwiftUI
 
 struct Grade: View {
-    
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
+    @StateObject var locationManager = LocationManager()
+    @StateObject var totalStu: GetTotalStudentViewModel = GetTotalStudentViewModel()
     @StateObject var enrollments: ListStudentViewModel = ListStudentViewModel()
     @StateObject var enrollment: EnrollmentViewModel = EnrollmentViewModel()
     @StateObject var studentqr: GetStudentCardByStudentIDViewModel = GetStudentCardByStudentIDViewModel()
@@ -27,6 +31,22 @@ struct Grade: View {
     @State var programId: String = ""
     @State var clasLoading: Bool = false
     @State var showqr: Bool = false
+    @State var alert: Bool = false
+    @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 13.360863317704524, longitude: 103.85711213340456), span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
+    let annotations = [
+        City(name: "Go Global School", coordinate: CLLocationCoordinate2D(latitude: 13.34777508421127, longitude: 103.8441745668323)),
+    ]
+    @Binding var showTeacherImage: Bool
+    @Binding var UrlImg: String
+    
+    var userLatitude: String {
+        return "\(locationManager.lastLocation?.coordinate.latitude ?? 0)"
+    }
+    
+    var userLongitude: String {
+        return "\(locationManager.lastLocation?.coordinate.longitude ?? 0)"
+    }
+    let schoolLocation = CLLocation(latitude: 13.34777508421127, longitude: 103.8441745668323)
     let gradient = Color("BG")
     let Student: String
     let StudentEnglishName: String
@@ -36,10 +56,10 @@ struct Grade: View {
     var language: String
     var prop: Properties
     var btnBack : some View { Button(action: {
-            self.presentationMode.wrappedValue.dismiss()
-        }) {
-            backButtonView(language: self.language, prop: prop, barTitle: barTitle)
-        }
+        self.presentationMode.wrappedValue.dismiss()
+    }) {
+        backButtonView(language: self.language, prop: prop, barTitle: barTitle)
+    }
     }
     
     var body: some View {
@@ -79,48 +99,75 @@ struct Grade: View {
                         
                         ForEach(Array(enrollment.enrollments.enumerated()), id: \.element.EnrollmentId){ index, item in
                             VStack{
-                                Choose( Grade: item.GradeName, Class: item.Classname, Year: item.AcademicYearName, Programme: item.Programme, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.ClassId, academicYearId: item.AcademicId, programId: item.ProgrammeId, color: index % 2 == 0 ? colorOrg: colorBlue, earlyStage: item.ClassGroupNameEn, prop: prop, language: self.language)
-                                        .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
-                                        .listRowInsets(EdgeInsets())
+                                Choose( Grade: item.GradeName, Class: item.Classname, Year: item.AcademicYearName, Programme: item.Programme, chose: $chose, isShow: $isShow, ChoseTitle: $ChoseTitle, selection: $selection, ClassID: $classId, AcademicID: $academicYearId, ProgrammeID: $programId, classId: item.ClassId, gradeId: item.GradeId, academicYearId: item.AcademicId, programId: item.ProgrammeId, color: index % 2 == 0 ? colorOrg: colorBlue, earlyStage: item.ClassGroupNameEn, prop: prop, language: self.language, amongUs: "\(23)")
+                                    .foregroundColor( index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
+                                    .listRowInsets(EdgeInsets())
                             }
                             .backgroundRemover()
                         }
-                       
                         
-                        HStack{
-                            Text("QR កូដ".localizedLanguage(language: self.language))
-                                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
-                            Rectangle()
-                                .frame(maxHeight: 1)
-                        }
-                        .foregroundColor(Color("Blue"))
-                        .frame(width: .infinity, height: .infinity, alignment: .leading)
-                        .backgroundRemover()
-                        if #available(iOS 16.0, *) {
-                            QRView(stuName: Student, stuEngName: StudentEnglishName, studentQR: studentqr.studentId, prop: prop, language: self.language, showqr: $showqr)
-                                .backgroundRemover()
-                        } else {
-                            // Fallback on earlier versions
-                            QrView(stuName: Student, stuEngName: StudentEnglishName, studentQR: studentqr.studentId, prop: prop, showqr: $showqr, language: self.language)
-                                .backgroundRemover()
-                        }
+                        
+//                        HStack{
+//                            Text("QR កូដ".localizedLanguage(language: self.language))
+//                                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+//                            Rectangle()
+//                                .frame(maxHeight: 1)
+//                        }
+//                        .foregroundColor(Color("Blue"))
+//                        .frame(width: .infinity, height: .infinity, alignment: .leading)
+//                        .backgroundRemover()
+                        //                        if #available(iOS 16.0, *) {
+                        //                            QRView(stuName: Student, stuEngName: StudentEnglishName, studentQR: studentqr.studentId, prop: prop, language: self.language, showqr: $showqr)
+                        //                                .backgroundRemover()
+                        //                        } else {
+                        // Fallback on earlier versions
+//                        QrView(stuName: Student, stuEngName: StudentEnglishName, studentQR: studentqr.studentId, prop: prop, showqr: $showqr, language: self.language)
+//                            .backgroundRemover()
+//                        VStack{
+//                            Map(coordinateRegion: $region, showsUserLocation: true, annotationItems: annotations){
+//                                MapMarker(coordinate: $0.coordinate)
+//                            }
+//                            .frame(width: .infinity, height: 300)
+//                            let distance = schoolLocation.distance(from: CLLocation(latitude: locationManager.lastLocation?.coordinate.latitude ?? 0, longitude: locationManager.lastLocation?.coordinate.longitude ?? 0))
+//                            let d = distanceInMeters(distance: distance)
+//                            Button {
+//                                self.alert = !self.alert
+//                            } label: {
+//                                Text("\(distanceInMeters(distance: distance))")
+//                                    .padding()
+//                                    .background(.blue)
+//                                    .foregroundColor(.white)
+//                            }
+//                            .alert(
+//                                ( d == "1 metre" ) || ( d == "2 metres" ) || ( d == "3 metres" ) || ( d == "4 metres" ) ||
+//                                ( d == "5 metres" ) || ( d == "10 metres" ) || ( d == "15 metres" ) || ( d == "20 metres" ) ||
+//                                ( d == "25 metres" ) || ( d == "30 metres" ) || ( d == "35 metres" ) || ( d == "40 metres" ) ||
+//                                ( d == "45 metres" ) || ( d == "50 metres") || ( d == "55 metres" ) ? "You can pick the kid up" :
+//                                    "Please come closer", isPresented: $alert) {
+//                                        Button("OK", role: .cancel) { }
+//                                    }
+//                        }
+//                        .backgroundRemover()
+                        
+                        //                        }
                     }
                     .listStyle(GroupedListStyle())
-                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "attendance", selection: $selection) { EmptyView() }
-                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "absence", selection: $selection) { EmptyView() }
-                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "payment", selection: $selection) { EmptyView() }
-                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "score", selection: $selection) { EmptyView() }
+                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "attendance", selection: $selection) { EmptyView() }
+                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "absence", selection: $selection) { EmptyView() }
+                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "payment", selection: $selection) { EmptyView() }
+                    NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "score", selection: $selection) { EmptyView() }
                 }
             }
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .navigationBarTitleDisplayMode(.inline)
-        .setBG()
+        .setBG(colorScheme: colorScheme)
         .onAppear(perform: {
             enrollments.StundentAmount(parentId: parentId)
             enrollment.getEnrollment(studentId: studentId)
             studentqr.getQRCode(stuID: studentId)
+            totalStu.getTotal()
         })
         .navigationBarItems(leading: btnBack)
         .navigationBarBackButtonHidden(true)
@@ -169,6 +216,12 @@ struct Grade: View {
         }
         
     }
+    func distanceInMeters(distance: CLLocationDistance)-> String{
+        let df = MKDistanceFormatter()
+        df.unitStyle = .full
+        let prettyString = df.string(fromDistance: distance)
+        return prettyString
+    }
 }
 @available(iOS 16.0, *)
 struct QRView: View {
@@ -214,7 +267,7 @@ struct QRView: View {
                             Text(language == "en" ? stuEngName : stuName)
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
                                 .foregroundColor(Color("bodyBlue"))
-                            Text("'s QR Code")
+                            Text("'s QR Code".localizedLanguage(language: self.language))
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
                                 .foregroundColor(Color("bodyBlue"))
                         }
@@ -262,7 +315,7 @@ struct QRView: View {
                             .scaledToFit()
                             .frame(width: selectedDetent == .large ?  300 : 200 , height: selectedDetent == .large ?  300 : 200)
                     }
-                   
+                    
                     HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
                         Image(systemName: "exclamationmark.circle")
                             .font(.system(size: 30))
@@ -309,6 +362,8 @@ struct QRView: View {
     }
 }
 struct Choose: View {
+    @Environment(\.colorScheme) var colorScheme
+    @StateObject var totalStu: GetTotalStudentViewModel = GetTotalStudentViewModel()
     @State var showsheet: Bool = false
     @State var Grade: String
     @State var Class: String
@@ -322,14 +377,16 @@ struct Choose: View {
     @Binding var AcademicID: String
     @Binding var ProgrammeID: String
     var classId: String
+    var gradeId: String
     var academicYearId: String
     var programId: String
     var color: String
     var earlyStage: String
     var prop: Properties
     var language: String
+    var amongUs: String
     var body: some View {
-       
+        
         HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
             Circle()
                 .frame(width: 49, height: 49, alignment: .center)
@@ -346,7 +403,22 @@ struct Choose: View {
                         .listRowBackground(Color.yellow)
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                     
-                    Text(Class)
+                    Text("\(Class) |")
+                        .listRowBackground(Color.yellow)
+                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                    Image("students")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 14)
+                    ForEach(totalStu.allTotal, id:\.ClassId){stu in
+                        if stu.ClassId == classId && stu.GradId == gradeId{
+                            Text("\(stu.Total)")
+                                .listRowBackground(Color.yellow)
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                        }
+                    }
+                    
+                    Text("ន".localizedLanguage(language: self.language))
                         .listRowBackground(Color.yellow)
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                 }
@@ -357,16 +429,22 @@ struct Choose: View {
         }
         .padding()
         .hLeading()
-        .background(Color(color))
+        .background(Color(colorScheme == .dark ? "Black" : color))
         .cornerRadius(15)
-      
+        .overlay(
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+        )
+        .onAppear{
+            totalStu.getTotal()
+        }
         .onTapGesture {
             showsheet.toggle()
         }
         .halfSheet(showSheet: $showsheet) {
             // Half Sheet View...
             ZStack {
-                Color.white
+                Color( colorScheme == .dark ? "Black" : "White")
                     .frame(width: .infinity, height: .infinity, alignment: .leading)
                 VStack(alignment: .leading,spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
                     Text("ជ្រើសរើស".localizedLanguage(language: self.language))
@@ -461,10 +539,10 @@ struct QrView: View {
             .background(Color("LightOrange"))
             .cornerRadius(15)
         }
-
-//        .onTapGesture {
-//            self.showqr = true
-//        }
+        
+        //        .onTapGesture {
+        //            self.showqr = true
+        //        }
         
         .sheet(isPresented: $showqr) {
             ZStack{
@@ -476,8 +554,8 @@ struct QrView: View {
                             Text(language == "en" ? stuEngName : stuName)
                             Text("'s QR Code".localizedLanguage(language: self.language))
                         }
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
-                            .foregroundColor(Color("bodyBlue"))
+                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
+                        .foregroundColor(Color("bodyBlue"))
                         
                         Spacer()
                         Button {
@@ -505,7 +583,7 @@ struct QrView: View {
                             .scaledToFit()
                             .frame(width: 300, height: 300)
                     }
-                   
+                    
                     
                     HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
                         Image(systemName: "exclamationmark.circle")
@@ -525,6 +603,7 @@ struct QrView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .background(Color("LightBlue"))
                     .cornerRadius(15)
+                    
                     Spacer()
                 }
                 .padding()
@@ -548,7 +627,7 @@ struct Grade_Previews: PreviewProvider {
     static var previews: some View {
         
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
-        Grade(studentId: "", userProfileImg: "", Student: "", StudentEnglishName: "", parentId: "", barTitle: "",studentID: "", language: "em", prop: prop)
+        Grade(studentId: "", userProfileImg: "",showTeacherImage: .constant(false),UrlImg: .constant(""), Student: "", StudentEnglishName: "", parentId: "", barTitle: "",studentID: "", language: "em", prop: prop)
     }
 }
 
