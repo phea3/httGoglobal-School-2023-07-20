@@ -1,0 +1,7 @@
+
+mutation CreatePickingUp($newPickingUp: PickingUpInput) {
+  createPickingUp(newPickingUp: $newPickingUp) {
+    success
+    message
+  }
+}

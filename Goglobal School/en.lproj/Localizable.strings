@@ -16,7 +16,7 @@
 "សូមរង់ចាំ" = "Wait";
 "មិនរកដំណឹងថ្មីៗបាន" = "Not Found News";
 "មិនអាចទាញទិន្ន័យបាន" = "Not Found Data";
-"យល់ព្រម" = "ok";
+"យល់ព្រម" = "YES";
 "ឆ្នាំសិក្សា ២០២៣~២០២៤" = "Academic Year 2023-2024";
 "ឆ្នាំសិក្សា ២០២២~២០២៣" = "Academic Year 2022-2023";
 "ប្រតិទិនសិក្សា" = "Academic Calendar";
@@ -87,3 +87,10 @@
 "'s QR Code" = "'s QR កូដ";
 "ន" = "pax";
 "Our Vision to educate Cambodian future generations to become international human resources." = "Our Vision to educate Cambodian future generations to become international human resources.";
+"ទទួល" = "Pick up";
+"Please press here to pick up your child!" = "Please press here to pick up your child!";
+"Confirm Pick Up" = "Confirm Pick Up";
+"Are you coming to pick up your child?" = "Are you coming to pick up your child?";
+"ទេ" = "NO";
+"You are" = "You are";
+"away from the school and cannot pick the child up" = "away from the school and cannot pick up child";

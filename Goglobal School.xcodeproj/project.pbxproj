@@ -77,6 +77,8 @@
 		09FEBCB028B70CD600E8B5B7 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCAF28B70CD600E8B5B7 /* CalendarViewModel.swift */; };
 		09FEBCB228B70CEC00E8B5B7 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCB128B70CEC00E8B5B7 /* Profile.swift */; };
 		09FEBCB428B70D0000E8B5B7 /* Choosing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCB328B70D0000E8B5B7 /* Choosing.swift */; };
+		771D6C4929503D8B00B59485 /* pickup.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 771D6C4829503D8B00B59485 /* pickup.graphql */; };
+		771D6C4B29503E1A00B59485 /* pickupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D6C4A29503E1A00B59485 /* pickupViewModel.swift */; };
 		775BE506291CE12000A915B3 /* GetStudentCardByStudentIDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775BE505291CE12000A915B3 /* GetStudentCardByStudentIDViewModel.swift */; };
 		7787C2ED2930A05C002DA96C /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7787C2EC2930A05C002DA96C /* CredentialProviderViewController.swift */; };
 		7787C2F02930A330002DA96C /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 7787C2EF2930A330002DA96C /* KeychainAccess */; };
@@ -153,6 +155,8 @@
 		09FEBCAF28B70CD600E8B5B7 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		09FEBCB128B70CEC00E8B5B7 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		09FEBCB328B70D0000E8B5B7 /* Choosing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Choosing.swift; sourceTree = "<group>"; };
+		771D6C4829503D8B00B59485 /* pickup.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = pickup.graphql; sourceTree = "<group>"; };
+		771D6C4A29503E1A00B59485 /* pickupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pickupViewModel.swift; sourceTree = "<group>"; };
 		775BE505291CE12000A915B3 /* GetStudentCardByStudentIDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStudentCardByStudentIDViewModel.swift; sourceTree = "<group>"; };
 		7787C2E9293068F8002DA96C /* Goglobal School.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "Goglobal School.entitlements"; sourceTree = "<group>"; };
 		7787C2EA2930693F002DA96C /* Goglobal-School-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Goglobal-School-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -251,6 +255,7 @@
 				0925213228EEB3B900363609 /* ProgrammePayment.swift */,
 				097A134F290684B9008B253D /* Babysitting.swift */,
 				0949C3102907C5820076F382 /* CalendarWeekListView.swift */,
+				771D6C4A29503E1A00B59485 /* pickupViewModel.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -289,6 +294,7 @@
 				09FEBC5028B704E400E8B5B7 /* ContentView.swift */,
 				09FEBC9B28B70BAE00E8B5B7 /* Home.swift */,
 				09FEBC7828B707B100E8B5B7 /* query.graphql */,
+				771D6C4829503D8B00B59485 /* pickup.graphql */,
 				09FEBC7A28B707CB00E8B5B7 /* login.graphql */,
 				09FEBC7C28B707D700E8B5B7 /* upload.graphql */,
 				09903AD328F8FFB4009EA604 /* uploadDeviceToken.graphql */,
@@ -432,6 +438,7 @@
 				09FEBC7428B7070500E8B5B7 /* Kantumruy-Light.ttf in Resources */,
 				097DAEBE2912076500018CD9 /* updateEYSReport.graphql in Resources */,
 				091B223128CC379900FE9DBB /* apple-app-site-association in Resources */,
+				771D6C4929503D8B00B59485 /* pickup.graphql in Resources */,
 				09FEBC7328B7070500E8B5B7 /* Kantumruy-Bold.ttf in Resources */,
 				09660B3928FE4BD800CEA9EA /* DeleteNotificationByMobileUserId.graphql in Resources */,
 				09F9140628D3271800BF252B /* schema.json in Resources */,
@@ -510,6 +517,7 @@
 				09178C2D28B9B28500A507EA /* SheetContact.swift in Sources */,
 				09FEBC8628B709D600E8B5B7 /* LoginViewModel.swift in Sources */,
 				09FEBCAE28B70CBD00E8B5B7 /* Grade.swift in Sources */,
+				771D6C4B29503E1A00B59485 /* pickupViewModel.swift in Sources */,
 				09660B3B28FE4C0C00CEA9EA /* DeleteNotificationByMobileUserId.swift in Sources */,
 				09178C2728B9A43E00A507EA /* Annoucements.swift in Sources */,
 				09FEBC9428B70AA600E8B5B7 /* AnnouncementViewModel.swift in Sources */,

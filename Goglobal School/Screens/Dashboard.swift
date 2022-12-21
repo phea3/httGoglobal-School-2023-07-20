@@ -153,6 +153,14 @@ struct Dashboard: View {
                 //                        Text("中文")
                 //                    }
                 Button {
+                    self.bindingLanguage = "km-KH"
+                } label: {
+                    Text("ភាសាខ្មែរ")
+                    Image("km")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                }
+                Button {
                     // Step #3
                     self.bindingLanguage = "en"
                 } label: {
@@ -161,14 +169,7 @@ struct Dashboard: View {
                         .resizable()
                         .frame(width: 25, height: 25)
                 }
-                Button {
-                    self.bindingLanguage = "km-KH"
-                } label: {
-                    Text("ភាសាខ្មែរ")
-                    Image("km")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                }
+               
                 
             } label: {
                 

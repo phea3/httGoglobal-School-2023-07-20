@@ -211,15 +211,7 @@ struct Home: View {
                 //                    } label: {
                 //                        Text("中文")
                 //                    }
-                Button {
-                    // Step #3
-                    self.language = "en"
-                } label: {
-                    Text("English(US)")
-                    Image("en")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                }
+                
                 Button {
                     self.language = "km-KH"
                 } label: {
@@ -229,6 +221,16 @@ struct Home: View {
                         .frame(width: 25, height: 25)
                 }
                 
+                Button {
+                    // Step #3
+                    self.language = "en"
+                } label: {
+                    Text("English(US)")
+                    Image("en")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                }
+               
             } label: {
                 
                 Image(language == "ch" ? "ch" : language == "km-KH" ? "km" : "en")

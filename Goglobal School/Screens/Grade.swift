@@ -17,6 +17,7 @@ struct Grade: View {
     @StateObject var enrollments: ListStudentViewModel = ListStudentViewModel()
     @StateObject var enrollment: EnrollmentViewModel = EnrollmentViewModel()
     @StateObject var studentqr: GetStudentCardByStudentIDViewModel = GetStudentCardByStudentIDViewModel()
+    @StateObject var stuPickup: PickupViewModel = PickupViewModel()
     @State var ChoseTitle: String = ""
     @State var chose: Chose = .attendance
     @State var isShow: Bool = false
@@ -32,6 +33,8 @@ struct Grade: View {
     @State var clasLoading: Bool = false
     @State var showqr: Bool = false
     @State var alert: Bool = false
+    @State var successAfterPickup: Bool = false
+    @State var earlyStage: String = ""
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 13.360863317704524, longitude: 103.85711213340456), span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
     let annotations = [
         City(name: "Go Global School", coordinate: CLLocationCoordinate2D(latitude: 13.34777508421127, longitude: 103.8441745668323)),
@@ -104,52 +107,104 @@ struct Grade: View {
                                     .listRowInsets(EdgeInsets())
                             }
                             .backgroundRemover()
+                            .onAppear{
+                                DispatchQueue.main.async {
+                                    self.earlyStage = item.ClassGroupNameEn
+                                }
+                            }
                         }
                         
+                        if (self.earlyStage == "Early Childhood Education") || (self.earlyStage == "ECE") {
+                            
+                            HStack{
+                                //                            Text("QR កូដ".localizedLanguage(language: self.language))
+                                //                                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                                Text("ទទួល".localizedLanguage(language: self.language))
+                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                                Text(language == "en" ? StudentEnglishName : Student)
+                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                                Rectangle()
+                                    .frame(maxHeight: 1)
+                            }
+                            .foregroundColor(Color("Blue"))
+                            .frame(width: .infinity, height: .infinity, alignment: .leading)
+                            .backgroundRemover()
+                            VStack{
+                                let distance = schoolLocation.distance(from: CLLocation(latitude: locationManager.lastLocation?.coordinate.latitude ?? 0, longitude: locationManager.lastLocation?.coordinate.longitude ?? 0))
+                                let d = distanceInMeters(distance: distance)
+                                
+                                Button {
+                                    self.alert = !self.alert
+                                } label: {
+                                    HStack{
+                                        Circle()
+                                            .fill(.white)
+                                            .frame(width: 49, height: 49, alignment: .center)
+                                            .overlay(
+                                                Image("father-daughter-and-mother")
+                                                    .resizable()
+                                                    .frame(width: 30, height: 30)
+                                            )
+                                        
+                                        Text("Please press here to pick up your child!".localizedLanguage(language: self.language))
+                                            .listRowBackground(Color.yellow)
+                                            .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                                            .foregroundColor(Color("bodyOrange"))
+                                    }
+                                    .padding(20)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .background(Color("LightOrange"))
+                                    .cornerRadius(15)
+                                }
+                                .alert(isPresented: $alert){
+                                    ( d == "1 metre" ) ||
+                                    ( d == "2 metres" ) ||
+                                    ( d == "3 metres" ) ||
+                                    ( d == "4 metres" ) ||
+                                    ( d == "5 metres" ) ||
+                                    ( d == "10 metres" ) ||
+                                    ( d == "15 metres" ) ||
+                                    ( d == "20 metres" ) ||
+                                    ( d == "25 metres" ) ||
+                                    ( d == "30 metres" ) ||
+                                    ( d == "35 metres" ) ||
+                                    ( d == "40 metres" ) ||
+                                    ( d == "45 metres" ) ||
+                                    ( d == "50 metres") ||
+                                    ( d == "55 metres" ) ?
+                                    
+                                    Alert(title: Text("Confirm Pick Up".localizedLanguage(language: self.language)),
+                                          message: Text("Are you coming to pick up your child?".localizedLanguage(language: self.language)),
+                                          primaryButton: .destructive( Text("យល់ព្រម".localizedLanguage(language: self.language))){
+                                        stuPickup.pickup(stuId: studentqr.studentId, picked: true)
+                                        DispatchQueue.main.async {
+                                            self.successAfterPickup = stuPickup.success
+                                        }
+                                    },secondaryButton: .cancel(Text("ទេ".localizedLanguage(language: self.language))))
+                                    :
+                                    Alert(title:
+                                            Text("\("You are".localizedLanguage(language: self.language)) (\(distanceInMeters(distance: distance))) \("away from the school and cannot pick the child up".localizedLanguage(language: self.language))".localizedLanguage(language: self.language)),
+                                          dismissButton: .cancel(Text("យល់ព្រម".localizedLanguage(language: self.language)))
+                                    )
+                                }
+                                
+                                .alert("ជោគជ័យ", isPresented: $successAfterPickup) { }
+                            }
+                            .backgroundRemover()
+                            
+                        }
                         
-//                        HStack{
-//                            Text("QR កូដ".localizedLanguage(language: self.language))
-//                                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
-//                            Rectangle()
-//                                .frame(maxHeight: 1)
-//                        }
-//                        .foregroundColor(Color("Blue"))
-//                        .frame(width: .infinity, height: .infinity, alignment: .leading)
-//                        .backgroundRemover()
                         //                        if #available(iOS 16.0, *) {
                         //                            QRView(stuName: Student, stuEngName: StudentEnglishName, studentQR: studentqr.studentId, prop: prop, language: self.language, showqr: $showqr)
                         //                                .backgroundRemover()
                         //                        } else {
                         // Fallback on earlier versions
-//                        QrView(stuName: Student, stuEngName: StudentEnglishName, studentQR: studentqr.studentId, prop: prop, showqr: $showqr, language: self.language)
-//                            .backgroundRemover()
-//                        VStack{
-//                            Map(coordinateRegion: $region, showsUserLocation: true, annotationItems: annotations){
-//                                MapMarker(coordinate: $0.coordinate)
-//                            }
-//                            .frame(width: .infinity, height: 300)
-//                            let distance = schoolLocation.distance(from: CLLocation(latitude: locationManager.lastLocation?.coordinate.latitude ?? 0, longitude: locationManager.lastLocation?.coordinate.longitude ?? 0))
-//                            let d = distanceInMeters(distance: distance)
-//                            Button {
-//                                self.alert = !self.alert
-//                            } label: {
-//                                Text("\(distanceInMeters(distance: distance))")
-//                                    .padding()
-//                                    .background(.blue)
-//                                    .foregroundColor(.white)
-//                            }
-//                            .alert(
-//                                ( d == "1 metre" ) || ( d == "2 metres" ) || ( d == "3 metres" ) || ( d == "4 metres" ) ||
-//                                ( d == "5 metres" ) || ( d == "10 metres" ) || ( d == "15 metres" ) || ( d == "20 metres" ) ||
-//                                ( d == "25 metres" ) || ( d == "30 metres" ) || ( d == "35 metres" ) || ( d == "40 metres" ) ||
-//                                ( d == "45 metres" ) || ( d == "50 metres") || ( d == "55 metres" ) ? "You can pick the kid up" :
-//                                    "Please come closer", isPresented: $alert) {
-//                                        Button("OK", role: .cancel) { }
-//                                    }
-//                        }
-//                        .backgroundRemover()
-                        
+                        //                        QrView(stuName: Student, stuEngName: StudentEnglishName, studentQR: studentqr.studentId, prop: prop, showqr: $showqr, language: self.language)
+                        //                            .backgroundRemover()
                         //                        }
+                        
+                        
+                        
                     }
                     .listStyle(GroupedListStyle())
                     NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "attendance", selection: $selection) { EmptyView() }
@@ -221,144 +276,6 @@ struct Grade: View {
         df.unitStyle = .full
         let prettyString = df.string(fromDistance: distance)
         return prettyString
-    }
-}
-@available(iOS 16.0, *)
-struct QRView: View {
-    let context = CIContext()
-    let filter = CIFilter.qrCodeGenerator()
-    @State var selectedDetent: PresentationDetent = .medium
-    @State var detents: Set<PresentationDetent> = [.large, .medium]
-    var stuName: String
-    let stuEngName: String
-    var studentQR: String
-    var prop: Properties
-    var language: String
-    @Binding var showqr: Bool
-    var body: some View{
-        HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-            Image(systemName: "qrcode")
-                .font(.system(size: 30))
-                .foregroundColor(.blue)
-                .background(
-                    Circle()
-                        .fill(.white)
-                        .frame(width: 50, height: 50)
-                )
-            Text("បង្ហាញ QR កូដ ទីនេះ!".localizedLanguage(language: self.language))
-                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-                .foregroundColor(Color("bodyOrange"))
-        }
-        .padding(20)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color("LightOrange"))
-        .cornerRadius(15)
-        .onTapGesture {
-            self.showqr = true
-        }
-        
-        .sheet(isPresented: $showqr) {
-            ZStack{
-                Color.white
-                    .frame(width: .infinity, height: .infinity)
-                VStack{
-                    HStack{
-                        HStack(spacing: 0) {
-                            Text(language == "en" ? stuEngName : stuName)
-                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
-                                .foregroundColor(Color("bodyBlue"))
-                            Text("'s QR Code".localizedLanguage(language: self.language))
-                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
-                                .foregroundColor(Color("bodyBlue"))
-                        }
-                        
-                        Spacer()
-                        
-                        Button {
-                            selectedDetent = selectedDetent == .large ? .medium : .large
-                        } label: {
-                            Image(systemName: selectedDetent == .large ? "hand.point.down" : "hand.point.up")
-                                .font(.system(size: 25))
-                                .foregroundColor(.gray)
-                        }
-                        .presentationDetents(detents, selection: $selectedDetent)
-                        .onChange(of: selectedDetent) { newValue in
-                            if newValue == .large {
-                                updateDetentsWithDelay()
-                            } else {
-                                detents = [.large, .medium]
-                            }
-                        }
-                        
-                        Button {
-                            self.showqr = false
-                        } label: {
-                            Image(systemName: "multiply")
-                                .font(.system(size: 25))
-                                .foregroundColor(.gray)
-                        }
-                    }
-                    if studentQR.isEmpty{
-                        HStack{
-                            Text("មិនមាន QR កូដ!".localizedLanguage(language: self.language))
-                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-                            Image(systemName: "qrcode.viewfinder")
-                                .font(.system(size: 20))
-                        }
-                        .foregroundColor(.red)
-                        .frame(width: selectedDetent == .large ?  300 : 200 , height: selectedDetent == .large ?  300 : 200)
-                        .border(.black)
-                    }else{
-                        Image(uiImage: generateQRCode(from: studentQR))
-                            .resizable()
-                            .interpolation(.none)
-                            .scaledToFit()
-                            .frame(width: selectedDetent == .large ?  300 : 200 , height: selectedDetent == .large ?  300 : 200)
-                    }
-                    
-                    HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                        Image(systemName: "exclamationmark.circle")
-                            .font(.system(size: 30))
-                            .foregroundColor(Color("bodyBlue"))
-                        VStack(alignment: .leading){
-                            Text("សម្គាល់".localizedLanguage(language: self.language))
-                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-                                .foregroundColor(Color("bodyBlue"))
-                            Text("លោកអ្នកអាចស្កែនដើម្បីធ្វើការ Pickup កូន!".localizedLanguage(language: self.language))
-                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-                                .foregroundColor(Color("bodyBlue"))
-                        }
-                        
-                    }
-                    .padding(20)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color("LightBlue"))
-                    .cornerRadius(15)
-                    Spacer()
-                }
-                .padding()
-            }
-            .ignoresSafeArea()
-        }
-    }
-    func generateQRCode(from string: String) -> UIImage {
-        filter.message = Data(string.utf8)
-        
-        if let outputImage = filter.outputImage {
-            if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
-                return UIImage(cgImage: cgimg)
-            }
-        }
-        
-        return UIImage(systemName: "xmark.circle") ?? UIImage()
-    }
-    func updateDetentsWithDelay() {
-        Task {
-            //(1 second = 1_000_000_000 nanoseconds)
-            try? await Task.sleep(nanoseconds: 100_000_000)
-            guard selectedDetent == .large else { return }
-            detents = [.large]
-        }
     }
 }
 struct Choose: View {
@@ -507,6 +424,145 @@ struct Choose: View {
         }
     }
 }
+@available(iOS 16.0, *)
+struct QRView: View {
+    let context = CIContext()
+    let filter = CIFilter.qrCodeGenerator()
+    @State var selectedDetent: PresentationDetent = .medium
+    @State var detents: Set<PresentationDetent> = [.large, .medium]
+    var stuName: String
+    let stuEngName: String
+    var studentQR: String
+    var prop: Properties
+    var language: String
+    @Binding var showqr: Bool
+    var body: some View{
+        HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+            Image(systemName: "qrcode")
+                .font(.system(size: 30))
+                .foregroundColor(.blue)
+                .background(
+                    Circle()
+                        .fill(.white)
+                        .frame(width: 50, height: 50)
+                )
+            Text("បង្ហាញ QR កូដ ទីនេះ!".localizedLanguage(language: self.language))
+                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                .foregroundColor(Color("bodyOrange"))
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color("LightOrange"))
+        .cornerRadius(15)
+        .onTapGesture {
+            self.showqr = true
+        }
+        
+        .sheet(isPresented: $showqr) {
+            ZStack{
+                Color.white
+                    .frame(width: .infinity, height: .infinity)
+                VStack{
+                    HStack{
+                        HStack(spacing: 0) {
+                            Text(language == "en" ? stuEngName : stuName)
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
+                                .foregroundColor(Color("bodyBlue"))
+                            Text("'s QR Code".localizedLanguage(language: self.language))
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
+                                .foregroundColor(Color("bodyBlue"))
+                        }
+                        
+                        Spacer()
+                        
+                        Button {
+                            selectedDetent = selectedDetent == .large ? .medium : .large
+                        } label: {
+                            Image(systemName: selectedDetent == .large ? "hand.point.down" : "hand.point.up")
+                                .font(.system(size: 25))
+                                .foregroundColor(.gray)
+                        }
+                        .presentationDetents(detents, selection: $selectedDetent)
+                        .onChange(of: selectedDetent) { newValue in
+                            if newValue == .large {
+                                updateDetentsWithDelay()
+                            } else {
+                                detents = [.large, .medium]
+                            }
+                        }
+                        
+                        Button {
+                            self.showqr = false
+                        } label: {
+                            Image(systemName: "multiply")
+                                .font(.system(size: 25))
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    if studentQR.isEmpty{
+                        HStack{
+                            Text("មិនមាន QR កូដ!".localizedLanguage(language: self.language))
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                            Image(systemName: "qrcode.viewfinder")
+                                .font(.system(size: 20))
+                        }
+                        .foregroundColor(.red)
+                        .frame(width: selectedDetent == .large ?  300 : 200 , height: selectedDetent == .large ?  300 : 200)
+                        .border(.black)
+                    }else{
+                        Image(uiImage: generateQRCode(from: studentQR))
+                            .resizable()
+                            .interpolation(.none)
+                            .scaledToFit()
+                            .frame(width: selectedDetent == .large ?  300 : 200 , height: selectedDetent == .large ?  300 : 200)
+                    }
+                    
+                    HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                        Image(systemName: "exclamationmark.circle")
+                            .font(.system(size: 30))
+                            .foregroundColor(Color("bodyBlue"))
+                        VStack(alignment: .leading){
+                            Text("សម្គាល់".localizedLanguage(language: self.language))
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                                .foregroundColor(Color("bodyBlue"))
+                            Text("លោកអ្នកអាចស្កែនដើម្បីធ្វើការ Pickup កូន!".localizedLanguage(language: self.language))
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                                .foregroundColor(Color("bodyBlue"))
+                        }
+                        
+                    }
+                    .padding(20)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color("LightBlue"))
+                    .cornerRadius(15)
+                    Spacer()
+                }
+                .padding()
+            }
+            .ignoresSafeArea()
+        }
+    }
+    func generateQRCode(from string: String) -> UIImage {
+        filter.message = Data(string.utf8)
+        
+        if let outputImage = filter.outputImage {
+            if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+                return UIImage(cgImage: cgimg)
+            }
+        }
+        
+        return UIImage(systemName: "xmark.circle") ?? UIImage()
+    }
+    func updateDetentsWithDelay() {
+        Task {
+            //(1 second = 1_000_000_000 nanoseconds)
+            try? await Task.sleep(nanoseconds: 100_000_000)
+            guard selectedDetent == .large else { return }
+            detents = [.large]
+        }
+    }
+}
+
 struct QrView: View {
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()

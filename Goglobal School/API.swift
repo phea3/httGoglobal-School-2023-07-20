@@ -4,6 +4,105 @@
 import Apollo
 import Foundation
 
+public struct PickingUpInput: GraphQLMapConvertible {
+  public var graphQLMap: GraphQLMap
+
+  /// - Parameters:
+  ///   - studentId
+  ///   - studentName
+  ///   - transportation
+  ///   - picked
+  ///   - pickingUpAt
+  ///   - leftAt
+  ///   - academicYearId
+  ///   - shift
+  ///   - classId
+  public init(studentId: Swift.Optional<GraphQLID?> = nil, studentName: Swift.Optional<String?> = nil, transportation: Swift.Optional<String?> = nil, picked: Swift.Optional<Bool?> = nil, pickingUpAt: Swift.Optional<String?> = nil, leftAt: Swift.Optional<String?> = nil, academicYearId: Swift.Optional<GraphQLID?> = nil, shift: Swift.Optional<GraphQLID?> = nil, classId: Swift.Optional<GraphQLID?> = nil) {
+    graphQLMap = ["studentId": studentId, "studentName": studentName, "transportation": transportation, "picked": picked, "pickingUpAt": pickingUpAt, "leftAt": leftAt, "academicYearId": academicYearId, "shift": shift, "classId": classId]
+  }
+
+  public var studentId: Swift.Optional<GraphQLID?> {
+    get {
+      return graphQLMap["studentId"] as? Swift.Optional<GraphQLID?> ?? Swift.Optional<GraphQLID?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "studentId")
+    }
+  }
+
+  public var studentName: Swift.Optional<String?> {
+    get {
+      return graphQLMap["studentName"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "studentName")
+    }
+  }
+
+  public var transportation: Swift.Optional<String?> {
+    get {
+      return graphQLMap["transportation"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "transportation")
+    }
+  }
+
+  public var picked: Swift.Optional<Bool?> {
+    get {
+      return graphQLMap["picked"] as? Swift.Optional<Bool?> ?? Swift.Optional<Bool?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "picked")
+    }
+  }
+
+  public var pickingUpAt: Swift.Optional<String?> {
+    get {
+      return graphQLMap["pickingUpAt"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "pickingUpAt")
+    }
+  }
+
+  public var leftAt: Swift.Optional<String?> {
+    get {
+      return graphQLMap["leftAt"] as? Swift.Optional<String?> ?? Swift.Optional<String?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "leftAt")
+    }
+  }
+
+  public var academicYearId: Swift.Optional<GraphQLID?> {
+    get {
+      return graphQLMap["academicYearId"] as? Swift.Optional<GraphQLID?> ?? Swift.Optional<GraphQLID?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "academicYearId")
+    }
+  }
+
+  public var shift: Swift.Optional<GraphQLID?> {
+    get {
+      return graphQLMap["shift"] as? Swift.Optional<GraphQLID?> ?? Swift.Optional<GraphQLID?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "shift")
+    }
+  }
+
+  public var classId: Swift.Optional<GraphQLID?> {
+    get {
+      return graphQLMap["classId"] as? Swift.Optional<GraphQLID?> ?? Swift.Optional<GraphQLID?>.none
+    }
+    set {
+      graphQLMap.updateValue(newValue, forKey: "classId")
+    }
+  }
+}
+
 public struct EYSReportInputUpdate: GraphQLMapConvertible {
   public var graphQLMap: GraphQLMap
 
@@ -851,6 +950,110 @@ public final class LoginMutation: GraphQLMutation {
               resultMap.updateValue(newValue, forKey: "createdAt")
             }
           }
+        }
+      }
+    }
+  }
+}
+
+public final class CreatePickingUpMutation: GraphQLMutation {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    mutation CreatePickingUp($newPickingUp: PickingUpInput) {
+      createPickingUp(newPickingUp: $newPickingUp) {
+        __typename
+        success
+        message
+      }
+    }
+    """
+
+  public let operationName: String = "CreatePickingUp"
+
+  public var newPickingUp: PickingUpInput?
+
+  public init(newPickingUp: PickingUpInput? = nil) {
+    self.newPickingUp = newPickingUp
+  }
+
+  public var variables: GraphQLMap? {
+    return ["newPickingUp": newPickingUp]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Mutation"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("createPickingUp", arguments: ["newPickingUp": GraphQLVariable("newPickingUp")], type: .object(CreatePickingUp.selections)),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(createPickingUp: CreatePickingUp? = nil) {
+      self.init(unsafeResultMap: ["__typename": "Mutation", "createPickingUp": createPickingUp.flatMap { (value: CreatePickingUp) -> ResultMap in value.resultMap }])
+    }
+
+    public var createPickingUp: CreatePickingUp? {
+      get {
+        return (resultMap["createPickingUp"] as? ResultMap).flatMap { CreatePickingUp(unsafeResultMap: $0) }
+      }
+      set {
+        resultMap.updateValue(newValue?.resultMap, forKey: "createPickingUp")
+      }
+    }
+
+    public struct CreatePickingUp: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["PickingUpResponse"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("success", type: .scalar(Bool.self)),
+          GraphQLField("message", type: .scalar(String.self)),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(success: Bool? = nil, message: String? = nil) {
+        self.init(unsafeResultMap: ["__typename": "PickingUpResponse", "success": success, "message": message])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var success: Bool? {
+        get {
+          return resultMap["success"] as? Bool
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "success")
+        }
+      }
+
+      public var message: String? {
+        get {
+          return resultMap["message"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "message")
         }
       }
     }
