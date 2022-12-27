@@ -80,6 +80,7 @@
 		771D6C4929503D8B00B59485 /* pickup.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 771D6C4829503D8B00B59485 /* pickup.graphql */; };
 		771D6C4B29503E1A00B59485 /* pickupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D6C4A29503E1A00B59485 /* pickupViewModel.swift */; };
 		775BE506291CE12000A915B3 /* GetStudentCardByStudentIDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775BE505291CE12000A915B3 /* GetStudentCardByStudentIDViewModel.swift */; };
+		77752CEE295552810091A4E2 /* FoodHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77752CED295552810091A4E2 /* FoodHistoryView.swift */; };
 		7787C2ED2930A05C002DA96C /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7787C2EC2930A05C002DA96C /* CredentialProviderViewController.swift */; };
 		7787C2F02930A330002DA96C /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 7787C2EF2930A330002DA96C /* KeychainAccess */; };
 		7787C2F32930A394002DA96C /* DomainParser in Frameworks */ = {isa = PBXBuildFile; productRef = 7787C2F22930A394002DA96C /* DomainParser */; };
@@ -158,6 +159,7 @@
 		771D6C4829503D8B00B59485 /* pickup.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = pickup.graphql; sourceTree = "<group>"; };
 		771D6C4A29503E1A00B59485 /* pickupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pickupViewModel.swift; sourceTree = "<group>"; };
 		775BE505291CE12000A915B3 /* GetStudentCardByStudentIDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStudentCardByStudentIDViewModel.swift; sourceTree = "<group>"; };
+		77752CED295552810091A4E2 /* FoodHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodHistoryView.swift; sourceTree = "<group>"; };
 		7787C2E9293068F8002DA96C /* Goglobal School.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "Goglobal School.entitlements"; sourceTree = "<group>"; };
 		7787C2EA2930693F002DA96C /* Goglobal-School-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Goglobal-School-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7787C2EC2930A05C002DA96C /* CredentialProviderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProviderViewController.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				097A134F290684B9008B253D /* Babysitting.swift */,
 				0949C3102907C5820076F382 /* CalendarWeekListView.swift */,
 				771D6C4A29503E1A00B59485 /* pickupViewModel.swift */,
+				77752CED295552810091A4E2 /* FoodHistoryView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -524,6 +527,7 @@
 				09FEBC4F28B704E400E8B5B7 /* Goglobal_SchoolApp.swift in Sources */,
 				09FEBC9C28B70BAE00E8B5B7 /* Home.swift in Sources */,
 				09FEBCB428B70D0000E8B5B7 /* Choosing.swift in Sources */,
+				77752CEE295552810091A4E2 /* FoodHistoryView.swift in Sources */,
 				09FEBCAA28B70C9100E8B5B7 /* Dashboard.swift in Sources */,
 				09FEBCA028B70BEE00E8B5B7 /* HalfSheetHelper.swift in Sources */,
 				097DAEC02912079C00018CD9 /* updateEYSReport.swift in Sources */,
@@ -677,7 +681,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Goglobal School/Goglobal School.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "\"Goglobal School/Preview Content\"";
 				DEVELOPMENT_TEAM = HZ73GSKF9X;
 				ENABLE_PREVIEWS = YES;
@@ -699,7 +703,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "Second-dayofSwift-Testing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -717,7 +721,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Goglobal School/Goglobal School.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "\"Goglobal School/Preview Content\"";
 				DEVELOPMENT_TEAM = HZ73GSKF9X;
 				ENABLE_PREVIEWS = YES;
@@ -739,7 +743,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "Second-dayofSwift-Testing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

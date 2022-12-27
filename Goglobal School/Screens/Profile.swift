@@ -218,11 +218,13 @@ struct Profile: View {
                 
                 Image(language == "ch" ? "ch" : language == "km-KH" ? "km" : "en")
                     .resizable()
-                    .frame(width: 28, height: 28)
+                    .aspectRatio(contentMode: .fit)
                     .overlay {
                         Circle()
                             .stroke(.yellow, lineWidth: 1)
                     }
+                    .padding(-5)
+                    .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
             }
         }
     }

@@ -33,7 +33,7 @@ struct CustomDatePicker: View {
                 Spacer()
                 Button {
                     withAnimation {
-                        currentMonth -= 1
+                        currentMonth -= 1 
                     }
                 } label: {
                     Image(systemName: "chevron.left")
@@ -97,6 +97,7 @@ struct CustomDatePicker: View {
                 }
             }
             .padding(.top)
+            
             VStack( spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20) {
                 List(Attendance.Attendances, id: \.AttendanceId){ attend in
                     Text(attend.AttendanceId)

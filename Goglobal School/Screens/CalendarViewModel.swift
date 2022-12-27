@@ -17,6 +17,7 @@ struct CalendarViewModel: View {
     @State var axcessPadding: CGFloat = 0
     @State var viewLoading: Bool = false
     @State var hidingDivider: Bool = false
+    @State var reloadimgtoolbar: Bool = false
     @Binding var isLoading: Bool
     @Binding var bindingLanguage: String
     let gradient = Color("BG")
@@ -54,16 +55,134 @@ struct CalendarViewModel: View {
                     }else{
                         ScrollRefreshable(langauge: self.language, title: "កំពុងភ្ជាប់", tintColor: .blue){
                             mainView()
-                                .navigationBarTitleDisplayMode(.inline)
                                 .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
                                 .padding(.top)
                                 .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
-                                .toolbarView(prop: prop, barTitle: "ប្រតិទិនសិក្សា", profileImg: userProfileImg, language: self.language)
-                                .toolbar {
+                                .navigationBarTitleDisplayMode(.inline)
+                                .toolbar{
+                                    ToolbarItem(placement: .navigationBarLeading) {
+                                        HStack{
+                                            Image(systemName: "line.3.horizontal.decrease")
+                                                .padding(.bottom, prop.isiPhoneS ? 3 : prop.isiPhoneM ? 4 : prop.isiPhoneL ? 5 : 5)
+                                            Text("ប្រតិទិនសិក្សា".localizedLanguage(language: language))
+                                                .font(.custom("Bayon", size: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 :  prop.isiPhoneL ? 18 : 20, relativeTo: .largeTitle))
+                                        }
+                                        .foregroundColor(Color("Blue"))
+                                        .padding(.vertical, prop.isLandscape ? 20 : 0)
+                                    }
                                     ToolbarItemGroup(placement: .navigationBarTrailing) {
                                         ChangeLanguage()
                                     }
+                                    ToolbarItem(placement: .navigationBarTrailing) {
+                                        if prop.isLandscape{ 
+                                            HStack{
+                                                if self.reloadimgtoolbar{
+                                                    ProgressView()
+                                                        .onAppear{
+                                                            self.reloadimgtoolbar = false
+                                                        }
+                                                } else {
+                                                    AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(userProfileImg)"), scale: 2){image in
+                                                        
+                                                        switch  image {
+                                                            
+                                                        case .empty:
+                                                            ProgressView()
+                                                                .progressViewStyle(.circular)
+                                                                .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                                        case .success(let image):
+                                                            image
+                                                                .resizable()
+                                                                .scaledToFill()
+                                                                .clipped()
+                                                                .background(Color.black.opacity(0.2))
+                                                                .overlay {
+                                                                    Circle()
+                                                                        .stroke(.orange, lineWidth: 1)
+                                                                }
+                                                                .clipShape(Circle())
+                                                                .padding(-5)
+                                                                .frame(width: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 :  20, alignment: .center)
+                                                        case .failure:
+                                                            Image(systemName: "person.fill")
+                                                                .padding(5)
+                                                                .background(Color.white)
+                                                                .overlay {
+                                                                    Circle()
+                                                                        .stroke(.orange, lineWidth: 1)
+                                                                }
+                                                                .aspectRatio(contentMode: .fill)
+                                                                .clipShape(Circle())
+                                                                .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22), alignment: .center)
+                                                                .onAppear{
+                                                                    if !userProfileImg.isEmpty{
+                                                                        self.reloadimgtoolbar = true
+                                                                    }
+                                                                }
+                                                            
+                                                        @unknown default:
+                                                            fatalError()
+                                                            
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            .padding(.vertical, 10 )
+                                        } else {
+                                            HStack{
+                                                if self.reloadimgtoolbar{
+                                                    ProgressView()
+                                                        .onAppear{
+                                                            self.reloadimgtoolbar = false
+                                                        }
+                                                } else {
+                                                    AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(userProfileImg)"), scale: 2){image in
+                                                        
+                                                        switch  image {
+                                                            
+                                                        case .empty:
+                                                            ProgressView()
+                                                                .progressViewStyle(.circular)
+                                                                .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                                        case .success(let image):
+                                                            image
+                                                                .resizable()
+                                                                .scaledToFill()
+                                                                .clipped()
+                                                                .background(Color.black.opacity(0.2))
+                                                                .overlay {
+                                                                    Circle()
+                                                                        .stroke(.orange, lineWidth: 1)
+                                                                }
+                                                                .clipShape(Circle())
+                                                                .padding(-5)
+                                                                .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
+                                                        case .failure:
+                                                            Image(systemName: "person.fill")
+                                                                .padding(5)
+                                                                .font(.system(size:  prop.isLandscape ? 22 : (prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)))
+                                                                .background(Color.white)
+                                                                .overlay {
+                                                                    Circle()
+                                                                        .stroke(.orange, lineWidth: 1)
+                                                                }
+                                                                .aspectRatio(contentMode: .fill)
+                                                                .clipShape(Circle())
+                                                                .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
+                                                                .onAppear{
+                                                                    if !userProfileImg.isEmpty{
+                                                                        self.reloadimgtoolbar = true
+                                                                    }
+                                                                }
+                                                        @unknown default:
+                                                            fatalError()
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
+                            }
                         }
                     }
                 }
@@ -119,7 +238,7 @@ struct CalendarViewModel: View {
             .hLeading()
             ForEach(Array(academiclist.sortedAcademicYear.enumerated()), id: \.element.code){ index,academic in
                 datingEditer(inputCode: academic.date,inputAnotherDate: academic.enddate, EventName: academic.eventnameKhmer, index: index, Englishname: academic.eventname)
-               
+                
             }
         }
     }
@@ -135,7 +254,7 @@ struct CalendarViewModel: View {
             HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
                 graduatedLogo(colorScheme: colorScheme)
                 VStack(alignment: .leading){
-                   Text(id)
+                    Text(id)
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
                         .listRowBackground(Color.yellow)
                     Text(Englishname)
@@ -157,7 +276,7 @@ struct CalendarViewModel: View {
             HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
                 graduatedLogo(colorScheme: colorScheme)
                 VStack(alignment: .leading){
-                   Text(id)
+                    Text(id)
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 15, relativeTo: .body))
                         .listRowBackground(Color.yellow)
                     Text(EventName)
@@ -206,11 +325,14 @@ struct CalendarViewModel: View {
                 
                 Image(language == "ch" ? "ch" : language == "km-KH" ? "km" : "en")
                     .resizable()
-                    .frame(width: 28, height: 28)
+                    .aspectRatio(contentMode: .fit)
                     .overlay {
                         Circle()
                             .stroke(.yellow, lineWidth: 1)
                     }
+                    .padding(-5)
+                    .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
+                    
             }
         }
     }

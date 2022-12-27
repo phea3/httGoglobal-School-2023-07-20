@@ -23,9 +23,9 @@ extension Date{
 }
 extension View{
     func hideKeyboard() {
-          let resign = #selector(UIResponder.resignFirstResponder)
-          UIApplication.shared.sendAction(resign, to: nil, from: nil, for: nil)
-      }
+        let resign = #selector(UIResponder.resignFirstResponder)
+        UIApplication.shared.sendAction(resign, to: nil, from: nil, for: nil)
+    }
     func getGradientOverlay() -> some View {
         LinearGradient(gradient:
                         Gradient(stops: [
@@ -72,108 +72,6 @@ extension View{
             .resizable()
             .ignoresSafeArea()
     }
-    func toolbarView(prop:Properties, barTitle: String, profileImg: String, language: String)->some View {
-        self
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    HStack{
-                        Image(systemName: "line.3.horizontal.decrease")
-                            .padding(.bottom, prop.isiPhoneS ? 3 : prop.isiPhoneM ? 4 : prop.isiPhoneL ? 5 : 5)
-                        Text(barTitle.localizedLanguage(language: language))
-                            .font(.custom("Bayon", size: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 :  prop.isiPhoneL ? 18 : 20, relativeTo: .largeTitle))
-                    }
-                    .foregroundColor(Color("Blue"))
-                    .padding(.vertical, prop.isLandscape ? 20 : 0)
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    if prop.isLandscape{
-                        HStack{
-                            AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(profileImg)"), scale: 2){image in
-                                
-                                switch  image {
-                                    
-                                case .empty:
-                                    ProgressView()
-                                        .progressViewStyle(.circular)
-                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
-                                case .success(let image):
-                                    image
-                                        .resizable()
-                                        .scaledToFill()
-                                        .clipped()
-                                        .background(Color.black.opacity(0.2))
-                                        .overlay {
-                                            Circle()
-                                                .stroke(.orange, lineWidth: 1)
-                                        }
-                                        .clipShape(Circle())
-                                        .padding(-5)
-                                        .frame(width: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 :  20, alignment: .center)
-                                case .failure:
-                                    Image(systemName: "person.fill")
-                                        .padding(5)
-                                        .background(Color.white)
-                                        .overlay {
-                                            Circle()
-                                                .stroke(.orange, lineWidth: 1)
-                                        }
-                                        .aspectRatio(contentMode: .fill)
-                                        .clipShape(Circle())
-                                        .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22), alignment: .center)
-                                        
-                                @unknown default:
-                                    fatalError()
-                                }
-                            }
-                        }
-                        .padding(.vertical, 10 )
-                    }else{
-                        HStack{
-                            AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(profileImg)"), scale: 2){image in
-                                
-                                switch  image {
-                                    
-                                case .empty:
-                                    ProgressView()
-                                        .progressViewStyle(.circular)
-                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
-                                case .success(let image):
-                                    image
-                                        .resizable()
-                                        .scaledToFill()
-                                        .clipped()
-                                        .background(Color.black.opacity(0.2))
-                                        .overlay {
-                                            Circle()
-                                                .stroke(.orange, lineWidth: 1)
-                                        }
-                                        .clipShape(Circle())
-                                        .padding(-5)
-                                        .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
-                                case .failure:
-                                    Image(systemName: "person.fill")
-                                        .padding(5)
-                                        .font(.system(size:  prop.isLandscape ? 22 : (prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)))
-                                        .background(Color.white)
-                                        .overlay {
-                                            Circle()
-                                                .stroke(.orange, lineWidth: 1)
-                                        }
-                                        .aspectRatio(contentMode: .fill)
-                                        .clipShape(Circle())
-                                        .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
-                                @unknown default:
-                                    fatalError()
-                                }
-                            }
-                        }
-                    }
-                }
-                
-                
-            }
-    }
     func gradientView(prop:Properties, gradient: Color) -> some View {
         gradient
             .ignoresSafeArea()
@@ -215,7 +113,7 @@ extension View{
                     .foregroundColor(.blue)
             }
         }
-           
+        
     }
     @ViewBuilder func phoneOnlyStackNavigationView() -> some View {
         if UIDevice.current.userInterfaceIdiom == .phone {

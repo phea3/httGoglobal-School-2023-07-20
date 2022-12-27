@@ -20,7 +20,9 @@ struct Choosing: View {
     var classId: String
     var academicYearId: String
     var programId: String
-    var btnBack : some View { Button(action:{self.presentationMode.wrappedValue.dismiss()}) {backButtonView(language: self.language, prop: prop, barTitle: barTitle)}}
+    var btnBack : some View { Button(action:{
+        self.presentationMode.wrappedValue.dismiss()
+    }) {backButtonView(language: self.language, prop: prop, barTitle: barTitle)}}
     var language: String
     var body: some View {
         VStack(spacing: 0){

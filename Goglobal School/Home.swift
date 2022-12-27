@@ -25,7 +25,6 @@ struct Home: View {
         requestPushAuthorization();
         UITabBar.appearance().isHidden = true
     }
-    
     @State var currentTab: Tab = .dashboard
     @State var animationFinished: Bool = false
     @State var animationStarted: Bool = false
@@ -48,9 +47,9 @@ struct Home: View {
     @State var newToken: String = ""
     @State var showTeacherImage: Bool = false
     @State var UrlImg: String = ""
-    @State private var isUnlocked = false
-    @State private var language = "km-KH"
-
+    @State var isUnlocked = false
+    @State var language = "km-KH"
+    
     enum Field {
         case gmail, pass
     }
@@ -105,7 +104,7 @@ struct Home: View {
                         LoginView(prop: prop)
                         
                         // change language
-                        ChangeLanguage()
+                        ChangeLanguage(prop: prop)
                             .padding()
                             .padding(.top,40)
                             .frame(maxWidth:.infinity, maxHeight: .infinity,alignment: .topTrailing)
@@ -156,7 +155,7 @@ struct Home: View {
                 // get device's token
                 DispatchQueue.main.asyncAfter(deadline:.now() + 1 ) {
                     self.newToken = ApiTokenSingleton.shared.token
-//                    print("newtoke's phone: \(newToken)")
+                    //                    print("newtoke's phone: \(newToken)")
                 }
                 if !loginVM.isAuthenticated{
                     DispatchQueue.main.async {
@@ -203,7 +202,7 @@ struct Home: View {
     }
     
     @ViewBuilder
-    private func ChangeLanguage()-> some View {
+    private func ChangeLanguage(prop: Properties)-> some View {
         HStack{
             Menu {
                 //                    Button {
@@ -230,16 +229,18 @@ struct Home: View {
                         .resizable()
                         .frame(width: 25, height: 25)
                 }
-               
+                
             } label: {
                 
                 Image(language == "ch" ? "ch" : language == "km-KH" ? "km" : "en")
                     .resizable()
-                    .frame(width: 30, height: 30)
+                    .aspectRatio(contentMode: .fit)
                     .overlay {
                         Circle()
                             .stroke(.yellow, lineWidth: 1)
                     }
+                    .padding(-5)
+                    .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
             }
         }
     }
