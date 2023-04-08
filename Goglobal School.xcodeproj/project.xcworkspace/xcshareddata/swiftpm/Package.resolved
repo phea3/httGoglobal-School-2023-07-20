@@ -6,7 +6,7 @@
       "location" : "https://github.com/Alamofire/Alamofire.git",
       "state" : {
         "branch" : "master",
-        "revision" : "bdecb2c87a21a236dcfe88b21532ad3f0e3d20f4"
+        "revision" : "fd87f7ce7461197ea5af6e4a865168b8fc913ee0"
       }
     },
     {
@@ -24,7 +24,7 @@
       "location" : "https://github.com/evgenyneu/keychain-swift.git",
       "state" : {
         "branch" : "master",
-        "revision" : "32a99b537d1c6f3529a08257c28a5feb70c0c5af"
+        "revision" : "c1fde55798b164cad44b5e23cfa2f0f1ebcd76af"
       }
     },
     {
@@ -33,7 +33,7 @@
       "location" : "https://github.com/kishikawakatsumi/KeychainAccess.git",
       "state" : {
         "branch" : "master",
-        "revision" : "6299daec1d74be12164fec090faf9ed14d0da9d6"
+        "revision" : "ecb18d8ce4d88277cc4fb103973352d91e18c535"
       }
     },
     {
@@ -42,7 +42,7 @@
       "location" : "https://github.com/joekndy/MarqueeText.git",
       "state" : {
         "branch" : "master",
-        "revision" : "7a8415b7e27d8f2919a7b502b4bc85eaea3ff3ee"
+        "revision" : "e18d514455563ad00581e0d825146c6f15b1c6c4"
       }
     },
     {

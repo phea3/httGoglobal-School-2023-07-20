@@ -307,7 +307,7 @@ struct Profile: View {
                         Text("\(logout.userLastname) \(logout.userFirstname)")
                     }
                     .font(.system(size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20))
-                    .foregroundColor(Color.black)
+                    .foregroundColor(colorScheme == .dark ? Color.white : Color.black)
                     .padding(.horizontal)
                 }
                 .padding(prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)

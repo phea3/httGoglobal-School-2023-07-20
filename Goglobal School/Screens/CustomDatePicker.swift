@@ -33,7 +33,7 @@ struct CustomDatePicker: View {
                 Spacer()
                 Button {
                     withAnimation {
-                        currentMonth -= 1 
+                        currentMonth -= 1
                     }
                 } label: {
                     Image(systemName: "chevron.left")

@@ -7,6 +7,7 @@
 
 import Foundation
 import UserNotifications
+import SwiftUI
 
 class ListAttendanceViewModel: ObservableObject {
     
@@ -43,6 +44,7 @@ class ListAttendanceViewModel: ObservableObject {
             }
         }
     }
+    
     func clearCache(){
         Network.shared.apollo.clearCache()
     }
@@ -63,3 +65,4 @@ struct AttendanceViewModel {
         attendance.status!
     }
 }
+

@@ -15,7 +15,6 @@ class ListViewModel: ObservableObject{
     @Published var academicYear2: [AcademicViewModel] = []
     @Published var activeYear: [activeAcademicYearModel] = []
     @Published var Error: Bool = false
-    @Published var arrayStringObject = []
     @Published var academicYearId: String = ""
     @Published var academicYearName: String = ""
     

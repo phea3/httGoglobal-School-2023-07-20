@@ -54,7 +54,7 @@ struct Payment: View {
                                                 .foregroundColor(.blue)
                                         }
                                         Spacer()
-                                        
+
                                         if payment.NetAmount == 0.0 && payment.GrossAmount == 0.0 && payment.StartDate == "" && payment.EndDate == "" {
                                             VStack{
                                                 ForEach(payment.AdditionalFee, id: \.Id) { task in
@@ -79,7 +79,7 @@ struct Payment: View {
                                                         .frame(width: .infinity, height: 1)
                                                 }
                                             }
-                                           
+
                                         } else {
                                             VStack{
                                                 HStack{
@@ -111,9 +111,9 @@ struct Payment: View {
                                                 Rectangle()
                                                     .fill(.orange)
                                                     .frame(width: .infinity, height: 1)
-                                                
+
                                                 if !payment.AdditionalFee.isEmpty{
-                                                   
+
                                                     ForEach(payment.AdditionalFee, id: \.Id) { task in
                                                         HStack{
                                                             Text(task.IncomeHead.IncomeHead)
@@ -122,7 +122,7 @@ struct Payment: View {
                                                             Spacer()
                                                             Text("\(task.countMonth) \(task.IncomeHead.Unit)".localizedLanguage(language: self.language))
                                                                 .foregroundColor(.blue)
-                                                                
+
                                                             Spacer()
                                                             Text("$\(getExactPrice(price: task.Total ))")
                                                                 .foregroundColor(.red)

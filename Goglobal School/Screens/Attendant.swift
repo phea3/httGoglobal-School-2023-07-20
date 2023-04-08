@@ -34,7 +34,7 @@ struct Attendant: View {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.9){
                             self.currentProgress = 750
                         }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5){
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
                             self.currentProgress = 1000
                         }
                     }
@@ -42,8 +42,8 @@ struct Attendant: View {
             }else{
                 VStack(spacing: 0){
                     CustomDatePicker(studentId: studentId, currentDate: $currentDate,sectionShiftId: AllClasses.id, prop: prop, language: self.language)
-                        .padding(.bottom,prop.isiPhoneS ? 10 : prop.isiPhoneM ? 15 : prop.isiPhoneL ? 20 : 25)
-                        .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
+                    
+                    
                 }
             }
         }
@@ -65,4 +65,5 @@ struct Attendant_Previews: PreviewProvider {
         Attendant(studentId: "",classId: "",academicYearId: "",programId: "", prop: prop, language: "em")
     }
 }
+
 

@@ -46,7 +46,7 @@ struct Annoucements: View {
                                                 ProgressView()
                                                     .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                                                     .progressViewStyle(.circular)
-                                                Text("សូមរង់ចាំ")
+                                                Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
                                                     .foregroundColor(.blue)
                                             }
                                         case .success(let image):

@@ -20,6 +20,7 @@ struct Schedule: View {
     var academicYearId: String
     var programId: String
     var language: String
+//    let foo: String = "optional string"
     var body: some View {
         
         VStack(spacing:0){
@@ -38,20 +39,20 @@ struct Schedule: View {
                             // Updating Current Day
                             withAnimation{
                                 AllClasses.currentDay = day
-                            
+                                
+                            }
                         }
                     }
                 }
             }
-        }
-        .padding(.top)
-        .padding(.horizontal)
-        .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.top)
+            .padding(.horizontal)
+            .frame(maxWidth: .infinity, alignment: .center)
             
             if loadingScreen{
                 ProgressView(value: currentProgress, total: 1000)
                     .padding(.top)
-                    Spacer()
+                Spacer()
                     .onAppear{
                         self.currentProgress = 250
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
@@ -64,9 +65,10 @@ struct Schedule: View {
                             self.currentProgress = 1000
                         }
                     }
-                   
+                
             }else{
                 VStack{
+//                    if let foo = foo {
                     if let tasks = AllClasses.filteredTasks{
                         if tasks.isEmpty{
                             Text("មិនមានម៉ោងសិក្សា!!!".localizedLanguage(language: self.language))
@@ -159,46 +161,46 @@ struct Schedule: View {
                         .foregroundColor(Color(index % 4 == 0 ?"LightOrange":"LightBlue"))
                         .overlay(
                             ZStack{
-                                    AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(profileImg)"), content: { image in
-                                        switch image{
-                                        case .empty:
-                                            ProgressView()
-                                                .progressViewStyle(CircularProgressViewStyle(tint: Color(index % 4 == 0 ?"bodyOrange":"bodyBlue")))
-                                                .frame(width: 50, height: 50)
-                                        case .success(let image):
-                                            Button {
-                                                DispatchQueue.main.asyncAfter(deadline:.now() + 0.2){
-                                                    self.showTeacherImage = true
-                                                }
-                                                self.UrlImg = "https://storage.go-globalschool.com/api\(profileImg)"
-                                            } label: {
-                                                image
+                                AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(profileImg)"), content: { image in
+                                    switch image{
+                                    case .empty:
+                                        ProgressView()
+                                            .progressViewStyle(CircularProgressViewStyle(tint: Color(index % 4 == 0 ?"bodyOrange":"bodyBlue")))
+                                            .frame(width: 50, height: 50)
+                                    case .success(let image):
+                                        Button {
+                                            DispatchQueue.main.asyncAfter(deadline:.now() + 0.2){
+                                                self.showTeacherImage = true
+                                            }
+                                            self.UrlImg = "https://storage.go-globalschool.com/api\(profileImg)"
+                                        } label: {
+                                            image
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fill)
                                                 .clipShape(Circle())
                                                 .frame(width: 50, height: 50)
-                                            }
-                                        case .failure:
-                                            Image(systemName: "person.fill")
-                                                .resizable()
-                                                .frame(width: 30, height: 30)
-                                                .foregroundColor(Color(index % 4 == 0 ?"bodyOrange":"bodyBlue"))
-                                                .background(
-                                                    Circle()
-                                                        .fill(.white)
-                                                        .frame(width: 45 , height: 45)
-                                                )
-                                        @unknown default:
-                                            // Since the AsyncImagePhase enum isn't frozen,
-                                            // we need to add this currently unused fallback
-                                            // to handle any new cases that might be added
-                                            // in the future:
-                                            EmptyView()
                                         }
-                                    })
-//                                }
+                                    case .failure:
+                                        Image(systemName: "person.fill")
+                                            .resizable()
+                                            .frame(width: 30, height: 30)
+                                            .foregroundColor(Color(index % 4 == 0 ?"bodyOrange":"bodyBlue"))
+                                            .background(
+                                                Circle()
+                                                    .fill(.white)
+                                                    .frame(width: 45 , height: 45)
+                                            )
+                                    @unknown default:
+                                        // Since the AsyncImagePhase enum isn't frozen,
+                                        // we need to add this currently unused fallback
+                                        // to handle any new cases that might be added
+                                        // in the future:
+                                        EmptyView()
+                                    }
+                                })
+                                //                                }
                             }
-                                
+                            
                         )
                         .padding(.leading)
                     VStack(alignment: .leading){
@@ -241,38 +243,38 @@ struct Schedule_Previews: PreviewProvider {
 private func convertStartTime(startTime: String)-> String{
     
     let newTime = startTime
-                .replacingOccurrences(of: "0", with: "០", options: .literal, range: nil)
-                .replacingOccurrences(of: "1", with: "១", options: .literal, range: nil)
-                .replacingOccurrences(of: "2", with: "២", options: .literal, range: nil)
-                .replacingOccurrences(of: "3", with: "៣", options: .literal, range: nil)
-                .replacingOccurrences(of: "4", with: "៤", options: .literal, range: nil)
-                .replacingOccurrences(of: "5", with: "៥", options: .literal, range: nil)
-                .replacingOccurrences(of: "6", with: "៦", options: .literal, range: nil)
-                .replacingOccurrences(of: "7", with: "៧", options: .literal, range: nil)
-                .replacingOccurrences(of: "8", with: "៨", options: .literal, range: nil)
-                .replacingOccurrences(of: "9", with: "៩", options: .literal, range: nil)
-                .replacingOccurrences(of: "10", with: "១០", options: .literal, range: nil)
-                .replacingOccurrences(of: "11", with: "១១", options: .literal, range: nil)
-                .replacingOccurrences(of: "12", with: "១២", options: .literal, range: nil)
-                .replacingOccurrences(of: "13", with: "១៣", options: .literal, range: nil)
-                .replacingOccurrences(of: "14", with: "១៤", options: .literal, range: nil)
-                .replacingOccurrences(of: "15", with: "១៥", options: .literal, range: nil)
-                .replacingOccurrences(of: "16", with: "១៦", options: .literal, range: nil)
-                .replacingOccurrences(of: "17", with: "១៧", options: .literal, range: nil)
-                .replacingOccurrences(of: "18", with: "១៨", options: .literal, range: nil)
-                .replacingOccurrences(of: "19", with: "១៩", options: .literal, range: nil)
-                .replacingOccurrences(of: "20", with: "២០", options: .literal, range: nil)
-                .replacingOccurrences(of: "21", with: "២១", options: .literal, range: nil)
-                .replacingOccurrences(of: "22", with: "២២", options: .literal, range: nil)
-                .replacingOccurrences(of: "23", with: "២៣", options: .literal, range: nil)
-                .replacingOccurrences(of: "24", with: "២៤", options: .literal, range: nil)
-                .replacingOccurrences(of: "25", with: "២៥", options: .literal, range: nil)
-                .replacingOccurrences(of: "26", with: "២៦", options: .literal, range: nil)
-                .replacingOccurrences(of: "27", with: "២៧", options: .literal, range: nil)
-                .replacingOccurrences(of: "28", with: "២៨", options: .literal, range: nil)
-                .replacingOccurrences(of: "29", with: "២៩", options: .literal, range: nil)
-                .replacingOccurrences(of: "30", with: "៣០", options: .literal, range: nil)
-                .replacingOccurrences(of: "31", with: "៣១", options: .literal, range: nil)
+        .replacingOccurrences(of: "0", with: "០", options: .literal, range: nil)
+        .replacingOccurrences(of: "1", with: "១", options: .literal, range: nil)
+        .replacingOccurrences(of: "2", with: "២", options: .literal, range: nil)
+        .replacingOccurrences(of: "3", with: "៣", options: .literal, range: nil)
+        .replacingOccurrences(of: "4", with: "៤", options: .literal, range: nil)
+        .replacingOccurrences(of: "5", with: "៥", options: .literal, range: nil)
+        .replacingOccurrences(of: "6", with: "៦", options: .literal, range: nil)
+        .replacingOccurrences(of: "7", with: "៧", options: .literal, range: nil)
+        .replacingOccurrences(of: "8", with: "៨", options: .literal, range: nil)
+        .replacingOccurrences(of: "9", with: "៩", options: .literal, range: nil)
+        .replacingOccurrences(of: "10", with: "១០", options: .literal, range: nil)
+        .replacingOccurrences(of: "11", with: "១១", options: .literal, range: nil)
+        .replacingOccurrences(of: "12", with: "១២", options: .literal, range: nil)
+        .replacingOccurrences(of: "13", with: "១៣", options: .literal, range: nil)
+        .replacingOccurrences(of: "14", with: "១៤", options: .literal, range: nil)
+        .replacingOccurrences(of: "15", with: "១៥", options: .literal, range: nil)
+        .replacingOccurrences(of: "16", with: "១៦", options: .literal, range: nil)
+        .replacingOccurrences(of: "17", with: "១៧", options: .literal, range: nil)
+        .replacingOccurrences(of: "18", with: "១៨", options: .literal, range: nil)
+        .replacingOccurrences(of: "19", with: "១៩", options: .literal, range: nil)
+        .replacingOccurrences(of: "20", with: "២០", options: .literal, range: nil)
+        .replacingOccurrences(of: "21", with: "២១", options: .literal, range: nil)
+        .replacingOccurrences(of: "22", with: "២២", options: .literal, range: nil)
+        .replacingOccurrences(of: "23", with: "២៣", options: .literal, range: nil)
+        .replacingOccurrences(of: "24", with: "២៤", options: .literal, range: nil)
+        .replacingOccurrences(of: "25", with: "២៥", options: .literal, range: nil)
+        .replacingOccurrences(of: "26", with: "២៦", options: .literal, range: nil)
+        .replacingOccurrences(of: "27", with: "២៧", options: .literal, range: nil)
+        .replacingOccurrences(of: "28", with: "២៨", options: .literal, range: nil)
+        .replacingOccurrences(of: "29", with: "២៩", options: .literal, range: nil)
+        .replacingOccurrences(of: "30", with: "៣០", options: .literal, range: nil)
+        .replacingOccurrences(of: "31", with: "៣១", options: .literal, range: nil)
     
     return newTime
 }
@@ -280,38 +282,38 @@ private func convertStartTime(startTime: String)-> String{
 private func convertEndTime(endTime: String)-> String{
     
     let newTime = endTime
-                .replacingOccurrences(of: "0", with: "០", options: .literal, range: nil)
-                .replacingOccurrences(of: "1", with: "១", options: .literal, range: nil)
-                .replacingOccurrences(of: "2", with: "២", options: .literal, range: nil)
-                .replacingOccurrences(of: "3", with: "៣", options: .literal, range: nil)
-                .replacingOccurrences(of: "4", with: "៤", options: .literal, range: nil)
-                .replacingOccurrences(of: "5", with: "៥", options: .literal, range: nil)
-                .replacingOccurrences(of: "6", with: "៦", options: .literal, range: nil)
-                .replacingOccurrences(of: "7", with: "៧", options: .literal, range: nil)
-                .replacingOccurrences(of: "8", with: "៨", options: .literal, range: nil)
-                .replacingOccurrences(of: "9", with: "៩", options: .literal, range: nil)
-                .replacingOccurrences(of: "10", with: "១០", options: .literal, range: nil)
-                .replacingOccurrences(of: "11", with: "១១", options: .literal, range: nil)
-                .replacingOccurrences(of: "12", with: "១២", options: .literal, range: nil)
-                .replacingOccurrences(of: "13", with: "១៣", options: .literal, range: nil)
-                .replacingOccurrences(of: "14", with: "១៤", options: .literal, range: nil)
-                .replacingOccurrences(of: "15", with: "១៥", options: .literal, range: nil)
-                .replacingOccurrences(of: "16", with: "១៦", options: .literal, range: nil)
-                .replacingOccurrences(of: "17", with: "១៧", options: .literal, range: nil)
-                .replacingOccurrences(of: "18", with: "១៨", options: .literal, range: nil)
-                .replacingOccurrences(of: "19", with: "១៩", options: .literal, range: nil)
-                .replacingOccurrences(of: "20", with: "២០", options: .literal, range: nil)
-                .replacingOccurrences(of: "21", with: "២១", options: .literal, range: nil)
-                .replacingOccurrences(of: "22", with: "២២", options: .literal, range: nil)
-                .replacingOccurrences(of: "23", with: "២៣", options: .literal, range: nil)
-                .replacingOccurrences(of: "24", with: "២៤", options: .literal, range: nil)
-                .replacingOccurrences(of: "25", with: "២៥", options: .literal, range: nil)
-                .replacingOccurrences(of: "26", with: "២៦", options: .literal, range: nil)
-                .replacingOccurrences(of: "27", with: "២៧", options: .literal, range: nil)
-                .replacingOccurrences(of: "28", with: "២៨", options: .literal, range: nil)
-                .replacingOccurrences(of: "29", with: "២៩", options: .literal, range: nil)
-                .replacingOccurrences(of: "30", with: "៣០", options: .literal, range: nil)
-                .replacingOccurrences(of: "31", with: "៣១", options: .literal, range: nil)
+        .replacingOccurrences(of: "0", with: "០", options: .literal, range: nil)
+        .replacingOccurrences(of: "1", with: "១", options: .literal, range: nil)
+        .replacingOccurrences(of: "2", with: "២", options: .literal, range: nil)
+        .replacingOccurrences(of: "3", with: "៣", options: .literal, range: nil)
+        .replacingOccurrences(of: "4", with: "៤", options: .literal, range: nil)
+        .replacingOccurrences(of: "5", with: "៥", options: .literal, range: nil)
+        .replacingOccurrences(of: "6", with: "៦", options: .literal, range: nil)
+        .replacingOccurrences(of: "7", with: "៧", options: .literal, range: nil)
+        .replacingOccurrences(of: "8", with: "៨", options: .literal, range: nil)
+        .replacingOccurrences(of: "9", with: "៩", options: .literal, range: nil)
+        .replacingOccurrences(of: "10", with: "១០", options: .literal, range: nil)
+        .replacingOccurrences(of: "11", with: "១១", options: .literal, range: nil)
+        .replacingOccurrences(of: "12", with: "១២", options: .literal, range: nil)
+        .replacingOccurrences(of: "13", with: "១៣", options: .literal, range: nil)
+        .replacingOccurrences(of: "14", with: "១៤", options: .literal, range: nil)
+        .replacingOccurrences(of: "15", with: "១៥", options: .literal, range: nil)
+        .replacingOccurrences(of: "16", with: "១៦", options: .literal, range: nil)
+        .replacingOccurrences(of: "17", with: "១៧", options: .literal, range: nil)
+        .replacingOccurrences(of: "18", with: "១៨", options: .literal, range: nil)
+        .replacingOccurrences(of: "19", with: "១៩", options: .literal, range: nil)
+        .replacingOccurrences(of: "20", with: "២០", options: .literal, range: nil)
+        .replacingOccurrences(of: "21", with: "២១", options: .literal, range: nil)
+        .replacingOccurrences(of: "22", with: "២២", options: .literal, range: nil)
+        .replacingOccurrences(of: "23", with: "២៣", options: .literal, range: nil)
+        .replacingOccurrences(of: "24", with: "២៤", options: .literal, range: nil)
+        .replacingOccurrences(of: "25", with: "២៥", options: .literal, range: nil)
+        .replacingOccurrences(of: "26", with: "២៦", options: .literal, range: nil)
+        .replacingOccurrences(of: "27", with: "២៧", options: .literal, range: nil)
+        .replacingOccurrences(of: "28", with: "២៨", options: .literal, range: nil)
+        .replacingOccurrences(of: "29", with: "២៩", options: .literal, range: nil)
+        .replacingOccurrences(of: "30", with: "៣០", options: .literal, range: nil)
+        .replacingOccurrences(of: "31", with: "៣១", options: .literal, range: nil)
     
     return newTime
 }
