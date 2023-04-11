@@ -11,7 +11,6 @@ import _MapKit_SwiftUI
 struct Grade: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
     @StateObject var locationManager = LocationManager()
     @StateObject var totalStu: GetTotalStudentViewModel = GetTotalStudentViewModel()
     @StateObject var enrollments: ListStudentViewModel = ListStudentViewModel()
@@ -40,6 +39,7 @@ struct Grade: View {
     @State var foodHistory: Bool = false
     @State var currentDate: Date = Date()
     @State var isAttendance: Bool = false
+    @State var isAskingPermission: Bool = false
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 13.360863317704524, longitude: 103.85711213340456), span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
     let annotations = [
         City(name: "Go Global School", coordinate: CLLocationCoordinate2D(latitude: 13.34777508421127, longitude: 103.8441745668323)),
@@ -133,6 +133,7 @@ struct Grade: View {
                                 .foregroundColor(Color("Blue"))
                                 .frame(width: .infinity, height: .infinity, alignment: .leading)
                                 .backgroundRemover()
+                                
                                 VStack{
                                     let distance = schoolLocation.distance(from: CLLocation(latitude: locationManager.lastLocation?.coordinate.latitude ?? 0, longitude: locationManager.lastLocation?.coordinate.longitude ?? 0))
                                     let d = distanceInMeters(distance: distance)
@@ -201,43 +202,44 @@ struct Grade: View {
                                 .backgroundRemover()
                                 
                             }
-                            //                            HStack{
-                            //                                Text("\("ប្រវត្តិការទទួលទានអាហារ".localizedLanguage(language: self.language)) \(language == "en" ? StudentEnglishName : Student)")
-                            //                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
-                            //
-                            //                                Rectangle()
-                            //                                    .frame(maxWidth: .infinity,maxHeight: 1)
-                            //                            }
-                            //                            .foregroundColor(Color("Blue"))
-                            //                            .frame(width: .infinity, height: .infinity, alignment: .leading)
-                            //                            .backgroundRemover()
-                            //                            Button {
-                            //                                self.foodHistory = true
-                            //                            } label: {
-                            //                                HStack{
-                            //                                    Circle()
-                            //                                        .fill(.white)
-                            //                                        .frame(width: 49, height: 49, alignment: .center)
-                            //                                        .overlay(
-                            //                                            Image("dinner")
-                            //                                                .resizable()
-                            //                                                .frame(width: 30, height: 30)
-                            //                                        )
-                            //                                    Text("Please press here to see food monthly".localizedLanguage(language: self.language))
-                            //                                        .listRowBackground(Color.yellow)
-                            //                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-                            //                                        .foregroundColor(Color("bodyBlue"))
-                            //                                }
-                            //                                .padding(20)
-                            //                                .frame(maxWidth: .infinity, alignment: .leading)
-                            //                                .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
-                            //                                .cornerRadius(15)
-                            //                                .overlay(
-                            //                                    RoundedRectangle(cornerRadius: 15)
-                            //                                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
-                            //                                )
-                            //                            }
-                            //                            .backgroundRemover()
+                            
+//                            HStack{
+//                                Text("\("ប្រវត្តិការទទួលទានអាហារ".localizedLanguage(language: self.language)) \(language == "en" ? StudentEnglishName : Student)")
+//                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+//
+//                                Rectangle()
+//                                    .frame(maxWidth: .infinity,maxHeight: 1)
+//                            }
+//                            .foregroundColor(Color("Blue"))
+//                            .frame(width: .infinity, height: .infinity, alignment: .leading)
+//                            .backgroundRemover()
+//                            Button {
+//                                self.foodHistory = true
+//                            } label: {
+//                                HStack{
+//                                    Circle()
+//                                        .fill(.white)
+//                                        .frame(width: 49, height: 49, alignment: .center)
+//                                        .overlay(
+//                                            Image("dinner")
+//                                                .resizable()
+//                                                .frame(width: 30, height: 30)
+//                                        )
+//                                    Text("Please press here to see food monthly".localizedLanguage(language: self.language))
+//                                        .listRowBackground(Color.yellow)
+//                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+//                                        .foregroundColor(Color("bodyBlue"))
+//                                }
+//                                .padding(20)
+//                                .frame(maxWidth: .infinity, alignment: .leading)
+//                                .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
+//                                .cornerRadius(15)
+//                                .overlay(
+//                                    RoundedRectangle(cornerRadius: 15)
+//                                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+//                                )
+//                            }
+//                            .backgroundRemover()
                             
                             HStack{
                                 Text("វត្តមាន និងសុំច្បាប់".localizedLanguage(language: self.language))
@@ -248,79 +250,84 @@ struct Grade: View {
                             .foregroundColor(Color("Blue"))
                             .frame(width: .infinity, height: .infinity, alignment: .leading)
                             .backgroundRemover()
-                            
-                            
-                            Button {
-                                self.isAttendance = true
-                            } label: {
-                                HStack{
-                                    Circle()
-                                        .fill(.white)
-                                        .frame(width: 49, height: 49, alignment: .center)
-                                        .overlay(
-                                            Image(systemName: "graduationcap.circle.fill")
-                                                .font(.system(size: 50))
-                                                .frame(width: 50, height: 50, alignment: .center)
-                                                .foregroundColor(.white)
-                                        )
-                                    Text("វត្តមាន".localizedLanguage(language: self.language))
-                                        .listRowBackground(Color.yellow)
-                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-                                        .foregroundColor(Color("bodyOrange"))
-                                }
-                                .padding(20)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .background(Color(colorScheme == .dark ? "Black" : "LightOrange"))
-                                .cornerRadius(15)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
-                                )
-                            }
-                            .backgroundRemover()
-                            
-                            HStack{
-                                Circle()
-                                    .fill(.white)
-                                    .frame(width: 49, height: 49, alignment: .center)
-                                    .overlay(
-                                        Image(systemName: "graduationcap.circle.fill")
-                                            .font(.system(size: 50))
-                                            .frame(width: 50, height: 50, alignment: .center)
-                                            .foregroundColor(.white)
-                                    )
-                                Text("សុំច្បាប់".localizedLanguage(language: self.language))
-                                    .listRowBackground(Color.yellow)
-                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                         
+                                Button {
+                                    self.isAttendance = true
+                                } label: {
+                                    HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                                        Circle()
+                                            .fill(.white)
+                                            .frame(width: 49, height: 49, alignment: .center)
+                                            .overlay(
+                                                Image(systemName: "clock")
+                                                    .font(.system(size: 30))
+                                                    .frame(width: 50, height: 50, alignment: .center)
+                                            )
+                                        Text("វត្តមាន".localizedLanguage(language: self.language))
+                                            .listRowBackground(Color.yellow)
+                                            .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                                        
+                                    }
                                     .foregroundColor(Color("bodyOrange"))
-                            }
-                            .padding(20)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color(colorScheme == .dark ? "Black" : "LightOrange"))
-                            .cornerRadius(15)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 15)
-                                    .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
-                            )
+                                    .padding(20)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .background(Color(colorScheme == .dark ? "Black" : "LightOrange"))
+                                    .cornerRadius(15)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 15)
+                                            .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                                    )
+                                }.backgroundRemover()
+                       
+                                Button {
+                                    self.isAskingPermission = true
+                                } label: {
+                                    HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                                        Circle()
+                                            .fill(.white)
+                                            .frame(width: 49, height: 49, alignment: .center)
+                                            .overlay(
+                                                Image(systemName: "circle.slash")
+                                                    .font(.system(size: 30))
+                                                    .frame(width: 50, height: 50, alignment: .center)
+                                            )
+                                        Text("សុំច្បាប់".localizedLanguage(language: self.language))
+                                            .listRowBackground(Color.yellow)
+                                            .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                                    }
+                                    .foregroundColor(Color("bodyBlue"))
+                                    .padding(20)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
+                                    .cornerRadius(15)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 15)
+                                            .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                                    )
+                                }
                             .backgroundRemover()
                         }
                         .listStyle(GroupedListStyle())
-                        
-                        NavigationLink(destination: FoodHistoryView(currentDate: $currentDate, language: self.language, prop: self.prop), isActive: $foodHistory) {
-                            EmptyView()
-                        }
-                        NavigationLink(destination: AttendanceView(studentId: studentID, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAttendance) {
-                            EmptyView()
-                        }
-                        
-                        NavigationLink("", value: pageDetail)
-                            .navigationDestination(isPresented: $isPresent) {
-                                Choosing(chose: pageDetail.chose, studentId: studentId, showTeacherImage: $showTeacherImage, UrlImg: $UrlImg, barTitle: pageDetail.title, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language)
-                            }
-                        
                     }
                 }
                 Spacer()
+                NavigationLink(destination: FoodHistoryView(currentDate: $currentDate, language: self.language, prop: self.prop), isActive: $foodHistory) {
+                    EmptyView()}
+                .opacity(0.0)
+                NavigationLink(destination: AttendanceView(studentId: studentID, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAttendance) {
+                    EmptyView()}
+                .opacity(0.0)
+                NavigationLink(destination: AskPermissionView(studentId: studentID, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAskingPermission) {
+                    EmptyView()}
+                .opacity(0.0)
+                NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "attendance", selection: $selection) { EmptyView() }
+                    .opacity(0.0)
+                NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "absence", selection: $selection) { EmptyView() }
+                    .opacity(0.0)
+                NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "payment", selection: $selection) { EmptyView() }
+                    .opacity(0.0)
+                NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "score", selection: $selection) { EmptyView() }
+                    .opacity(0.0)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .navigationBarTitleDisplayMode(.inline)
@@ -570,14 +577,13 @@ struct Grade: View {
                             Button {
                                 self.isAttendance = true
                             } label: {
-                                HStack{
+                                HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
                                     Circle()
                                         .frame(width: 49, height: 49, alignment: .center)
                                         .overlay(
-                                            Image(systemName: "graduationcap.circle.fill")
-                                                .font(.system(size: 50))
+                                            Image(systemName: "clock")
+                                                .font(.system(size: 30))
                                                 .frame(width: 50, height: 50, alignment: .center)
-                                                .foregroundColor(.white)
                                         )
                                     Text("វត្តមាន".localizedLanguage(language: self.language))
                                         .listRowBackground(Color.yellow)
@@ -595,38 +601,44 @@ struct Grade: View {
                             }
                             .foregroundColor(Color("bodyOrange"))
                             .backgroundRemover()
-                            HStack{
-                                Circle()
-                                    .frame(width: 49, height: 49, alignment: .center)
-                                    .overlay(
-                                        Image(systemName: "graduationcap.circle.fill")
-                                            .font(.system(size: 50))
-                                            .frame(width: 50, height: 50, alignment: .center)
-                                            .foregroundColor(.white)
-                                    )
-                                Text("សុំច្បាប់".localizedLanguage(language: self.language))
-                                    .listRowBackground(Color.yellow)
-                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                            Button {
+                                isAskingPermission = true
+                            } label: {
+                                HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                                    Circle()
+                                        .frame(width: 49, height: 49, alignment: .center)
+                                        .overlay(
+                                            Image(systemName: "circle.slash")
+                                                .font(.system(size: 30))
+                                                .frame(width: 50, height: 50, alignment: .center)
+                                        )
+                                    Text("សុំច្បាប់".localizedLanguage(language: self.language))
+                                        .listRowBackground(Color.yellow)
+                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                                }
+                                .padding(20)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
+                                .cornerRadius(15)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                                )
+                                .foregroundColor(Color("bodyBlue"))
                             }
-                            .padding(20)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
-                            .cornerRadius(15)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 15)
-                                    .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
-                            )
-                            .foregroundColor(Color("bodyBlue"))
                             .backgroundRemover()
+                            
                             VStack{
                                 
                                 NavigationLink(destination: FoodHistoryView(currentDate: $currentDate, language: self.language, prop: self.prop), isActive: $foodHistory) {
                                     EmptyView()}
-                                    .opacity(0.0)
+                                .opacity(0.0)
                                 NavigationLink(destination: AttendanceView(studentId: studentID, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAttendance) {
                                     EmptyView()}
-                                    .opacity(0.0)
-                                
+                                .opacity(0.0)
+                                NavigationLink(destination: AskPermissionView(studentId: studentID, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAskingPermission) {
+                                    EmptyView()}
+                                .opacity(0.0)
                                 NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "attendance", selection: $selection) { EmptyView() }
                                     .opacity(0.0)
                                 NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "absence", selection: $selection) { EmptyView() }
@@ -1226,7 +1238,6 @@ struct QrView: View {
                             .frame(width: 300, height: 300)
                     }
                     
-                    
                     HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
                         Image(systemName: "exclamationmark.circle")
                             .font(.system(size: 30))
@@ -1239,7 +1250,6 @@ struct QrView: View {
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                                 .foregroundColor(Color("bodyBlue"))
                         }
-                        
                     }
                     .padding(20)
                     .frame(maxWidth: .infinity, alignment: .leading)

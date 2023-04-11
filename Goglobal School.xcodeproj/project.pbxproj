@@ -90,6 +90,7 @@
 		77DCF5A1292C5B0B008E1423 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77DCF5A3292C5B0B008E1423 /* Localizable.strings */; };
 		77DCF5A7292C6323008E1423 /* LocalizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DCF5A6292C6323008E1423 /* LocalizationService.swift */; };
 		77E15DDE293DD26D00652690 /* MarqueeText in Frameworks */ = {isa = PBXBuildFile; productRef = 77E15DDD293DD26D00652690 /* MarqueeText */; };
+		9ABE0A3D29E3B51000D2881B /* AskPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE0A3C29E3B51000D2881B /* AskPermission.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -170,6 +171,7 @@
 		77DCF5A4292C5B3F008E1423 /* km-KH */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "km-KH"; path = "km-KH.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		77DCF5A5292C5DB2008E1423 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		77DCF5A6292C6323008E1423 /* LocalizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationService.swift; sourceTree = "<group>"; };
+		9ABE0A3C29E3B51000D2881B /* AskPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskPermission.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,6 +264,7 @@
 				771D6C4A29503E1A00B59485 /* pickupViewModel.swift */,
 				77752CED295552810091A4E2 /* FoodHistoryView.swift */,
 				774A5D6529DEB4C80037FD08 /* AttendanceView.swift */,
+				9ABE0A3C29E3B51000D2881B /* AskPermission.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -500,6 +503,7 @@
 				0902C55A28CF174200F2A956 /* ShowAvailableVersion.swift in Sources */,
 				09FEBC9028B70A7500E8B5B7 /* UpdateMobileUserProfileImg.swift in Sources */,
 				77A5922E294169F80017ABA2 /* GetTotalStudentViewModel.swift in Sources */,
+				9ABE0A3D29E3B51000D2881B /* AskPermission.swift in Sources */,
 				09FEBCB028B70CD600E8B5B7 /* CalendarViewModel.swift in Sources */,
 				09FEBC8A28B70A1E00E8B5B7 /* ListStudentViewModel.swift in Sources */,
 				77DCF5A7292C6323008E1423 /* LocalizationService.swift in Sources */,
