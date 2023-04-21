@@ -203,43 +203,43 @@ struct Grade: View {
                                 
                             }
                             
-//                            HStack{
-//                                Text("\("ប្រវត្តិការទទួលទានអាហារ".localizedLanguage(language: self.language)) \(language == "en" ? StudentEnglishName : Student)")
-//                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
-//
-//                                Rectangle()
-//                                    .frame(maxWidth: .infinity,maxHeight: 1)
-//                            }
-//                            .foregroundColor(Color("Blue"))
-//                            .frame(width: .infinity, height: .infinity, alignment: .leading)
-//                            .backgroundRemover()
-//                            Button {
-//                                self.foodHistory = true
-//                            } label: {
-//                                HStack{
-//                                    Circle()
-//                                        .fill(.white)
-//                                        .frame(width: 49, height: 49, alignment: .center)
-//                                        .overlay(
-//                                            Image("dinner")
-//                                                .resizable()
-//                                                .frame(width: 30, height: 30)
-//                                        )
-//                                    Text("Please press here to see food monthly".localizedLanguage(language: self.language))
-//                                        .listRowBackground(Color.yellow)
-//                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-//                                        .foregroundColor(Color("bodyBlue"))
-//                                }
-//                                .padding(20)
-//                                .frame(maxWidth: .infinity, alignment: .leading)
-//                                .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
-//                                .cornerRadius(15)
-//                                .overlay(
-//                                    RoundedRectangle(cornerRadius: 15)
-//                                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
-//                                )
-//                            }
-//                            .backgroundRemover()
+                            //                            HStack{
+                            //                                Text("\("ប្រវត្តិការទទួលទានអាហារ".localizedLanguage(language: self.language)) \(language == "en" ? StudentEnglishName : Student)")
+                            //                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                            //
+                            //                                Rectangle()
+                            //                                    .frame(maxWidth: .infinity,maxHeight: 1)
+                            //                            }
+                            //                            .foregroundColor(Color("Blue"))
+                            //                            .frame(width: .infinity, height: .infinity, alignment: .leading)
+                            //                            .backgroundRemover()
+                            //                            Button {
+                            //                                self.foodHistory = true
+                            //                            } label: {
+                            //                                HStack{
+                            //                                    Circle()
+                            //                                        .fill(.white)
+                            //                                        .frame(width: 49, height: 49, alignment: .center)
+                            //                                        .overlay(
+                            //                                            Image("dinner")
+                            //                                                .resizable()
+                            //                                                .frame(width: 30, height: 30)
+                            //                                        )
+                            //                                    Text("Please press here to see food monthly".localizedLanguage(language: self.language))
+                            //                                        .listRowBackground(Color.yellow)
+                            //                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                            //                                        .foregroundColor(Color("bodyBlue"))
+                            //                                }
+                            //                                .padding(20)
+                            //                                .frame(maxWidth: .infinity, alignment: .leading)
+                            //                                .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
+                            //                                .cornerRadius(15)
+                            //                                .overlay(
+                            //                                    RoundedRectangle(cornerRadius: 15)
+                            //                                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                            //                                )
+                            //                            }
+                            //                            .backgroundRemover()
                             
                             HStack{
                                 Text("វត្តមាន និងសុំច្បាប់".localizedLanguage(language: self.language))
@@ -250,67 +250,68 @@ struct Grade: View {
                             .foregroundColor(Color("Blue"))
                             .frame(width: .infinity, height: .infinity, alignment: .leading)
                             .backgroundRemover()
-                         
-                                Button {
-                                    self.isAttendance = true
-                                } label: {
-                                    HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                                        Circle()
-                                            .fill(.white)
-                                            .frame(width: 49, height: 49, alignment: .center)
-                                            .overlay(
-                                                Image(systemName: "clock")
-                                                    .font(.system(size: 30))
-                                                    .frame(width: 50, height: 50, alignment: .center)
-                                            )
-                                        Text("វត្តមាន".localizedLanguage(language: self.language))
-                                            .listRowBackground(Color.yellow)
-                                            .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-                                        
-                                    }
-                                    .foregroundColor(Color("bodyOrange"))
-                                    .padding(20)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .background(Color(colorScheme == .dark ? "Black" : "LightOrange"))
-                                    .cornerRadius(15)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 15)
-                                            .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
-                                    )
-                                }.backgroundRemover()
-                       
-                                Button {
-                                    self.isAskingPermission = true
-                                } label: {
-                                    HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                                        Circle()
-                                            .fill(.white)
-                                            .frame(width: 49, height: 49, alignment: .center)
-                                            .overlay(
-                                                Image(systemName: "circle.slash")
-                                                    .font(.system(size: 30))
-                                                    .frame(width: 50, height: 50, alignment: .center)
-                                            )
-                                        Text("សុំច្បាប់".localizedLanguage(language: self.language))
-                                            .listRowBackground(Color.yellow)
-                                            .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-                                    }
-                                    .foregroundColor(Color("bodyBlue"))
-                                    .padding(20)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
-                                    .cornerRadius(15)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 15)
-                                            .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
-                                    )
+                            
+                            Button {
+                                self.isAttendance = true
+                            } label: {
+                                HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                                    Circle()
+                                        .fill(.white)
+                                        .frame(width: 49, height: 49, alignment: .center)
+                                        .overlay(
+                                            Image(systemName: "clock")
+                                                .font(.system(size: 30))
+                                                .frame(width: 50, height: 50, alignment: .center)
+                                        )
+                                    Text("វត្តមាន".localizedLanguage(language: self.language))
+                                        .listRowBackground(Color.yellow)
+                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                                    
                                 }
+                                .foregroundColor(Color("bodyOrange"))
+                                .padding(20)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(Color(colorScheme == .dark ? "Black" : "LightOrange"))
+                                .cornerRadius(15)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                                )
+                            }.backgroundRemover()
+                            
+                            Button {
+                                self.isAskingPermission = true
+                            } label: {
+                                HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                                    Circle()
+                                        .fill(.white)
+                                        .frame(width: 49, height: 49, alignment: .center)
+                                        .overlay(
+                                            Image(systemName: "circle.slash")
+                                                .font(.system(size: 30))
+                                                .frame(width: 50, height: 50, alignment: .center)
+                                        )
+                                    Text("សុំច្បាប់".localizedLanguage(language: self.language))
+                                        .listRowBackground(Color.yellow)
+                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                                }
+                                .foregroundColor(Color("bodyBlue"))
+                                .padding(20)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
+                                .cornerRadius(15)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                                )
+                            }
                             .backgroundRemover()
                         }
                         .listStyle(GroupedListStyle())
                     }
                 }
                 Spacer()
+                
                 NavigationLink(destination: FoodHistoryView(currentDate: $currentDate, language: self.language, prop: self.prop), isActive: $foodHistory) {
                     EmptyView()}
                 .opacity(0.0)
@@ -579,6 +580,7 @@ struct Grade: View {
                             } label: {
                                 HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
                                     Circle()
+                                        .fill(.white)
                                         .frame(width: 49, height: 49, alignment: .center)
                                         .overlay(
                                             Image(systemName: "clock")
@@ -590,6 +592,7 @@ struct Grade: View {
                                         .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                                     
                                 }
+                                .foregroundColor(Color("bodyOrange"))
                                 .padding(20)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .background(Color(colorScheme == .dark ? "Black" : "LightOrange"))
@@ -598,14 +601,14 @@ struct Grade: View {
                                     RoundedRectangle(cornerRadius: 15)
                                         .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
                                 )
-                            }
-                            .foregroundColor(Color("bodyOrange"))
-                            .backgroundRemover()
+                            }.backgroundRemover()
+                            
                             Button {
-                                isAskingPermission = true
+                                self.isAskingPermission = true
                             } label: {
                                 HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
                                     Circle()
+                                        .fill(.white)
                                         .frame(width: 49, height: 49, alignment: .center)
                                         .overlay(
                                             Image(systemName: "circle.slash")
@@ -616,6 +619,7 @@ struct Grade: View {
                                         .listRowBackground(Color.yellow)
                                         .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                                 }
+                                .foregroundColor(Color("bodyBlue"))
                                 .padding(20)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
@@ -624,37 +628,31 @@ struct Grade: View {
                                     RoundedRectangle(cornerRadius: 15)
                                         .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
                                 )
-                                .foregroundColor(Color("bodyBlue"))
                             }
                             .backgroundRemover()
-                            
-                            VStack{
-                                
-                                NavigationLink(destination: FoodHistoryView(currentDate: $currentDate, language: self.language, prop: self.prop), isActive: $foodHistory) {
-                                    EmptyView()}
-                                .opacity(0.0)
-                                NavigationLink(destination: AttendanceView(studentId: studentID, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAttendance) {
-                                    EmptyView()}
-                                .opacity(0.0)
-                                NavigationLink(destination: AskPermissionView(studentId: studentID, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAskingPermission) {
-                                    EmptyView()}
-                                .opacity(0.0)
-                                NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "attendance", selection: $selection) { EmptyView() }
-                                    .opacity(0.0)
-                                NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "absence", selection: $selection) { EmptyView() }
-                                    .opacity(0.0)
-                                NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "payment", selection: $selection) { EmptyView() }
-                                    .opacity(0.0)
-                                NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "score", selection: $selection) { EmptyView() }
-                                    .opacity(0.0)
-                            }
-                            .backgroundRemover()
-                            
                         }
                         .listStyle(GroupedListStyle())
                     }
                 }
                 Spacer()
+                
+                NavigationLink(destination: FoodHistoryView(currentDate: $currentDate, language: self.language, prop: self.prop), isActive: $foodHistory) {
+                    EmptyView()}
+                .opacity(0.0)
+                NavigationLink(destination: AttendanceView(studentId: studentID, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAttendance) {
+                    EmptyView()}
+                .opacity(0.0)
+                NavigationLink(destination: AskPermissionView(studentId: studentID, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAskingPermission) {
+                    EmptyView()}
+                .opacity(0.0)
+                NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "attendance", selection: $selection) { EmptyView() }
+                    .opacity(0.0)
+                NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "absence", selection: $selection) { EmptyView() }
+                    .opacity(0.0)
+                NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "payment", selection: $selection) { EmptyView() }
+                    .opacity(0.0)
+                NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "score", selection: $selection) { EmptyView() }
+                    .opacity(0.0)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .navigationBarTitleDisplayMode(.inline)
@@ -997,10 +995,10 @@ struct Choose16: View {
     @ViewBuilder
     func TabButton16(title: String, image: String, chose: Chose, selection: String, pageDetail: PageDetail, isPresent: Bool) -> some View{
         Button {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
-                self.isPresent = isPresent
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.selection = selection
             }
-            
+            self.isPresent = isPresent
             self.pageDetail = pageDetail
             self.ProgrammeID = self.programId
             self.AcademicID = self.academicYearId
@@ -1009,8 +1007,6 @@ struct Choose16: View {
             self.showsheet.toggle()
             self.isShow = true
             self.ChoseTitle = title
-            self.selection = selection
-            
         } label: {
             HStack(spacing: prop.isiPhoneS ? 6 : prop.isiPhoneM ? 8 : 10){
                 Image(systemName: image)

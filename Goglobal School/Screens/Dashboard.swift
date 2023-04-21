@@ -719,7 +719,6 @@ struct Dashboard: View {
                 }
             }else{
                 VStack(spacing: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 17 : 18 ){
-                    
                     ForEach(AnnoucementList.Annouces, id: \.id) { item in
                         AnnouceButtonView(showingSheet: $showingSheet, detailId: $detailId, onAppearImg: $onAppearImg, itemImg: item.img, itemTitle: item.title, itemId: item.id, prop: prop, students: students, language: self.language)
                             .buttonStyle(PlainButtonStyle())

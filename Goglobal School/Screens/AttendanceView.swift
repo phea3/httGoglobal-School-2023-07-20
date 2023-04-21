@@ -12,9 +12,20 @@ struct AttendanceView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var currentDate: Date = Date()
     @State private var date = Date()
+    @State private var startDate = Date()
+    @State private var endDate = Date()
     @State var studentId: String
     @State var loadingScreen: Bool = false
     @State var currentProgress: CGFloat = 0
+    @State var media = [
+        Media(id: 0, date: "05, Apr 2023", morning: "06:53", afternoon: "01:53", status: "Present"),
+        Media(id: 1, date: "06, Apr 2023", morning: "07:53", afternoon: "02:53", status: "Present"),
+        Media(id: 2, date: "07, Apr 2023", morning: "08:53", afternoon: "03:53", status: "Present"),
+        Media(id: 3, date: "08, Apr 2023", morning: "09:53", afternoon: "04:53", status: "Present"),
+        Media(id: 4, date: "09, Apr 2023", morning: "10:53", afternoon: "05:53", status: "Present"),
+        Media(id: 5, date: "10, Apr 2023", morning: "11:53", afternoon: "06:53", status: "Present"),
+        Media(id: 6, date: "11, Apr 2023", morning: "12:53", afternoon: "07:53", status: "Present")
+    ]
     var classId: String
     var academicYearId: String
     var programId: String
@@ -26,7 +37,7 @@ struct AttendanceView: View {
             Divider()
             if loadingScreen{
                 ProgressView(value: currentProgress, total: 1000)
-                    Spacer()
+                Spacer()
                     .onAppear{
                         self.currentProgress = 250
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
@@ -39,33 +50,55 @@ struct AttendanceView: View {
                             self.currentProgress = 1000
                         }
                     }
-                   
+                
             }else{
-                ScrollView(.vertical, showsIndicators: false){
-                    HStack {
-                        Text("Date")
-                            .foregroundColor(.white)
-                            .padding()
-                        Text("Morning")
-                            .foregroundColor(.white)
-                            .padding()
-                        Text("Afternoon")
-                            .foregroundColor(.white)
-                            .padding()
-                        Text("Status")
-                            .foregroundColor(.white)
-                            .padding()
+                VStack() {
+                    HStack(spacing: 0){
+                        DatePicker(selection: $startDate, in: ...Date.now, displayedComponents: .date) {
+                            Text("Select a date")
+                        }.labelsHidden()
+                        Spacer()
+                        Text("To")
+                        Spacer()
+                        DatePicker(selection: $endDate, in: ...Date.now, displayedComponents: .date) {
+                            Text("Select a date")
+                        }.labelsHidden()
                     }
-                    .background(.cyan)
-                    .cornerRadius(10)
-                    .padding(.top,10)
-                    reportData(date: "05, Apr 2023", time1: "06:53", time2: "-", time3: "7:41", time4: "06:53", time5: "-", time6: "7:41", status: "Null")
-                    reportData(date: "05, Apr 2023", time1: "06:53", time2: "-", time3: "7:41", time4: "06:53", time5: "-", time6: "7:41", status: "Null")
-                    reportData(date: "05, Apr 2023", time1: "06:53", time2: "-", time3: "7:41", time4: "06:53", time5: "-", time6: "7:41", status: "Null")
-                    reportData(date: "05, Apr 2023", time1: "06:53", time2: "-", time3: "7:41", time4: "06:53", time5: "-", time6: "7:41", status: "Null")
-                    reportData(date: "05, Apr 2023", time1: "06:53", time2: "-", time3: "7:41", time4: "06:53", time5: "-", time6: "7:41", status: "Null")
-                    reportData(date: "05, Apr 2023", time1: "06:53", time2: "-", time3: "7:41", time4: "06:53", time5: "-", time6: "7:41", status: "Null")
+                    
+                    HStack{
+                        Text("Date")
+                            .padding(.leading, 10)
+                            .frame(width: 120.0, alignment: .leading)
+                        Spacer()
+                        Divider()
+                        VStack{
+                            Text("")
+                            Text("Morning")
+                            Text("")
+                        }
+                        .frame(width: 80.0, alignment: .center)
+                        Divider()
+                        VStack{
+                            Text("")
+                            Text("Afternoon")
+                            Text("")
+                        }
+                        .frame(width: 80.0, alignment: .center)
+                        Divider()
+                        Text("status")
+                            .frame(width: 70.0, alignment: .center)
+                    }
+                        .frame(height: 60)
+                        .background(.cyan)
+                        .cornerRadius(10)
+                   
+                    ScrollView(.vertical, showsIndicators: false) {
+                        ForEach(media, id: \.id){ item in
+                            reportData(date: item.date, time1: item.morning, time2: "-", time3: item.morning, time4: item.afternoon, time5: "-", time6: item.afternoon, status: item.status)
+                        }
+                    }
                 }
+                .padding()
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
@@ -85,25 +118,42 @@ struct AttendanceView: View {
         VStack{
             HStack{
                 Text(date)
-                    .padding()
+                    .padding(.leading, 10)
+                    .frame(width: 120.0, alignment: .leading)
+                Spacer()
+                Divider()
                 VStack{
                     Text(time1)
                     Text(time2)
                     Text(time3)
                 }
-                .padding()
+                .frame(width: 80.0, alignment: .center)
+                Divider()
                 VStack{
                     Text(time4)
                     Text(time5)
                     Text(time6)
                 }
-                .padding()
+                .frame(width: 80.0, alignment: .center)
+                Divider()
                 Text(status)
-                    .padding()
-                
+                    .frame(width: 70.0, alignment: .center)
             }
-           Divider()
+            Divider()
         }
     }
 }
 
+struct Media {
+    
+    var id: Int
+    var date: String
+    var morning: String
+    var afternoon: String
+    var status: String
+    
+    //    init(id: Int, name: String) {
+    //        self.id = id
+    //        self.name = name
+    //    }
+}

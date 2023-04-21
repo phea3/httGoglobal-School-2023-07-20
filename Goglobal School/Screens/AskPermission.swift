@@ -11,6 +11,7 @@ struct AskPermissionView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var loadingScreen: Bool = false
+    @State var goToViewPermissionForm: Bool = false
     @State var currentProgress: CGFloat = 0
     @State var studentId: String
     var classId: String
@@ -20,11 +21,11 @@ struct AskPermissionView: View {
     var language: String
     var btnBack : some View { Button(action:{self.presentationMode.wrappedValue.dismiss()}) {backButtonView(language: self.language, prop: prop, barTitle: "សុំច្បាប់")}}
     enum status : String, CaseIterable {
-            case all
-            case pending
-            case cancel
-            case approve
-        }
+        case all
+        case pending
+        case cancel
+        case approve
+    }
     @State var selectedItem = status.all
     @State var goForPermission: Bool = false
     var body: some View {
@@ -60,30 +61,36 @@ struct AskPermissionView: View {
                     }.padding()
                     Divider()
                     ScrollView(.vertical, showsIndicators: false){
-                        HStack{
-                            VStack(alignment: .leading){
-                                Text("Annual Leave")
-                                Text("08/09/2023")
-                                Text("Headached")
+                        Button {
+                            goToViewPermissionForm = true
+                        } label: {
+                            HStack{
+                                VStack(alignment: .leading){
+                                    Text("Annual Leave")
+                                    Text("08/09/2023")
+                                    Text("Headached")
+                                }
+                                .padding(10)
+                                Spacer()
+                                VStack{
+                                    Text("Pending")
+                                        .padding(5)
+                                        .background(.yellow)
+                                        .cornerRadius(5)
+                                }
+                                .padding(10)
                             }
-                            .padding(10)
-                            Spacer()
-                            VStack{
-                                Text("Pending")
-                                    .padding(5)
-                                    .background(.yellow)
-                                    .cornerRadius(5)
-                            }
-                            .padding(10)
+                            .hLeading()
+                            .background(Color(colorScheme == .dark ? "Black" : "White" ))
+                            .cornerRadius(15)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 15)
+                                    .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                            )
+                            .padding()
                         }
-                        .hLeading()
-                        .background(Color(colorScheme == .dark ? "Black" : "White" ))
-                        .cornerRadius(15)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 15)
-                                .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
-                        )
-                        .padding()
+
+                       
                     }
                 }
                 .overlay(alignment: .bottomTrailing) {
@@ -107,6 +114,10 @@ struct AskPermissionView: View {
             NavigationLink(destination: PermissionView(prop: prop, language: language), isActive: $goForPermission) {
                 EmptyView()
             }
+            
+            NavigationLink(destination: ViewPermission(studentId: studentId, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $goToViewPermissionForm) {
+             EmptyView()
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .setBG(colorScheme: colorScheme)
@@ -126,14 +137,14 @@ struct PermissionView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     enum status : String, CaseIterable {
-            case annual = "Annual Leave"
-            case sick = "Sick Leave"
-            case maternity = "Maternity Leave"
-        }
+        case annual = "Annual Leave"
+        case sick = "Sick Leave"
+        case maternity = "Maternity Leave"
+    }
     enum shift : String, CaseIterable {
-            case morning
-            case afternoon
-        }
+        case morning
+        case afternoon
+    }
     @State var selectedItem = status.annual
     @State var shiftItem = shift.morning
     @State var allDay: Bool = false
@@ -143,10 +154,14 @@ struct PermissionView: View {
     var language: String
     var btnBack : some View { Button(action:{self.presentationMode.wrappedValue.dismiss()}) {backButtonView(language: self.language, prop: prop, barTitle: "ស្នើសុំច្បាប់")}}
     var body: some View{
-        VStack(spacing:0){
+        VStack{
             Divider()
             HStack{
                 Image(systemName: "note.text.badge.plus")
+                    .foregroundColor(.white)
+                    .padding(10)
+                    .background(.blue)
+                    .cornerRadius(5)
                 Text("Type of time off")
                 Spacer()
                 Picker("Select type", selection: $selectedItem) {
@@ -154,58 +169,78 @@ struct PermissionView: View {
                         Text(item.rawValue.capitalized)
                     }
                 }
-            }.padding()
-            Divider()
-            HStack{
-              Image(systemName: "clock")
-                    .foregroundColor( allDay ? .black : .gray )
-              Text("All Day")
-                    .foregroundColor( allDay ? .black : .gray )
-              Spacer()
-                Toggle("", isOn: $allDay)
             }
             .padding()
+            .background(.white)
+            .cornerRadius(5)
+            .padding(.horizontal)
             HStack{
-              Image(systemName: "clock")
-                    .opacity(0.0)
-              Text("Date")
-                    .foregroundColor(.black )
-              Spacer()
-               
-            DatePicker(selection: $birthDate, in: Date()..., displayedComponents: .date){
-//                Text("\(birthDate.formatted(date: .long, time: .omitted))")
-            }
-                Image(systemName: "calendar")
-            }
-            .padding()
-            HStack{
-                Image(systemName: "clock")
-                    .opacity(0.0)
-                Text("Shift")
-                    .foregroundColor(.black )
+                Image(systemName: "note.text.badge.plus")
+                    .foregroundColor(.white)
+                    .padding(10)
+                    .background(.blue)
+                    .cornerRadius(5)
+                Text("StateDate")
+                
                 Spacer()
-                Picker("Select", selection: $shiftItem){
-                    ForEach(shift.allCases, id: \.self){ item in
-                        Text(item.rawValue.capitalized)
-                    }
+                
+                DatePicker(selection: $birthDate, in: Date()..., displayedComponents: .date){}
+                
+            }
+            .padding()
+            .background(.white)
+            .cornerRadius(15)
+            .padding(.horizontal)
+            
+            HStack{
+                Image(systemName: "note.text.badge.plus")
+                    .foregroundColor(.white)
+                    .padding(10)
+                    .background(.blue)
+                    .cornerRadius(5)
+                Text("EndDate")
+                
+                Spacer()
+                DatePicker(selection: $birthDate, in: Date()..., displayedComponents: .date){
+                    //                Text("\(birthDate.formatted(date: .long, time: .omitted))")
                 }
             }
             .padding()
-            VStack{
-                Divider()
-                Text("")
-                    .padding()
-                Divider()
-            }
-           
+            .background(.white)
+            .cornerRadius(15)
+            .padding(.horizontal)
+            
             HStack{
-                Image(systemName: "pencil")
+                Image(systemName: "note.text.badge.plus")
+                    .foregroundColor(.white)
+                    .padding(10)
+                    .background(.blue)
+                    .cornerRadius(5)
                 TextField("Reason", text: $reason)
                 Spacer()
             }
             .padding()
-            Divider()
+            .background(.white)
+            .cornerRadius(15)
+            .padding(.horizontal)
+            
             Spacer()
+            
+            
+            Button(action: {
+
+            }, label: {
+                HStack{
+                    Text("DONE")
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .foregroundColor(.white)
+                .padding()
+                .background(.blue)
+                .cornerRadius(15)
+                .padding(.horizontal)
+                .padding(.bottom,60)
+            })
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .setBG(colorScheme: colorScheme)

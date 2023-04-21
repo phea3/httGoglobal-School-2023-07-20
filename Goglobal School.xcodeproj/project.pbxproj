@@ -90,6 +90,7 @@
 		77DCF5A1292C5B0B008E1423 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77DCF5A3292C5B0B008E1423 /* Localizable.strings */; };
 		77DCF5A7292C6323008E1423 /* LocalizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DCF5A6292C6323008E1423 /* LocalizationService.swift */; };
 		77E15DDE293DD26D00652690 /* MarqueeText in Frameworks */ = {isa = PBXBuildFile; productRef = 77E15DDD293DD26D00652690 /* MarqueeText */; };
+		9A3B362B29F26E48004DC68A /* ViewPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3B362A29F26E48004DC68A /* ViewPermission.swift */; };
 		9ABE0A3D29E3B51000D2881B /* AskPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE0A3C29E3B51000D2881B /* AskPermission.swift */; };
 /* End PBXBuildFile section */
 
@@ -171,6 +172,7 @@
 		77DCF5A4292C5B3F008E1423 /* km-KH */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "km-KH"; path = "km-KH.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		77DCF5A5292C5DB2008E1423 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		77DCF5A6292C6323008E1423 /* LocalizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationService.swift; sourceTree = "<group>"; };
+		9A3B362A29F26E48004DC68A /* ViewPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPermission.swift; sourceTree = "<group>"; };
 		9ABE0A3C29E3B51000D2881B /* AskPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskPermission.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -265,6 +267,7 @@
 				77752CED295552810091A4E2 /* FoodHistoryView.swift */,
 				774A5D6529DEB4C80037FD08 /* AttendanceView.swift */,
 				9ABE0A3C29E3B51000D2881B /* AskPermission.swift */,
+				9A3B362A29F26E48004DC68A /* ViewPermission.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -533,6 +536,7 @@
 				09178C2728B9A43E00A507EA /* Annoucements.swift in Sources */,
 				09FEBC9428B70AA600E8B5B7 /* AnnouncementViewModel.swift in Sources */,
 				09FEBC4F28B704E400E8B5B7 /* Goglobal_SchoolApp.swift in Sources */,
+				9A3B362B29F26E48004DC68A /* ViewPermission.swift in Sources */,
 				09FEBC9C28B70BAE00E8B5B7 /* Home.swift in Sources */,
 				09FEBCB428B70D0000E8B5B7 /* Choosing.swift in Sources */,
 				77752CEE295552810091A4E2 /* FoodHistoryView.swift in Sources */,
