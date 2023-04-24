@@ -262,6 +262,7 @@ query GetStudentAttendanceByStuId($stuId: ID) {
         }
         remark
         status
+        _id
       }
     }
   }

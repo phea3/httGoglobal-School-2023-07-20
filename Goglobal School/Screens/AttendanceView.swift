@@ -55,7 +55,7 @@ struct AttendanceView: View {
             }else{
                 VStack() {
                     HStack(spacing: 0){
-                        DatePicker(selection: $GetallAttendanceStudent.attendanceDate, in: ...Date.now, displayedComponents: .date) {
+                        DatePicker(selection: $startDate, in: ...Date.now, displayedComponents: .date) {
                             Text("Select a date")
                         }.labelsHidden()
                         Spacer()
@@ -94,9 +94,14 @@ struct AttendanceView: View {
                         .cornerRadius(10)
                    
                     ScrollView(.vertical, showsIndicators: false) {
-//                        ForEach(GetallAttendanceStudent.GetAllAttendance, id: \.remark){ item in
-//                            reportData(date: item.date, time1: item.morning, time2: "-", time3: item.morning, time4: item.afternoon, time5: "-", time6: item.afternoon, status: item.status)
-//                        }
+                        ForEach(GetallAttendanceStudent.GetAllAttendance, id: \.id){ item in
+                            if (startDate <= GetallAttendanceStudent.attendanceDate) || (endDate >= GetallAttendanceStudent.attendanceDate){
+                                reportData(date: GetallAttendanceStudent.attendanceDate.formatted(date: .numeric, time: .shortened), time1: item.morningCheckIn.isEmpty ? "~" : convertDate(inputDate: item.morningCheckIn).formatted(date: .numeric, time: .shortened), time2: "-", time3: item.morningCheckOut.isEmpty ? "~" : convertDate(inputDate: item.morningCheckOut).formatted(date: .numeric, time: .shortened), time4: item.afternoonCheckIn.isEmpty ?  "~" : convertDate(inputDate: item.afternoonCheckIn).formatted(date: .numeric, time: .shortened) , time5: "-", time6: item.afternoonCheckOut.isEmpty ? "~" : convertDate(inputDate: item.afternoonCheckOut).formatted(date: .numeric, time: .shortened), status: item.status)
+                            } else {
+                              Text("No data")
+                            }
+                           
+                        }
                     }
                 }
                 .padding()
@@ -115,8 +120,15 @@ struct AttendanceView: View {
             }
         })
     }
-    
-    func reportData(date:String,time1:String,time2:String,time3:String,time4:String,time5:String,time6:String,status:String)-> some View {
+    private func convertDate(inputDate: String) -> Date{
+        let isoDate = inputDate
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let date = dateFormatter.date(from:isoDate)!
+        return date
+    }
+    private func reportData(date:String,time1:String,time2:String,time3:String,time4:String,time5:String,time6:String,status:String)-> some View {
         VStack{
             HStack{
                 Text(date)

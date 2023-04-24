@@ -4607,6 +4607,7 @@ public final class GetStudentAttendanceByStuIdQuery: GraphQLQuery {
           }
           remark
           status
+          _id
         }
       }
     }
@@ -4769,6 +4770,7 @@ public final class GetStudentAttendanceByStuIdQuery: GraphQLQuery {
             GraphQLField("afternoon", type: .object(Afternoon.selections)),
             GraphQLField("remark", type: .scalar(String.self)),
             GraphQLField("status", type: .scalar(String.self)),
+            GraphQLField("_id", type: .scalar(GraphQLID.self)),
           ]
         }
 
@@ -4778,8 +4780,8 @@ public final class GetStudentAttendanceByStuIdQuery: GraphQLQuery {
           self.resultMap = unsafeResultMap
         }
 
-        public init(morning: Morning? = nil, afternoon: Afternoon? = nil, remark: String? = nil, status: String? = nil) {
-          self.init(unsafeResultMap: ["__typename": "StudentAttendancesData", "morning": morning.flatMap { (value: Morning) -> ResultMap in value.resultMap }, "afternoon": afternoon.flatMap { (value: Afternoon) -> ResultMap in value.resultMap }, "remark": remark, "status": status])
+        public init(morning: Morning? = nil, afternoon: Afternoon? = nil, remark: String? = nil, status: String? = nil, _id: GraphQLID? = nil) {
+          self.init(unsafeResultMap: ["__typename": "StudentAttendancesData", "morning": morning.flatMap { (value: Morning) -> ResultMap in value.resultMap }, "afternoon": afternoon.flatMap { (value: Afternoon) -> ResultMap in value.resultMap }, "remark": remark, "status": status, "_id": _id])
         }
 
         public var __typename: String {
@@ -4824,6 +4826,15 @@ public final class GetStudentAttendanceByStuIdQuery: GraphQLQuery {
           }
           set {
             resultMap.updateValue(newValue, forKey: "status")
+          }
+        }
+
+        public var _id: GraphQLID? {
+          get {
+            return resultMap["_id"] as? GraphQLID
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "_id")
           }
         }
 

@@ -47,6 +47,9 @@ class GetStudentAttendanceByStuIdViewModel: ObservableObject {
 struct GetStudentAttendanceByStuIdModel{
     let GetAllStudentAttendance: GetStudentAttendanceByStuIdQuery.Data.GetStudentAttendanceByStuId.Datum?
     
+    var id: String {
+        GetAllStudentAttendance?._id ?? ""
+    }
     var remark: String {
         GetAllStudentAttendance?.remark ?? ""
     }
@@ -67,7 +70,7 @@ struct GetStudentAttendanceByStuIdModel{
         GetAllStudentAttendance?.afternoon?.checkIn ?? ""
     }
     
-    var afetnoonCheckOut: String {
+    var afternoonCheckOut: String {
         GetAllStudentAttendance?.afternoon?.checkOut ?? ""
     }
 }
