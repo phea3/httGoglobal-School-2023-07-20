@@ -46,16 +46,33 @@ struct ViewPermission: View {
                         Text("Mar 31 23")
                     }
                     Divider()
-                    VStack{
+                    HStack{
+                        Rectangle()
+                            .fill(.gray)
+                            .frame(width: 10, height: 80)
+                        VStack(alignment: .leading){
+                            Text("Apr 13, 2023")
+                            Text("Time off, Matermity leave")
+                        }
+                        .padding(10)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(.gray.opacity(0.2))
+                    Divider()
+                    VStack(alignment: .leading){
                         Text("Reason")
                         Text("Testing app")
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     Divider()
-                    VStack{
+                    VStack(alignment: .leading){
                         Text("Manager response")
                         Text("Pending")
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
+                .frame(width: .infinity, height: .infinity)
+                .padding()
                 Spacer()
             }
         }

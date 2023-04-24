@@ -10,6 +10,7 @@ import SwiftUI
 struct AttendanceView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @StateObject var GetallAttendanceStudent: GetStudentAttendanceByStuIdViewModel = GetStudentAttendanceByStuIdViewModel()
     @State var currentDate: Date = Date()
     @State private var date = Date()
     @State private var startDate = Date()
@@ -54,7 +55,7 @@ struct AttendanceView: View {
             }else{
                 VStack() {
                     HStack(spacing: 0){
-                        DatePicker(selection: $startDate, in: ...Date.now, displayedComponents: .date) {
+                        DatePicker(selection: $GetallAttendanceStudent.attendanceDate, in: ...Date.now, displayedComponents: .date) {
                             Text("Select a date")
                         }.labelsHidden()
                         Spacer()
@@ -93,9 +94,9 @@ struct AttendanceView: View {
                         .cornerRadius(10)
                    
                     ScrollView(.vertical, showsIndicators: false) {
-                        ForEach(media, id: \.id){ item in
-                            reportData(date: item.date, time1: item.morning, time2: "-", time3: item.morning, time4: item.afternoon, time5: "-", time6: item.afternoon, status: item.status)
-                        }
+//                        ForEach(GetallAttendanceStudent.GetAllAttendance, id: \.remark){ item in
+//                            reportData(date: item.date, time1: item.morning, time2: "-", time3: item.morning, time4: item.afternoon, time5: "-", time6: item.afternoon, status: item.status)
+//                        }
                     }
                 }
                 .padding()
@@ -108,6 +109,7 @@ struct AttendanceView: View {
         .navigationBarBackButtonHidden(true)
         .onAppear(perform: {
             self.loadingScreen = true
+            GetallAttendanceStudent.getAllAttendance(studentId: studentId)
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 self.loadingScreen = false
             }

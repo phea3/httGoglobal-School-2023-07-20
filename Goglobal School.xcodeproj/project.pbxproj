@@ -91,6 +91,7 @@
 		77DCF5A7292C6323008E1423 /* LocalizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DCF5A6292C6323008E1423 /* LocalizationService.swift */; };
 		77E15DDE293DD26D00652690 /* MarqueeText in Frameworks */ = {isa = PBXBuildFile; productRef = 77E15DDD293DD26D00652690 /* MarqueeText */; };
 		9A3B362B29F26E48004DC68A /* ViewPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3B362A29F26E48004DC68A /* ViewPermission.swift */; };
+		9A6AB7C929F3D56D007BFD2D /* GetStudentAttendanceByStuIdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6AB7C829F3D56D007BFD2D /* GetStudentAttendanceByStuIdViewModel.swift */; };
 		9ABE0A3D29E3B51000D2881B /* AskPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE0A3C29E3B51000D2881B /* AskPermission.swift */; };
 /* End PBXBuildFile section */
 
@@ -173,6 +174,7 @@
 		77DCF5A5292C5DB2008E1423 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		77DCF5A6292C6323008E1423 /* LocalizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationService.swift; sourceTree = "<group>"; };
 		9A3B362A29F26E48004DC68A /* ViewPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPermission.swift; sourceTree = "<group>"; };
+		9A6AB7C829F3D56D007BFD2D /* GetStudentAttendanceByStuIdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStudentAttendanceByStuIdViewModel.swift; sourceTree = "<group>"; };
 		9ABE0A3C29E3B51000D2881B /* AskPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskPermission.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -219,6 +221,7 @@
 				775BE505291CE12000A915B3 /* GetStudentCardByStudentIDViewModel.swift */,
 				77A5922D294169F80017ABA2 /* GetTotalStudentViewModel.swift */,
 				77AFD389294812CA00CF2BB5 /* locationManager.swift */,
+				9A6AB7C829F3D56D007BFD2D /* GetStudentAttendanceByStuIdViewModel.swift */,
 			);
 			path = ClassObservables;
 			sourceTree = "<group>";
@@ -532,6 +535,7 @@
 				09FEBC8628B709D600E8B5B7 /* LoginViewModel.swift in Sources */,
 				09FEBCAE28B70CBD00E8B5B7 /* Grade.swift in Sources */,
 				771D6C4B29503E1A00B59485 /* pickupViewModel.swift in Sources */,
+				9A6AB7C929F3D56D007BFD2D /* GetStudentAttendanceByStuIdViewModel.swift in Sources */,
 				09660B3B28FE4C0C00CEA9EA /* DeleteNotificationByMobileUserId.swift in Sources */,
 				09178C2728B9A43E00A507EA /* Annoucements.swift in Sources */,
 				09FEBC9428B70AA600E8B5B7 /* AnnouncementViewModel.swift in Sources */,

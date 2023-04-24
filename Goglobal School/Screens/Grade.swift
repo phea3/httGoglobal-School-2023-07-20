@@ -315,10 +315,10 @@ struct Grade: View {
                 NavigationLink(destination: FoodHistoryView(currentDate: $currentDate, language: self.language, prop: self.prop), isActive: $foodHistory) {
                     EmptyView()}
                 .opacity(0.0)
-                NavigationLink(destination: AttendanceView(studentId: studentID, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAttendance) {
+                NavigationLink(destination: AttendanceView(studentId: studentId, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAttendance) {
                     EmptyView()}
                 .opacity(0.0)
-                NavigationLink(destination: AskPermissionView(studentId: studentID, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAskingPermission) {
+                NavigationLink(destination: AskPermissionView(studentId: studentId, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAskingPermission) {
                     EmptyView()}
                 .opacity(0.0)
                 NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "attendance", selection: $selection) { EmptyView() }
@@ -639,10 +639,10 @@ struct Grade: View {
                 NavigationLink(destination: FoodHistoryView(currentDate: $currentDate, language: self.language, prop: self.prop), isActive: $foodHistory) {
                     EmptyView()}
                 .opacity(0.0)
-                NavigationLink(destination: AttendanceView(studentId: studentID, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAttendance) {
+                NavigationLink(destination: AttendanceView(studentId: studentId, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAttendance) {
                     EmptyView()}
                 .opacity(0.0)
-                NavigationLink(destination: AskPermissionView(studentId: studentID, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAskingPermission) {
+                NavigationLink(destination: AskPermissionView(studentId: studentId, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAskingPermission) {
                     EmptyView()}
                 .opacity(0.0)
                 NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "attendance", selection: $selection) { EmptyView() }

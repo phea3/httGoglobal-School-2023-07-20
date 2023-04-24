@@ -244,3 +244,24 @@ query GetTotalStudentForApp {
     }
   }
   
+query GetStudentAttendanceByStuId($stuId: ID) {
+    getStudentAttendanceByStuId(stuId: $stuId) {
+      attendanceDate
+      academicYearId {
+        _id
+        academicYear
+      }
+      data {
+        morning {
+          checkIn
+          checkOut
+        }
+        afternoon {
+          checkIn
+          checkOut
+        }
+        remark
+        status
+      }
+    }
+  }

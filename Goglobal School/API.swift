@@ -1868,7 +1868,7 @@ public final class GetAttendanceByStudentIdQuery: GraphQLQuery {
 
     public static var selections: [GraphQLSelection] {
       return [
-        GraphQLField("getAttendanceByStudentId", arguments: ["studentId": GraphQLVariable("studentId")], type: .nonNull(.list(.nonNull(.object(GetAttendanceByStudentId.selections))))),
+        GraphQLField("getAttendanceByStudentId", arguments: ["studentId": GraphQLVariable("studentId")], type: .list(.object(GetAttendanceByStudentId.selections))),
       ]
     }
 
@@ -1878,16 +1878,16 @@ public final class GetAttendanceByStudentIdQuery: GraphQLQuery {
       self.resultMap = unsafeResultMap
     }
 
-    public init(getAttendanceByStudentId: [GetAttendanceByStudentId]) {
-      self.init(unsafeResultMap: ["__typename": "Query", "getAttendanceByStudentId": getAttendanceByStudentId.map { (value: GetAttendanceByStudentId) -> ResultMap in value.resultMap }])
+    public init(getAttendanceByStudentId: [GetAttendanceByStudentId?]? = nil) {
+      self.init(unsafeResultMap: ["__typename": "Query", "getAttendanceByStudentId": getAttendanceByStudentId.flatMap { (value: [GetAttendanceByStudentId?]) -> [ResultMap?] in value.map { (value: GetAttendanceByStudentId?) -> ResultMap? in value.flatMap { (value: GetAttendanceByStudentId) -> ResultMap in value.resultMap } } }])
     }
 
-    public var getAttendanceByStudentId: [GetAttendanceByStudentId] {
+    public var getAttendanceByStudentId: [GetAttendanceByStudentId?]? {
       get {
-        return (resultMap["getAttendanceByStudentId"] as! [ResultMap]).map { (value: ResultMap) -> GetAttendanceByStudentId in GetAttendanceByStudentId(unsafeResultMap: value) }
+        return (resultMap["getAttendanceByStudentId"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [GetAttendanceByStudentId?] in value.map { (value: ResultMap?) -> GetAttendanceByStudentId? in value.flatMap { (value: ResultMap) -> GetAttendanceByStudentId in GetAttendanceByStudentId(unsafeResultMap: value) } } }
       }
       set {
-        resultMap.updateValue(newValue.map { (value: GetAttendanceByStudentId) -> ResultMap in value.resultMap }, forKey: "getAttendanceByStudentId")
+        resultMap.updateValue(newValue.flatMap { (value: [GetAttendanceByStudentId?]) -> [ResultMap?] in value.map { (value: GetAttendanceByStudentId?) -> ResultMap? in value.flatMap { (value: GetAttendanceByStudentId) -> ResultMap in value.resultMap } } }, forKey: "getAttendanceByStudentId")
       }
     }
 
@@ -2724,7 +2724,7 @@ public final class GetSectionShiftByClassIdQuery: GraphQLQuery {
           public static var selections: [GraphQLSelection] {
             return [
               GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-              GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+              GraphQLField("_id", type: .scalar(GraphQLID.self)),
               GraphQLField("subjectName", type: .scalar(String.self)),
             ]
           }
@@ -2735,7 +2735,7 @@ public final class GetSectionShiftByClassIdQuery: GraphQLQuery {
             self.resultMap = unsafeResultMap
           }
 
-          public init(_id: GraphQLID, subjectName: String? = nil) {
+          public init(_id: GraphQLID? = nil, subjectName: String? = nil) {
             self.init(unsafeResultMap: ["__typename": "Subject", "_id": _id, "subjectName": subjectName])
           }
 
@@ -2748,9 +2748,9 @@ public final class GetSectionShiftByClassIdQuery: GraphQLQuery {
             }
           }
 
-          public var _id: GraphQLID {
+          public var _id: GraphQLID? {
             get {
-              return resultMap["_id"]! as! GraphQLID
+              return resultMap["_id"] as? GraphQLID
             }
             set {
               resultMap.updateValue(newValue, forKey: "_id")
@@ -3328,7 +3328,7 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
         public static var selections: [GraphQLSelection] {
           return [
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
-            GraphQLField("_id", type: .nonNull(.scalar(GraphQLID.self))),
+            GraphQLField("_id", type: .scalar(GraphQLID.self)),
             GraphQLField("Amount", type: .scalar(Double.self)),
             GraphQLField("createdAt", type: .scalar(String.self)),
             GraphQLField("additionalFee", type: .list(.object(AdditionalFee.selections))),
@@ -3350,7 +3350,7 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
           self.resultMap = unsafeResultMap
         }
 
-        public init(_id: GraphQLID, amount: Double? = nil, createdAt: String? = nil, additionalFee: [AdditionalFee?]? = nil, startDate: String? = nil, endDate: String? = nil, netAmount: Double? = nil, grossAmount: Double? = nil, groupFeeType: String? = nil, month: String? = nil, invoiceId: Int? = nil, quarter: String? = nil, academicTermId: AcademicTermId? = nil) {
+        public init(_id: GraphQLID? = nil, amount: Double? = nil, createdAt: String? = nil, additionalFee: [AdditionalFee?]? = nil, startDate: String? = nil, endDate: String? = nil, netAmount: Double? = nil, grossAmount: Double? = nil, groupFeeType: String? = nil, month: String? = nil, invoiceId: Int? = nil, quarter: String? = nil, academicTermId: AcademicTermId? = nil) {
           self.init(unsafeResultMap: ["__typename": "Invoice", "_id": _id, "Amount": amount, "createdAt": createdAt, "additionalFee": additionalFee.flatMap { (value: [AdditionalFee?]) -> [ResultMap?] in value.map { (value: AdditionalFee?) -> ResultMap? in value.flatMap { (value: AdditionalFee) -> ResultMap in value.resultMap } } }, "startDate": startDate, "endDate": endDate, "netAmount": netAmount, "grossAmount": grossAmount, "groupFeeType": groupFeeType, "month": month, "invoiceId": invoiceId, "quarter": quarter, "academicTermId": academicTermId.flatMap { (value: AcademicTermId) -> ResultMap in value.resultMap }])
         }
 
@@ -3363,9 +3363,9 @@ public final class GetInvoiceBystudentIdWithPaginationQuery: GraphQLQuery {
           }
         }
 
-        public var _id: GraphQLID {
+        public var _id: GraphQLID? {
           get {
-            return resultMap["_id"]! as! GraphQLID
+            return resultMap["_id"] as? GraphQLID
           }
           set {
             resultMap.updateValue(newValue, forKey: "_id")
@@ -4574,6 +4574,355 @@ public final class GetTotalStudentForAppQuery: GraphQLQuery {
         }
         set {
           resultMap.updateValue(newValue, forKey: "classId")
+        }
+      }
+    }
+  }
+}
+
+public final class GetStudentAttendanceByStuIdQuery: GraphQLQuery {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    query GetStudentAttendanceByStuId($stuId: ID) {
+      getStudentAttendanceByStuId(stuId: $stuId) {
+        __typename
+        attendanceDate
+        academicYearId {
+          __typename
+          _id
+          academicYear
+        }
+        data {
+          __typename
+          morning {
+            __typename
+            checkIn
+            checkOut
+          }
+          afternoon {
+            __typename
+            checkIn
+            checkOut
+          }
+          remark
+          status
+        }
+      }
+    }
+    """
+
+  public let operationName: String = "GetStudentAttendanceByStuId"
+
+  public var stuId: GraphQLID?
+
+  public init(stuId: GraphQLID? = nil) {
+    self.stuId = stuId
+  }
+
+  public var variables: GraphQLMap? {
+    return ["stuId": stuId]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Query"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("getStudentAttendanceByStuId", arguments: ["stuId": GraphQLVariable("stuId")], type: .object(GetStudentAttendanceByStuId.selections)),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(getStudentAttendanceByStuId: GetStudentAttendanceByStuId? = nil) {
+      self.init(unsafeResultMap: ["__typename": "Query", "getStudentAttendanceByStuId": getStudentAttendanceByStuId.flatMap { (value: GetStudentAttendanceByStuId) -> ResultMap in value.resultMap }])
+    }
+
+    public var getStudentAttendanceByStuId: GetStudentAttendanceByStuId? {
+      get {
+        return (resultMap["getStudentAttendanceByStuId"] as? ResultMap).flatMap { GetStudentAttendanceByStuId(unsafeResultMap: $0) }
+      }
+      set {
+        resultMap.updateValue(newValue?.resultMap, forKey: "getStudentAttendanceByStuId")
+      }
+    }
+
+    public struct GetStudentAttendanceByStuId: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["StudentAttendances"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("attendanceDate", type: .scalar(String.self)),
+          GraphQLField("academicYearId", type: .object(AcademicYearId.selections)),
+          GraphQLField("data", type: .list(.object(Datum.selections))),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(attendanceDate: String? = nil, academicYearId: AcademicYearId? = nil, data: [Datum?]? = nil) {
+        self.init(unsafeResultMap: ["__typename": "StudentAttendances", "attendanceDate": attendanceDate, "academicYearId": academicYearId.flatMap { (value: AcademicYearId) -> ResultMap in value.resultMap }, "data": data.flatMap { (value: [Datum?]) -> [ResultMap?] in value.map { (value: Datum?) -> ResultMap? in value.flatMap { (value: Datum) -> ResultMap in value.resultMap } } }])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var attendanceDate: String? {
+        get {
+          return resultMap["attendanceDate"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "attendanceDate")
+        }
+      }
+
+      public var academicYearId: AcademicYearId? {
+        get {
+          return (resultMap["academicYearId"] as? ResultMap).flatMap { AcademicYearId(unsafeResultMap: $0) }
+        }
+        set {
+          resultMap.updateValue(newValue?.resultMap, forKey: "academicYearId")
+        }
+      }
+
+      public var data: [Datum?]? {
+        get {
+          return (resultMap["data"] as? [ResultMap?]).flatMap { (value: [ResultMap?]) -> [Datum?] in value.map { (value: ResultMap?) -> Datum? in value.flatMap { (value: ResultMap) -> Datum in Datum(unsafeResultMap: value) } } }
+        }
+        set {
+          resultMap.updateValue(newValue.flatMap { (value: [Datum?]) -> [ResultMap?] in value.map { (value: Datum?) -> ResultMap? in value.flatMap { (value: Datum) -> ResultMap in value.resultMap } } }, forKey: "data")
+        }
+      }
+
+      public struct AcademicYearId: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["AcademicYear"]
+
+        public static var selections: [GraphQLSelection] {
+          return [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("_id", type: .scalar(GraphQLID.self)),
+            GraphQLField("academicYear", type: .scalar(String.self)),
+          ]
+        }
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(_id: GraphQLID? = nil, academicYear: String? = nil) {
+          self.init(unsafeResultMap: ["__typename": "AcademicYear", "_id": _id, "academicYear": academicYear])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var _id: GraphQLID? {
+          get {
+            return resultMap["_id"] as? GraphQLID
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "_id")
+          }
+        }
+
+        public var academicYear: String? {
+          get {
+            return resultMap["academicYear"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "academicYear")
+          }
+        }
+      }
+
+      public struct Datum: GraphQLSelectionSet {
+        public static let possibleTypes: [String] = ["StudentAttendancesData"]
+
+        public static var selections: [GraphQLSelection] {
+          return [
+            GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("morning", type: .object(Morning.selections)),
+            GraphQLField("afternoon", type: .object(Afternoon.selections)),
+            GraphQLField("remark", type: .scalar(String.self)),
+            GraphQLField("status", type: .scalar(String.self)),
+          ]
+        }
+
+        public private(set) var resultMap: ResultMap
+
+        public init(unsafeResultMap: ResultMap) {
+          self.resultMap = unsafeResultMap
+        }
+
+        public init(morning: Morning? = nil, afternoon: Afternoon? = nil, remark: String? = nil, status: String? = nil) {
+          self.init(unsafeResultMap: ["__typename": "StudentAttendancesData", "morning": morning.flatMap { (value: Morning) -> ResultMap in value.resultMap }, "afternoon": afternoon.flatMap { (value: Afternoon) -> ResultMap in value.resultMap }, "remark": remark, "status": status])
+        }
+
+        public var __typename: String {
+          get {
+            return resultMap["__typename"]! as! String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        public var morning: Morning? {
+          get {
+            return (resultMap["morning"] as? ResultMap).flatMap { Morning(unsafeResultMap: $0) }
+          }
+          set {
+            resultMap.updateValue(newValue?.resultMap, forKey: "morning")
+          }
+        }
+
+        public var afternoon: Afternoon? {
+          get {
+            return (resultMap["afternoon"] as? ResultMap).flatMap { Afternoon(unsafeResultMap: $0) }
+          }
+          set {
+            resultMap.updateValue(newValue?.resultMap, forKey: "afternoon")
+          }
+        }
+
+        public var remark: String? {
+          get {
+            return resultMap["remark"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "remark")
+          }
+        }
+
+        public var status: String? {
+          get {
+            return resultMap["status"] as? String
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "status")
+          }
+        }
+
+        public struct Morning: GraphQLSelectionSet {
+          public static let possibleTypes: [String] = ["MorningData"]
+
+          public static var selections: [GraphQLSelection] {
+            return [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+              GraphQLField("checkIn", type: .scalar(String.self)),
+              GraphQLField("checkOut", type: .scalar(String.self)),
+            ]
+          }
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(checkIn: String? = nil, checkOut: String? = nil) {
+            self.init(unsafeResultMap: ["__typename": "MorningData", "checkIn": checkIn, "checkOut": checkOut])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          public var checkIn: String? {
+            get {
+              return resultMap["checkIn"] as? String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "checkIn")
+            }
+          }
+
+          public var checkOut: String? {
+            get {
+              return resultMap["checkOut"] as? String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "checkOut")
+            }
+          }
+        }
+
+        public struct Afternoon: GraphQLSelectionSet {
+          public static let possibleTypes: [String] = ["AfternoonData"]
+
+          public static var selections: [GraphQLSelection] {
+            return [
+              GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+              GraphQLField("checkIn", type: .scalar(String.self)),
+              GraphQLField("checkOut", type: .scalar(String.self)),
+            ]
+          }
+
+          public private(set) var resultMap: ResultMap
+
+          public init(unsafeResultMap: ResultMap) {
+            self.resultMap = unsafeResultMap
+          }
+
+          public init(checkIn: String? = nil, checkOut: String? = nil) {
+            self.init(unsafeResultMap: ["__typename": "AfternoonData", "checkIn": checkIn, "checkOut": checkOut])
+          }
+
+          public var __typename: String {
+            get {
+              return resultMap["__typename"]! as! String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "__typename")
+            }
+          }
+
+          public var checkIn: String? {
+            get {
+              return resultMap["checkIn"] as? String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "checkIn")
+            }
+          }
+
+          public var checkOut: String? {
+            get {
+              return resultMap["checkOut"] as? String
+            }
+            set {
+              resultMap.updateValue(newValue, forKey: "checkOut")
+            }
+          }
         }
       }
     }

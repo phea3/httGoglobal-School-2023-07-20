@@ -44,7 +44,7 @@ class InvoiceViewModel: ObservableObject{
         var invoice : GetInvoiceBystudentIdWithPaginationQuery.Data.GetInvoiceBystudentIdWithPagination.Invoice
         
         var Id: String {
-            invoice._id
+            invoice._id ?? ""
         }
         var Amount: Double {
             invoice.amount ?? 0.0
