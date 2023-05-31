@@ -11,32 +11,25 @@ struct AttendanceView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject var GetallAttendanceStudent: GetStudentAttendanceByStuIdViewModel = GetStudentAttendanceByStuIdViewModel()
-    @State var currentDate: Date = Date()
-    @State private var date = Date()
-    @State private var startDate = Date()
-    @State private var endDate = Date()
+    @State private var startDate: Date = Date()
+    @State private var endDate: Date = Date()
+    @State private var date: Date = Calendar.current.date(byAdding: .hour, value: -12, to: Date())!
+    @State private var limit: Int = 10
     @State var studentId: String
     @State var loadingScreen: Bool = false
     @State var currentProgress: CGFloat = 0
-    @State var media = [
-        Media(id: 0, date: "05, Apr 2023", morning: "06:53", afternoon: "01:53", status: "Present"),
-        Media(id: 1, date: "06, Apr 2023", morning: "07:53", afternoon: "02:53", status: "Present"),
-        Media(id: 2, date: "07, Apr 2023", morning: "08:53", afternoon: "03:53", status: "Present"),
-        Media(id: 3, date: "08, Apr 2023", morning: "09:53", afternoon: "04:53", status: "Present"),
-        Media(id: 4, date: "09, Apr 2023", morning: "10:53", afternoon: "05:53", status: "Present"),
-        Media(id: 5, date: "10, Apr 2023", morning: "11:53", afternoon: "06:53", status: "Present"),
-        Media(id: 6, date: "11, Apr 2023", morning: "12:53", afternoon: "07:53", status: "Present")
-    ]
     var classId: String
     var academicYearId: String
     var programId: String
     var prop: Properties
     var language: String
-    var btnBack : some View { Button(action:{self.presentationMode.wrappedValue.dismiss()}) {backButtonView(language: self.language, prop: prop, barTitle: "វត្តមាន")}}
+    var studentName: String
+    var studentEnglishName: String
+    var btnBack : some View { Button(action:{self.presentationMode.wrappedValue.dismiss()}) { backButtonView(language: self.language, prop: prop, barTitle: "\("វត្តមានរបស់".localizedLanguage(language: self.language)) \( self.language == "en" ? studentEnglishName : studentName)") }}
     var body: some View{
         VStack(spacing:0){
             Divider()
-            if loadingScreen{
+            if loadingScreen {
                 ProgressView(value: currentProgress, total: 1000)
                 Spacer()
                     .onAppear{
@@ -52,59 +45,201 @@ struct AttendanceView: View {
                         }
                     }
                 
-            }else{
+            } else {
                 VStack() {
                     HStack(spacing: 0){
-                        DatePicker(selection: $startDate, in: ...Date.now, displayedComponents: .date) {
-                            Text("Select a date")
-                        }.labelsHidden()
+                        DatePicker("", selection: $startDate,in: ...endDate,displayedComponents: [.date])
+                            .labelsHidden()
+                            .accentColor(.blue)
+                            .onChange(of: startDate, perform: { value in
+                                GetallAttendanceStudent.getAllAttendance(studentId: self.studentId, limit: self.limit, startDate: convertString(inputDate: value), endDate: convertString(inputDate: self.endDate))
+                            });
                         Spacer()
-                        Text("To")
+
+                        Text("ដល់".localizedLanguage(language: self.language))
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 18 : 20 , relativeTo: .largeTitle))
+
                         Spacer()
-                        DatePicker(selection: $endDate, in: ...Date.now, displayedComponents: .date) {
-                            Text("Select a date")
-                        }.labelsHidden()
+
+                        DatePicker("", selection: $endDate,in: startDate...,displayedComponents: [.date])
+                            .labelsHidden()
+                            .accentColor(.red)
+                            .onChange(of: endDate, perform: { value in
+                                GetallAttendanceStudent.getAllAttendance(studentId: self.studentId, limit: self.limit, startDate: convertString(inputDate: self.startDate), endDate: convertString(inputDate: value))
+                            });
                     }
-                    
-                    HStack{
-                        Text("Date")
-                            .padding(.leading, 10)
-                            .frame(width: 120.0, alignment: .leading)
+
+                    HStack(spacing: 0){
+                        HStack(spacing: 0){
+                            Spacer()
+                            Text("កាលបរិច្ឆេត".localizedLanguage(language: self.language))
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 18 : 20 , relativeTo: .largeTitle))
+                            Spacer()
+                        }
+                        .padding(.leading, 10)
+                        .frame(width: prop.isiPhoneS ? 100.0 : prop.isiPhoneM ? 110.0 : prop.isiPhoneL ? 110.0 : 140.0 , alignment: .center)
                         Spacer()
                         Divider()
-                        VStack{
+                            .background(Color.white)
+                        VStack(spacing: 0){
                             Text("")
-                            Text("Morning")
+                            Text("ពេលព្រឹក".localizedLanguage(language: self.language))
                             Text("")
                         }
-                        .frame(width: 80.0, alignment: .center)
+                        .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 18 : 20 , relativeTo: .largeTitle))
+                        .frame(width: prop.isiPhoneS ? 65.0 : prop.isiPhoneM ? 75.0 : prop.isiPhoneL ? 85.0 : 105.0, alignment: .center)
                         Divider()
-                        VStack{
+                            .background(Color.white)
+                        VStack(spacing: 0){
                             Text("")
-                            Text("Afternoon")
+                            Text("ពេលរសៀល".localizedLanguage(language: self.language))
                             Text("")
                         }
-                        .frame(width: 80.0, alignment: .center)
+                        .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 18 : 20 , relativeTo: .largeTitle))
+                        .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 90.0 : 110.0, alignment: .center)
                         Divider()
-                        Text("status")
-                            .frame(width: 70.0, alignment: .center)
+                            .background(Color.white)
+                        Text("ស្ថានភាព".localizedLanguage(language: self.language))
+                            .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 18 : 20 , relativeTo: .largeTitle))
+                            .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 100.0 : 120.0, alignment: .center)
                     }
-                        .frame(height: 60)
-                        .background(.cyan)
-                        .cornerRadius(10)
-                   
-                    ScrollView(.vertical, showsIndicators: false) {
-                        ForEach(GetallAttendanceStudent.GetAllAttendance, id: \.id){ item in
-                            if (startDate <= GetallAttendanceStudent.attendanceDate) || (endDate >= GetallAttendanceStudent.attendanceDate){
-                                reportData(date: GetallAttendanceStudent.attendanceDate.formatted(date: .numeric, time: .shortened), time1: item.morningCheckIn.isEmpty ? "~" : convertDate(inputDate: item.morningCheckIn).formatted(date: .numeric, time: .shortened), time2: "-", time3: item.morningCheckOut.isEmpty ? "~" : convertDate(inputDate: item.morningCheckOut).formatted(date: .numeric, time: .shortened), time4: item.afternoonCheckIn.isEmpty ?  "~" : convertDate(inputDate: item.afternoonCheckIn).formatted(date: .numeric, time: .shortened) , time5: "-", time6: item.afternoonCheckOut.isEmpty ? "~" : convertDate(inputDate: item.afternoonCheckOut).formatted(date: .numeric, time: .shortened), status: item.status)
-                            } else {
-                              Text("No data")
+                    .frame(height: prop.isiPhoneS ? 40.0 : prop.isiPhoneM ? 50.0 : prop.isiPhoneL ? 60.0 : 70.0)
+                    .background(.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    if GetallAttendanceStudent.GetAllAttendance.isEmpty{
+                        VStack{
+                            Text("មិនមានទិន្នន័យ!".localizedLanguage(language: self.language))
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 18 : 20 , relativeTo: .largeTitle))
+                                .padding()
+                                .onTapGesture(count: 2) {
+                                    GetallAttendanceStudent.getAllAttendance(studentId: self.studentId, limit: self.limit, startDate: convertString(inputDate: self.startDate), endDate: convertString(inputDate: self.endDate))
+                                    }
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                    }else{
+                        ScrollView(.vertical, showsIndicators: false){
+                            VStack(spacing: 0){
+                                ForEach(GetallAttendanceStudent.GetAllAttendance, id: \.id){ item in
+                                    HStack(spacing: 0){
+                                        HStack(spacing: 0){
+                                            Spacer()
+                                            Text(convertDate(inputDate: item.attendanceDate))
+                                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 , relativeTo: .largeTitle))
+                                            Spacer()
+                                        }
+                                        .padding(.leading, 10)
+                                        .frame(width: prop.isiPhoneS ? 100.0 : prop.isiPhoneM ? 110.0 : prop.isiPhoneL ? 110.0 : 140.0, alignment: .center)
+
+                                        Spacer()
+
+                                        ForEach(item.data, id: \.id) { medium in
+                                            HStack(spacing: 0){
+
+                                                if medium.id == "62e1fe173cdcd305193c183e" {
+
+                                                    VStack(spacing: 0){
+                                                        Text(medium.morningCheckIn.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.morningCheckIn))
+                                                        Text("-")
+                                                        Text(medium.morningCheckOut.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.morningCheckOut))
+                                                    }
+                                                    .frame(width: prop.isiPhoneS ? 65.0 : prop.isiPhoneM ? 75.0 : prop.isiPhoneL ? 85.0 : 105.0, alignment: .center)
+                                                    .foregroundColor(medium.status == "PERMISSION" ? .orange : .black)
+                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 , relativeTo: .largeTitle))
+
+                                                } else if medium.id == "61cc12c736a74a5ec1bce55a" {
+
+                                                    VStack(spacing: 0){
+                                                        Text(medium.morningCheckIn.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.morningCheckIn))
+                                                        Text("-")
+                                                        Text(medium.morningCheckOut.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.morningCheckOut))
+                                                    }
+                                                    .frame(width: prop.isiPhoneS ? 65.0 : prop.isiPhoneM ? 75.0 : prop.isiPhoneL ? 85.0 : 105.0, alignment: .center)
+                                                    .foregroundColor(.black)
+                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 , relativeTo: .largeTitle))
+
+                                                } else  if (medium.id == "62e1fe1f3cdcd305193c1a98" && (item.data.count < 2)) && medium.id != "61cc12c736a74a5ec1bce55a" {
+
+                                                    VStack(spacing: 0){
+                                                        Text(medium.morningCheckIn.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.morningCheckIn))
+                                                        Text("-")
+                                                        Text(medium.morningCheckOut.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.morningCheckOut))
+                                                    }
+                                                    .foregroundColor(.black)
+                                                    .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 90.0 : 110.0, alignment: .center)
+                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 , relativeTo: .largeTitle))
+
+                                                }
+
+                                                if medium.id == "62e1fe1f3cdcd305193c1a98" {
+
+                                                    VStack(spacing: 0){
+                                                        Text(medium.afternoonCheckIn.isEmpty ?  "--:--" : convertStringToDateAndBackToString(inputDate: medium.afternoonCheckIn))
+                                                        Text("-")
+                                                        Text(medium.afternoonCheckOut.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.afternoonCheckOut))
+                                                    }
+                                                    .foregroundColor(medium.status == "PERMISSION" ? .orange : .black)
+                                                    .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 90.0 : 110.0, alignment: .center)
+                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 , relativeTo: .largeTitle))
+
+                                                } else if medium.id == "61cc12c736a74a5ec1bce55a" {
+
+                                                    VStack(spacing: 0){
+                                                        Text(medium.afternoonCheckIn.isEmpty ?  "--:--" : convertStringToDateAndBackToString(inputDate: medium.afternoonCheckIn))
+                                                        Text("-")
+                                                        Text(medium.afternoonCheckOut.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.afternoonCheckOut))
+                                                    }
+                                                    .frame(width: prop.isiPhoneS ? 65.0 : prop.isiPhoneM ? 75.0 : prop.isiPhoneL ? 85.0 : 105.0, alignment: .center)
+                                                    .foregroundColor(.black)
+                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 , relativeTo: .largeTitle))
+
+                                                } else if (medium.id == "62e1fe173cdcd305193c183e" && (item.data.count < 2)) && (medium.id != "61cc12c736a74a5ec1bce55a") {
+                                                    VStack(spacing: 0){
+                                                        Text(medium.afternoonCheckIn.isEmpty ?  "--:--" : convertStringToDateAndBackToString(inputDate: medium.afternoonCheckIn))
+                                                        Text("-")
+                                                        Text(medium.afternoonCheckOut.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.afternoonCheckOut))
+                                                    }
+                                                    .frame(width: prop.isiPhoneS ? 65.0 : prop.isiPhoneM ? 75.0 : prop.isiPhoneL ? 85.0 : 105.0, alignment: .center)
+                                                    .foregroundColor(.black)
+                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 , relativeTo: .largeTitle))
+                                                }
+                                            }
+                                        }
+
+                                        VStack(spacing: 0){
+                                            ForEach(item.data, id: \.id) { medium in
+                                                HStack{
+                                                    Text(medium.id == "62e1fe1f3cdcd305193c1a98" ? "A.\(medium.status)" : medium.id == "62e1fe173cdcd305193c183e" ? "M.\(medium.status)" : medium.id == "61cc12c736a74a5ec1bce55a" ? "F.\(medium.status)" : "\(medium.status)" )
+                                                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : prop.isiPhoneL ? 12 : 14 , relativeTo: .largeTitle))
+                                                        .foregroundColor(medium.status == "LATE" ? .green : medium.status == "PERMISSION" ? .orange : medium.status == "ABSENT" ? .red :  medium.status == "PRESENT" ? .blue : .black)
+                                                }
+                                                .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 100.0 : 120.0, alignment: .center)
+                                            }
+                                        }
+                                    }
+                                    Divider()
+                                }
                             }
-                           
+
+                            if (GetallAttendanceStudent.GetAllAttendance.count > 10) {
+                                Button {
+                                    DispatchQueue.main.async {
+                                        self.limit += 10
+                                    }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                                        GetallAttendanceStudent.getAllAttendance(studentId: self.studentId, limit: self.limit, startDate: convertString(inputDate: self.startDate), endDate: convertString(inputDate: self.endDate))
+                                    }
+                                } label: {
+                                    Text("see more".localizedLanguage(language: self.language))
+                                        .padding()
+                                }
+                            }
                         }
                     }
                 }
-                .padding()
+                .padding(.top)
+                .padding(.horizontal)
+                .padding(.bottom, 40)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
@@ -114,13 +249,37 @@ struct AttendanceView: View {
         .navigationBarBackButtonHidden(true)
         .onAppear(perform: {
             self.loadingScreen = true
-            GetallAttendanceStudent.getAllAttendance(studentId: studentId)
+            GetallAttendanceStudent.getAllAttendance(studentId: studentId, limit: limit, startDate: convertString(inputDate: startDate), endDate: convertString(inputDate: endDate))
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 self.loadingScreen = false
             }
         })
     }
-    private func convertDate(inputDate: String) -> Date{
+    private func convertStringToDateAndBackToString(inputDate: String) -> String{
+        let isoDate = inputDate
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let date = dateFormatter.date(from:isoDate)!
+        let StringFormatter =  DateFormatter()
+        StringFormatter.locale = Locale(identifier: "en_US_POSIX")
+        StringFormatter.dateFormat = "HH:mm"
+        let stringed = StringFormatter.string(from: date)
+        return stringed
+    }
+    private func convertDate(inputDate: String) -> String{
+        let isoDate = inputDate
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let date = dateFormatter.date(from:isoDate)!
+        let StringFormatter =  DateFormatter()
+        StringFormatter.locale = Locale(identifier: "en_US_POSIX")
+        StringFormatter.dateFormat = "dd MMM yyyy"
+        let stringed = StringFormatter.string(from: date)
+        return stringed
+    }
+    private func convertStringToDate(inputDate: String) -> Date{
         let isoDate = inputDate
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
@@ -128,46 +287,12 @@ struct AttendanceView: View {
         let date = dateFormatter.date(from:isoDate)!
         return date
     }
-    private func reportData(date:String,time1:String,time2:String,time3:String,time4:String,time5:String,time6:String,status:String)-> some View {
-        VStack{
-            HStack{
-                Text(date)
-                    .padding(.leading, 10)
-                    .frame(width: 120.0, alignment: .leading)
-                Spacer()
-                Divider()
-                VStack{
-                    Text(time1)
-                    Text(time2)
-                    Text(time3)
-                }
-                .frame(width: 80.0, alignment: .center)
-                Divider()
-                VStack{
-                    Text(time4)
-                    Text(time5)
-                    Text(time6)
-                }
-                .frame(width: 80.0, alignment: .center)
-                Divider()
-                Text(status)
-                    .frame(width: 70.0, alignment: .center)
-            }
-            Divider()
-        }
+    private func convertString(inputDate: Date) -> String{
+        let isoDate = inputDate
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let stringed = dateFormatter.string(from: isoDate)
+        return stringed
     }
-}
-
-struct Media {
-    
-    var id: Int
-    var date: String
-    var morning: String
-    var afternoon: String
-    var status: String
-    
-    //    init(id: Int, name: String) {
-    //        self.id = id
-    //        self.name = name
-    //    }
 }

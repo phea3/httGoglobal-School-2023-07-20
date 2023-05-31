@@ -7,7 +7,7 @@
 */
 
 "ទំព័រដើម" = "Dashboard";
-"មិនមានទិន្ន័យ!" = "No data!";
+"មិនមានទិន្នន័យ!" = "No data!";
 "មិនមានកូន" = "No Children";
 "សូមព្យាយាមម្តងទៀត" = "Try again";
 "កំពុងភ្ជាប់" = "Connect";
@@ -97,3 +97,22 @@
 "ប្រវត្តិការទទួលទានអាហារ" = "Food Monthly of";
 "Please press here to see food monthly" = "Please press here to see your child's food monthly";
 "វត្តមាន និងសុំច្បាប់" = "attendance";
+"សូមចុចទីនេះដើម្បីមើលវត្តមាន" = "PLEASE CLICK HERE TO SEE THE ATTENDANCE";
+"សូមចុចទីនេះដើម្បីសុំច្បាប់" = "PLEASE CLICK HERE TO REQUESTS LEAVE";
+"ដល់" = "To";
+"វត្តមានរបស់" = "Attedance of";
+"កាលបរិច្ឆេត" = "Date";
+"ពេលព្រឹក" = "Morning";
+"ពេលរសៀល" = "Afternoon";
+"ស្ថានភាព" = "Status";
+"see more" = "see more";
+"ប្រភេទនៃថ្ងៃឈប់សម្រាក" = "Type of request";
+"ថ្ងៃចាប់ផ្តើម" = "startDate";
+"ថ្ងៃបញ្ចប់" = "endDate";
+"មូលហេតុ" = "Reason";
+"ស្នើសុំ" = "Request";
+"ថ្ងៃស្នើសុំសម្រាក" = "Time off request";
+"ស្នើសុំសម្រាកជោគជ័យ" = "Request success";
+"រួចរាល់" = "Done";
+"ស្នើសុំច្បាប់" = "Request leave";
+"សេវាកម្មដឹកជញ្ជូន" = "Transportation Service";

@@ -84,6 +84,7 @@ class InvoiceViewModel: ObservableObject{
         }
     }
 struct additionalFeeModel{
+    
     var additionalFee : GetInvoiceBystudentIdWithPaginationQuery.Data.GetInvoiceBystudentIdWithPagination.Invoice.AdditionalFee?
     
     var Id: String {
@@ -107,7 +108,9 @@ struct additionalFeeModel{
 }
 
 struct incomeHeadModel{
+    
     var incomeHead : GetInvoiceBystudentIdWithPaginationQuery.Data.GetInvoiceBystudentIdWithPagination.Invoice.AdditionalFee.IncomeHead?
+    
     var Id: String {
         incomeHead?._id ?? ""
     }

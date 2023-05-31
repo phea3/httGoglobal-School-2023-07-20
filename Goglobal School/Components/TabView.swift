@@ -12,6 +12,7 @@ enum Tab: String, CaseIterable{
     case dashboard = "Dashboard"
     case education = "Education"
     case bag = "Bag"
+    case bus = "van"
     case book = "Book"
 }
 

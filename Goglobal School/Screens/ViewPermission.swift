@@ -12,10 +12,11 @@ struct ViewPermission: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var loadingScreen: Bool = false
     @State var currentProgress: CGFloat = 0
-    @State var studentId: String
-    var classId: String
-    var academicYearId: String
-    var programId: String
+    var shiftName: String
+    var reason: String
+    var startDate: String
+    var endDate: String
+    var requestDate: String
     var prop: Properties
     var language: String
     var btnBack : some View { Button(action:{self.presentationMode.wrappedValue.dismiss()}) {backButtonView(language: self.language, prop: prop, barTitle: "សុំច្បាប់")}}
@@ -41,33 +42,49 @@ struct ViewPermission: View {
             }else{
                 VStack{
                     HStack{
-                        Text("Time off request")
+                        Text("ថ្ងៃស្នើសុំសម្រាក".localizedLanguage(language: self.language))
+                            .foregroundColor(.gray)
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
                         Spacer()
-                        Text("Mar 31 23")
+                        Text(convertStringToDateAndBackToString(inputDate:requestDate))
+                            .foregroundColor(.gray)
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
                     }
                     Divider()
                     HStack{
                         Rectangle()
-                            .fill(.gray)
+                            .fill(Color("bodyBlue"))
                             .frame(width: 10, height: 80)
                         VStack(alignment: .leading){
-                            Text("Apr 13, 2023")
-                            Text("Time off, Matermity leave")
+                            Text(startDate == endDate ? convertStringToDateAndBackToString(inputDate: startDate) : "\(convertStringToDateAndBackToString(inputDate: startDate)) ~ \(convertStringToDateAndBackToString(inputDate: endDate))")
+                                .foregroundColor(.black)
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .largeTitle))
+                            Text(shiftName)
+                                .foregroundColor(.black)
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
                         }
                         .padding(10)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(.gray.opacity(0.2))
+                    .background(Color("LightBlue"))
                     Divider()
                     VStack(alignment: .leading){
-                        Text("Reason")
-                        Text("Testing app")
+                        Text("មូលហេតុ".localizedLanguage(language: self.language))
+                            .foregroundColor(.gray)
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .largeTitle))
+                        Text(reason)
+                            .foregroundColor(.black)
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     Divider()
                     VStack(alignment: .leading){
-                        Text("Manager response")
-                        Text("Pending")
+                        Text("ស្ថានភាព".localizedLanguage(language: self.language))
+                            .foregroundColor(.gray)
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .largeTitle))
+                        Text("\(Image(systemName: "checkmark.circle")) ស្នើសុំសម្រាកជោគជ័យ")
+                            .foregroundColor(.green)
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
@@ -88,5 +105,16 @@ struct ViewPermission: View {
             }
         })
     }
-    
+    private func convertStringToDateAndBackToString(inputDate: String) -> String{
+        let isoDate = inputDate
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        let date = dateFormatter.date(from:isoDate) ?? Date()
+        let StringFormatter =  DateFormatter()
+        StringFormatter.locale = Locale(identifier: "en_US_POSIX")
+        StringFormatter.dateFormat = "dd MMM, yyyy"
+        let stringed = StringFormatter.string(from: date)
+        return stringed
+    }
 }

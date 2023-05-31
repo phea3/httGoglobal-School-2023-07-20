@@ -244,25 +244,38 @@ query GetTotalStudentForApp {
     }
   }
   
-query GetStudentAttendanceByStuId($stuId: ID) {
-    getStudentAttendanceByStuId(stuId: $stuId) {
-      attendanceDate
-      academicYearId {
-        _id
-        academicYear
+query GetStudentAttendanceByStuId($stuId: ID, $startDate: Date, $endDate: Date, $limit: Int) {
+  getStudentAttendanceByStuId(stuId: $stuId, startDate: $startDate, endDate: $endDate, limit: $limit) {
+    _id
+    sectionShiftId
+    attendanceDate
+    info {
+      shiftId
+      status
+      morningCheckIn
+      morningCheckOut
+      afternoonCheckIn
+      afternoonCheckOut
+    }
+  }
+}
+  
+query GetStudenAttendancePermissionById($stuId: ID, $limit: Int) {
+    getStudenAttendancePermissionById(stuId: $stuId, limit: $limit) {
+      _id
+      startDate
+      requestDate
+      reason
+      endDate
+      shiftId {
+        shiftName
       }
-      data {
-        morning {
-          checkIn
-          checkOut
-        }
-        afternoon {
-          checkIn
-          checkOut
-        }
-        remark
-        status
-        _id
-      }
+    }
+  }
+
+query GetShiftByStudentId($stuId: ID) {
+    getShiftByStudentId(stuId: $stuId) {
+      shiftName
+      shiftId
     }
   }

@@ -1,0 +1,12 @@
+
+mutation CreatePermission($newData: PermissionInput) {
+  createPermission(newData: $newData) {
+    startDate
+    reason
+    endDate
+    requestDate
+    shiftName
+    success
+    message
+  }
+}

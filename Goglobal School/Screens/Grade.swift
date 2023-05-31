@@ -196,7 +196,6 @@ struct Grade: View {
                                               dismissButton: .cancel(Text("យល់ព្រម".localizedLanguage(language: self.language)))
                                         )
                                     }
-                                    
                                     .alert("ជោគជ័យ", isPresented: $successAfterPickup) { }
                                 }
                                 .backgroundRemover()
@@ -263,7 +262,7 @@ struct Grade: View {
                                                 .font(.system(size: 30))
                                                 .frame(width: 50, height: 50, alignment: .center)
                                         )
-                                    Text("វត្តមាន".localizedLanguage(language: self.language))
+                                    Text("សូមចុចទីនេះដើម្បីមើលវត្តមាន".localizedLanguage(language: self.language))
                                         .listRowBackground(Color.yellow)
                                         .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                                     
@@ -287,11 +286,11 @@ struct Grade: View {
                                         .fill(.white)
                                         .frame(width: 49, height: 49, alignment: .center)
                                         .overlay(
-                                            Image(systemName: "circle.slash")
+                                            Image(systemName: "arrow.down.doc")
                                                 .font(.system(size: 30))
                                                 .frame(width: 50, height: 50, alignment: .center)
                                         )
-                                    Text("សុំច្បាប់".localizedLanguage(language: self.language))
+                                    Text("សូមចុចទីនេះដើម្បីសុំច្បាប់".localizedLanguage(language: self.language))
                                         .listRowBackground(Color.yellow)
                                         .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                                 }
@@ -307,6 +306,8 @@ struct Grade: View {
                             }
                             .backgroundRemover()
                         }
+                        .background(.black)
+                        .scrollIndicators(.hidden)
                         .listStyle(GroupedListStyle())
                     }
                 }
@@ -315,10 +316,10 @@ struct Grade: View {
                 NavigationLink(destination: FoodHistoryView(currentDate: $currentDate, language: self.language, prop: self.prop), isActive: $foodHistory) {
                     EmptyView()}
                 .opacity(0.0)
-                NavigationLink(destination: AttendanceView(studentId: studentId, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAttendance) {
+                NavigationLink(destination: AttendanceView(studentId: studentId, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language, studentName: Student, studentEnglishName: StudentEnglishName), isActive: $isAttendance) {
                     EmptyView()}
                 .opacity(0.0)
-                NavigationLink(destination: AskPermissionView(studentId: studentId, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAskingPermission) {
+                NavigationLink(destination: AskPermissionView(studentId: studentId, parentId: parentId, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAskingPermission) {
                     EmptyView()}
                 .opacity(0.0)
                 NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "attendance", selection: $selection) { EmptyView() }
@@ -639,10 +640,10 @@ struct Grade: View {
                 NavigationLink(destination: FoodHistoryView(currentDate: $currentDate, language: self.language, prop: self.prop), isActive: $foodHistory) {
                     EmptyView()}
                 .opacity(0.0)
-                NavigationLink(destination: AttendanceView(studentId: studentId, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAttendance) {
+                NavigationLink(destination: AttendanceView(studentId: studentId, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language, studentName: Student, studentEnglishName: StudentEnglishName), isActive: $isAttendance) {
                     EmptyView()}
                 .opacity(0.0)
-                NavigationLink(destination: AskPermissionView(studentId: studentId, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAskingPermission) {
+                NavigationLink(destination: AskPermissionView(studentId: studentId, parentId: parentId, classId: classId, academicYearId: academicYearId, programId: programId, prop: prop, language: language), isActive: $isAskingPermission) {
                     EmptyView()}
                 .opacity(0.0)
                 NavigationLink(destination: Choosing(chose: chose, studentId: studentId,showTeacherImage: $showTeacherImage,UrlImg:$UrlImg, barTitle: ChoseTitle, prop: prop, classId: self.classId, academicYearId: self.academicYearId, programId: self.programId, language: self.language), tag: "attendance", selection: $selection) { EmptyView() }

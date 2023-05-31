@@ -456,7 +456,6 @@ struct Dashboard: View {
                                     }
                                 }
                             }
-                            
                         }
                     }
                 }
@@ -490,6 +489,7 @@ struct Dashboard: View {
         
     }
     @ViewBuilder
+    
     private func ChangeLanguage()-> some View {
         HStack{
             Menu {
@@ -531,7 +531,7 @@ struct Dashboard: View {
             }
         }
     }
-    @ViewBuilder
+
     private func mainView()-> some View{
         VStack(alignment: .leading,spacing: 0 ){
             
@@ -631,7 +631,19 @@ struct Dashboard: View {
             }
             .padding(.vertical, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
             .hLeading()
-            if prop.isLandscape || prop.isiPad{
+            
+            if !(prop.isLandscape || prop.isiPad){
+               VStack(spacing: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 17 : 18 ){
+                   ForEach(AnnoucementList.Annouces, id: \.id) { item in
+                       AnnouceButtonView(showingSheet: $showingSheet, detailId: $detailId, onAppearImg: $onAppearImg, itemImg: item.img, itemTitle: item.title, itemId: item.id, prop: prop, students: students, language: self.language)
+                           .buttonStyle(PlainButtonStyle())
+                           .sheet(isPresented: $showingSheet) {
+                               Annoucements(prop: prop, postId: $detailId, language: self.language)
+                           }
+                   }
+               }
+           }
+            ZStack{
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16){
                         ForEach(AnnoucementList.Annouces, id: \.id) { item in
@@ -647,7 +659,7 @@ struct Dashboard: View {
                                 .frame(maxWidth: .infinity, alignment: .center)
                                     .onAppear{
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                                            self.reloadingAnn = false 
+                                            self.reloadingAnn = false
                                         }
                                     }
                             } else {
@@ -715,32 +727,31 @@ struct Dashboard: View {
                             }
                         }
                     }
-                    .frame(maxHeight: prop.isLandscape && prop.isiPhone ? 250 : prop.isiPad ? 300 :  250 )
+                    .frame(maxWidth: .infinity,maxHeight: prop.isLandscape && prop.isiPhone ? 250 : prop.isiPad ? 300 :  250 )
                 }
-            }else{
-                VStack(spacing: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 17 : 18 ){
-                    ForEach(AnnoucementList.Annouces, id: \.id) { item in
-                        AnnouceButtonView(showingSheet: $showingSheet, detailId: $detailId, onAppearImg: $onAppearImg, itemImg: item.img, itemTitle: item.title, itemId: item.id, prop: prop, students: students, language: self.language)
-                            .buttonStyle(PlainButtonStyle())
-                            .sheet(isPresented: $showingSheet) {
-                                Annoucements(prop: prop, postId: $detailId, language: self.language)
-                            }
-                    }
+                if !(prop.isLandscape || prop.isiPad){
+                    Color( colorScheme == .dark ? "Black" : "BG")
+                        .frame(maxWidth: .infinity,maxHeight: prop.isLandscape && prop.isiPhone ? 250 : prop.isiPad ? 300 :  250 )
                 }
             }
+                
+             
         }
     }
-    func refreshingView(){
+    
+    private func refreshingView(){
         self.refreshing = true
         self.onAppearImg = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.refreshing = false
         }
     }
-    func datingEditer(inputCode: String, inputAnotherDate: String) -> some View {
+    
+    private func datingEditer(inputCode: String, inputAnotherDate: String) -> some View {
         language == "km-KH" ? Text(academiclist.convertDateFormater(inputDate: inputCode,inputAnotherDate: inputAnotherDate)) : Text(academiclist.convertDateFormaterForEnglish(inputDate: inputCode, inputAnotherDate: inputAnotherDate))
     }
-    func widgetStu(ImageStudent: String, Firstname: String, Lastname: String,prop:Properties, Englishname: String) -> some View {
+    
+    private func widgetStu(ImageStudent: String, Firstname: String, Lastname: String,prop:Properties, Englishname: String) -> some View {
         
         VStack(alignment: .center, spacing: 0){
             
