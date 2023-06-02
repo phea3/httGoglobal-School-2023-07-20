@@ -6,35 +6,34 @@
 //
 
 import Foundation
-import UserNotifications
 import SwiftUI
 
 class ListAttendanceViewModel: ObservableObject {
     
     @Published var Attendances: [AttendanceViewModel] = []
+    @Published var modifiedAttendances: [AttendanceViewModel] = []
     @Published var Error: Bool = false
-    func AlertUser(){
-        let content = UNMutableNotificationContent()
-        content.title = "Feed the cat"
-        content.subtitle = "It looks hungry"
-        content.sound = UNNotificationSound.default
-
-        // show this notification five seconds from now
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-
-        // choose a random identifier
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-
-        // add our notification request
-        UNUserNotificationCenter.current().add(request)
+    
+    // isSameMonth{
+    func isEqual(dateN: Date,to date: Date, toGranularity component: Calendar.Component, in calendar: Calendar = .current) -> Bool {
+        calendar.isDate(dateN, equalTo: date, toGranularity: component)
     }
-    func GetAllAttendance(studentId: String,sectionShiftId: String){
+    func isInSameMonth(date: Date, dateM:Date) -> Bool { isEqual(dateN: dateM, to: date, toGranularity: .month) }
+    //}
+    
+    func GetAllAttendance(studentId: String,sectionShiftId: String, currentDate: Date){
         Network.shared.apollo.fetch(query: GetAttendanceByStudentIdForMobileQuery(studentId: studentId, sectionShiftId: sectionShiftId)){ [weak self] result in
             switch result{
             case .success(let graphQLResult):
                 if let Attendances = graphQLResult.data?.getAttendanceByStudentIdForMobile{
                     DispatchQueue.main.async {
                         self?.Attendances = Attendances.map(AttendanceViewModel.init)
+                    }
+                    DispatchQueue.main.async{
+                        self?.modifiedAttendances = self?.Attendances.filter{ att in
+                            
+                            return Calendar.current.isDate( convertDate(inputDate: att.AttendanceDate), equalTo: currentDate, toGranularity: Calendar.Component.month)
+                        } ?? []
                     }
                 }
             case .failure:
@@ -43,6 +42,7 @@ class ListAttendanceViewModel: ObservableObject {
                 }
             }
         }
+        
     }
     
     func clearCache(){
@@ -66,3 +66,37 @@ struct AttendanceViewModel {
     }
 }
 
+private func convertDate(inputDate: String) -> Date{
+    let isoDate = inputDate
+    let dateFormatter = DateFormatter()
+    dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+    let date = dateFormatter.date(from:isoDate)!
+    return date
+}
+
+//stackoverflow
+
+extension Date {
+
+    func isEqual(to date: Date, toGranularity component: Calendar.Component, in calendar: Calendar = .current) -> Bool {
+        calendar.isDate(self, equalTo: date, toGranularity: component)
+    }
+
+    func isInSameYear(as date: Date) -> Bool { isEqual(to: date, toGranularity: .year) }
+    func isInSameMonth(as date: Date) -> Bool { isEqual(to: date, toGranularity: .month) }
+    func isInSameWeek(as date: Date) -> Bool { isEqual(to: date, toGranularity: .weekOfYear) }
+
+    func isInSameDay(as date: Date) -> Bool { Calendar.current.isDate(self, inSameDayAs: date) }
+
+    var isInThisYear:  Bool { isInSameYear(as: Date()) }
+    var isInThisMonth: Bool { isInSameMonth(as: Date()) }
+    var isInThisWeek:  Bool { isInSameWeek(as: Date()) }
+
+    var isInYesterday: Bool { Calendar.current.isDateInYesterday(self) }
+    var isInToday:     Bool { Calendar.current.isDateInToday(self) }
+    var isInTomorrow:  Bool { Calendar.current.isDateInTomorrow(self) }
+
+    var isInTheFuture: Bool { self > Date() }
+    var isInThePast:   Bool { self < Date() }
+}

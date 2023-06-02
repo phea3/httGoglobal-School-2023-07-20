@@ -99,9 +99,9 @@ class ScheduleViewModel: ObservableObject{
             let filtered = self.allClasses.filter{
                 return  $0.dayOfWeek == Day || $0.breakTime == true
              }
-                 .sorted { task1, task2 in
-                     return task1.startTime < task2.startTime
-                 }
+             .sorted { task1, task2 in
+                 return task1.startTime < task2.startTime
+             }
             
              var res:[ScheduleModel] = []
             

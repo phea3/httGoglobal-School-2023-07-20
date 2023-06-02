@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct TransportationView: View {
     @Environment(\.colorScheme) var colorScheme
-    @State var FakeData: [String] = []
+    @StateObject var delegate = NotificationDelegate()
+    @State var DummyBoolean: Bool = false
+    @State var show: Bool = false
     @State var currentProgress: CGFloat = 0.0
     @State var userProfileImg: String
     @State var reloadimgtoolbar: Bool = false
@@ -27,7 +30,7 @@ struct TransportationView: View {
             NavigationStack{
                
                 VStack(spacing:0){
-                    if !FakeData.isEmpty{
+                    if DummyBoolean{
                         ZStack{
                             if viewLoading{
                                 progressingView(prop: prop, language: self.language, colorScheme: colorScheme)
@@ -55,10 +58,9 @@ struct TransportationView: View {
                             Spacer()
                         }
                         else{
-                            
                             ZStack{
                                 ScrollRefreshable(langauge: self.language, title: "កំពុងភ្ជាប់", tintColor: .blue){
-                                    Text("Transportation")
+                                    mainView()
                                         .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
                                         .padding(.horizontal, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
                                         .navigationBarTitleDisplayMode(.inline)
@@ -189,7 +191,7 @@ struct TransportationView: View {
                                             
                                         }
                                 }
-                                if onAppearImg{
+                                if !onAppearImg{
                                     ZStack{
                                         Color(colorScheme == .dark ? "Black" : "BG")
                                             .frame(maxWidth:.infinity, maxHeight: .infinity)
@@ -214,8 +216,6 @@ struct TransportationView: View {
                                 }
                             }
                         }
-                        
-                            
                     }
                 }
                 .setBG(colorScheme: colorScheme)
@@ -248,6 +248,41 @@ struct TransportationView: View {
             .phoneOnlyStackNavigationView()
         }
     }
+    private func mainView()-> some View {
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(alignment: .leading, spacing: 0){
+              
+               
+                if #available(iOS 16.0, *) {
+                    ZStack {
+                        Color("Nice Green")
+                            .ignoresSafeArea()
+                        VStack {
+                            Button(action: delegate.createNotification) {
+                                Text("Notify User")
+                            }
+                            .onAppear {
+                                delegate.requestAuthorization()
+                            }
+                            Text("Notification Interactions \(delegate.notificationCounter)")
+                        }
+                    }
+                    .navigationDestination(isPresented: $delegate.show) {
+                        Detail(show: delegate.show)
+                    }
+                    
+                } else {
+                    // Fallback on earlier versions
+                }
+            }
+        }
+        .onAppear{
+            NotificationCenter.default.addObserver(forName: NSNotification.Name("Detail"), object: nil, queue: .main) { (_) in
+                self.show = true
+            }
+        }
+    }
+   
     private func refreshingView(){
         self.refreshing = true
         self.onAppearImg = true
@@ -255,6 +290,7 @@ struct TransportationView: View {
             self.refreshing = false
         }
     }
+    
     private func ChangeLanguage()-> some View {
         HStack{
             Menu {
@@ -302,5 +338,72 @@ struct TransportationView_Previews: PreviewProvider {
     static var previews: some View {
         let prop = Properties(isLandscape: false, isiPad: false, isiPhone: false, isiPhoneS: false, isiPhoneM: false, isiPhoneL: false,isiPadMini: false,isiPadPro: false, isSplit: false, size: CGSize(width:  0, height:  0))
         TransportationView(userProfileImg: "",bindingLanguage: .constant(""), prop: prop,language: "em", parentId: "")
+    }
+}
+
+struct Detail: View {
+    @State var show: Bool
+    var body: some View{
+        Button{
+            self.show = false
+        }label: {
+            Text("back")
+        }
+            .navigationTitle("Detail View")
+    }
+}
+
+class NotificationDelegate: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
+    
+    @Published var notificationCounter = 0
+    @Published var show = false
+    
+    override init() {
+        super.init()
+        UNUserNotificationCenter.current().delegate = self
+    }
+    
+    func requestAuthorization() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound]) {(_,_) in
+        }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        self.show = true
+        completionHandler([.badge, .banner, .sound])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        if response.actionIdentifier == "Okay" {
+            self.show = true
+            print("Hello")
+            print("counter is " + String(notificationCounter))
+            notificationCounter = notificationCounter + 1
+            print("counter is now " + String(notificationCounter))
+        }
+        completionHandler()
+    }
+    
+    func createNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "God of Posture"
+        content.subtitle = "Straighten Your Neck"
+        content.categoryIdentifier = "Actions"
+        content.sound = .default
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 4, repeats: false)
+        let request = UNNotificationRequest(identifier: "In-App", content: content, trigger: trigger)
+        
+        //notification actions
+        
+        let close = UNNotificationAction(identifier: "Close", title: "Close", options: .destructive)
+        let okay = UNNotificationAction(identifier: "Okay", title: "Okay", options: .foreground)
+        
+        let category = UNNotificationCategory(identifier: "Actions", actions: [close, okay], intentIdentifiers: [], options: [])
+        
+        UNUserNotificationCenter.current().setNotificationCategories([category])
+        
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
 }

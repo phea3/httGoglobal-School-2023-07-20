@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct CustomDatePicker: View {
-    
+    @Environment(\.colorScheme) var colorScheme
     @StateObject var Attendance: ListAttendanceViewModel = ListAttendanceViewModel()
     // Month update on arrow button clicks...
     @State var currentMonth: Int = 0
@@ -34,6 +34,9 @@ struct CustomDatePicker: View {
                 Button {
                     withAnimation {
                         currentMonth -= 1
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+                            Attendance.GetAllAttendance(studentId: studentId, sectionShiftId: self.sectionShiftId, currentDate: currentDate)
+                        }
                     }
                 } label: {
                     Image(systemName: "chevron.left")
@@ -43,6 +46,9 @@ struct CustomDatePicker: View {
                 Button {
                     withAnimation {
                         currentMonth += 1
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+                            Attendance.GetAllAttendance(studentId: studentId, sectionShiftId: self.sectionShiftId, currentDate: currentDate)
+                        }
                     }
                 } label: {
                     Image(systemName: "chevron.right")
@@ -84,16 +90,6 @@ struct CustomDatePicker: View {
                 ForEach(extractDate()){ value in
                     
                     CardView(value: value)
-                    //                        .overlay(
-                    //                            Text("ថ្ងៃនេះ")
-                    //                                .font(.system(size: 10))
-                    //                                .foregroundColor(.blue)
-                    //                                .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1:0)
-                    //                                .offset(y: 30)
-                    //                        )
-                    //                        .onTapGesture {
-                    //                            currentDate = value.date
-                    //                        }
                 }
             }
             .padding(.top)
@@ -117,9 +113,10 @@ struct CustomDatePicker: View {
         .onChange(of: currentMonth) { newValue in
             // Update Month...
             currentDate = getCurrentMont()
+//            print(currentDate)
         }
         .onAppear(perform: {
-            Attendance.GetAllAttendance(studentId: studentId, sectionShiftId: self.sectionShiftId)
+            Attendance.GetAllAttendance(studentId: studentId, sectionShiftId: self.sectionShiftId, currentDate: currentDate)
         })
     }
     
@@ -139,13 +136,13 @@ struct CustomDatePicker: View {
         VStack{
             if value.day != -1 {
                 
-                if let attend = Attendance.Attendances.first(where: { attend in
+                if let attend = Attendance.modifiedAttendances.first(where: { attend in
                     return isSameDay(date1: convertDate(inputDate: attend.AttendanceDate), date2: value.date)
                 })
                 {
                     Text("\(value.day)")
                         .font(.system(size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16).bold())
-                        .foregroundColor(.white)
+                        .foregroundColor(attend.Status == "ABSENT" ? Color.white : attend.Status == "LATE" ? .white : attend.Status == "PRESENT" ? .white : attend.Status == "PERMISSION" ? .white : colorScheme == .dark ? .white : .black)
                         .frame(maxWidth: .infinity,maxHeight: .infinity)
                         .background(
                             Circle()
@@ -158,12 +155,6 @@ struct CustomDatePicker: View {
                         .font(.system(size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16).bold())
                         .foregroundColor(getSunday(dateofday: value.date) ? .red : isSameDay(date1: value.date, date2: currentDate) ? .primary : .primary)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    //                        .background(
-                    //                            Circle()
-                    //                                .strokeBorder(Color.blue,lineWidth: 2)
-                    //                                .opacity(isSameDay(date1: value.date, date2: currentDate) ? 1:0)
-                    //                                .frame(width:prop.isLandscape ? 40 : .infinity)
-                    //                        )
                 }
             }
         }
