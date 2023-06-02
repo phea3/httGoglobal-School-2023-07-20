@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import UserNotifications
 
 struct TransportationView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -268,17 +267,12 @@ struct TransportationView: View {
                         }
                     }
                     .navigationDestination(isPresented: $delegate.show) {
-                        Detail(show: delegate.show)
+
                     }
                     
                 } else {
                     // Fallback on earlier versions
                 }
-            }
-        }
-        .onAppear{
-            NotificationCenter.default.addObserver(forName: NSNotification.Name("Detail"), object: nil, queue: .main) { (_) in
-                self.show = true
             }
         }
     }
@@ -294,11 +288,6 @@ struct TransportationView: View {
     private func ChangeLanguage()-> some View {
         HStack{
             Menu {
-                //                    Button {
-                //                        self.language = "ch"
-                //                    } label: {
-                //                        Text("中文")
-                //                    }
                 Button {
                     self.bindingLanguage = "km-KH"
                 } label: {
@@ -308,7 +297,6 @@ struct TransportationView: View {
                         .frame(width: 25, height: 25)
                 }
                 Button {
-                    // Step #3
                     self.bindingLanguage = "en"
                 } label: {
                     Text("English(US)")
@@ -332,6 +320,7 @@ struct TransportationView: View {
             }
         }
     }
+    
 }
 
 struct TransportationView_Previews: PreviewProvider {
@@ -341,69 +330,3 @@ struct TransportationView_Previews: PreviewProvider {
     }
 }
 
-struct Detail: View {
-    @State var show: Bool
-    var body: some View{
-        Button{
-            self.show = false
-        }label: {
-            Text("back")
-        }
-            .navigationTitle("Detail View")
-    }
-}
-
-class NotificationDelegate: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
-    
-    @Published var notificationCounter = 0
-    @Published var show = false
-    
-    override init() {
-        super.init()
-        UNUserNotificationCenter.current().delegate = self
-    }
-    
-    func requestAuthorization() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.badge,.sound]) {(_,_) in
-        }
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        self.show = true
-        completionHandler([.badge, .banner, .sound])
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        
-        if response.actionIdentifier == "Okay" {
-            self.show = true
-            print("Hello")
-            print("counter is " + String(notificationCounter))
-            notificationCounter = notificationCounter + 1
-            print("counter is now " + String(notificationCounter))
-        }
-        completionHandler()
-    }
-    
-    func createNotification() {
-        let content = UNMutableNotificationContent()
-        content.title = "God of Posture"
-        content.subtitle = "Straighten Your Neck"
-        content.categoryIdentifier = "Actions"
-        content.sound = .default
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 4, repeats: false)
-        let request = UNNotificationRequest(identifier: "In-App", content: content, trigger: trigger)
-        
-        //notification actions
-        
-        let close = UNNotificationAction(identifier: "Close", title: "Close", options: .destructive)
-        let okay = UNNotificationAction(identifier: "Okay", title: "Okay", options: .foreground)
-        
-        let category = UNNotificationCategory(identifier: "Actions", actions: [close, okay], intentIdentifiers: [], options: [])
-        
-        UNUserNotificationCenter.current().setNotificationCategories([category])
-        
-        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-    }
-}

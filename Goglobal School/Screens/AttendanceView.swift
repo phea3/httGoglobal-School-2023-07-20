@@ -55,12 +55,12 @@ struct AttendanceView: View {
                                 GetallAttendanceStudent.getAllAttendance(studentId: self.studentId, limit: self.limit, startDate: convertString(inputDate: value), endDate: convertString(inputDate: self.endDate))
                             });
                         Spacer()
-
+                        
                         Text("ដល់".localizedLanguage(language: self.language))
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 18 : 20 , relativeTo: .largeTitle))
-
+                            .font(.custom("Kantumruy", size:  prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16 , relativeTo: .largeTitle))
+                        
                         Spacer()
-
+                        
                         DatePicker("", selection: $endDate,in: startDate...,displayedComponents: [.date])
                             .labelsHidden()
                             .accentColor(.red)
@@ -68,12 +68,12 @@ struct AttendanceView: View {
                                 GetallAttendanceStudent.getAllAttendance(studentId: self.studentId, limit: self.limit, startDate: convertString(inputDate: self.startDate), endDate: convertString(inputDate: value))
                             });
                     }
-
+                    
                     HStack(spacing: 0){
                         HStack(spacing: 0){
                             Spacer()
                             Text("កាលបរិច្ឆេត".localizedLanguage(language: self.language))
-                                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 18 : 20 , relativeTo: .largeTitle))
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16 , relativeTo: .largeTitle))
                             Spacer()
                         }
                         .padding(.leading, 10)
@@ -86,7 +86,7 @@ struct AttendanceView: View {
                             Text("ពេលព្រឹក".localizedLanguage(language: self.language))
                             Text("")
                         }
-                        .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 18 : 20 , relativeTo: .largeTitle))
+                        .font(.custom("Bayon", size:  prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16 , relativeTo: .largeTitle))
                         .frame(width: prop.isiPhoneS ? 65.0 : prop.isiPhoneM ? 75.0 : prop.isiPhoneL ? 85.0 : 105.0, alignment: .center)
                         Divider()
                             .background(Color.white)
@@ -95,26 +95,26 @@ struct AttendanceView: View {
                             Text("ពេលរសៀល".localizedLanguage(language: self.language))
                             Text("")
                         }
-                        .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 18 : 20 , relativeTo: .largeTitle))
+                        .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16 , relativeTo: .largeTitle))
                         .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 90.0 : 110.0, alignment: .center)
                         Divider()
                             .background(Color.white)
                         Text("ស្ថានភាព".localizedLanguage(language: self.language))
-                            .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 18 : 20 , relativeTo: .largeTitle))
+                            .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
                             .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 100.0 : 120.0, alignment: .center)
                     }
-                    .frame(height: prop.isiPhoneS ? 40.0 : prop.isiPhoneM ? 50.0 : prop.isiPhoneL ? 60.0 : 70.0)
-                    .background(.blue)
+                    .frame(height: prop.isiPhoneS ? 40.0 : prop.isiPhoneM ? 50.0 : 60.0)
+                    .background(Color("ColorTitle"))
                     .foregroundColor(.white)
                     .cornerRadius(10)
                     if GetallAttendanceStudent.GetAllAttendance.isEmpty{
                         VStack{
                             Text("មិនមានទិន្នន័យ!".localizedLanguage(language: self.language))
-                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 18 : 20 , relativeTo: .largeTitle))
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 :  16 , relativeTo: .largeTitle))
                                 .padding()
                                 .onTapGesture(count: 2) {
                                     GetallAttendanceStudent.getAllAttendance(studentId: self.studentId, limit: self.limit, startDate: convertString(inputDate: self.startDate), endDate: convertString(inputDate: self.endDate))
-                                    }
+                                }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     }else{
@@ -125,19 +125,19 @@ struct AttendanceView: View {
                                         HStack(spacing: 0){
                                             Spacer()
                                             Text(convertDate(inputDate: item.attendanceDate))
-                                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 , relativeTo: .largeTitle))
+                                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14  , relativeTo: .largeTitle))
                                             Spacer()
                                         }
                                         .padding(.leading, 10)
                                         .frame(width: prop.isiPhoneS ? 100.0 : prop.isiPhoneM ? 110.0 : prop.isiPhoneL ? 110.0 : 140.0, alignment: .center)
-
+                                        
                                         Spacer()
-
+                                        
                                         ForEach(item.data, id: \.id) { medium in
                                             HStack(spacing: 0){
-
+                                                
                                                 if medium.id == "62e1fe173cdcd305193c183e" {
-
+                                                    
                                                     VStack(spacing: 0){
                                                         Text(medium.morningCheckIn.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.morningCheckIn))
                                                         Text("-")
@@ -145,10 +145,10 @@ struct AttendanceView: View {
                                                     }
                                                     .frame(width: prop.isiPhoneS ? 65.0 : prop.isiPhoneM ? 75.0 : prop.isiPhoneL ? 85.0 : 105.0, alignment: .center)
                                                     .foregroundColor(medium.status == "PERMISSION" ? .orange : .black)
-                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 , relativeTo: .largeTitle))
-
+                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14  , relativeTo: .largeTitle))
+                                                    
                                                 } else if medium.id == "61cc12c736a74a5ec1bce55a" {
-
+                                                    
                                                     VStack(spacing: 0){
                                                         Text(medium.morningCheckIn.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.morningCheckIn))
                                                         Text("-")
@@ -156,10 +156,10 @@ struct AttendanceView: View {
                                                     }
                                                     .frame(width: prop.isiPhoneS ? 65.0 : prop.isiPhoneM ? 75.0 : prop.isiPhoneL ? 85.0 : 105.0, alignment: .center)
                                                     .foregroundColor(.black)
-                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 , relativeTo: .largeTitle))
-
+                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
+                                                    
                                                 } else  if (medium.id == "62e1fe1f3cdcd305193c1a98" && (item.data.count < 2)) && medium.id != "61cc12c736a74a5ec1bce55a" {
-
+                                                    
                                                     VStack(spacing: 0){
                                                         Text(medium.morningCheckIn.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.morningCheckIn))
                                                         Text("-")
@@ -167,12 +167,12 @@ struct AttendanceView: View {
                                                     }
                                                     .foregroundColor(.black)
                                                     .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 90.0 : 110.0, alignment: .center)
-                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 , relativeTo: .largeTitle))
-
+                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14  , relativeTo: .largeTitle))
+                                                    
                                                 }
-
+                                                
                                                 if medium.id == "62e1fe1f3cdcd305193c1a98" {
-
+                                                    
                                                     VStack(spacing: 0){
                                                         Text(medium.afternoonCheckIn.isEmpty ?  "--:--" : convertStringToDateAndBackToString(inputDate: medium.afternoonCheckIn))
                                                         Text("-")
@@ -180,10 +180,10 @@ struct AttendanceView: View {
                                                     }
                                                     .foregroundColor(medium.status == "PERMISSION" ? .orange : .black)
                                                     .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 90.0 : 110.0, alignment: .center)
-                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 , relativeTo: .largeTitle))
-
+                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
+                                                    
                                                 } else if medium.id == "61cc12c736a74a5ec1bce55a" {
-
+                                                    
                                                     VStack(spacing: 0){
                                                         Text(medium.afternoonCheckIn.isEmpty ?  "--:--" : convertStringToDateAndBackToString(inputDate: medium.afternoonCheckIn))
                                                         Text("-")
@@ -191,8 +191,8 @@ struct AttendanceView: View {
                                                     }
                                                     .frame(width: prop.isiPhoneS ? 65.0 : prop.isiPhoneM ? 75.0 : prop.isiPhoneL ? 85.0 : 105.0, alignment: .center)
                                                     .foregroundColor(.black)
-                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 , relativeTo: .largeTitle))
-
+                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14  , relativeTo: .largeTitle))
+                                                    
                                                 } else if (medium.id == "62e1fe173cdcd305193c183e" && (item.data.count < 2)) && (medium.id != "61cc12c736a74a5ec1bce55a") {
                                                     VStack(spacing: 0){
                                                         Text(medium.afternoonCheckIn.isEmpty ?  "--:--" : convertStringToDateAndBackToString(inputDate: medium.afternoonCheckIn))
@@ -201,11 +201,11 @@ struct AttendanceView: View {
                                                     }
                                                     .frame(width: prop.isiPhoneS ? 65.0 : prop.isiPhoneM ? 75.0 : prop.isiPhoneL ? 85.0 : 105.0, alignment: .center)
                                                     .foregroundColor(.black)
-                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 , relativeTo: .largeTitle))
+                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
                                                 }
                                             }
                                         }
-
+                                        
                                         VStack(spacing: 0){
                                             ForEach(item.data, id: \.id) { medium in
                                                 HStack{
@@ -220,7 +220,7 @@ struct AttendanceView: View {
                                     Divider()
                                 }
                             }
-
+                            
                             if (GetallAttendanceStudent.GetAllAttendance.count > 10) {
                                 Button {
                                     DispatchQueue.main.async {

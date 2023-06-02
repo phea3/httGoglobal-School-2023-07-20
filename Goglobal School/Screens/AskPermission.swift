@@ -48,7 +48,7 @@ struct AskPermissionView: View {
                     if getallPermission.GetAllPersmission.isEmpty{
                         VStack{
                             Text("មិនមានទិន្នន័យ!".localizedLanguage(language: self.language))
-                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 18 : 20 , relativeTo: .largeTitle))
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16 , relativeTo: .largeTitle))
                                 .padding()
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
@@ -62,13 +62,13 @@ struct AskPermissionView: View {
                                     HStack{
                                         VStack(alignment: .leading, spacing: 0){
                                             Text(item.shiftName)
-                                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
+                                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
                                                 .foregroundColor(.gray)
                                             Text(item.startDate == item.endDate ? "\(convertStringToDateAndBackToString(inputDate: item.startDate))":"\(convertStringToDateAndBackToString(inputDate: item.startDate)) ~ \(convertStringToDateAndBackToString(inputDate: item.endDate))")
-                                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
+                                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 :  14 , relativeTo: .largeTitle))
                                                 .foregroundColor(.black)
                                             Text(item.reason)
-                                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
+                                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
                                                 .foregroundColor(.gray)
                                         }
                                         .foregroundColor(.gray)
@@ -77,7 +77,7 @@ struct AskPermissionView: View {
                                         
                                         Text(convertStringToDateAndBackToString(inputDate: item.requestDate))
                                             .foregroundColor(Color("bodyBlue"))
-                                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
+                                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
                                             .padding(10)
                                             .background(Color("LightBlue"))
                                             .cornerRadius(10)
@@ -192,7 +192,7 @@ struct PermissionView: View {
                             .background(.blue)
                             .cornerRadius(5)
                         Text("ប្រភេទនៃថ្ងៃឈប់សម្រាក".localizedLanguage(language: self.language))
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
                         Spacer()
                         Picker("Select type", selection: $shiftId) {
                             Text("ជ្រើសរើស".localizedLanguage(language: self.language))
@@ -215,7 +215,7 @@ struct PermissionView: View {
                             .background(.blue)
                             .cornerRadius(5)
                         Text("ថ្ងៃចាប់ផ្តើម".localizedLanguage(language: self.language))
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
                         Spacer()
                         
                         DatePicker("",selection: $startDate, in: Date()..., displayedComponents: [.date])
@@ -233,7 +233,7 @@ struct PermissionView: View {
                             .background(.blue)
                             .cornerRadius(5)
                         Text("ថ្ងៃបញ្ចប់".localizedLanguage(language: self.language))
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
                         Spacer()
                         DatePicker("",selection: $endDate, in: Date()..., displayedComponents: [.date])
                     }
@@ -268,7 +268,7 @@ struct PermissionView: View {
                             HStack{
                                 Text("ស្នើសុំ".localizedLanguage(language: self.language))
                             }
-                            .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20, relativeTo: .largeTitle))
+                            .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18 , relativeTo: .largeTitle))
                             .frame(maxWidth: .infinity, alignment: .center)
                             .foregroundColor(.white)
                             .padding()
@@ -284,7 +284,7 @@ struct PermissionView: View {
                         HStack{
                             Text("ស្នើសុំ".localizedLanguage(language: self.language))
                         }
-                        .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20, relativeTo: .largeTitle))
+                        .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18 , relativeTo: .largeTitle))
                         .frame(maxWidth: .infinity, alignment: .center)
                         .foregroundColor(.white)
                         .padding()
@@ -311,11 +311,11 @@ struct PermissionView: View {
             HStack{
                 Text("ថ្ងៃស្នើសុំសម្រាក".localizedLanguage(language: self.language))
                     .foregroundColor(.gray)
-                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
+                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
                 Spacer()
                 Text(convertStringToDateAndBackToString(inputDate: requestDate))
                     .foregroundColor(.gray)
-                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
+                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
             }
             Divider()
             HStack{
@@ -325,10 +325,10 @@ struct PermissionView: View {
                 VStack(alignment: .leading){
                     Text(startDate == endDate ? convertStringToDateAndBackToString(inputDate: startDate) : "\(convertStringToDateAndBackToString(inputDate: startDate)) ~ \(convertStringToDateAndBackToString(inputDate: endDate))")
                         .foregroundColor(.black)
-                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .largeTitle))
+                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16 , relativeTo: .largeTitle))
                     Text(shiftName)
                         .foregroundColor(.black)
-                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
+                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
                 }
                 .padding(10)
             }
@@ -338,20 +338,20 @@ struct PermissionView: View {
             VStack(alignment: .leading){
                 Text("មូលហេតុ".localizedLanguage(language: self.language))
                     .foregroundColor(.gray)
-                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .largeTitle))
+                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16 , relativeTo: .largeTitle))
                 Text(reason)
                     .foregroundColor(.black)
-                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
+                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Divider()
             VStack(alignment: .leading){
                 Text("ស្ថានភាព".localizedLanguage(language: self.language))
                     .foregroundColor(.gray)
-                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .largeTitle))
+                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16 , relativeTo: .largeTitle))
                 Text("\(Image(systemName: "checkmark.circle")) \("ស្នើសុំសម្រាកជោគជ័យ".localizedLanguage(language: self.language))")
                     .foregroundColor(.green)
-                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .largeTitle))
+                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()
@@ -362,7 +362,7 @@ struct PermissionView: View {
                 openFullSheet = false
             } label: {
                 Text("រួចរាល់".localizedLanguage(language: self.language))
-                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20, relativeTo: .largeTitle))
+                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18 , relativeTo: .largeTitle))
                     .frame(maxWidth: .infinity, alignment: .center)
                     .foregroundColor(.white)
                     .padding()

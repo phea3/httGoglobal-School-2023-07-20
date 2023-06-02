@@ -98,6 +98,7 @@
 		9A74E00D29F76D820049C6DD /* GetStudenAttendancePermissionByIdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74E00C29F76D820049C6DD /* GetStudenAttendancePermissionByIdViewModel.swift */; };
 		9ABE0A3D29E3B51000D2881B /* AskPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE0A3C29E3B51000D2881B /* AskPermission.swift */; };
 		9AC6CBAA2A2741080021D5BD /* TransportationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC6CBA92A2741080021D5BD /* TransportationView.swift */; };
+		9AE59A002A29D72900A34087 /* NotificationClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE599FF2A29D72900A34087 /* NotificationClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -186,6 +187,7 @@
 		9A74E00C29F76D820049C6DD /* GetStudenAttendancePermissionByIdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStudenAttendancePermissionByIdViewModel.swift; sourceTree = "<group>"; };
 		9ABE0A3C29E3B51000D2881B /* AskPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskPermission.swift; sourceTree = "<group>"; };
 		9AC6CBA92A2741080021D5BD /* TransportationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportationView.swift; sourceTree = "<group>"; };
+		9AE599FF2A29D72900A34087 /* NotificationClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationClass.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +259,7 @@
 				09FEBC9928B70B8500E8B5B7 /* TabView.swift */,
 				09FEBC9728B70B6B00E8B5B7 /* ResponsiveContainer.swift */,
 				77DCF5A6292C6323008E1423 /* LocalizationService.swift */,
+				9AE599FF2A29D72900A34087 /* NotificationClass.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -573,6 +576,7 @@
 				775BE506291CE12000A915B3 /* GetStudentCardByStudentIDViewModel.swift in Sources */,
 				09A060FD28BA199B00D1D1FA /* API.swift in Sources */,
 				09A060FB28BA18A200D1D1FA /* ScheduleViewModel.swift in Sources */,
+				9AE59A002A29D72900A34087 /* NotificationClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
