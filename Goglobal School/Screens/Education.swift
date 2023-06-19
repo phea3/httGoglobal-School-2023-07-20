@@ -572,6 +572,7 @@ struct Education: View {
         .frame(width: prop.isiPhoneS ? 160 : prop.isiPhoneM ? 170 : prop.isiPhoneL ? 180 : 200, height: prop.isiPhoneS ? 185 : prop.isiPhoneM ? 200 : prop.isiPhoneL ? 220 : 220, alignment: .center)
         .addBorder(.orange,width: 1, cornerRadius: 20)
     }
+   
     @ViewBuilder
     private func ChangeLanguage()-> some View {
         HStack{

@@ -180,7 +180,7 @@ struct Home: View {
                     .tag(Tab.education)
                 CalendarViewModel(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, bindingLanguage: $language, language: self.language, prop: prop, activeYear: academiclist.academicYearId)
                     .tag(Tab.bag)
-                TransportationView(userProfileImg: loginVM.userProfileImg,  bindingLanguage: $language, prop: prop, language: self.language, parentId: loginVM.userId)
+                TransportationView(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, bindingLanguage: $language,showTeacherImage: $showTeacherImage,UrlImg: $UrlImg, parentId: loginVM.userId, academicYearName: academiclist.khmerYear, language: self.language, prop: prop)
                     .tag(Tab.bus)
                 Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, hideTab: $hideTab, checkState: $checkState, showFlag: $showFlag, bindingLanguage: $language, prop: prop, devicetoken: self.newToken, language: self.language)
                     .tag(Tab.book)

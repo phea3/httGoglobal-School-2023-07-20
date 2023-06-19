@@ -68,26 +68,18 @@ struct Schedule: View {
                 
             }else{
                 VStack{
-//                    if let foo = foo {
-                    if let tasks = AllClasses.filteredTasks{
-                        if tasks.isEmpty{
-                            Text("មិនមានម៉ោងសិក្សា!!!".localizedLanguage(language: self.language))
-                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
-                                .fontWeight(.light)
-                                .offset(y: prop.isLandscape ? 100 :  300)
-                        } else{
-                            List(Array(AllClasses.filteredTasks.enumerated()), id: \.element.id){ index, item in
-                                customList(startTime: String(format: "%.2f", item.startTime), endTime: String(format: "%.2f", item.endTime), subject: item.subject.subjectName, lastName: item.leadTeacherId.lastName, firstName: item.leadTeacherId.firstName, breaktime: item.breakTime, index: index, profileImg: item.leadTeacherId.teacherProfileImg)
-                                    .listRowInsets(.init(top: 5, leading: 0, bottom: 5, trailing: 0))
-                                    .backgroundRemover()
-                                    .padding(.vertical , prop.isiPad ? 5: 0 )
-                            }
+                    if AllClasses.filteredTasks.isEmpty{
+                        Text("មិនមានម៉ោងសិក្សា!!!".localizedLanguage(language: self.language))
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                            .fontWeight(.light)
+                            .offset(y: prop.isLandscape ? 100 :  300)
+                    } else{
+                        List(Array(AllClasses.filteredTasks.enumerated()), id: \.element.id){ index, item in
+                            customList(startTime: String(format: "%.2f", item.startTime), endTime: String(format: "%.2f", item.endTime), subject: item.subject.subjectName, lastName: item.leadTeacherId.lastName, firstName: item.leadTeacherId.firstName, breaktime: item.breakTime, index: index, profileImg: item.leadTeacherId.teacherProfileImg)
+                                .listRowInsets(.init(top: 5, leading: 0, bottom: 5, trailing: 0))
+                                .backgroundRemover()
+                                .padding(.vertical , prop.isiPad ? 5: 0 )
                         }
-                    }
-                    else{
-                        // MARK: Progress View
-                        ProgressView()
-                            .offset(y: 100)
                     }
                 }
                 .onAppear{

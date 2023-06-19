@@ -37,26 +37,82 @@ struct Payment: View {
                 rowView(dater: "កាលបរិច្ឆេទ", pay: "បង់ថ្លៃ", period: "បរិយាយ", total: "សរុប")
                     .padding()
                 ScrollView(.vertical, showsIndicators: false) {
-                    if let tasks = paymentmethod.paymentmethod{
-                        if tasks.isEmpty{
-                            Text("មិនមានការទូទាត់ថ្លៃសិក្សា!!!".localizedLanguage(language: self.language))
-                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
-                                .fontWeight(.light)
-                                .offset(y: prop.isLandscape ? 100 :  300)
-                        }else{
-                            ForEach(paymentmethod.paymentmethod, id: \.Id){ payment in
-                                VStack(spacing: 20){
+                    if paymentmethod.paymentmethod.isEmpty{
+                        Text("មិនមានការទូទាត់ថ្លៃសិក្សា!!!".localizedLanguage(language: self.language))
+                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                            .fontWeight(.light)
+                            .offset(y: prop.isLandscape ? 100 :  300)
+                    }else{
+                        ForEach(paymentmethod.paymentmethod, id: \.Id){ payment in
+                            VStack(spacing: 20){
+                                HStack{
                                     HStack{
-                                        HStack{
-                                            Image(systemName: "calendar.badge.clock")
-                                                .foregroundColor(.blue)
-                                            Text(getExactDate(date: payment.CreateAt))
-                                                .foregroundColor(.blue)
-                                        }
-                                        Spacer()
+                                        Image(systemName: "calendar.badge.clock")
+                                            .foregroundColor(.blue)
+                                        Text(getExactDate(date: payment.CreateAt))
+                                            .foregroundColor(.blue)
+                                    }
+                                    Spacer()
 
-                                        if payment.NetAmount == 0.0 && payment.GrossAmount == 0.0 && payment.StartDate == "" && payment.EndDate == "" {
-                                            VStack{
+                                    if payment.NetAmount == 0.0 && payment.GrossAmount == 0.0 && payment.StartDate == "" && payment.EndDate == "" {
+                                        VStack{
+                                            ForEach(payment.AdditionalFee, id: \.Id) { task in
+                                                HStack{
+                                                    Text(task.IncomeHead.IncomeHead)
+                                                        .foregroundColor(.blue)
+                                                        .fixedSize(horizontal: false, vertical: true)
+                                                    Spacer()
+                                                    Text("\(task.countMonth) \(task.IncomeHead.Unit)".localizedLanguage(language: self.language))
+                                                        .foregroundColor(.blue)
+                                                    Spacer()
+                                                    Text("$\(getExactPrice(price: task.Total ))")
+                                                        .foregroundColor(.red)
+                                                }
+                                                .padding(5)
+//                                                    .overlay(
+//                                                        RoundedRectangle(cornerRadius: 5)
+//                                                            .stroke(Color.orange, lineWidth: 1)
+//                                                    )
+                                                Rectangle()
+                                                    .fill(.orange)
+                                                    .frame(width: .infinity, height: 1)
+                                            }
+                                        }
+
+                                    } else {
+                                        VStack{
+                                            HStack{
+                                                Text("ថ្លៃសិក្សា/Tuition Fee")
+                                                    .foregroundColor(.blue)
+                                                Spacer()
+                                                if !payment.Month.isEmpty{
+                                                    Text("១ ខែ".localizedLanguage(language: self.language))
+                                                       .foregroundColor(.blue)
+                                                } else if !payment.Quarter.isEmpty {
+                                                    Text("១ ត្រីមាស".localizedLanguage(language: self.language))
+                                                        .foregroundColor(.blue)
+                                                } else if !payment.AcademicTermId.isEmpty {
+                                                    Text("១ ឆមាស".localizedLanguage(language: self.language))
+                                                        .foregroundColor(.blue)
+                                                } else {
+                                                    Text("១ ឆ្នាំ".localizedLanguage(language: self.language))
+                                                        .foregroundColor(.blue)
+                                                }
+                                                Spacer()
+                                                Text("$\(getExactPrice(price: payment.Amount ))")
+                                                    .foregroundColor(.red)
+                                            }
+                                            .padding(5)
+//                                                .overlay(
+//                                                    RoundedRectangle(cornerRadius: 5)
+//                                                        .stroke(Color.orange, lineWidth: 1)
+//                                                )
+                                            Rectangle()
+                                                .fill(.orange)
+                                                .frame(width: .infinity, height: 1)
+
+                                            if !payment.AdditionalFee.isEmpty{
+
                                                 ForEach(payment.AdditionalFee, id: \.Id) { task in
                                                     HStack{
                                                         Text(task.IncomeHead.IncomeHead)
@@ -65,95 +121,32 @@ struct Payment: View {
                                                         Spacer()
                                                         Text("\(task.countMonth) \(task.IncomeHead.Unit)".localizedLanguage(language: self.language))
                                                             .foregroundColor(.blue)
+
                                                         Spacer()
                                                         Text("$\(getExactPrice(price: task.Total ))")
                                                             .foregroundColor(.red)
                                                     }
                                                     .padding(5)
-//                                                    .overlay(
-//                                                        RoundedRectangle(cornerRadius: 5)
-//                                                            .stroke(Color.orange, lineWidth: 1)
-//                                                    )
+//                                                        .overlay(
+//                                                            RoundedRectangle(cornerRadius: 5)
+//                                                                .stroke(Color.orange, lineWidth: 1)
+//                                                        )
                                                     Rectangle()
                                                         .fill(.orange)
                                                         .frame(width: .infinity, height: 1)
                                                 }
                                             }
-
-                                        } else {
-                                            VStack{
-                                                HStack{
-                                                    Text("ថ្លៃសិក្សា/Tuition Fee")
-                                                        .foregroundColor(.blue)
-                                                    Spacer()
-                                                    if !payment.Month.isEmpty{
-                                                        Text("១ ខែ".localizedLanguage(language: self.language))
-                                                           .foregroundColor(.blue)
-                                                    } else if !payment.Quarter.isEmpty {
-                                                        Text("១ ត្រីមាស".localizedLanguage(language: self.language))
-                                                            .foregroundColor(.blue)
-                                                    } else if !payment.AcademicTermId.isEmpty {
-                                                        Text("១ ឆមាស".localizedLanguage(language: self.language))
-                                                            .foregroundColor(.blue)
-                                                    } else {
-                                                        Text("១ ឆ្នាំ".localizedLanguage(language: self.language))
-                                                            .foregroundColor(.blue)
-                                                    }
-                                                    Spacer()
-                                                    Text("$\(getExactPrice(price: payment.Amount ))")
-                                                        .foregroundColor(.red)
-                                                }
-                                                .padding(5)
-//                                                .overlay(
-//                                                    RoundedRectangle(cornerRadius: 5)
-//                                                        .stroke(Color.orange, lineWidth: 1)
-//                                                )
-                                                Rectangle()
-                                                    .fill(.orange)
-                                                    .frame(width: .infinity, height: 1)
-
-                                                if !payment.AdditionalFee.isEmpty{
-
-                                                    ForEach(payment.AdditionalFee, id: \.Id) { task in
-                                                        HStack{
-                                                            Text(task.IncomeHead.IncomeHead)
-                                                                .foregroundColor(.blue)
-                                                                .fixedSize(horizontal: false, vertical: true)
-                                                            Spacer()
-                                                            Text("\(task.countMonth) \(task.IncomeHead.Unit)".localizedLanguage(language: self.language))
-                                                                .foregroundColor(.blue)
-
-                                                            Spacer()
-                                                            Text("$\(getExactPrice(price: task.Total ))")
-                                                                .foregroundColor(.red)
-                                                        }
-                                                        .padding(5)
-//                                                        .overlay(
-//                                                            RoundedRectangle(cornerRadius: 5)
-//                                                                .stroke(Color.orange, lineWidth: 1)
-//                                                        )
-                                                        Rectangle()
-                                                            .fill(.orange)
-                                                            .frame(width: .infinity, height: 1)
-                                                    }
-                                                }
-                                            }
                                         }
                                     }
-                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : 15, relativeTo: .body))
-                                    .foregroundColor(.blue)
-                                    .padding(.horizontal)
-                                    .frame(maxWidth:.infinity)
-                                    .background(Color(colorScheme == .dark ? "" : "LightOrange").opacity(0.5))
-                                    .cornerRadius(10)
                                 }
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : 15, relativeTo: .body))
+                                .foregroundColor(.blue)
+                                .padding(.horizontal)
+                                .frame(maxWidth:.infinity)
+                                .background(Color(colorScheme == .dark ? "" : "LightOrange").opacity(0.5))
+                                .cornerRadius(10)
                             }
                         }
-                    }
-                    else{
-                        // MARK: Progress View
-                        ProgressView()
-                            .offset(y: 100)
                     }
                 }
                 .padding(.horizontal)

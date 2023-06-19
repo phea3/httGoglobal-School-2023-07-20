@@ -77,6 +77,7 @@
 		09FEBCB028B70CD600E8B5B7 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCAF28B70CD600E8B5B7 /* CalendarViewModel.swift */; };
 		09FEBCB228B70CEC00E8B5B7 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCB128B70CEC00E8B5B7 /* Profile.swift */; };
 		09FEBCB428B70D0000E8B5B7 /* Choosing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCB328B70D0000E8B5B7 /* Choosing.swift */; };
+		5C3B440D2A402A0E00DF2364 /* AttendanceTransportaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B440C2A402A0E00DF2364 /* AttendanceTransportaion.swift */; };
 		771D6C4929503D8B00B59485 /* pickup.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 771D6C4829503D8B00B59485 /* pickup.graphql */; };
 		771D6C4B29503E1A00B59485 /* pickupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D6C4A29503E1A00B59485 /* pickupViewModel.swift */; };
 		774A5D6629DEB4C80037FD08 /* AttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774A5D6529DEB4C80037FD08 /* AttendanceView.swift */; };
@@ -166,6 +167,7 @@
 		09FEBCAF28B70CD600E8B5B7 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		09FEBCB128B70CEC00E8B5B7 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		09FEBCB328B70D0000E8B5B7 /* Choosing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Choosing.swift; sourceTree = "<group>"; };
+		5C3B440C2A402A0E00DF2364 /* AttendanceTransportaion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceTransportaion.swift; sourceTree = "<group>"; };
 		771D6C4829503D8B00B59485 /* pickup.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = pickup.graphql; sourceTree = "<group>"; };
 		771D6C4A29503E1A00B59485 /* pickupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pickupViewModel.swift; sourceTree = "<group>"; };
 		774A5D6529DEB4C80037FD08 /* AttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceView.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 				9ABE0A3C29E3B51000D2881B /* AskPermission.swift */,
 				9A3B362A29F26E48004DC68A /* ViewPermission.swift */,
 				9AC6CBA92A2741080021D5BD /* TransportationView.swift */,
+				5C3B440C2A402A0E00DF2364 /* AttendanceTransportaion.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -518,6 +521,7 @@
 				09FEBC5128B704E400E8B5B7 /* ContentView.swift in Sources */,
 				09FEBCA428B70C3E00E8B5B7 /* Attendant.swift in Sources */,
 				09FEBCA828B70C6F00E8B5B7 /* Schedule.swift in Sources */,
+				5C3B440D2A402A0E00DF2364 /* AttendanceTransportaion.swift in Sources */,
 				091B223328CC3B9000FE9DBB /* DeepLink.swift in Sources */,
 				9A74E00B29F769880049C6DD /* GetShiftByStudentIdViewModel.swift in Sources */,
 				0978AA2C28C5CBC400CD9222 /* ScrollRefreshable.swift in Sources */,

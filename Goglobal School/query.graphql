@@ -279,3 +279,21 @@ query GetShiftByStudentId($stuId: ID) {
       shiftId
     }
   }
+
+query GetTransportation {
+    getTransportation {
+      _id
+      parentId {
+        _id
+      }
+    }
+  }
+
+query GetSchoolBusAttById($stuId: ID, $limit: Int) {
+    getSchoolBusAttById(stuId: $stuId, limit: $limit) {
+      studentId
+      attendanceDate
+      pickUpAt
+      sendOffAt
+    }
+  }
