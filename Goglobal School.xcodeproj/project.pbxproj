@@ -78,6 +78,8 @@
 		09FEBCB228B70CEC00E8B5B7 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCB128B70CEC00E8B5B7 /* Profile.swift */; };
 		09FEBCB428B70D0000E8B5B7 /* Choosing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FEBCB328B70D0000E8B5B7 /* Choosing.swift */; };
 		5C3B440D2A402A0E00DF2364 /* AttendanceTransportaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B440C2A402A0E00DF2364 /* AttendanceTransportaion.swift */; };
+		5C3B44112A403AE900DF2364 /* GetTransportationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B44102A403AE900DF2364 /* GetTransportationViewModel.swift */; };
+		5C3B44132A404DEE00DF2364 /* GetSchoolBusAttByIdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B44122A404DEE00DF2364 /* GetSchoolBusAttByIdViewModel.swift */; };
 		771D6C4929503D8B00B59485 /* pickup.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 771D6C4829503D8B00B59485 /* pickup.graphql */; };
 		771D6C4B29503E1A00B59485 /* pickupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D6C4A29503E1A00B59485 /* pickupViewModel.swift */; };
 		774A5D6629DEB4C80037FD08 /* AttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774A5D6529DEB4C80037FD08 /* AttendanceView.swift */; };
@@ -168,6 +170,8 @@
 		09FEBCB128B70CEC00E8B5B7 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		09FEBCB328B70D0000E8B5B7 /* Choosing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Choosing.swift; sourceTree = "<group>"; };
 		5C3B440C2A402A0E00DF2364 /* AttendanceTransportaion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceTransportaion.swift; sourceTree = "<group>"; };
+		5C3B44102A403AE900DF2364 /* GetTransportationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTransportationViewModel.swift; sourceTree = "<group>"; };
+		5C3B44122A404DEE00DF2364 /* GetSchoolBusAttByIdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSchoolBusAttByIdViewModel.swift; sourceTree = "<group>"; };
 		771D6C4829503D8B00B59485 /* pickup.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = pickup.graphql; sourceTree = "<group>"; };
 		771D6C4A29503E1A00B59485 /* pickupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pickupViewModel.swift; sourceTree = "<group>"; };
 		774A5D6529DEB4C80037FD08 /* AttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceView.swift; sourceTree = "<group>"; };
@@ -239,6 +243,8 @@
 				9A74E00829F761D40049C6DD /* LeaveMutationViewModel.swift */,
 				9A74E00A29F769880049C6DD /* GetShiftByStudentIdViewModel.swift */,
 				9A74E00C29F76D820049C6DD /* GetStudenAttendancePermissionByIdViewModel.swift */,
+				5C3B44102A403AE900DF2364 /* GetTransportationViewModel.swift */,
+				5C3B44122A404DEE00DF2364 /* GetSchoolBusAttByIdViewModel.swift */,
 			);
 			path = ClassObservables;
 			sourceTree = "<group>";
@@ -526,6 +532,7 @@
 				9A74E00B29F769880049C6DD /* GetShiftByStudentIdViewModel.swift in Sources */,
 				0978AA2C28C5CBC400CD9222 /* ScrollRefreshable.swift in Sources */,
 				097A13522906869D008B253D /* BabysittingVIewModel.swift in Sources */,
+				5C3B44132A404DEE00DF2364 /* GetSchoolBusAttByIdViewModel.swift in Sources */,
 				09FEBCA628B70C5600E8B5B7 /* ImagePicker.swift in Sources */,
 				099ECD5F28EC384800D69557 /* InvoiceViewModel.swift in Sources */,
 				09FEBCA228B70C0600E8B5B7 /* CustomDatePicker.swift in Sources */,
@@ -548,6 +555,7 @@
 				09FEBC9E28B70BCE00E8B5B7 /* RoundedCorners.swift in Sources */,
 				09FEBCAC28B70CA600E8B5B7 /* Education.swift in Sources */,
 				774A5D6629DEB4C80037FD08 /* AttendanceView.swift in Sources */,
+				5C3B44112A403AE900DF2364 /* GetTransportationViewModel.swift in Sources */,
 				9A74E00929F761D40049C6DD /* LeaveMutationViewModel.swift in Sources */,
 				09FEBC9228B70A8C00E8B5B7 /* MobileUserViewModel.swift in Sources */,
 				092824C628DC17BF00320D33 /* EnrollmentViewModel.swift in Sources */,

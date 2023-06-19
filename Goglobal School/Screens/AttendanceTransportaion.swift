@@ -10,6 +10,7 @@ import SwiftUI
 struct AttendanceTransportaion: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @StateObject var SchoolBus: GetSchoolBusAttByIdViewModel = GetSchoolBusAttByIdViewModel()
     @State var userProfileImg: String
     @State private var startDate: Date = Date()
     @State private var endDate: Date = Date()
@@ -57,7 +58,7 @@ struct AttendanceTransportaion: View {
                             .labelsHidden()
                             .accentColor(.blue)
                             .onChange(of: startDate, perform: { value in
-//                                GetallAttendanceStudent.getAllAttendance(studentId: self.studentId, limit: self.limit, startDate: convertString(inputDate: value), endDate: convertString(inputDate: self.endDate))
+                                SchoolBus.getSchoolBus(stuId: self.studentId, limit: self.limit)
                             });
                         Spacer()
                         
@@ -70,7 +71,7 @@ struct AttendanceTransportaion: View {
                             .labelsHidden()
                             .accentColor(.red)
                             .onChange(of: endDate, perform: { value in
-//                                GetallAttendanceStudent.getAllAttendance(studentId: self.studentId, limit: self.limit, startDate: convertString(inputDate: self.startDate), endDate: convertString(inputDate: value))
+                                SchoolBus.getSchoolBus(stuId: self.studentId, limit: self.limit)
                             });
                     }
                     
@@ -88,48 +89,43 @@ struct AttendanceTransportaion: View {
                             .background(Color.white)
                         VStack(spacing: 0){
                             Text("")
-                            Text("ពេលព្រឹក".localizedLanguage(language: self.language))
+                            Text("យកមកសាលា".localizedLanguage(language: self.language))
                             Text("")
                         }
                         .font(.custom("Bayon", size:  prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16 , relativeTo: .largeTitle))
-                        .frame(width: prop.isiPhoneS ? 65.0 : prop.isiPhoneM ? 75.0 : prop.isiPhoneL ? 85.0 : 105.0, alignment: .center)
+                        .frame(width: prop.isiPhoneS ? 100.0 : prop.isiPhoneM ? 110.0 : prop.isiPhoneL ? 120.0 : 140.0, alignment: .center)
                         Divider()
                             .background(Color.white)
                         VStack(spacing: 0){
                             Text("")
-                            Text("ពេលរសៀល".localizedLanguage(language: self.language))
+                            Text("ជូនទៅផ្ទះ".localizedLanguage(language: self.language))
                             Text("")
                         }
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16 , relativeTo: .largeTitle))
-                        .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 90.0 : 110.0, alignment: .center)
-                        Divider()
-                            .background(Color.white)
-                        Text("ស្ថានភាព".localizedLanguage(language: self.language))
-                            .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
-                            .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 100.0 : 120.0, alignment: .center)
+                        .frame(width: prop.isiPhoneS ? 95.0 : prop.isiPhoneM ? 105.0 : prop.isiPhoneL ? 115.0 : 135.0, alignment: .center)
                     }
                     .frame(height: prop.isiPhoneS ? 40.0 : prop.isiPhoneM ? 50.0 : 60.0)
                     .background(Color("ColorTitle"))
                     .foregroundColor(.white)
                     .cornerRadius(10)
-//                    if GetallAttendanceStudent.GetAllAttendance.isEmpty{
-//                        VStack{
-//                            Text("មិនមានទិន្នន័យ!".localizedLanguage(language: self.language))
-//                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 :  16 , relativeTo: .largeTitle))
-//                                .padding()
-//                                .onTapGesture(count: 2) {
-//                                    GetallAttendanceStudent.getAllAttendance(studentId: self.studentId, limit: self.limit, startDate: convertString(inputDate: self.startDate), endDate: convertString(inputDate: self.endDate))
-//                                }
-//                        }
-//                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-//                    }else{
-//                        ScrollView(.vertical, showsIndicators: false){
-//                            VStack(spacing: 0){
-//                                ForEach(GetallAttendanceStudent.GetAllAttendance, id: \.id){ item in
+                    if SchoolBus.schoolBus.isEmpty{
+                        VStack{
+                            Text("មិនមានទិន្នន័យ!".localizedLanguage(language: self.language))
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 :  16 , relativeTo: .largeTitle))
+                                .padding()
+                                .onTapGesture(count: 2) {
+                                    SchoolBus.getSchoolBus(stuId: self.studentId, limit: self.limit)
+                                }
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                    }else{
+                        ScrollView(.vertical, showsIndicators: false){
+                            VStack(spacing: 0){
+                                ForEach(SchoolBus.schoolBus, id: \.studentId){ item in
 //                                    HStack(spacing: 0){
 //                                        HStack(spacing: 0){
 //                                            Spacer()
-//                                            Text(convertDate(inputDate: item.attendanceDate))
+//                                            Text(convertDate(inputDate: item.))
 //                                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14  , relativeTo: .largeTitle))
 //                                            Spacer()
 //                                        }
@@ -223,24 +219,24 @@ struct AttendanceTransportaion: View {
 //                                        }
 //                                    }
 //                                    Divider()
-//                                }
-//                            }
-//
-//                            if (GetallAttendanceStudent.GetAllAttendance.count > 10) {
-//                                Button {
-//                                    DispatchQueue.main.async {
-//                                        self.limit += 10
-//                                    }
-//                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-//                                        GetallAttendanceStudent.getAllAttendance(studentId: self.studentId, limit: self.limit, startDate: convertString(inputDate: self.startDate), endDate: convertString(inputDate: self.endDate))
-//                                    }
-//                                } label: {
-//                                    Text("see more".localizedLanguage(language: self.language))
-//                                        .padding()
-//                                }
-//                            }
-//                        }
-//                    }
+                                }
+                            }
+
+                            if (SchoolBus.schoolBus.count > 10) {
+                                Button {
+                                    DispatchQueue.main.async {
+                                        self.limit += 10
+                                    }
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                                        SchoolBus.getSchoolBus(stuId: self.studentId, limit: self.limit)
+                                    }
+                                } label: {
+                                    Text("see more".localizedLanguage(language: self.language))
+                                        .padding()
+                                }
+                            }
+                        }
+                    }
                 }
                 .padding(.top)
                 .padding(.horizontal)
@@ -250,7 +246,9 @@ struct AttendanceTransportaion: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .navigationBarTitleDisplayMode(.inline)
         .setBG(colorScheme: colorScheme)
-        .onAppear(perform: {})
+        .onAppear(perform: {
+            SchoolBus.getSchoolBus(stuId: self.studentId, limit: self.limit)
+        })
         .navigationBarItems(leading: btnBack)
         .navigationBarBackButtonHidden(true)
         .toolbar {

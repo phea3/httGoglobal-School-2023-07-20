@@ -21,6 +21,7 @@ struct Home: View {
     @StateObject var Attendance: ListAttendanceViewModel = ListAttendanceViewModel()
     @StateObject var monitor = Monitor()
     @StateObject var student: ListStudentViewModel = ListStudentViewModel()
+    @StateObject var UserTrans: GetTransportationViewModel = GetTransportationViewModel()
     init(){
         requestPushAuthorization();
         UITabBar.appearance().isHidden = true
@@ -78,6 +79,8 @@ struct Home: View {
                     .onAppear{
                         //login mutation
                         loginVM.login(email: gmail, password: pass, checkState: checkState)
+                        
+                        UserTrans.getUserTrans()
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             // get active year

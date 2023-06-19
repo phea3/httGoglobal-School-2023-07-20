@@ -10,6 +10,7 @@ import SwiftUI
 struct TransportationView: View {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var students: ListStudentViewModel = ListStudentViewModel()
+    @StateObject var UserTrans: GetTransportationViewModel = GetTransportationViewModel()
     @State var DummyBoolean: Bool = false
     @State var axcessPadding: CGFloat = 0
     @State var currentProgress: CGFloat = 0.0
@@ -219,7 +220,7 @@ struct TransportationView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 .onAppear {
-                    students.StundentAmount(parentId: parentId)
+                    getUserTrans()
                 }
                 .setBG(colorScheme: colorScheme)
             }
@@ -234,7 +235,7 @@ struct TransportationView: View {
                     self.hidingDivider = false
                 }
                 refreshingView()
-                students.StundentAmount(parentId: parentId)
+                getUserTrans()
             }
             .phoneOnlyStackNavigationView()
             .padOnlyStackNavigationView()
@@ -426,7 +427,7 @@ struct TransportationView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                 .onAppear {
-                    students.StundentAmount(parentId: parentId)
+                    getUserTrans()
                 }
                 .setBG(colorScheme: colorScheme)
             }
@@ -441,12 +442,22 @@ struct TransportationView: View {
                     self.hidingDivider = false
                 }
                 refreshingView()
-                students.StundentAmount(parentId: parentId)
+                getUserTrans()
             }
             .phoneOnlyStackNavigationView()
             .padOnlyStackNavigationView()
         }
     }
+    
+    private func getUserTrans() {
+        UserTrans.getUserTrans()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+            if UserTrans.userTrans.contains(where: {$0.parentId == parentId }){
+                students.StundentAmount(parentId: parentId)
+            }
+        }
+    }
+    
     private func mainView()-> some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading, spacing: 0){
@@ -459,15 +470,19 @@ struct TransportationView: View {
                 ZStack {
                     imageStuBG(prop: prop)
                     if students.AllStudents.isEmpty{
-                        Text("មិនមានកូន".localizedLanguage(language: self.language))
-                            .foregroundColor(.blue)
-                            .onAppear{
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                    if students.AllStudents.isEmpty{
-                                        self.onAppearImg = false
+                        if UserTrans.userTrans.contains(where: {$0.parentId == parentId }){
+                            //Empty
+                        }else{
+                            Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
+                                .foregroundColor(.blue)
+                                .onAppear{
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        if students.AllStudents.isEmpty{
+                                            self.onAppearImg = false
+                                        }
                                     }
                                 }
-                            }
+                        }
                     } else {
                         ScrollView(.horizontal, showsIndicators: false){
                             HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : prop.isiPhoneL ? 12 : 14){
@@ -517,8 +532,6 @@ struct TransportationView: View {
                         .resizable()
                         .frame(width: 25, height: 25)
                 }
-               
-                
             } label: {
                 
                 Image(language == "ch" ? "ch" : language == "km-KH" ? "km" : "en")
