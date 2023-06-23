@@ -211,6 +211,20 @@ struct Dashboard: View {
                                             
                                         }
                                 }
+                                    .refreshable {
+                                        do {
+                                            AnnoucementList.clearCache()
+                                            try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                                        } catch {}
+                                        self.hidingDivider = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                            self.hidingDivider = false
+                                        }
+                                        refreshingView()
+                                        AnnoucementList.getAnnoucement()
+                                        academiclist.populateAllContinent(academicYearId: academiclist.academicYearId.isEmpty ? "62f079626cf8a36847d31d2d" : academiclist.academicYearId)
+                                        students.StundentAmount(parentId: parentId)
+                                    }
                                 if onAppearImg{
                                     ZStack{
                                         Color(colorScheme == .dark ? "Black" : "BG")
@@ -251,21 +265,6 @@ struct Dashboard: View {
             }
             .padOnlyStackNavigationView()
             .phoneOnlyStackNavigationView()
-            .refreshable {
-                do {
-                    AnnoucementList.clearCache()
-                    try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                } catch {}
-                self.hidingDivider = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.hidingDivider = false
-                }
-                refreshingView()
-                AnnoucementList.getAnnoucement()
-                academiclist.populateAllContinent(academicYearId: academiclist.academicYearId.isEmpty ? "62f079626cf8a36847d31d2d" : academiclist.academicYearId)
-                students.StundentAmount(parentId: parentId)
-            }
-            
         } else {
             
             NavigationView {
@@ -298,7 +297,6 @@ struct Dashboard: View {
                             Spacer()
                         }
                         else{
-                            
                             ZStack{
                                 ScrollRefreshable(langauge: self.language, title: "កំពុងភ្ជាប់", tintColor: .blue){
                                     mainView()
@@ -432,6 +430,20 @@ struct Dashboard: View {
                                             
                                         }
                                 }
+                                    .refreshable {
+                                        do {
+                                            AnnoucementList.clearCache()
+                                            try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                                        } catch {}
+                                        self.hidingDivider = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                            self.hidingDivider = false
+                                        }
+                                        refreshingView()
+                                        AnnoucementList.getAnnoucement()
+                                        academiclist.populateAllContinent(academicYearId: academiclist.academicYearId.isEmpty ? "62f079626cf8a36847d31d2d" : academiclist.academicYearId)
+                                        students.StundentAmount(parentId: parentId)
+                                    }
                                 if onAppearImg{
                                     ZStack{
                                         Color(colorScheme == .dark ? "Black" : "BG")
@@ -471,22 +483,7 @@ struct Dashboard: View {
             }
             .padOnlyStackNavigationView()
             .phoneOnlyStackNavigationView()
-            .refreshable {
-                do {
-                    AnnoucementList.clearCache()
-                    try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                } catch {}
-                self.hidingDivider = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.hidingDivider = false
-                }
-                refreshingView()
-                AnnoucementList.getAnnoucement()
-                academiclist.populateAllContinent(academicYearId: academiclist.academicYearId.isEmpty ? "62f079626cf8a36847d31d2d" : academiclist.academicYearId)
-                students.StundentAmount(parentId: parentId)
-            }
         }
-        
     }
     @ViewBuilder
     

@@ -6,10 +6,7 @@
 	<string>development</string>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>webcredentials:sms.go-globalschool.com</string>
-		<string>applinks:goglobalschool://mobileapp.com</string>
 		<string>webcredentials:go-globalschool.com</string>
-		<string>webcredentials:goglobalschool.com</string>
 	</array>
 	<key>com.apple.developer.authentication-services.autofill-credential-provider</key>
 	<true/>

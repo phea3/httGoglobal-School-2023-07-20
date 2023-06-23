@@ -309,8 +309,10 @@ struct Grade: View {
                         .background(.black)
                         .scrollIndicators(.hidden)
                         .listStyle(GroupedListStyle())
+                        .padding(.bottom, prop.isiPhoneS ? 25 : prop.isiPhoneM ? 25 : prop.isiPhoneL ? 30 : 30)
                     }
                 }
+                
                 Spacer()
                 
                 NavigationLink(destination: FoodHistoryView(currentDate: $currentDate, language: self.language, prop: self.prop), isActive: $foodHistory) {

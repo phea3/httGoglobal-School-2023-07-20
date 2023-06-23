@@ -161,6 +161,7 @@ struct AskPermissionView: View {
     }
 }
 
+
 struct PermissionView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -271,7 +272,7 @@ struct PermissionView: View {
                             .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18 , relativeTo: .largeTitle))
                             .frame(maxWidth: .infinity, alignment: .center)
                             .foregroundColor(.white)
-                            .padding()
+                            .padding(5)
                             .background(.blue)
                             .cornerRadius(15)
                             .padding(.horizontal)
@@ -287,7 +288,7 @@ struct PermissionView: View {
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18 , relativeTo: .largeTitle))
                         .frame(maxWidth: .infinity, alignment: .center)
                         .foregroundColor(.white)
-                        .padding()
+                        .padding(5)
                         .background(.gray)
                         .cornerRadius(15)
                         .padding(.horizontal)
@@ -317,6 +318,7 @@ struct PermissionView: View {
                     .foregroundColor(.gray)
                     .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
             }
+            .padding(.top)
             Divider()
             HStack{
                 Rectangle()
@@ -358,6 +360,7 @@ struct PermissionView: View {
             Button {
                 DispatchQueue.main.asyncAfter(deadline: .now()+0.5){
                     self.presentationMode.wrappedValue.dismiss()
+                    askPermission.clearCache()
                 }
                 openFullSheet = false
             } label: {
@@ -365,7 +368,7 @@ struct PermissionView: View {
                     .font(.custom("Kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18 , relativeTo: .largeTitle))
                     .frame(maxWidth: .infinity, alignment: .center)
                     .foregroundColor(.white)
-                    .padding()
+                    .padding(5)
                     .background(.blue)
                     .cornerRadius(15)
                     .padding(.horizontal)

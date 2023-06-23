@@ -188,6 +188,19 @@ struct Education: View {
                                         }
                                     }
                                 }
+                                    .refreshable {
+                                        do {
+                                            students.clearCache()
+                                            // Sleep for 2 seconds
+                                            try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                                        } catch {}
+                                        self.hidingDivider = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                            self.hidingDivider = false
+                                        }
+                                        refreshingView()
+                                        students.StundentAmount(parentId: parentId)
+                                    }
                                 if onAppearImg{
                                     ZStack{
                                         Color(colorScheme == .dark ? "Black" : "BG")
@@ -222,19 +235,6 @@ struct Education: View {
                     students.StundentAmount(parentId: parentId)
                 }
                 .setBG(colorScheme: colorScheme)
-            }
-            .refreshable {
-                do {
-                    students.clearCache()
-                    // Sleep for 2 seconds
-                    try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                } catch {}
-                self.hidingDivider = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.hidingDivider = false
-                }
-                refreshingView()
-                students.StundentAmount(parentId: parentId)
             }
             .phoneOnlyStackNavigationView()
             .padOnlyStackNavigationView()
@@ -395,6 +395,19 @@ struct Education: View {
                                         }
                                     }
                                 }
+                                    .refreshable {
+                                        do {
+                                            students.clearCache()
+                                            // Sleep for 2 seconds
+                                            try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                                        } catch {}
+                                        self.hidingDivider = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                            self.hidingDivider = false
+                                        }
+                                        refreshingView()
+                                        students.StundentAmount(parentId: parentId)
+                                    }
                                 if onAppearImg{
                                     ZStack{
                                         Color(colorScheme == .dark ? "Black" : "BG")
@@ -429,19 +442,6 @@ struct Education: View {
                     students.StundentAmount(parentId: parentId)
                 }
                 .setBG(colorScheme: colorScheme)
-            }
-            .refreshable {
-                do {
-                    students.clearCache()
-                    // Sleep for 2 seconds
-                    try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                } catch {}
-                self.hidingDivider = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.hidingDivider = false
-                }
-                refreshingView()
-                students.StundentAmount(parentId: parentId)
             }
             .phoneOnlyStackNavigationView()
             .padOnlyStackNavigationView()
@@ -517,7 +517,6 @@ struct Education: View {
                 }
             }else{
                 AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(ImageStudent)"), scale: 2){image in
-                    
                     switch  image {
                     case .empty:
                         VStack{
@@ -577,11 +576,6 @@ struct Education: View {
     private func ChangeLanguage()-> some View {
         HStack{
             Menu {
-                //                    Button {
-                //                        self.language = "ch"
-                //                    } label: {
-                //                        Text("中文")
-                //                    }
                 Button {
                     self.bindingLanguage = "km-KH"
                 } label: {
@@ -599,10 +593,7 @@ struct Education: View {
                         .resizable()
                         .frame(width: 25, height: 25)
                 }
-                
-                
             } label: {
-                
                 Image(language == "ch" ? "ch" : language == "km-KH" ? "km" : "en")
                     .resizable()
                     .aspectRatio(contentMode: .fit)

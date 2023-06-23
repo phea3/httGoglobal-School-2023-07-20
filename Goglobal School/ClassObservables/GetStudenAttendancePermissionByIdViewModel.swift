@@ -24,6 +24,10 @@ class GetStudenAttendancePermissionByIdViewModel: ObservableObject {
             }
         }
     }
+    
+    func clearCache(){
+        Network.shared.apollo.clearCache()
+    }
 }
 
 struct GetStudenAttendancePermissionByIdModel {

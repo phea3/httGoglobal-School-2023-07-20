@@ -61,6 +61,9 @@ class LeaveMutationViewModel: ObservableObject {
             }
         }
     }
+    func clearCache(){
+        Network.shared.apollo.clearCache()
+    }
 }
 
 

@@ -189,6 +189,19 @@ struct TransportationView: View {
                                         }
                                     }
                                 }
+                                    .refreshable {
+                                        do {
+                                            students.clearCache()
+                                            // Sleep for 2 seconds
+                                            try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                                        } catch {}
+                                        self.hidingDivider = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                            self.hidingDivider = false
+                                        }
+                                        refreshingView()
+                                        getUserTrans()
+                                    }
                                 if onAppearImg{
                                     ZStack{
                                         Color(colorScheme == .dark ? "Black" : "BG")
@@ -223,19 +236,6 @@ struct TransportationView: View {
                     getUserTrans()
                 }
                 .setBG(colorScheme: colorScheme)
-            }
-            .refreshable {
-                do {
-                    students.clearCache()
-                    // Sleep for 2 seconds
-                    try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                } catch {}
-                self.hidingDivider = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.hidingDivider = false
-                }
-                refreshingView()
-                getUserTrans()
             }
             .phoneOnlyStackNavigationView()
             .padOnlyStackNavigationView()
@@ -396,6 +396,19 @@ struct TransportationView: View {
                                         }
                                     }
                                 }
+                                    .refreshable {
+                                        do {
+                                            students.clearCache()
+                                            // Sleep for 2 seconds
+                                            try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                                        } catch {}
+                                        self.hidingDivider = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                            self.hidingDivider = false
+                                        }
+                                        refreshingView()
+                                        getUserTrans()
+                                    }
                                 if onAppearImg{
                                     ZStack{
                                         Color(colorScheme == .dark ? "Black" : "BG")
@@ -431,19 +444,7 @@ struct TransportationView: View {
                 }
                 .setBG(colorScheme: colorScheme)
             }
-            .refreshable {
-                do {
-                    students.clearCache()
-                    // Sleep for 2 seconds
-                    try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                } catch {}
-                self.hidingDivider = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.hidingDivider = false
-                }
-                refreshingView()
-                getUserTrans()
-            }
+            
             .phoneOnlyStackNavigationView()
             .padOnlyStackNavigationView()
         }

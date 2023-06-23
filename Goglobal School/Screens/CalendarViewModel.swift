@@ -184,6 +184,19 @@ struct CalendarViewModel: View {
                                 }
                             }
                         }
+                        .refreshable {
+                            do {
+                                academiclist.clearCache()
+                                // Sleep for 2 seconds
+                                try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                            } catch {}
+                            self.hidingDivider = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                self.hidingDivider = false
+                            }
+                            refreshingView()
+                            academiclist.populateAllContinent(academicYearId: activeYear)
+                        }
                     }
                 }
             }
@@ -198,19 +211,6 @@ struct CalendarViewModel: View {
         }
         .phoneOnlyStackNavigationView()
         .padOnlyStackNavigationView()
-        .refreshable {
-            do {
-                academiclist.clearCache()
-                // Sleep for 2 seconds
-                try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-            } catch {}
-            self.hidingDivider = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                self.hidingDivider = false
-            }
-            refreshingView()
-            academiclist.populateAllContinent(academicYearId: activeYear)
-        }
     }
     @ViewBuilder
     private func mainView()-> some View{
