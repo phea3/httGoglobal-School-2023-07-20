@@ -24,14 +24,14 @@ struct Schedule: View {
     var body: some View {
         
         VStack(spacing:0){
-            HStack{
+            HStack(spacing: 20){
                 ForEach(AllClasses.currentWeek, id: \.self){ day in
                     if (AllClasses.extractDate(date: day, format: "EEE") != "Sun") && (AllClasses.extractDate(date: day, format: "EEE") != "អាទិត្យ") {
                         VStack{
                             DayOfWeek(day: AllClasses.extractDate(date: day, format: "EEE"), dayInKhmer: AllClasses.extractDate(date: day, format: "EEE"))
                             Rectangle()
                                 .fill(.blue)
-                                .frame(width: prop.isiPad ? 85 : prop.isiPhoneS ?  40 : prop.isiPhoneM ? 45 : 55, height: prop.isiPad ? 6 :  4)
+                                .frame(width: prop.isiPad ? 55 : prop.isiPhoneS ?  40 : prop.isiPhoneM ? 45 : 55, height: prop.isiPad ? 6 :  4)
                             //                                .cornerRadius(10)
                                 .opacity(AllClasses.isToday(date: day) ? 1 : 0)
                         }
@@ -80,6 +80,7 @@ struct Schedule: View {
                                 .backgroundRemover()
                                 .padding(.vertical , prop.isiPad ? 5: 0 )
                         }
+                        .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
                     }
                 }
                 .onAppear{
@@ -106,12 +107,12 @@ struct Schedule: View {
         ZStack{
             Circle()
                 .fill(.white)
-                .frame(width: prop.isiPad ? 60 : prop.isiPhoneS ?  30 : prop.isiPhoneM ? 35  : 40, height: prop.isiPad ? 60 : prop.isiPhoneS ?  30 : prop.isiPhoneM ? 35 : 40)
+                .frame(width: prop.isiPad ? 40 : prop.isiPhoneS ?  30 : prop.isiPhoneM ? 35  : 40, height: prop.isiPad ? 40 : prop.isiPhoneS ?  30 : prop.isiPhoneM ? 35 : 40)
             Text(dayInKhmer)
                 .foregroundColor(Color(day))
-                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 25, relativeTo: .body))
+                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 20, relativeTo: .body))
         }
-        .frame(width: prop.isiPad ? 85 : prop.isiPhoneS ?  40 : prop.isiPhoneM ? 45 : 55, height: prop.isiPad ? 85 : prop.isiPhoneS ?  40 : prop.isiPhoneM ? 45 : 55)
+        .frame(width: prop.isiPad ? 55 : prop.isiPhoneS ?  40 : prop.isiPhoneM ? 45 : 55, height: prop.isiPad ? 55 : prop.isiPhoneS ?  40 : prop.isiPhoneM ? 45 : 55)
         .background(Color(day))
         .cornerRadius( prop.isiPad ? 10 : 5)
     }

@@ -98,7 +98,7 @@
 		9A74E00729F761600049C6DD /* leave.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 9A74E00629F761600049C6DD /* leave.graphql */; };
 		9A74E00929F761D40049C6DD /* LeaveMutationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74E00829F761D40049C6DD /* LeaveMutationViewModel.swift */; };
 		9A74E00B29F769880049C6DD /* GetShiftByStudentIdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74E00A29F769880049C6DD /* GetShiftByStudentIdViewModel.swift */; };
-		9A74E00D29F76D820049C6DD /* GetStudenAttendancePermissionByIdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74E00C29F76D820049C6DD /* GetStudenAttendancePermissionByIdViewModel.swift */; };
+		9A74E00D29F76D820049C6DD /* GetStudentAttendancePermissionByIdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74E00C29F76D820049C6DD /* GetStudentAttendancePermissionByIdViewModel.swift */; };
 		9ABE0A3D29E3B51000D2881B /* AskPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE0A3C29E3B51000D2881B /* AskPermission.swift */; };
 		9AC6CBAA2A2741080021D5BD /* TransportationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC6CBA92A2741080021D5BD /* TransportationView.swift */; };
 		9AE59A002A29D72900A34087 /* NotificationClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE599FF2A29D72900A34087 /* NotificationClass.swift */; };
@@ -190,7 +190,7 @@
 		9A74E00629F761600049C6DD /* leave.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = leave.graphql; sourceTree = "<group>"; };
 		9A74E00829F761D40049C6DD /* LeaveMutationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveMutationViewModel.swift; sourceTree = "<group>"; };
 		9A74E00A29F769880049C6DD /* GetShiftByStudentIdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetShiftByStudentIdViewModel.swift; sourceTree = "<group>"; };
-		9A74E00C29F76D820049C6DD /* GetStudenAttendancePermissionByIdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStudenAttendancePermissionByIdViewModel.swift; sourceTree = "<group>"; };
+		9A74E00C29F76D820049C6DD /* GetStudentAttendancePermissionByIdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStudentAttendancePermissionByIdViewModel.swift; sourceTree = "<group>"; };
 		9ABE0A3C29E3B51000D2881B /* AskPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskPermission.swift; sourceTree = "<group>"; };
 		9AC6CBA92A2741080021D5BD /* TransportationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportationView.swift; sourceTree = "<group>"; };
 		9AE599FF2A29D72900A34087 /* NotificationClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationClass.swift; sourceTree = "<group>"; };
@@ -242,7 +242,7 @@
 				9A6AB7C829F3D56D007BFD2D /* GetStudentAttendanceByStuIdViewModel.swift */,
 				9A74E00829F761D40049C6DD /* LeaveMutationViewModel.swift */,
 				9A74E00A29F769880049C6DD /* GetShiftByStudentIdViewModel.swift */,
-				9A74E00C29F76D820049C6DD /* GetStudenAttendancePermissionByIdViewModel.swift */,
+				9A74E00C29F76D820049C6DD /* GetStudentAttendancePermissionByIdViewModel.swift */,
 				5C3B44102A403AE900DF2364 /* GetTransportationViewModel.swift */,
 				5C3B44122A404DEE00DF2364 /* GetSchoolBusAttByIdViewModel.swift */,
 			);
@@ -547,7 +547,7 @@
 				09FEBC8828B709FE00E8B5B7 /* ListViewModel.swift in Sources */,
 				77AFD38A294812CA00CF2BB5 /* locationManager.swift in Sources */,
 				7787C2ED2930A05C002DA96C /* CredentialProviderViewController.swift in Sources */,
-				9A74E00D29F76D820049C6DD /* GetStudenAttendancePermissionByIdViewModel.swift in Sources */,
+				9A74E00D29F76D820049C6DD /* GetStudentAttendancePermissionByIdViewModel.swift in Sources */,
 				0902C55828CF0C3500F2A956 /* MonitorNetwork.swift in Sources */,
 				09FEBC9828B70B6B00E8B5B7 /* ResponsiveContainer.swift in Sources */,
 				09FEBC8428B709A300E8B5B7 /* Network.swift in Sources */,

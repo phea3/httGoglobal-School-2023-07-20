@@ -305,11 +305,15 @@ struct Grade: View {
                                 )
                             }
                             .backgroundRemover()
+                            
+                            Text("")
+                                .backgroundRemover()
+                                .padding(.top, 15)
                         }
                         .background(.black)
                         .scrollIndicators(.hidden)
                         .listStyle(GroupedListStyle())
-                        .padding(.bottom, prop.isiPhoneS ? 25 : prop.isiPhoneM ? 25 : prop.isiPhoneL ? 30 : 30)
+                        .padding(.bottom, prop.isiPhoneS && !prop.isLandscape ? 25 : !prop.isiPhoneM && !prop.isLandscape ? 25 : prop.isiPhoneL && !prop.isLandscape ? 30 : 0)
                     }
                 }
                 

@@ -56,7 +56,8 @@ struct Home: View {
     }
     
     @FocusState private var focusedField: Field?
-    
+    @State var focusEmail: Bool = false
+    @State var focusPassword: Bool = false
     var body: some View {
         // MARK: Resposive App
         ResponsiveView { prop in
@@ -260,14 +261,14 @@ struct Home: View {
             VStack{
                 Spacer()
                 LogoGoglobal(prop:prop)
-                    .opacity(prop.isLandscape && prop.isiPhone ? 0:1)
+                    .opacity(prop.isLandscape && prop.isiPhone ? 0 : focusEmail && prop.isLandscape ? 0 : focusPassword && prop.isLandscape ? 0 : 1)
                 
                 VStack{
                     Text("ចូលប្រើកម្មវិធី".localizedLanguage(language: self.language))
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 21 : prop.isiPhoneM ? 23 : prop.isiPhoneL ? 25 : 27, relativeTo: .largeTitle))
                         .foregroundColor(Color("ColorTitle"))
                 }
-                .opacity(prop.isLandscape && prop.isiPhone ? 0:1)
+                .opacity(prop.isLandscape && prop.isiPhone ? 0 : focusEmail && prop.isLandscape ? 0 : focusPassword && prop.isLandscape ? 0 : 1)
                 
                 if !hidefooter{
                     Spacer()
@@ -283,7 +284,14 @@ struct Home: View {
                         }, set: {
                             self.gmail = $0.lowercased()
                         })
-                        TextField("បញ្ចូលអ៉ីម៉ែល".localizedLanguage(language: self.language), text: binding)
+                        TextField("បញ្ចូលអ៉ីម៉ែល".localizedLanguage(language: self.language), text: binding, onEditingChanged: { (editingChanged) in
+                            
+                            if editingChanged {
+                                focusEmail = true
+                            } else {
+                                focusEmail = false
+                            }
+                        })
                             .textContentType(.emailAddress)
                             .focused($focusedField, equals: .gmail)
                             .padding(prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)
@@ -299,7 +307,7 @@ struct Home: View {
                         Text("ពាក្យសម្ងាត់".localizedLanguage(language: self.language))
                             .font(.custom("Kantumruy", size: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 17 : prop.isiPhoneL ? 19 : 21, relativeTo: .body))
                             .foregroundColor(.blue)
-                        SecureTextFieldToggle(text: $pass, isempty: isempty, prop: prop, language: self.language)
+                        SecureTextFieldToggle(focusPassword: $focusPassword, text: $pass, isempty: isempty, prop: prop, language: self.language)
                             .textContentType(.password)
                             .focused($focusedField, equals: .pass)
                             .submitLabel(.return)
@@ -409,11 +417,13 @@ struct Home: View {
                 .frame(maxWidth: prop.isiPad ? 400 : prop.isiPhone ? 400 : .infinity )
                 
                 if !hidefooter{
-                    Spacer()
+                    if !((focusEmail && prop.isLandscape) && (focusPassword && prop.isLandscape)){
+                        Spacer()
+                    }
                 }
                 
                 FooterImg(prop: prop)
-                    .opacity(prop.isLandscape && prop.isiPhone ? 0 : 1)
+                    .opacity(prop.isLandscape && prop.isiPhone ? 0 : focusEmail && prop.isLandscape ? 0 : focusPassword && prop.isLandscape ? 0 : 1)
                 
             }
             .offset(y: -self.value)
@@ -450,6 +460,7 @@ struct Home: View {
         }
         .onTapGesture {
             hideKeyboard()
+            focusPassword = false
         }
     }
     
@@ -499,6 +510,7 @@ struct Home: View {
 
 struct SecureTextFieldToggle: View{
     @State var isSecureField: Bool = true
+    @Binding var focusPassword: Bool
     @Binding var text: String
     var isempty: Bool
     var prop: Properties
@@ -508,14 +520,26 @@ struct SecureTextFieldToggle: View{
         HStack{
             HStack{
                 if isSecureField{
-                    SecureField("បញ្ចូលពាក្យសម្ងាត់".localizedLanguage(language: self.language), text: $text)
+                    SecureField("បញ្ចូលពាក្យសម្ងាត់".localizedLanguage(language: self.language), text: $text) {
+                        focusPassword = false
+                        print("បញ្ចូលពាក្យសម្ងាត់")
+                    }
+                    .onTapGesture {
+                        focusPassword = true
+                    }
                 }else{
                     let binding = Binding<String>(get: {
                         self.text
                     }, set: {
                         self.text = $0.lowercased()
                     })
-                    TextField("បញ្ចូលពាក្យសម្ងាត់".localizedLanguage(language: self.language), text: binding)
+                    TextField("បញ្ចូលពាក្យសម្ងាត់".localizedLanguage(language: self.language), text: binding) { (editingChanged) in
+                        if editingChanged {
+                            focusPassword = true
+                        } else {
+                            focusPassword = false
+                        }
+                    }
                 }
             }
             

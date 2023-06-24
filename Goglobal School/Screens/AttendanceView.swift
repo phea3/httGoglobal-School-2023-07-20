@@ -103,7 +103,7 @@ struct AttendanceView: View {
                             .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
                             .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 100.0 : 120.0, alignment: .center)
                     }
-                    .frame(height: prop.isiPhoneS ? 40.0 : prop.isiPhoneM ? 50.0 : 60.0)
+                    .frame(height: prop.isiPhoneS ? 30.0 : prop.isiPhoneM ? 40.0 : 50.0)
                     .background(Color("ColorTitle"))
                     .foregroundColor(.white)
                     .cornerRadius(10)
@@ -221,7 +221,7 @@ struct AttendanceView: View {
                                 }
                             }
                             
-                            if (GetallAttendanceStudent.GetAllAttendance.count > 10) {
+                            if (limit <= GetallAttendanceStudent.GetAllAttendance.count) {
                                 Button {
                                     DispatchQueue.main.async {
                                         self.limit += 10
@@ -260,11 +260,11 @@ struct AttendanceView: View {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let date = dateFormatter.date(from:isoDate)!
+        let date = dateFormatter.date(from:isoDate)
         let StringFormatter =  DateFormatter()
         StringFormatter.locale = Locale(identifier: "en_US_POSIX")
         StringFormatter.dateFormat = "HH:mm"
-        let stringed = StringFormatter.string(from: date)
+        let stringed = StringFormatter.string(from: date ?? Date())
         return stringed
     }
     private func convertDate(inputDate: String) -> String{
@@ -272,11 +272,11 @@ struct AttendanceView: View {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let date = dateFormatter.date(from:isoDate)!
+        let date = dateFormatter.date(from:isoDate)
         let StringFormatter =  DateFormatter()
         StringFormatter.locale = Locale(identifier: "en_US_POSIX")
         StringFormatter.dateFormat = "dd MMM yyyy"
-        let stringed = StringFormatter.string(from: date)
+        let stringed = StringFormatter.string(from: date ?? Date())
         return stringed
     }
     private func convertStringToDate(inputDate: String) -> Date{

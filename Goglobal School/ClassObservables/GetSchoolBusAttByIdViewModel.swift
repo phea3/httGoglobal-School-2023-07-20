@@ -6,22 +6,38 @@
 //
 
 import Foundation
+import Apollo
 
 class GetSchoolBusAttByIdViewModel: ObservableObject {
     @Published var schoolBus: [GetSchoolBusAttByIdModel] = []
+    @Published var GraphQLError: String = ""
     
     func getSchoolBus(stuId: String, limit: Int){
         Network.shared.apollo.fetch(query: GetSchoolBusAttByIdQuery(stuId: stuId, limit: limit)){ [weak self] result in
             switch result{
             case .success(let graphQLResult):
-                if let schoolBus = graphQLResult.data?.getSchoolBusAttById{
-                    self?.schoolBus = schoolBus.map(GetSchoolBusAttByIdModel.init)
+                if let GraphQLError = graphQLResult.errors{
+                    DispatchQueue.main.async {
+//                        print("\( GraphQLError.map({"\($0)"}).joined(separator:"-") )")
+                        self?.GraphQLError = GraphQLError.map{"\($0.message ?? "")"}.joined()
+                    }
                 }
-            case .failure(_):
-                print("")
+                if let schoolBus = graphQLResult.data?.getSchoolBusAttById{
+                    DispatchQueue.main.async {
+                        self?.schoolBus = schoolBus.map(GetSchoolBusAttByIdModel.init)
+                    }
+                }
+            case .failure(let grahpQLError):
+                print(grahpQLError.localizedDescription)
             }
         }
     }
+    
+    struct GraphQLError {
+        let Error : GetSchoolBusAttByIdQuery
+    }
+
+    
     struct GetSchoolBusAttByIdModel {
         let schoolBus: GetSchoolBusAttByIdQuery.Data.GetSchoolBusAttById?
         
@@ -42,3 +58,4 @@ class GetSchoolBusAttByIdViewModel: ObservableObject {
         }
     }
 }
+

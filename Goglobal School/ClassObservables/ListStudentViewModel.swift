@@ -11,11 +11,17 @@ class ListStudentViewModel: ObservableObject {
     @Published var AllStudents: [StudentsViewModel] = []
     @Published var Error: Bool = false
     @Published var loading: Bool = true
+    @Published var graphQLError: String = ""
     
     func StundentAmount(parentId: String){
         Network.shared.apollo.fetch(query: GetStudentsByParentsQuery(parentId: parentId)) { [weak self] result in
             switch result{
             case .success(let graphQLResult):
+                if let graphQLError = graphQLResult.errors {
+                    DispatchQueue.main.async {
+                        self?.graphQLError = graphQLError.map{"\($0.message ?? "")"}.joined()
+                    }
+                }
                 if let AllStudents = graphQLResult.data?.getStudentsByParents{
                     DispatchQueue.main.async {
                         self?.AllStudents = AllStudents.map(StudentsViewModel.init)

@@ -104,7 +104,7 @@ struct AttendanceTransportaion: View {
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16 , relativeTo: .largeTitle))
                         .frame(width: prop.isiPhoneS ? 95.0 : prop.isiPhoneM ? 105.0 : prop.isiPhoneL ? 115.0 : 135.0, alignment: .center)
                     }
-                    .frame(height: prop.isiPhoneS ? 40.0 : prop.isiPhoneM ? 50.0 : 60.0)
+                    .frame(height: prop.isiPhoneS ? 30.0 : prop.isiPhoneM ? 40.0 : 50.0)
                     .background(Color("ColorTitle"))
                     .foregroundColor(.white)
                     .cornerRadius(10)
@@ -122,18 +122,18 @@ struct AttendanceTransportaion: View {
                         ScrollView(.vertical, showsIndicators: false){
                             VStack(spacing: 0){
                                 ForEach(SchoolBus.schoolBus, id: \.studentId){ item in
-//                                    HStack(spacing: 0){
-//                                        HStack(spacing: 0){
-//                                            Spacer()
-//                                            Text(convertDate(inputDate: item.))
-//                                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14  , relativeTo: .largeTitle))
-//                                            Spacer()
-//                                        }
-//                                        .padding(.leading, 10)
-//                                        .frame(width: prop.isiPhoneS ? 100.0 : prop.isiPhoneM ? 110.0 : prop.isiPhoneL ? 110.0 : 140.0, alignment: .center)
-//
-//                                        Spacer()
-//
+                                    HStack(spacing: 0){
+                                        HStack(spacing: 0){
+                                            Spacer()
+                                            Text(convertDate(inputDate: item.studentId))
+                                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14  , relativeTo: .largeTitle))
+                                            Spacer()
+                                        }
+                                        .padding(.leading, 10)
+                                        .frame(width: prop.isiPhoneS ? 100.0 : prop.isiPhoneM ? 110.0 : prop.isiPhoneL ? 110.0 : 140.0, alignment: .center)
+
+                                        Spacer()
+
 //                                        ForEach(item.data, id: \.id) { medium in
 //                                            HStack(spacing: 0){
 //
@@ -217,8 +217,8 @@ struct AttendanceTransportaion: View {
 //                                                .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 100.0 : 120.0, alignment: .center)
 //                                            }
 //                                        }
-//                                    }
-//                                    Divider()
+                                    }
+                                    Divider()
                                 }
                             }
 
@@ -248,6 +248,9 @@ struct AttendanceTransportaion: View {
         .setBG(colorScheme: colorScheme)
         .onAppear(perform: {
             SchoolBus.getSchoolBus(stuId: self.studentId, limit: self.limit)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                print("\(SchoolBus.GraphQLError) : GraphQLError")
+            }
         })
         .navigationBarItems(leading: btnBack)
         .navigationBarBackButtonHidden(true)
@@ -354,11 +357,11 @@ struct AttendanceTransportaion: View {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let date = dateFormatter.date(from:isoDate)!
+        let date = dateFormatter.date(from:isoDate)
         let StringFormatter =  DateFormatter()
         StringFormatter.locale = Locale(identifier: "en_US_POSIX")
         StringFormatter.dateFormat = "dd MMM yyyy"
-        let stringed = StringFormatter.string(from: date)
+        let stringed = StringFormatter.string(from: date ?? Date())
         return stringed
     }
     private func convertStringToDate(inputDate: String) -> Date{
@@ -366,8 +369,8 @@ struct AttendanceTransportaion: View {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let date = dateFormatter.date(from:isoDate)!
-        return date
+        let date = dateFormatter.date(from:isoDate)
+        return date ?? Date()
     }
     private func convertString(inputDate: Date) -> String{
         let isoDate = inputDate

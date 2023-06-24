@@ -16,11 +16,12 @@ class LeaveMutationViewModel: ObservableObject {
     @Published var success: Bool = false
     @Published var message: String = ""
     
-    func creatLeaveRequest(startDate: String, endDate: String, reason: String, parentId: String, studentId: String, shiftId: String){
-        Network.shared.apollo.perform(mutation: CreatePermissionMutation(newData: PermissionInput(parentId: parentId, studentId: studentId, shiftId: shiftId, startDate: startDate, endDate: endDate, reason: reason))) { [weak self] result in
+    func createLeaveRequest(startDate: String, endDate: String, reason: String, parentId: String, studentId: String, shiftId: String){
+        Network.shared.apollo.perform(mutation: CreatePermissionMutation(newData: PermissionInput(parentId: parentId, studentId: studentId, shiftId: shiftId == "null" ? nil : shiftId , startDate: startDate, endDate: endDate, reason: reason))) { [weak self] result in
             switch result{
                 
             case .success(let graphqlResult):
+                
                 if let startDate = graphqlResult.data?.createPermission?.startDate {
                     DispatchQueue.main.async {
                         self?.startDate = startDate

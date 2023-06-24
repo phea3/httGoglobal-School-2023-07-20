@@ -57,6 +57,8 @@ struct AskPermissionView: View {
                         }
                     } else {
                         ScrollView(.vertical, showsIndicators: false){
+                            Text("")
+                                .padding(.top, 5)
                             ForEach(getallPermission.GetAllPersmission, id: \.id){ item in
                                 NavigationLink(destination: ViewPermission(shiftName: item.shiftName, reason: item.reason, startDate: item.startDate, endDate: item.endDate, requestDate: item.requestDate, prop: prop, language: language)) {
                                     HStack{
@@ -92,7 +94,7 @@ struct AskPermissionView: View {
                                     )
                                 }
                             }
-                            if getallPermission.GetAllPersmission.count > 10  {
+                            if (limit <= getallPermission.GetAllPersmission.count){
                                 Button {
                                     DispatchQueue.main.async {
                                         self.limit += 10
@@ -105,10 +107,11 @@ struct AskPermissionView: View {
                                         .padding()
                                 }
                             }
+                            Text("")
+                                .padding(.top, prop.isLandscape ? 40 : prop.isiPad && !prop.isLandscape ? 40 : 0)
                         }
-                        .padding(.top)
                         .padding(.horizontal)
-                        .padding(.bottom, 40)
+                        .padding(.bottom, prop.isiPhoneS && !prop.isLandscape ? 20 : prop.isiPhoneM && !prop.isLandscape ? 30 : prop.isiPhoneL && !prop.isLandscape ? 40 : 0)
                     }
                 }
                 .frame(maxWidth:.infinity, maxHeight: .infinity)
@@ -126,7 +129,7 @@ struct AskPermissionView: View {
                             }
                     }
                     .padding()
-                    .offset(x:0,y: -80)
+                    .offset(x:0,y: prop.isLandscape ? 0 : -80)
                 }
             }
             
@@ -175,124 +178,125 @@ struct PermissionView: View {
     @State private var startDate = Date.now
     @State private var endDate = Date.now
     @State var reason: String = ""
-    @State var shiftId: String = ""
+    @State var shiftId: String = "All day"
     var studentId: String
     var prop: Properties
     var language: String
     var parentId: String
     var btnBack : some View { Button(action:{self.presentationMode.wrappedValue.dismiss()}) {backButtonView(language: self.language, prop: prop, barTitle: "ស្នើសុំច្បាប់".localizedLanguage(language: self.language))}}
     var body: some View{
+       
         VStack{
             Divider()
-            ZStack{
-                VStack{
-                    HStack{
-                        Image(systemName: "note.text.badge.plus")
-                            .foregroundColor(.white)
-                            .padding(10)
-                            .background(.blue)
-                            .cornerRadius(5)
-                        Text("ប្រភេទនៃថ្ងៃឈប់សម្រាក".localizedLanguage(language: self.language))
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
-                        Spacer()
-                        Picker("Select type", selection: $shiftId) {
-                            Text("ជ្រើសរើស".localizedLanguage(language: self.language))
-                                .tag(Optional<String>(nil))
-                            ForEach(getStudentShift.GetAllShift, id: \.shiftId) { item in
-                                Text("\(item.shiftName)")
-                                    .tag(Optional(item.shiftId))
+            ScrollView(.vertical, showsIndicators: false) {
+                ZStack{
+                    VStack{
+                        HStack{
+                            Image(systemName: "note.text.badge.plus")
+                                .foregroundColor(.white)
+                                .padding(10)
+                                .background(.blue)
+                                .cornerRadius(5)
+                            Text("ប្រភេទនៃថ្ងៃឈប់សម្រាក".localizedLanguage(language: self.language))
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
+                            Spacer()
+                            Picker("Select type", selection: $shiftId) {
+//                                Text("ជ្រើសរើស".localizedLanguage(language: self.language))
+//                                    .tag(Optional<String>(nil))
+                                ForEach(getStudentShift.GetAllShift, id: \.shiftId) { item in
+                                    Text("\(item.shiftName)")
+                                        .tag(Optional(item.shiftId))
+                                }
                             }
                         }
-                    }
-                    .padding()
-                    .background(.white)
-                    .cornerRadius(5)
-                    .padding(.horizontal)
-                    
-                    HStack{
-                        Image(systemName: "note.text.badge.plus")
-                            .foregroundColor(.white)
-                            .padding(10)
-                            .background(.blue)
-                            .cornerRadius(5)
-                        Text("ថ្ងៃចាប់ផ្តើម".localizedLanguage(language: self.language))
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
+                        .padding()
+                        .background(.white)
+                        .cornerRadius(15)
+                        .padding(.horizontal)
+                        
+                        HStack{
+                            Image(systemName: "note.text.badge.plus")
+                                .foregroundColor(.white)
+                                .padding(10)
+                                .background(.blue)
+                                .cornerRadius(5)
+                            Text("ថ្ងៃចាប់ផ្តើម".localizedLanguage(language: self.language))
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
+                            Spacer()
+                            
+                            DatePicker("",selection: $startDate, in: Date()..., displayedComponents: [.date])
+                            
+                        }
+                        .padding()
+                        .background(.white)
+                        .cornerRadius(15)
+                        .padding(.horizontal)
+                        
+                        HStack{
+                            Image(systemName: "note.text.badge.plus")
+                                .foregroundColor(.white)
+                                .padding(10)
+                                .background(.blue)
+                                .cornerRadius(5)
+                            Text("ថ្ងៃបញ្ចប់".localizedLanguage(language: self.language))
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
+                            Spacer()
+                            DatePicker("",selection: $endDate, in: Date()..., displayedComponents: [.date])
+                        }
+                        .padding()
+                        .background(.white)
+                        .cornerRadius(15)
+                        .padding(.horizontal)
+                        
+                        HStack{
+                            Image(systemName: "note.text.badge.plus")
+                                .foregroundColor(.white)
+                                .padding(10)
+                                .background(.blue)
+                                .cornerRadius(5)
+                            TextField("មូលហេតុ", text: $reason)
+                            Spacer()
+                        }
+                        .padding()
+                        .background(.white)
+                        .cornerRadius(15)
+                        .padding(.horizontal)
+                        
                         Spacer()
                         
-                        DatePicker("",selection: $startDate, in: Date()..., displayedComponents: [.date])
-                        
-                    }
-                    .padding()
-                    .background(.white)
-                    .cornerRadius(15)
-                    .padding(.horizontal)
-                    
-                    HStack{
-                        Image(systemName: "note.text.badge.plus")
-                            .foregroundColor(.white)
-                            .padding(10)
-                            .background(.blue)
-                            .cornerRadius(5)
-                        Text("ថ្ងៃបញ្ចប់".localizedLanguage(language: self.language))
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
-                        Spacer()
-                        DatePicker("",selection: $endDate, in: Date()..., displayedComponents: [.date])
-                    }
-                    .padding()
-                    .background(.white)
-                    .cornerRadius(15)
-                    .padding(.horizontal)
-                    
-                    HStack{
-                        Image(systemName: "note.text.badge.plus")
-                            .foregroundColor(.white)
-                            .padding(10)
-                            .background(.blue)
-                            .cornerRadius(5)
-                        TextField("មូលហេតុ", text: $reason)
-                        Spacer()
-                    }
-                    .padding()
-                    .background(.white)
-                    .cornerRadius(15)
-                    .padding(.horizontal)
-                    
-                    Spacer()
-                    
-                    if ((!reason.isEmpty && !parentId.isEmpty) && (!studentId.isEmpty && !shiftId.isEmpty)){
-                        Button(action: {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                askPermission.creatLeaveRequest(startDate: convertString(inputDate: self.startDate), endDate: convertString(inputDate: self.endDate), reason: self.reason, parentId: self.parentId, studentId: studentId, shiftId: self.shiftId)
-                                openFullSheet = true
+                        if ((!reason.isEmpty && !parentId.isEmpty) && (!studentId.isEmpty && !shiftId.isEmpty)){
+                            Button(action: {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    askPermission.createLeaveRequest(startDate: convertString(inputDate: self.startDate), endDate: convertString(inputDate: self.endDate), reason: self.reason, parentId: self.parentId, studentId: studentId, shiftId: self.shiftId)
+                                    openFullSheet = true
+                                }
+                            }, label: {
+                                HStack{
+                                    Text("ស្នើសុំ".localizedLanguage(language: self.language))
+                                }
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18 , relativeTo: .largeTitle))
+                                .frame(maxWidth: .infinity , alignment: .center)
+                                .foregroundColor(.white)
+                                .padding(15)
+                                .background(.blue)
+                                .cornerRadius(15)
+                                .padding(.horizontal)
+                            })
+                            .sheet(isPresented: $openFullSheet) {
+                                ViewDetain(shiftName: askPermission.shiftName, requestDate: askPermission.requestDate, startDate: askPermission.startDate, endDate: askPermission.endDate, prop: prop, message: askPermission.message)
                             }
-                        }, label: {
+                        }else{
                             HStack{
                                 Text("ស្នើសុំ".localizedLanguage(language: self.language))
                             }
                             .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18 , relativeTo: .largeTitle))
                             .frame(maxWidth: .infinity, alignment: .center)
                             .foregroundColor(.white)
-                            .padding(5)
-                            .background(.blue)
+                            .padding(15)
+                            .background(.gray)
                             .cornerRadius(15)
                             .padding(.horizontal)
-                            .padding(.bottom,60)
-                        })
-                        .sheet(isPresented: $openFullSheet) {
-                            ViewDetain(shiftName: askPermission.shiftName, requestDate: askPermission.requestDate, startDate: askPermission.startDate, endDate: askPermission.endDate, prop: prop)
                         }
-                    }else{
-                        HStack{
-                            Text("ស្នើសុំ".localizedLanguage(language: self.language))
-                        }
-                        .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18 , relativeTo: .largeTitle))
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(.white)
-                        .padding(5)
-                        .background(.gray)
-                        .cornerRadius(15)
-                        .padding(.horizontal)
-                        .padding(.bottom,60)
                     }
                 }
             }
@@ -307,7 +311,7 @@ struct PermissionView: View {
         }
     }
     
-    private func ViewDetain(shiftName: String,requestDate: String, startDate: String, endDate: String, prop: Properties) -> some View {
+    private func ViewDetain(shiftName: String,requestDate: String, startDate: String, endDate: String, prop: Properties, message: String) -> some View {
         VStack{
             HStack{
                 Text("ថ្ងៃស្នើសុំសម្រាក".localizedLanguage(language: self.language))
@@ -368,7 +372,7 @@ struct PermissionView: View {
                     .font(.custom("Kantumruy", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18 , relativeTo: .largeTitle))
                     .frame(maxWidth: .infinity, alignment: .center)
                     .foregroundColor(.white)
-                    .padding(5)
+                    .padding(15)
                     .background(.blue)
                     .cornerRadius(15)
                     .padding(.horizontal)
@@ -377,8 +381,9 @@ struct PermissionView: View {
             
         }
         .frame(width: .infinity, height: .infinity)
+        .padding(.top, prop.isiPhone && prop.isLandscape ? 20 : prop.isiPad && prop.isLandscape ? 0 : 0)
         .padding(.horizontal)
-        .padding(.bottom, 40)
+        .padding(.bottom, prop.isLandscape ? 0 : 40)
         
     }
     
