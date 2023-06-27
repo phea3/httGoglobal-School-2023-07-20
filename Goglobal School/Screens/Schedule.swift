@@ -24,7 +24,7 @@ struct Schedule: View {
     var body: some View {
         
         VStack(spacing:0){
-            HStack(spacing: 20){
+            HStack(spacing: prop.isiPad ? 20 : prop.isiPhone && prop.isLandscape ? 20 : 10){
                 ForEach(AllClasses.currentWeek, id: \.self){ day in
                     if (AllClasses.extractDate(date: day, format: "EEE") != "Sun") && (AllClasses.extractDate(date: day, format: "EEE") != "អាទិត្យ") {
                         VStack{
@@ -80,7 +80,7 @@ struct Schedule: View {
                                 .backgroundRemover()
                                 .padding(.vertical , prop.isiPad ? 5: 0 )
                         }
-                        .padding(.bottom, prop.isiPhoneS ? 65 : prop.isiPhoneM ? 75 : prop.isiPhoneL ? 85 : 100)
+                        .padding(.bottom, prop.isiPhoneS && !prop.isLandscape ? 20 : prop.isiPhoneM && !prop.isLandscape ? 30 : prop.isiPhoneL && !prop.isLandscape ? 40 : 0)
                     }
                 }
                 .onAppear{

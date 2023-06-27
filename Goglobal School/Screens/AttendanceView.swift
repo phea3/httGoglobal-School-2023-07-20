@@ -104,7 +104,7 @@ struct AttendanceView: View {
                             .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 100.0 : 120.0, alignment: .center)
                     }
                     .frame(height: prop.isiPhoneS ? 30.0 : prop.isiPhoneM ? 40.0 : 50.0)
-                    .background(Color("ColorTitle"))
+                    .background(Color("Blue"))
                     .foregroundColor(.white)
                     .cornerRadius(10)
                     if GetallAttendanceStudent.GetAllAttendance.isEmpty{
@@ -239,7 +239,7 @@ struct AttendanceView: View {
                 }
                 .padding(.top)
                 .padding(.horizontal)
-                .padding(.bottom, 40)
+                .padding(.bottom, prop.isiPhoneS && !prop.isLandscape ? 20 : prop.isiPhoneM && !prop.isLandscape ? 30 : prop.isiPhoneL && !prop.isLandscape ? 40 : 0)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)

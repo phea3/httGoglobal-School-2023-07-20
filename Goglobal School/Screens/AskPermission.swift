@@ -121,7 +121,7 @@ struct AskPermissionView: View {
                     } label: {
                         Circle()
                             .frame(width: 50, height: 50)
-                            .foregroundColor(Color.blue)
+                            .foregroundColor(Color("Blue"))
                             .overlay {
                                 Image(systemName: "plus")
                                     .frame(width: 30, height: 30)
@@ -130,6 +130,7 @@ struct AskPermissionView: View {
                     }
                     .padding()
                     .offset(x:0,y: prop.isLandscape ? 0 : -80)
+//                    .shadow(color: .black, radius: 4, x: 0, y: 0)
                 }
             }
             
@@ -178,7 +179,8 @@ struct PermissionView: View {
     @State private var startDate = Date.now
     @State private var endDate = Date.now
     @State var reason: String = ""
-    @State var shiftId: String = "All day"
+    @State var shiftId: String = ""
+    @State private var colorscheme = 1
     var studentId: String
     var prop: Properties
     var language: String
@@ -195,7 +197,7 @@ struct PermissionView: View {
                             Image(systemName: "note.text.badge.plus")
                                 .foregroundColor(.white)
                                 .padding(10)
-                                .background(.blue)
+                                .background(Color("Blue"))
                                 .cornerRadius(5)
                             Text("ប្រភេទនៃថ្ងៃឈប់សម្រាក".localizedLanguage(language: self.language))
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
@@ -218,7 +220,7 @@ struct PermissionView: View {
                             Image(systemName: "note.text.badge.plus")
                                 .foregroundColor(.white)
                                 .padding(10)
-                                .background(.blue)
+                                .background(Color("Blue"))
                                 .cornerRadius(5)
                             Text("ថ្ងៃចាប់ផ្តើម".localizedLanguage(language: self.language))
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
@@ -236,7 +238,7 @@ struct PermissionView: View {
                             Image(systemName: "note.text.badge.plus")
                                 .foregroundColor(.white)
                                 .padding(10)
-                                .background(.blue)
+                                .background(Color("Blue"))
                                 .cornerRadius(5)
                             Text("ថ្ងៃបញ្ចប់".localizedLanguage(language: self.language))
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
@@ -252,7 +254,7 @@ struct PermissionView: View {
                             Image(systemName: "note.text.badge.plus")
                                 .foregroundColor(.white)
                                 .padding(10)
-                                .background(.blue)
+                                .background(Color("Blue"))
                                 .cornerRadius(5)
                             TextField("មូលហេតុ", text: $reason)
                             Spacer()
@@ -278,13 +280,19 @@ struct PermissionView: View {
                                 .frame(maxWidth: .infinity , alignment: .center)
                                 .foregroundColor(.white)
                                 .padding(15)
-                                .background(.blue)
+                                .background(Color("Blue"))
                                 .cornerRadius(15)
                                 .padding(.horizontal)
                             })
-                            .sheet(isPresented: $openFullSheet) {
+                            .sheet(isPresented: $openFullSheet, onDismiss: {
+                                DispatchQueue.main.asyncAfter(deadline: .now()+0.5){
+                                    self.presentationMode.wrappedValue.dismiss()
+                                    askPermission.clearCache()
+                                }
+                            }) {
                                 ViewDetain(shiftName: askPermission.shiftName, requestDate: askPermission.requestDate, startDate: askPermission.startDate, endDate: askPermission.endDate, prop: prop, message: askPermission.message)
                             }
+                            
                         }else{
                             HStack{
                                 Text("ស្នើសុំ".localizedLanguage(language: self.language))
@@ -293,7 +301,7 @@ struct PermissionView: View {
                             .frame(maxWidth: .infinity, alignment: .center)
                             .foregroundColor(.white)
                             .padding(15)
-                            .background(.gray)
+                            .background(Color("Gray"))
                             .cornerRadius(15)
                             .padding(.horizontal)
                         }
@@ -326,7 +334,7 @@ struct PermissionView: View {
             Divider()
             HStack{
                 Rectangle()
-                    .fill(.blue)
+                    .fill(Color("Blue"))
                     .frame(width: 10, height: 80)
                 VStack(alignment: .leading){
                     Text(startDate == endDate ? convertStringToDateAndBackToString(inputDate: startDate) : "\(convertStringToDateAndBackToString(inputDate: startDate)) ~ \(convertStringToDateAndBackToString(inputDate: endDate))")
@@ -373,12 +381,11 @@ struct PermissionView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                     .foregroundColor(.white)
                     .padding(15)
-                    .background(.blue)
+                    .background(Color("Blue"))
                     .cornerRadius(15)
                     .padding(.horizontal)
                     .padding(.bottom,60)
             }
-            
         }
         .frame(width: .infinity, height: .infinity)
         .padding(.top, prop.isiPhone && prop.isLandscape ? 20 : prop.isiPad && prop.isLandscape ? 0 : 0)
