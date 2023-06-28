@@ -72,7 +72,7 @@ struct AttendanceView: View {
                     HStack(spacing: 0){
                         HStack(spacing: 0){
                             Spacer()
-                            Text("កាលបរិច្ឆេត".localizedLanguage(language: self.language))
+                            Text("កាលបរិច្ឆេទ".localizedLanguage(language: self.language))
                                 .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16 , relativeTo: .largeTitle))
                             Spacer()
                         }
