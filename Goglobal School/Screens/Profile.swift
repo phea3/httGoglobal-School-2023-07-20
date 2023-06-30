@@ -13,6 +13,7 @@ import ImageViewerRemote
 struct Profile: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @StateObject var removeMobilUserToken: RemoveMobilUserToken = RemoveMobilUserToken()
     @StateObject var logout: LoginViewModel
     @StateObject var uploadImg: UpdateMobileUserProfileImg
     @StateObject var userProfile: MobileUserViewModel = MobileUserViewModel()
@@ -344,6 +345,7 @@ struct Profile: View {
                         primaryButton: .destructive(Text("ចាកចេញ".localizedLanguage(language: self.language))) {
                             self.logoutLoading = true
                             DeviceUserLogOut.MobileUserLogOut(mobileUserId: logout.userprofileId, token: devicetoken)
+                            removeMobilUserToken.removeMobilUserToken(user: logout.userprofileId, osType: "ios")
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                 logout.signout()
                                 showFlag = false

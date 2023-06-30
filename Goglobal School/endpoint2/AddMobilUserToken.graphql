@@ -1,0 +1,7 @@
+
+mutation AddMobilUserToken($user: String!, $token: String, $osType: String) {
+  addMobilUserToken(user: $user, token: $token, osType: $osType) {
+    status
+    message
+  }
+}

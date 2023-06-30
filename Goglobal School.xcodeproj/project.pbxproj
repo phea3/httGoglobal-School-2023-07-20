@@ -80,6 +80,12 @@
 		5C3B440D2A402A0E00DF2364 /* AttendanceTransportaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B440C2A402A0E00DF2364 /* AttendanceTransportaion.swift */; };
 		5C3B44112A403AE900DF2364 /* GetTransportationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B44102A403AE900DF2364 /* GetTransportationViewModel.swift */; };
 		5C3B44132A404DEE00DF2364 /* GetSchoolBusAttByIdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B44122A404DEE00DF2364 /* GetSchoolBusAttByIdViewModel.swift */; };
+		5C872FF12A4EB5F400E6084E /* schema2.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C872FF02A4EB5F400E6084E /* schema2.json */; };
+		5C872FF32A4EB6A500E6084E /* RemoveMobilUserToken.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 5C872FF22A4EB6A500E6084E /* RemoveMobilUserToken.graphql */; };
+		5C872FF52A4EB6C100E6084E /* AddMobilUserToken.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 5C872FF42A4EB6C100E6084E /* AddMobilUserToken.graphql */; };
+		5C872FF72A4EB6E700E6084E /* API2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C872FF62A4EB6E700E6084E /* API2.swift */; };
+		5C872FF92A4EB8E500E6084E /* AddMobilUserToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C872FF82A4EB8E500E6084E /* AddMobilUserToken.swift */; };
+		5C872FFB2A4EBA9800E6084E /* RemoveMobilUserToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C872FFA2A4EBA9800E6084E /* RemoveMobilUserToken.swift */; };
 		771D6C4929503D8B00B59485 /* pickup.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 771D6C4829503D8B00B59485 /* pickup.graphql */; };
 		771D6C4B29503E1A00B59485 /* pickupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D6C4A29503E1A00B59485 /* pickupViewModel.swift */; };
 		774A5D6629DEB4C80037FD08 /* AttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774A5D6529DEB4C80037FD08 /* AttendanceView.swift */; };
@@ -129,10 +135,10 @@
 		09903AD628F90013009EA604 /* UploadDeviceToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadDeviceToken.swift; sourceTree = "<group>"; };
 		099ECD5E28EC384800D69557 /* InvoiceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceViewModel.swift; sourceTree = "<group>"; };
 		09A060FA28BA18A200D1D1FA /* ScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewModel.swift; sourceTree = "<group>"; };
-		09A060FC28BA199B00D1D1FA /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = API.swift; path = "Goglobal School/API.swift"; sourceTree = SOURCE_ROOT; };
+		09A060FC28BA199B00D1D1FA /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = API.swift; path = "Goglobal School/endpoint1/API.swift"; sourceTree = SOURCE_ROOT; };
 		09D87E3E28FD46A100FB96B1 /* DeviceTokenLogout.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = DeviceTokenLogout.graphql; sourceTree = "<group>"; };
 		09D87E4028FD47F100FB96B1 /* MobileUserLogOutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileUserLogOutViewModel.swift; sourceTree = "<group>"; };
-		09F9140528D3271800BF252B /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = schema.json; path = "Goglobal School/schema.json"; sourceTree = SOURCE_ROOT; };
+		09F9140528D3271800BF252B /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = schema.json; path = "Goglobal School/endpoint1/schema.json"; sourceTree = SOURCE_ROOT; };
 		09FEBC4B28B704E400E8B5B7 /* Goglobal School.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Goglobal School.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09FEBC4E28B704E400E8B5B7 /* Goglobal_SchoolApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goglobal_SchoolApp.swift; sourceTree = "<group>"; };
 		09FEBC5028B704E400E8B5B7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -172,6 +178,12 @@
 		5C3B440C2A402A0E00DF2364 /* AttendanceTransportaion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceTransportaion.swift; sourceTree = "<group>"; };
 		5C3B44102A403AE900DF2364 /* GetTransportationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTransportationViewModel.swift; sourceTree = "<group>"; };
 		5C3B44122A404DEE00DF2364 /* GetSchoolBusAttByIdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSchoolBusAttByIdViewModel.swift; sourceTree = "<group>"; };
+		5C872FF02A4EB5F400E6084E /* schema2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema2.json; sourceTree = "<group>"; };
+		5C872FF22A4EB6A500E6084E /* RemoveMobilUserToken.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = RemoveMobilUserToken.graphql; sourceTree = "<group>"; };
+		5C872FF42A4EB6C100E6084E /* AddMobilUserToken.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = AddMobilUserToken.graphql; sourceTree = "<group>"; };
+		5C872FF62A4EB6E700E6084E /* API2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API2.swift; sourceTree = "<group>"; };
+		5C872FF82A4EB8E500E6084E /* AddMobilUserToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMobilUserToken.swift; sourceTree = "<group>"; };
+		5C872FFA2A4EBA9800E6084E /* RemoveMobilUserToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveMobilUserToken.swift; sourceTree = "<group>"; };
 		771D6C4829503D8B00B59485 /* pickup.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = pickup.graphql; sourceTree = "<group>"; };
 		771D6C4A29503E1A00B59485 /* pickupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pickupViewModel.swift; sourceTree = "<group>"; };
 		774A5D6529DEB4C80037FD08 /* AttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceView.swift; sourceTree = "<group>"; };
@@ -245,6 +257,8 @@
 				9A74E00C29F76D820049C6DD /* GetStudentAttendancePermissionByIdViewModel.swift */,
 				5C3B44102A403AE900DF2364 /* GetTransportationViewModel.swift */,
 				5C3B44122A404DEE00DF2364 /* GetSchoolBusAttByIdViewModel.swift */,
+				5C872FF82A4EB8E500E6084E /* AddMobilUserToken.swift */,
+				5C872FFA2A4EBA9800E6084E /* RemoveMobilUserToken.swift */,
 			);
 			path = ClassObservables;
 			sourceTree = "<group>";
@@ -255,7 +269,6 @@
 				7787C2EC2930A05C002DA96C /* CredentialProviderViewController.swift */,
 				0978AA2B28C5CBC400CD9222 /* ScrollRefreshable.swift */,
 				0902C55928CF174200F2A956 /* ShowAvailableVersion.swift */,
-				09A060FC28BA199B00D1D1FA /* API.swift */,
 				09178C2C28B9B28500A507EA /* SheetContact.swift */,
 				0902C55728CF0C3500F2A956 /* MonitorNetwork.swift */,
 				09FEBC9D28B70BCE00E8B5B7 /* RoundedCorners.swift */,
@@ -329,22 +342,13 @@
 		09FEBC4D28B704E400E8B5B7 /* Goglobal School */ = {
 			isa = PBXGroup;
 			children = (
+				5C872FEF2A4EB41900E6084E /* endpoint2 */,
+				5C872FEE2A4EB40E00E6084E /* endpoint1 */,
 				7787C2EA2930693F002DA96C /* Goglobal-School-Info.plist */,
 				7787C2E9293068F8002DA96C /* Goglobal School.entitlements */,
 				09FEBC4E28B704E400E8B5B7 /* Goglobal_SchoolApp.swift */,
 				09FEBC5028B704E400E8B5B7 /* ContentView.swift */,
 				09FEBC9B28B70BAE00E8B5B7 /* Home.swift */,
-				09FEBC7828B707B100E8B5B7 /* query.graphql */,
-				771D6C4829503D8B00B59485 /* pickup.graphql */,
-				09FEBC7A28B707CB00E8B5B7 /* login.graphql */,
-				09FEBC7C28B707D700E8B5B7 /* upload.graphql */,
-				09903AD328F8FFB4009EA604 /* uploadDeviceToken.graphql */,
-				097DAEBD2912076500018CD9 /* updateEYSReport.graphql */,
-				091B223028CC379900FE9DBB /* apple-app-site-association */,
-				09D87E3E28FD46A100FB96B1 /* DeviceTokenLogout.graphql */,
-				09660B3828FE4BD800CEA9EA /* DeleteNotificationByMobileUserId.graphql */,
-				9A74E00629F761600049C6DD /* leave.graphql */,
-				09F9140528D3271800BF252B /* schema.json */,
 				09660B3E28FE579A00CEA9EA /* notification.aiff */,
 				09178C2A28B9AB1E00A507EA /* Screens */,
 				09178C2928B9AAD600A507EA /* Components */,
@@ -390,6 +394,36 @@
 				09FEBC7128B7070500E8B5B7 /* Kantumruy-Regular.ttf */,
 			);
 			path = Kantumruy;
+			sourceTree = "<group>";
+		};
+		5C872FEE2A4EB40E00E6084E /* endpoint1 */ = {
+			isa = PBXGroup;
+			children = (
+				771D6C4829503D8B00B59485 /* pickup.graphql */,
+				09FEBC7A28B707CB00E8B5B7 /* login.graphql */,
+				09FEBC7C28B707D700E8B5B7 /* upload.graphql */,
+				09FEBC7828B707B100E8B5B7 /* query.graphql */,
+				09903AD328F8FFB4009EA604 /* uploadDeviceToken.graphql */,
+				097DAEBD2912076500018CD9 /* updateEYSReport.graphql */,
+				091B223028CC379900FE9DBB /* apple-app-site-association */,
+				09D87E3E28FD46A100FB96B1 /* DeviceTokenLogout.graphql */,
+				09660B3828FE4BD800CEA9EA /* DeleteNotificationByMobileUserId.graphql */,
+				9A74E00629F761600049C6DD /* leave.graphql */,
+				09A060FC28BA199B00D1D1FA /* API.swift */,
+				09F9140528D3271800BF252B /* schema.json */,
+			);
+			path = endpoint1;
+			sourceTree = "<group>";
+		};
+		5C872FEF2A4EB41900E6084E /* endpoint2 */ = {
+			isa = PBXGroup;
+			children = (
+				5C872FF22A4EB6A500E6084E /* RemoveMobilUserToken.graphql */,
+				5C872FF42A4EB6C100E6084E /* AddMobilUserToken.graphql */,
+				5C872FF62A4EB6E700E6084E /* API2.swift */,
+				5C872FF02A4EB5F400E6084E /* schema2.json */,
+			);
+			path = endpoint2;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -475,10 +509,12 @@
 			files = (
 				77DCF5A1292C5B0B008E1423 /* Localizable.strings in Resources */,
 				09FEBC7B28B707CB00E8B5B7 /* login.graphql in Resources */,
+				5C872FF52A4EB6C100E6084E /* AddMobilUserToken.graphql in Resources */,
 				09FEBC7928B707B100E8B5B7 /* query.graphql in Resources */,
 				09FEBC7528B7070500E8B5B7 /* Kantumruy-Regular.ttf in Resources */,
 				09FEBC7428B7070500E8B5B7 /* Kantumruy-Light.ttf in Resources */,
 				097DAEBE2912076500018CD9 /* updateEYSReport.graphql in Resources */,
+				5C872FF12A4EB5F400E6084E /* schema2.json in Resources */,
 				091B223128CC379900FE9DBB /* apple-app-site-association in Resources */,
 				771D6C4929503D8B00B59485 /* pickup.graphql in Resources */,
 				09FEBC7328B7070500E8B5B7 /* Kantumruy-Bold.ttf in Resources */,
@@ -487,6 +523,7 @@
 				09FEBC5628B704E500E8B5B7 /* Preview Assets.xcassets in Resources */,
 				09903AD428F8FFB4009EA604 /* uploadDeviceToken.graphql in Resources */,
 				09D87E3F28FD46A100FB96B1 /* DeviceTokenLogout.graphql in Resources */,
+				5C872FF32A4EB6A500E6084E /* RemoveMobilUserToken.graphql in Resources */,
 				9A74E00729F761600049C6DD /* leave.graphql in Resources */,
 				09FEBC5328B704E500E8B5B7 /* Assets.xcassets in Resources */,
 				09FEBC7D28B707D700E8B5B7 /* upload.graphql in Resources */,
@@ -515,7 +552,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n# Don't run this during index builds\nif [ $ACTION = \"indexbuild\" ]; then exit 0; fi\n\n# Go to the build root and search up the chain to find the Derived Data Path where the source packages are checked out.\nDERIVED_DATA_CANDIDATE=\"${BUILD_ROOT}\"\n\nwhile ! [ -d \"${DERIVED_DATA_CANDIDATE}/SourcePackages\" ]; do\n  if [ \"${DERIVED_DATA_CANDIDATE}\" = / ]; then\n    echo >&2 \"error: Unable to locate SourcePackages directory from BUILD_ROOT: '${BUILD_ROOT}'\"\n    exit 1\n  fi\n\n  DERIVED_DATA_CANDIDATE=\"$(dirname \"${DERIVED_DATA_CANDIDATE}\")\"\ndone\n\n# Grab a reference to the directory where scripts are checked out\nSCRIPT_PATH=\"${DERIVED_DATA_CANDIDATE}/SourcePackages/checkouts/apollo-ios/scripts\"\n\nif [ -z \"${SCRIPT_PATH}\" ]; then\n    echo >&2 \"error: Couldn't find the CLI script in your checked out SPM packages; make sure to add the framework to your project.\"\n    exit 1\nfi\n\ncd \"${SRCROOT}/Goglobal School\"\n\"${SCRIPT_PATH}\"/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/*.graphql --localSchemaFile=\"schema.json\" API.swift\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n# Don't run this during index builds\nif [ $ACTION = \"indexbuild\" ]; then exit 0; fi\n\n# Go to the build root and search up the chain to find the Derived Data Path where the source packages are checked out.\nDERIVED_DATA_CANDIDATE=\"${BUILD_ROOT}\"\n\nwhile ! [ -d \"${DERIVED_DATA_CANDIDATE}/SourcePackages\" ]; do\n  if [ \"${DERIVED_DATA_CANDIDATE}\" = / ]; then\n    echo >&2 \"error: Unable to locate SourcePackages directory from BUILD_ROOT: '${BUILD_ROOT}'\"\n    exit 1\n  fi\n\n  DERIVED_DATA_CANDIDATE=\"$(dirname \"${DERIVED_DATA_CANDIDATE}\")\"\ndone\n\n# Grab a reference to the directory where scripts are checked out\nSCRIPT_PATH=\"${DERIVED_DATA_CANDIDATE}/SourcePackages/checkouts/apollo-ios/scripts\"\n\nif [ -z \"${SCRIPT_PATH}\" ]; then\n    echo >&2 \"error: Couldn't find the CLI script in your checked out SPM packages; make sure to add the framework to your project.\"\n    exit 1\nfi\n\ncd \"${SRCROOT}/Goglobal School/endpoint1\"\n\"${SCRIPT_PATH}\"/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/*.graphql --localSchemaFile=\"schema.json\" API.swift\n\ncd \"${SRCROOT}/Goglobal School/endpoint2\"\n\"${SCRIPT_PATH}\"/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/*.graphql --localSchemaFile=\"schema2.json\" API2.swift\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -535,6 +572,7 @@
 				5C3B44132A404DEE00DF2364 /* GetSchoolBusAttByIdViewModel.swift in Sources */,
 				09FEBCA628B70C5600E8B5B7 /* ImagePicker.swift in Sources */,
 				099ECD5F28EC384800D69557 /* InvoiceViewModel.swift in Sources */,
+				5C872FF92A4EB8E500E6084E /* AddMobilUserToken.swift in Sources */,
 				09FEBCA228B70C0600E8B5B7 /* CustomDatePicker.swift in Sources */,
 				09FEBC9628B70B4500E8B5B7 /* Function.swift in Sources */,
 				0902C55A28CF174200F2A956 /* ShowAvailableVersion.swift in Sources */,
@@ -561,6 +599,7 @@
 				092824C628DC17BF00320D33 /* EnrollmentViewModel.swift in Sources */,
 				0978944D28E7EC2300CB4C05 /* Payment.swift in Sources */,
 				09FEBC9A28B70B8500E8B5B7 /* TabView.swift in Sources */,
+				5C872FFB2A4EBA9800E6084E /* RemoveMobilUserToken.swift in Sources */,
 				09D87E4128FD47F100FB96B1 /* MobileUserLogOutViewModel.swift in Sources */,
 				097A1350290684B9008B253D /* Babysitting.swift in Sources */,
 				09903AD728F90013009EA604 /* UploadDeviceToken.swift in Sources */,
@@ -585,6 +624,7 @@
 				0949C3112907C5820076F382 /* CalendarWeekListView.swift in Sources */,
 				09FEBCB228B70CEC00E8B5B7 /* Profile.swift in Sources */,
 				09FEBC8C28B70A4700E8B5B7 /* ListAttendanceViewModel.swift in Sources */,
+				5C872FF72A4EB6E700E6084E /* API2.swift in Sources */,
 				775BE506291CE12000A915B3 /* GetStudentCardByStudentIDViewModel.swift in Sources */,
 				09A060FD28BA199B00D1D1FA /* API.swift in Sources */,
 				09A060FB28BA18A200D1D1FA /* ScheduleViewModel.swift in Sources */,

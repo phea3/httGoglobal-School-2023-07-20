@@ -11,6 +11,7 @@ struct Home: View {
     @Environment(\.openURL) var openURL
     @Environment(\.colorScheme) var colorScheme
     @StateObject var loginVM: LoginViewModel = LoginViewModel()
+    @StateObject var addMobilUserToken: AddMobilUserToken = AddMobilUserToken()
     @StateObject var userProfile: MobileUserViewModel = MobileUserViewModel()
     @StateObject var academiclist: ListViewModel =  ListViewModel()
     @StateObject var students: ListStudentViewModel = ListStudentViewModel()
@@ -92,6 +93,7 @@ struct Home: View {
                             if self.newToken != "" {
                                 // send token to backend
                                 sendToken.uploadToken(mobileUserId: loginVM.userprofileId, newToken:TokenInput(plateformToken: "ios", deviceToken: self.newToken))
+                                addMobilUserToken.addMobileUserToken(user: loginVM.userprofileId, token: self.newToken, osType: "ios")
                             }
                         }
                         
@@ -343,6 +345,7 @@ struct Home: View {
                                                 if self.newToken != "" {
                                                     UserDefaults.standard.set(self.newToken, forKey: "DeviceToken")
                                                     sendToken.uploadToken(mobileUserId: loginVM.userprofileId, newToken:TokenInput(plateformToken: "ios", deviceToken: self.newToken))
+                                                    addMobilUserToken.addMobileUserToken(user: loginVM.userprofileId, token: "ios", osType: self.newToken)
                                                 }
                                                 if !loginVM.failLogin && loginVM.isAuthenticated{
                                                     DispatchQueue.main.async{

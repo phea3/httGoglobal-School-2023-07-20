@@ -1,0 +1,6 @@
+mutation RemoveMobilUserToken($user: String!, $osType: String) {
+  removeMobilUserToken(user: $user, osType: $osType) {
+    status
+    message
+  }
+}
