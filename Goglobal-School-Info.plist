@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Allow access location</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow access location</string>
 	<key> Entitlements File</key>
 	<dict>
 		<key>com.apple.developer.associated-domains</key>
@@ -27,11 +23,25 @@
 				<string>goglobalschool</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.1031018103071-gtr9qh745ubs48cnvvp7j5gcd21hg6vr</string>
+			</array>
+		</dict>
 	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Bayon-Regular.ttf</string>
 		<string>Kantumruy-Regular.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>processing</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UILocalNotificationDefaultSoundName</key>
 	<array>
