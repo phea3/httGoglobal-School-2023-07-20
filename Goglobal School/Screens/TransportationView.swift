@@ -9,8 +9,7 @@ import SwiftUI
 
 struct TransportationView: View {
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var students: ListStudentViewModel = ListStudentViewModel()
-    @StateObject var UserTrans: GetTransportationViewModel = GetTransportationViewModel()
+    @StateObject var students: GetStudentTransportationByMobileUser = GetStudentTransportationByMobileUser()
     @State var DummyBoolean: Bool = false
     @State var axcessPadding: CGFloat = 0
     @State var currentProgress: CGFloat = 0.0
@@ -451,11 +450,8 @@ struct TransportationView: View {
     }
     
     private func getUserTrans() {
-        UserTrans.getUserTrans()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-            if UserTrans.userTrans.contains(where: {$0.parentId == parentId }){
-                students.StundentAmount(parentId: parentId)
-            }
+            students.getStudent(parentId: self.parentId)
         }
     }
     
@@ -470,28 +466,24 @@ struct TransportationView: View {
                     .background(.clear)
                 ZStack {
                     imageStuBG(prop: prop)
-                    if students.AllStudents.isEmpty{
-                        if UserTrans.userTrans.contains(where: {$0.parentId == parentId }){
-                            //Empty
-                        }else{
-                            Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
-                                .foregroundColor(.blue)
-                                .onAppear{
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                        if students.AllStudents.isEmpty{
-                                            self.onAppearImg = false
-                                        }
+                    if students.students.isEmpty{
+                        Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
+                            .foregroundColor(.blue)
+                            .onAppear{
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    if students.students.isEmpty{
+                                        self.onAppearImg = false
                                     }
                                 }
-                        }
+                            }
                     } else {
                         ScrollView(.horizontal, showsIndicators: false){
                             HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : prop.isiPhoneL ? 12 : 14){
-                                ForEach(students.AllStudents,id: \.Id){ student in
+                                ForEach(students.students, id: \.id){ student in
                                     NavigationLink(
-                                        destination: AttendanceTransportaion(userProfileImg: self.userProfileImg, studentId: student.Id, studentName: "\(student.Lastname) \(student.Firstname)", studentEnglishName: student.EnglishName, classId: "",academicYearId: "", programId: "", barTitle: "សេវាកម្មដឹកជញ្ជូន", language: self.language, prop: prop),
+                                        destination: AttendanceTransportaion(userProfileImg: self.userProfileImg, studentId: student.id, studentName: "\(student.lastname) \(student.firstname)", studentEnglishName: student.englishname, classId: "", academicYearId: "", programId: "", barTitle: "សេវាកម្មដឹកជញ្ជូន", language: self.language, prop: prop),
                                         label: {
-                                            widgetStu(ImageStudent: student.profileImage, Firstname: student.Firstname, Lastname: student.Lastname, prop: prop, Englishname: student.EnglishName)
+                                            widgetStu(ImageStudent: student.profileimage, Firstname: student.firstname, Lastname: student.lastname, prop: prop, Englishname: student.englishname)
                                         }
                                     )                            }
                             }

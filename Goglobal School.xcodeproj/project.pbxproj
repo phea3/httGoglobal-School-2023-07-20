@@ -93,6 +93,7 @@
 		5C8808D92A53A1CC002A6EBC /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 5C8808D82A53A1CC002A6EBC /* FirebaseMessaging */; };
 		5C8808DB2A53AAB7002A6EBC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C8808DA2A53AAB7002A6EBC /* GoogleService-Info.plist */; };
 		5C8808DE2A53D131002A6EBC /* graphql.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 5C8808DD2A53D131002A6EBC /* graphql.graphql */; };
+		5C8808E02A53D175002A6EBC /* GetStudentTransportationByMobileUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8808DF2A53D175002A6EBC /* GetStudentTransportationByMobileUser.swift */; };
 		771D6C4929503D8B00B59485 /* pickup.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 771D6C4829503D8B00B59485 /* pickup.graphql */; };
 		771D6C4B29503E1A00B59485 /* pickupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D6C4A29503E1A00B59485 /* pickupViewModel.swift */; };
 		774A5D6629DEB4C80037FD08 /* AttendanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774A5D6529DEB4C80037FD08 /* AttendanceView.swift */; };
@@ -192,6 +193,7 @@
 		5C872FFA2A4EBA9800E6084E /* RemoveMobilUserToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveMobilUserToken.swift; sourceTree = "<group>"; };
 		5C8808DA2A53AAB7002A6EBC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5C8808DD2A53D131002A6EBC /* graphql.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = graphql.graphql; sourceTree = "<group>"; };
+		5C8808DF2A53D175002A6EBC /* GetStudentTransportationByMobileUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStudentTransportationByMobileUser.swift; sourceTree = "<group>"; };
 		771D6C4829503D8B00B59485 /* pickup.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = pickup.graphql; sourceTree = "<group>"; };
 		771D6C4A29503E1A00B59485 /* pickupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pickupViewModel.swift; sourceTree = "<group>"; };
 		774A5D6529DEB4C80037FD08 /* AttendanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceView.swift; sourceTree = "<group>"; };
@@ -443,6 +445,7 @@
 			children = (
 				5C872FF82A4EB8E500E6084E /* AddMobilUserToken.swift */,
 				5C872FFA2A4EBA9800E6084E /* RemoveMobilUserToken.swift */,
+				5C8808DF2A53D175002A6EBC /* GetStudentTransportationByMobileUser.swift */,
 			);
 			path = ClassObservables2;
 			sourceTree = "<group>";
@@ -616,6 +619,7 @@
 				9A74E00D29F76D820049C6DD /* GetStudentAttendancePermissionByIdViewModel.swift in Sources */,
 				0902C55828CF0C3500F2A956 /* MonitorNetwork.swift in Sources */,
 				09FEBC9828B70B6B00E8B5B7 /* ResponsiveContainer.swift in Sources */,
+				5C8808E02A53D175002A6EBC /* GetStudentTransportationByMobileUser.swift in Sources */,
 				09FEBC8428B709A300E8B5B7 /* Network.swift in Sources */,
 				0925213328EEB3B900363609 /* ProgrammePayment.swift in Sources */,
 				09FEBC9E28B70BCE00E8B5B7 /* RoundedCorners.swift in Sources */,
