@@ -1,0 +1,10 @@
+
+query GetStudentTransportationByMobileUser($id: String!) {
+  getStudentTransportationByMobileUser(_id: $id) {
+    _id
+    firstName
+    lastName
+    englishName
+    profileImg
+  }
+}

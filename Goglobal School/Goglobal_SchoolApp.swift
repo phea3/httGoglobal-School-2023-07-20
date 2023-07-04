@@ -35,17 +35,13 @@ struct Goglobal_SchoolApp: App {
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        
             FirebaseApp.configure()
-        
             UNUserNotificationCenter.current().delegate = self
-             
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
             UNUserNotificationCenter.current().requestAuthorization(
                options: authOptions,
                completionHandler: { _, _ in }
             )
-        
            application.registerForRemoteNotifications()
            Messaging.messaging().delegate = self
         return true
@@ -64,35 +60,20 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
-  // Receive displayed notifications for iOS 10 devices.
   func userNotificationCenter(_ center: UNUserNotificationCenter,
                               willPresent notification: UNNotification) async
     -> UNNotificationPresentationOptions {
-    let userInfo = notification.request.content.userInfo
+        let userInfo = notification.request.content.userInfo
 
-    // With swizzling disabled you must let Messaging know about the message, for Analytics
-    // Messaging.messaging().appDidReceiveMessage(userInfo)
-
-    // ...
-
-    // Print full message.
-    print(userInfo)
-
-    // Change this to your preferred presentation option
-        return [[.banner, .badge, .sound]]
+    print("Noty: \(userInfo)")
+    return [[.banner, .badge, .sound]]
   }
 
   func userNotificationCenter(_ center: UNUserNotificationCenter,
                               didReceive response: UNNotificationResponse) async {
     let userInfo = response.notification.request.content.userInfo
 
-    // ...
-
-    // With swizzling disabled you must let Messaging know about the message, for Analytics
-    // Messaging.messaging().appDidReceiveMessage(userInfo)
-
-    // Print full message.
-    print(userInfo)
+    print("Noty: \(userInfo)")
   }
     
     // Silent notifications
@@ -108,7 +89,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
       // Messaging.messaging().appDidReceiveMessage(userInfo)
 
       // Print full message.
-      print(userInfo)
+      print("Noty: \(userInfo)")
 
       return UIBackgroundFetchResult.newData
     }

@@ -6,7 +6,6 @@ import LocalAuthentication
 import ImageViewerRemote
 
 struct Home: View {
-    
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @Environment(\.openURL) var openURL
     @Environment(\.colorScheme) var colorScheme
@@ -15,14 +14,11 @@ struct Home: View {
     @StateObject var userProfile: MobileUserViewModel = MobileUserViewModel()
     @StateObject var academiclist: ListViewModel =  ListViewModel()
     @StateObject var students: ListStudentViewModel = ListStudentViewModel()
-    @StateObject var sendToken: UploadDeviceToken = UploadDeviceToken()
-    @StateObject var DeviceUserLogOut: MobileUserLogOutViewModel = MobileUserLogOutViewModel()
     @StateObject var AnnoucementList: AnnouncementViewModel = AnnouncementViewModel()
     @StateObject var AllClasses: ScheduleViewModel = ScheduleViewModel()
     @StateObject var Attendance: ListAttendanceViewModel = ListAttendanceViewModel()
     @StateObject var monitor = Monitor()
     @StateObject var student: ListStudentViewModel = ListStudentViewModel()
-    @StateObject var UserTrans: GetTransportationViewModel = GetTransportationViewModel()
     init(){
         requestPushAuthorization();
         UITabBar.appearance().isHidden = true
@@ -82,8 +78,6 @@ struct Home: View {
                         //login mutation
                         loginVM.login(email: gmail, password: pass, checkState: checkState)
                         
-                        UserTrans.getUserTrans()
-                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                             // get active year
                             academiclist.activeAcademicYear()
@@ -91,8 +85,6 @@ struct Home: View {
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             if self.newToken != "" {
-                                // send token to backend
-                                sendToken.uploadToken(mobileUserId: loginVM.userprofileId, newToken:TokenInput(plateformToken: "ios", deviceToken: self.newToken))
                                 addMobilUserToken.addMobileUserToken(user: loginVM.userprofileId, token: self.newToken, osType: "ios")
                             }
                         }
@@ -135,7 +127,6 @@ struct Home: View {
             .alert(isPresented: .constant(VersionCheck.shared.newVersionAvailable ?? false)) {
                 Alert(title: Text("សូមធ្វើការដំឡើង Version \(VersionCheck.shared.appStoreVersion ?? "") នៅក្នុង App Store!"), message: Text("Please update to version \(VersionCheck.shared.appStoreVersion ?? "") in the App Store!"), dismissButton: .default(Text("យល់ព្រម".localizedLanguage(language: self.language)), action: {
                     openURL(URL(string: VersionCheck.shared.appLinkToAppStore ?? "")!)
-                    DeviceUserLogOut.MobileUserLogOut(mobileUserId: loginVM.userprofileId, token: self.newToken)
                     // 3s
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                         loginVM.signout()
@@ -186,8 +177,8 @@ struct Home: View {
                     .tag(Tab.education)
                 CalendarViewModel(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, bindingLanguage: $language, language: self.language, prop: prop, activeYear: academiclist.academicYearId)
                     .tag(Tab.bag)
-//                TransportationView(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, bindingLanguage: $language,showTeacherImage: $showTeacherImage,UrlImg: $UrlImg, parentId: loginVM.userId, academicYearName: academiclist.khmerYear, language: self.language, prop: prop)
-//                    .tag(Tab.bus)
+                TransportationView(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, bindingLanguage: $language,showTeacherImage: $showTeacherImage,UrlImg: $UrlImg, parentId: loginVM.userId, academicYearName: academiclist.khmerYear, language: self.language, prop: prop)
+                    .tag(Tab.bus)
                 Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, hideTab: $hideTab, checkState: $checkState, showFlag: $showFlag, bindingLanguage: $language, prop: prop, devicetoken: self.newToken, language: self.language)
                     .tag(Tab.book)
             }
@@ -213,12 +204,6 @@ struct Home: View {
     private func ChangeLanguage(prop: Properties)-> some View {
         HStack{
             Menu {
-                //                    Button {
-                //                        self.language = "ch"
-                //                    } label: {
-                //                        Text("中文")
-                //                    }
-                
                 Button {
                     self.language = "km-KH"
                 } label: {
@@ -344,7 +329,6 @@ struct Home: View {
                                             }else{
                                                 if self.newToken != "" {
                                                     UserDefaults.standard.set(self.newToken, forKey: "DeviceToken")
-                                                    sendToken.uploadToken(mobileUserId: loginVM.userprofileId, newToken:TokenInput(plateformToken: "ios", deviceToken: self.newToken))
                                                     addMobilUserToken.addMobileUserToken(user: loginVM.userprofileId, token: "ios", osType: self.newToken)
                                                 }
                                                 if !loginVM.failLogin && loginVM.isAuthenticated{
@@ -362,10 +346,8 @@ struct Home: View {
                             }
                             
                             if checkState{
-                                
                                 UserDefaults.standard.set(self.gmail, forKey: "Gmail")
                                 UserDefaults.standard.set(self.pass, forKey: "Password")
-                                
                             }
                             
                         } label: {

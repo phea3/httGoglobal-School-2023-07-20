@@ -112,6 +112,143 @@ public final class AddMobilUserTokenMutation: GraphQLMutation {
   }
 }
 
+public final class GetStudentTransportationByMobileUserQuery: GraphQLQuery {
+  /// The raw GraphQL definition of this operation.
+  public let operationDefinition: String =
+    """
+    query GetStudentTransportationByMobileUser($id: String!) {
+      getStudentTransportationByMobileUser(_id: $id) {
+        __typename
+        _id
+        firstName
+        lastName
+        englishName
+        profileImg
+      }
+    }
+    """
+
+  public let operationName: String = "GetStudentTransportationByMobileUser"
+
+  public var id: String
+
+  public init(id: String) {
+    self.id = id
+  }
+
+  public var variables: GraphQLMap? {
+    return ["id": id]
+  }
+
+  public struct Data: GraphQLSelectionSet {
+    public static let possibleTypes: [String] = ["Query"]
+
+    public static var selections: [GraphQLSelection] {
+      return [
+        GraphQLField("getStudentTransportationByMobileUser", arguments: ["_id": GraphQLVariable("id")], type: .nonNull(.list(.object(GetStudentTransportationByMobileUser.selections)))),
+      ]
+    }
+
+    public private(set) var resultMap: ResultMap
+
+    public init(unsafeResultMap: ResultMap) {
+      self.resultMap = unsafeResultMap
+    }
+
+    public init(getStudentTransportationByMobileUser: [GetStudentTransportationByMobileUser?]) {
+      self.init(unsafeResultMap: ["__typename": "Query", "getStudentTransportationByMobileUser": getStudentTransportationByMobileUser.map { (value: GetStudentTransportationByMobileUser?) -> ResultMap? in value.flatMap { (value: GetStudentTransportationByMobileUser) -> ResultMap in value.resultMap } }])
+    }
+
+    public var getStudentTransportationByMobileUser: [GetStudentTransportationByMobileUser?] {
+      get {
+        return (resultMap["getStudentTransportationByMobileUser"] as! [ResultMap?]).map { (value: ResultMap?) -> GetStudentTransportationByMobileUser? in value.flatMap { (value: ResultMap) -> GetStudentTransportationByMobileUser in GetStudentTransportationByMobileUser(unsafeResultMap: value) } }
+      }
+      set {
+        resultMap.updateValue(newValue.map { (value: GetStudentTransportationByMobileUser?) -> ResultMap? in value.flatMap { (value: GetStudentTransportationByMobileUser) -> ResultMap in value.resultMap } }, forKey: "getStudentTransportationByMobileUser")
+      }
+    }
+
+    public struct GetStudentTransportationByMobileUser: GraphQLSelectionSet {
+      public static let possibleTypes: [String] = ["PersonalInfo"]
+
+      public static var selections: [GraphQLSelection] {
+        return [
+          GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+          GraphQLField("_id", type: .scalar(GraphQLID.self)),
+          GraphQLField("firstName", type: .scalar(String.self)),
+          GraphQLField("lastName", type: .scalar(String.self)),
+          GraphQLField("englishName", type: .scalar(String.self)),
+          GraphQLField("profileImg", type: .scalar(String.self)),
+        ]
+      }
+
+      public private(set) var resultMap: ResultMap
+
+      public init(unsafeResultMap: ResultMap) {
+        self.resultMap = unsafeResultMap
+      }
+
+      public init(_id: GraphQLID? = nil, firstName: String? = nil, lastName: String? = nil, englishName: String? = nil, profileImg: String? = nil) {
+        self.init(unsafeResultMap: ["__typename": "PersonalInfo", "_id": _id, "firstName": firstName, "lastName": lastName, "englishName": englishName, "profileImg": profileImg])
+      }
+
+      public var __typename: String {
+        get {
+          return resultMap["__typename"]! as! String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "__typename")
+        }
+      }
+
+      public var _id: GraphQLID? {
+        get {
+          return resultMap["_id"] as? GraphQLID
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "_id")
+        }
+      }
+
+      public var firstName: String? {
+        get {
+          return resultMap["firstName"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "firstName")
+        }
+      }
+
+      public var lastName: String? {
+        get {
+          return resultMap["lastName"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "lastName")
+        }
+      }
+
+      public var englishName: String? {
+        get {
+          return resultMap["englishName"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "englishName")
+        }
+      }
+
+      public var profileImg: String? {
+        get {
+          return resultMap["profileImg"] as? String
+        }
+        set {
+          resultMap.updateValue(newValue, forKey: "profileImg")
+        }
+      }
+    }
+  }
+}
+
 public final class RemoveMobilUserTokenMutation: GraphQLMutation {
   /// The raw GraphQL definition of this operation.
   public let operationDefinition: String =
