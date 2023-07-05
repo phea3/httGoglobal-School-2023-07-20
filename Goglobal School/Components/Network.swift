@@ -14,8 +14,8 @@ class Network {
     static let shared = Network()
     private(set) lazy var apollo: ApolloClient = {
         // MARK: Server
-        let url = URL(string: "https://sms-endpoint.go-globalschool.com/graphql")!
-//        let url = URL(string: "http://localhost:2000/")!
+//        let url = URL(string: "https://sms-endpoint.go-globalschool.com/graphql")!
+        let url = URL(string: "http://192.168.2.224:2000/graphql")!
         let cache = InMemoryNormalizedCache()
         let store = ApolloStore(cache: cache)
         let client = URLSessionClient()

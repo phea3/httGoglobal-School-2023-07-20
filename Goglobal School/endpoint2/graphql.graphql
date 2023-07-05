@@ -8,3 +8,15 @@ query GetStudentTransportationByMobileUser($id: String!) {
     profileImg
   }
 }
+
+query GetStudentTransportationAttendancePagination($page: Int!, $limit: Int!, $start: String!, $end: String!, $busId: String, $studentId: String) {
+  getStudentTransportationAttendancePagination(page: $page, limit: $limit, start: $start, end: $end, busId: $busId, studentId: $studentId) {
+    data {
+      _id
+      date
+      checkIn
+      checkOut
+      createdAt
+    }
+  }
+}

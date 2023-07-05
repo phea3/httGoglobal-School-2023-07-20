@@ -80,7 +80,7 @@ struct Schedule: View {
                                 .backgroundRemover()
                                 .padding(.vertical , prop.isiPad ? 5: 0 )
                         }
-                        .padding(.bottom, prop.isiPhoneS && !prop.isLandscape ? 20 : prop.isiPhoneM && !prop.isLandscape ? 30 : prop.isiPhoneL && !prop.isLandscape ? 40 : 0)
+                        .padding(.bottom, prop.isiPhoneS && !prop.isLandscape ? 20 : prop.isiPhoneM && !prop.isLandscape ? 30 : prop.isiPhoneL && !prop.isLandscape ? 40 : prop.isiPad ? 60 : 0)
                     }
                 }
                 .onAppear{

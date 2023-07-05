@@ -10,12 +10,13 @@ import SwiftUI
 struct AttendanceTransportaion: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @StateObject var SchoolBus: GetSchoolBusAttByIdViewModel = GetSchoolBusAttByIdViewModel()
+    @StateObject var SchoolBus: GetStudentTransportationAttendancePagination = GetStudentTransportationAttendancePagination()
     @State var userProfileImg: String
-    @State private var startDate: Date = Date()
-    @State private var endDate: Date = Date()
+    @State private var startDate: Date = Calendar.current.date(byAdding: .hour, value: -12, to: Date())!
+    @State private var endDate: Date = Calendar.current.date(byAdding: .hour, value: +12, to: Date())!
     @State private var date: Date = Calendar.current.date(byAdding: .hour, value: -12, to: Date())!
     @State private var limit: Int = 10
+    @State private var page: Int = 1
     @State var studentId: String
     @State var loadingScreen: Bool = false
     @State var currentProgress: CGFloat = 0
@@ -52,13 +53,13 @@ struct AttendanceTransportaion: View {
                     }
                 
             } else {
-                VStack() {
+                VStack{
                     HStack(spacing: 0){
                         DatePicker("", selection: $startDate,in: ...endDate,displayedComponents: [.date])
                             .labelsHidden()
                             .accentColor(.blue)
                             .onChange(of: startDate, perform: { value in
-                                SchoolBus.getSchoolBus(stuId: self.studentId, limit: self.limit)
+                                SchoolBus.getAttendances(page: self.page, limit: self.limit, start: convertString(inputDate: startDate), end: convertString(inputDate: self.endDate), busId: "", studentId: self.studentId)
                             });
                         Spacer()
                         
@@ -71,14 +72,14 @@ struct AttendanceTransportaion: View {
                             .labelsHidden()
                             .accentColor(.red)
                             .onChange(of: endDate, perform: { value in
-                                SchoolBus.getSchoolBus(stuId: self.studentId, limit: self.limit)
+                                SchoolBus.getAttendances(page: self.page, limit: self.limit, start: convertString(inputDate: self.startDate), end: convertString(inputDate: endDate), busId: "", studentId: self.studentId)
                             });
                     }
                     
                     HStack(spacing: 0){
                         HStack(spacing: 0){
                             Spacer()
-                            Text("កាលបរិច្ឆេត".localizedLanguage(language: self.language))
+                            Text("កាលបរិច្ឆេទ".localizedLanguage(language: self.language))
                                 .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16 , relativeTo: .largeTitle))
                             Spacer()
                         }
@@ -108,127 +109,61 @@ struct AttendanceTransportaion: View {
                     .background(Color("ColorTitle"))
                     .foregroundColor(.white)
                     .cornerRadius(10)
-                    if SchoolBus.schoolBus.isEmpty{
+                    if SchoolBus.attendances.isEmpty{
                         VStack{
                             Text("មិនមានទិន្នន័យ!".localizedLanguage(language: self.language))
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 :  16 , relativeTo: .largeTitle))
                                 .padding()
                                 .onTapGesture(count: 2) {
-                                    SchoolBus.getSchoolBus(stuId: self.studentId, limit: self.limit)
+                                    SchoolBus.getAttendances(page: self.page, limit: self.limit, start: "", end: "", busId: "", studentId: self.studentId)
                                 }
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     }else{
                         ScrollView(.vertical, showsIndicators: false){
                             VStack(spacing: 0){
-                                ForEach(SchoolBus.schoolBus, id: \.studentId){ item in
+                                ForEach(SchoolBus.attendances, id: \.id){ item in
                                     HStack(spacing: 0){
                                         HStack(spacing: 0){
                                             Spacer()
-                                            Text(convertDate(inputDate: item.studentId))
+                                            Text(convertDate(inputDate: item.date))
                                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14  , relativeTo: .largeTitle))
                                             Spacer()
                                         }
+                                        .foregroundColor(Color("ColorTitle"))
                                         .padding(.leading, 10)
                                         .frame(width: prop.isiPhoneS ? 100.0 : prop.isiPhoneM ? 110.0 : prop.isiPhoneL ? 110.0 : 140.0, alignment: .center)
-
+                                        
                                         Spacer()
-
-//                                        ForEach(item.data, id: \.id) { medium in
-//                                            HStack(spacing: 0){
-//
-//                                                if medium.id == "62e1fe173cdcd305193c183e" {
-//
-//                                                    VStack(spacing: 0){
-//                                                        Text(medium.morningCheckIn.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.morningCheckIn))
-//                                                        Text("-")
-//                                                        Text(medium.morningCheckOut.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.morningCheckOut))
-//                                                    }
-//                                                    .frame(width: prop.isiPhoneS ? 65.0 : prop.isiPhoneM ? 75.0 : prop.isiPhoneL ? 85.0 : 105.0, alignment: .center)
-//                                                    .foregroundColor(medium.status == "PERMISSION" ? .orange : .black)
-//                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14  , relativeTo: .largeTitle))
-//
-//                                                } else if medium.id == "61cc12c736a74a5ec1bce55a" {
-//
-//                                                    VStack(spacing: 0){
-//                                                        Text(medium.morningCheckIn.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.morningCheckIn))
-//                                                        Text("-")
-//                                                        Text(medium.morningCheckOut.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.morningCheckOut))
-//                                                    }
-//                                                    .frame(width: prop.isiPhoneS ? 65.0 : prop.isiPhoneM ? 75.0 : prop.isiPhoneL ? 85.0 : 105.0, alignment: .center)
-//                                                    .foregroundColor(.black)
-//                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
-//
-//                                                } else  if (medium.id == "62e1fe1f3cdcd305193c1a98" && (item.data.count < 2)) && medium.id != "61cc12c736a74a5ec1bce55a" {
-//
-//                                                    VStack(spacing: 0){
-//                                                        Text(medium.morningCheckIn.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.morningCheckIn))
-//                                                        Text("-")
-//                                                        Text(medium.morningCheckOut.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.morningCheckOut))
-//                                                    }
-//                                                    .foregroundColor(.black)
-//                                                    .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 90.0 : 110.0, alignment: .center)
-//                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14  , relativeTo: .largeTitle))
-//
-//                                                }
-//
-//                                                if medium.id == "62e1fe1f3cdcd305193c1a98" {
-//
-//                                                    VStack(spacing: 0){
-//                                                        Text(medium.afternoonCheckIn.isEmpty ?  "--:--" : convertStringToDateAndBackToString(inputDate: medium.afternoonCheckIn))
-//                                                        Text("-")
-//                                                        Text(medium.afternoonCheckOut.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.afternoonCheckOut))
-//                                                    }
-//                                                    .foregroundColor(medium.status == "PERMISSION" ? .orange : .black)
-//                                                    .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 90.0 : 110.0, alignment: .center)
-//                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
-//
-//                                                } else if medium.id == "61cc12c736a74a5ec1bce55a" {
-//
-//                                                    VStack(spacing: 0){
-//                                                        Text(medium.afternoonCheckIn.isEmpty ?  "--:--" : convertStringToDateAndBackToString(inputDate: medium.afternoonCheckIn))
-//                                                        Text("-")
-//                                                        Text(medium.afternoonCheckOut.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.afternoonCheckOut))
-//                                                    }
-//                                                    .frame(width: prop.isiPhoneS ? 65.0 : prop.isiPhoneM ? 75.0 : prop.isiPhoneL ? 85.0 : 105.0, alignment: .center)
-//                                                    .foregroundColor(.black)
-//                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14  , relativeTo: .largeTitle))
-//
-//                                                } else if (medium.id == "62e1fe173cdcd305193c183e" && (item.data.count < 2)) && (medium.id != "61cc12c736a74a5ec1bce55a") {
-//                                                    VStack(spacing: 0){
-//                                                        Text(medium.afternoonCheckIn.isEmpty ?  "--:--" : convertStringToDateAndBackToString(inputDate: medium.afternoonCheckIn))
-//                                                        Text("-")
-//                                                        Text(medium.afternoonCheckOut.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: medium.afternoonCheckOut))
-//                                                    }
-//                                                    .frame(width: prop.isiPhoneS ? 65.0 : prop.isiPhoneM ? 75.0 : prop.isiPhoneL ? 85.0 : 105.0, alignment: .center)
-//                                                    .foregroundColor(.black)
-//                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
-//                                                }
-//                                            }
-//                                        }
-//
-//                                        VStack(spacing: 0){
-//                                            ForEach(item.data, id: \.id) { medium in
-//                                                HStack{
-//                                                    Text(medium.id == "62e1fe1f3cdcd305193c1a98" ? "A.\(medium.status)" : medium.id == "62e1fe173cdcd305193c183e" ? "M.\(medium.status)" : medium.id == "61cc12c736a74a5ec1bce55a" ? "F.\(medium.status)" : "\(medium.status)" )
-//                                                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : prop.isiPhoneL ? 12 : 14 , relativeTo: .largeTitle))
-//                                                        .foregroundColor(medium.status == "LATE" ? .green : medium.status == "PERMISSION" ? .orange : medium.status == "ABSENT" ? .red :  medium.status == "PRESENT" ? .blue : .black)
-//                                                }
-//                                                .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 100.0 : 120.0, alignment: .center)
-//                                            }
-//                                        }
+                                        
+                                        VStack(spacing: 0){
+                                            Text(" ")
+                                            Text(item.checkIn.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: item.checkIn))
+                                            Text(" ")
+                                        }
+                                        .frame(width: prop.isiPhoneS ? 100.0 : prop.isiPhoneM ? 110.0 : prop.isiPhoneL ? 120.0 : 140.0, alignment: .center)
+                                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14  , relativeTo: .largeTitle))
+                                        
+                                        VStack(spacing: 0){
+                                            Text(" ")
+                                            Text(item.checkOut.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: item.checkOut))
+                                            Text(" ")
+                                        }
+                                        .frame(width: prop.isiPhoneS ? 95.0 : prop.isiPhoneM ? 105.0 : prop.isiPhoneL ? 115.0 : 135.0, alignment: .center)
+                                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14  , relativeTo: .largeTitle))
                                     }
+                                    .frame(height: prop.isiPhoneS ? 30.0 : prop.isiPhoneM ? 40.0 : 50.0)
                                     Divider()
                                 }
                             }
 
-                            if (SchoolBus.schoolBus.count > 10) {
+                            if (SchoolBus.attendances.count > 10) {
                                 Button {
                                     DispatchQueue.main.async {
                                         self.limit += 10
                                     }
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-                                        SchoolBus.getSchoolBus(stuId: self.studentId, limit: self.limit)
+                                        SchoolBus.getAttendances(page: self.page, limit: self.limit, start: "", end: "", busId: "", studentId: self.studentId)
                                     }
                                 } label: {
                                     Text("see more".localizedLanguage(language: self.language))
@@ -247,10 +182,7 @@ struct AttendanceTransportaion: View {
         .navigationBarTitleDisplayMode(.inline)
         .setBG(colorScheme: colorScheme)
         .onAppear(perform: {
-            SchoolBus.getSchoolBus(stuId: self.studentId, limit: self.limit)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                print("\(SchoolBus.GraphQLError) : GraphQLError")
-            }
+            SchoolBus.getAttendances(page: self.page, limit: self.limit, start: convertString(inputDate: self.startDate), end: convertString(inputDate: self.endDate), busId: "", studentId: self.studentId)
         })
         .navigationBarItems(leading: btnBack)
         .navigationBarBackButtonHidden(true)
@@ -340,18 +272,20 @@ struct AttendanceTransportaion: View {
             }
         }
     }
+    
     private func convertStringToDateAndBackToString(inputDate: String) -> String{
         let isoDate = inputDate
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let date = dateFormatter.date(from:isoDate)!
+        let date = dateFormatter.date(from:isoDate)
         let StringFormatter =  DateFormatter()
         StringFormatter.locale = Locale(identifier: "en_US_POSIX")
         StringFormatter.dateFormat = "HH:mm"
-        let stringed = StringFormatter.string(from: date)
+        let stringed = StringFormatter.string(from: date ?? Date())
         return stringed
     }
+    
     private func convertDate(inputDate: String) -> String{
         let isoDate = inputDate
         let dateFormatter = DateFormatter()
@@ -364,6 +298,7 @@ struct AttendanceTransportaion: View {
         let stringed = StringFormatter.string(from: date ?? Date())
         return stringed
     }
+    
     private func convertStringToDate(inputDate: String) -> Date{
         let isoDate = inputDate
         let dateFormatter = DateFormatter()
@@ -372,6 +307,7 @@ struct AttendanceTransportaion: View {
         let date = dateFormatter.date(from:isoDate)
         return date ?? Date()
     }
+    
     private func convertString(inputDate: Date) -> String{
         let isoDate = inputDate
         let dateFormatter = DateFormatter()
@@ -380,4 +316,5 @@ struct AttendanceTransportaion: View {
         let stringed = dateFormatter.string(from: isoDate)
         return stringed
     }
+    
 }

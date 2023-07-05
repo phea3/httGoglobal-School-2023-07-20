@@ -22,7 +22,6 @@ struct Profile: View {
     @StateObject var AnnoucementList: AnnouncementViewModel = AnnouncementViewModel()
     @StateObject var AllClasses: ScheduleViewModel = ScheduleViewModel()
     @StateObject var Attendance: ListAttendanceViewModel = ListAttendanceViewModel()
-    @StateObject var DeviceUserLogOut: MobileUserLogOutViewModel = MobileUserLogOutViewModel()
     @State var isLoading: Bool = false
     @State var axcessPadding: CGFloat = 0
     @State var image = UIImage()
@@ -344,7 +343,6 @@ struct Profile: View {
                         title: Text("តើអ្នកចង់ចាកចេញពីកម្មវិធីទេ?".localizedLanguage(language: self.language)),
                         primaryButton: .destructive(Text("ចាកចេញ".localizedLanguage(language: self.language))) {
                             self.logoutLoading = true
-                            DeviceUserLogOut.MobileUserLogOut(mobileUserId: logout.userprofileId, token: devicetoken)
                             removeMobilUserToken.removeMobilUserToken(user: logout.userprofileId, osType: "ios")
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                                 logout.signout()

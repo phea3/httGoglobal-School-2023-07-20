@@ -14,7 +14,6 @@ struct Dashboard: View {
     @StateObject var students: ListStudentViewModel = ListStudentViewModel()
     @StateObject var academiclist: ListViewModel = ListViewModel()
     @StateObject var AnnoucementList: AnnouncementViewModel = AnnouncementViewModel()
-    @StateObject var deleteBadge: DeleteNotificationByMobileUserIdViewModel = DeleteNotificationByMobileUserIdViewModel()
     @State private var reloadingImg: Bool = false
     @State private var reloadingAnn: Bool = false
     @State var colorBlue: String = "LightBlue"
@@ -259,7 +258,6 @@ struct Dashboard: View {
                     AnnoucementList.getAnnoucement()
                     academiclist.populateAllContinent(academicYearId: activeYear)
                     students.StundentAmount(parentId: parentId)
-                    deleteBadge.DeleteNotificationByMobileUserId(mobileUserId: mobileUserId)
                     totalStu.getTotal()
                 }
             }
@@ -477,7 +475,6 @@ struct Dashboard: View {
                     AnnoucementList.getAnnoucement()
                     academiclist.populateAllContinent(academicYearId: activeYear)
                     students.StundentAmount(parentId: parentId)
-                    deleteBadge.DeleteNotificationByMobileUserId(mobileUserId: mobileUserId)
                     totalStu.getTotal()
                 }
             }
@@ -557,7 +554,7 @@ struct Dashboard: View {
                 } else {
                     
                     ScrollView(.horizontal, showsIndicators: false){
-                        HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : 12){
+                        HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : prop.isiPhoneL ? 12 : 14){
                             ForEach(students.AllStudents,id: \.Id) { student in
                                 NavigationLink(
                                     destination: Grade(studentId: student.Id, userProfileImg: userProfileImg, showTeacherImage: $showTeacherImage,UrlImg: $UrlImg, Student: "\(student.Lastname) \(student.Firstname)", StudentEnglishName: student.EnglishName, parentId: parentId, barTitle: barTitle,studentID: student.Id, language: self.language, prop: prop),

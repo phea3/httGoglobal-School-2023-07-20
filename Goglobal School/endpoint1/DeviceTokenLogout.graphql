@@ -1,7 +1,0 @@
-
-mutation MobileUserLogOut($mobileUserId: ID, $token: String) {
-  mobileUserLogOut(mobileUserId: $mobileUserId, token: $token) {
-    success
-    message
-  }
-}

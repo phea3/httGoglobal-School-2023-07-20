@@ -150,7 +150,7 @@ struct Payment: View {
                     }
                 }
                 .padding(.horizontal)
-                .padding(.bottom, prop.isiPhoneS && !prop.isLandscape ? 20 : prop.isiPhoneM && !prop.isLandscape ? 30 : prop.isiPhoneL && !prop.isLandscape ? 40 : 0)
+                .padding(.bottom, prop.isiPhoneS && !prop.isLandscape ? 20 : prop.isiPhoneM && !prop.isLandscape ? 30 : prop.isiPhoneL && !prop.isLandscape ? 40 : prop.isiPad ? 60 : 0)
             }
         }
         .setBG(colorScheme: colorScheme)

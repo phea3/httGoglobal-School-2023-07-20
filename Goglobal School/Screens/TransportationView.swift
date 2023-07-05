@@ -34,7 +34,7 @@ struct TransportationView: View {
         if #available(iOS 16, *) {
             NavigationStack  {
                 VStack(spacing: 0) {
-                    if DummyBoolean{
+                    if students.students.isEmpty{
                         ZStack{
                             if viewLoading{
                                 progressingView(prop: prop,language: self.language, colorScheme: colorScheme)
@@ -188,19 +188,19 @@ struct TransportationView: View {
                                         }
                                     }
                                 }
-                                    .refreshable {
-                                        do {
-                                            students.clearCache()
-                                            // Sleep for 2 seconds
-                                            try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                                        } catch {}
-                                        self.hidingDivider = true
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                            self.hidingDivider = false
-                                        }
-                                        refreshingView()
-                                        getUserTrans()
+                                .refreshable {
+                                    do {
+                                        students.clearCache()
+                                        // Sleep for 2 seconds
+                                        try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                                    } catch {}
+                                    self.hidingDivider = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        self.hidingDivider = false
                                     }
+                                    refreshingView()
+                                    getUserTrans()
+                                }
                                 if onAppearImg{
                                     ZStack{
                                         Color(colorScheme == .dark ? "Black" : "BG")
@@ -395,19 +395,19 @@ struct TransportationView: View {
                                         }
                                     }
                                 }
-                                    .refreshable {
-                                        do {
-                                            students.clearCache()
-                                            // Sleep for 2 seconds
-                                            try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                                        } catch {}
-                                        self.hidingDivider = true
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                            self.hidingDivider = false
-                                        }
-                                        refreshingView()
-                                        getUserTrans()
+                                .refreshable {
+                                    do {
+                                        students.clearCache()
+                                        // Sleep for 2 seconds
+                                        try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                                    } catch {}
+                                    self.hidingDivider = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        self.hidingDivider = false
                                     }
+                                    refreshingView()
+                                    getUserTrans()
+                                }
                                 if onAppearImg{
                                     ZStack{
                                         Color(colorScheme == .dark ? "Black" : "BG")

@@ -13,7 +13,6 @@ struct Home: View {
     @StateObject var addMobilUserToken: AddMobilUserToken = AddMobilUserToken()
     @StateObject var userProfile: MobileUserViewModel = MobileUserViewModel()
     @StateObject var academiclist: ListViewModel =  ListViewModel()
-    @StateObject var students: ListStudentViewModel = ListStudentViewModel()
     @StateObject var AnnoucementList: AnnouncementViewModel = AnnouncementViewModel()
     @StateObject var AllClasses: ScheduleViewModel = ScheduleViewModel()
     @StateObject var Attendance: ListAttendanceViewModel = ListAttendanceViewModel()
@@ -82,10 +81,9 @@ struct Home: View {
                             // get active year
                             academiclist.activeAcademicYear()
                         }
-                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             if self.newToken != "" {
-                                addMobilUserToken.addMobileUserToken(user: loginVM.userprofileId, token: self.newToken, osType: "ios")
+                                addMobilUserToken.addMobileUserToken(user: loginVM.userprofileId, token: ApiTokenSingleton.shared.getFCMToken(), osType: "ios")
                             }
                         }
                         
@@ -329,7 +327,7 @@ struct Home: View {
                                             }else{
                                                 if self.newToken != "" {
                                                     UserDefaults.standard.set(self.newToken, forKey: "DeviceToken")
-                                                    addMobilUserToken.addMobileUserToken(user: loginVM.userprofileId, token: "ios", osType: self.newToken)
+                                                    addMobilUserToken.addMobileUserToken(user: loginVM.userprofileId, token: ApiTokenSingleton.shared.getFCMToken(), osType: "ios")
                                                 }
                                                 if !loginVM.failLogin && loginVM.isAuthenticated{
                                                     DispatchQueue.main.async{

@@ -34,7 +34,7 @@ struct Education: View {
         if #available(iOS 16, *) {
             NavigationStack  {
                 VStack(spacing: 0) {
-                    if DummyBoolean{
+                    if students.AllStudents.isEmpty{
                         ZStack{
                             if viewLoading{
                                 progressingView(prop: prop,language: self.language, colorScheme: colorScheme)
