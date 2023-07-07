@@ -98,23 +98,23 @@ class ScheduleViewModel: ObservableObject{
             
             let filtered = self.allClasses.filter{
                 return  $0.dayOfWeek == Day || $0.breakTime == true
-             }
-             .sorted { task1, task2 in
-                 return task1.startTime < task2.startTime
-             }
+            }
+                .sorted { task1, task2 in
+                    return task1.startTime < task2.startTime
+                }
             
-             var res:[ScheduleModel] = []
+            var res:[ScheduleModel] = []
             
-             filtered.forEach{ (c) -> () in
-                 if !res.contains(where: {$0.startTime == c.startTime}){
-                     res.append(c)
-                 }
-             }
-             DispatchQueue.main.async {
-                 withAnimation{
-                     self.filteredTasks = res
-                 }
-             }
+            filtered.forEach{ (c) -> () in
+                if !res.contains(where: {$0.startTime == c.startTime}){
+                    res.append(c)
+                }
+            }
+            DispatchQueue.main.async {
+                withAnimation{
+                    self.filteredTasks = res
+                }
+            }
         }
     }
     
@@ -129,12 +129,12 @@ class ScheduleViewModel: ObservableObject{
             return 
         }
         (1...7).forEach { day in
-          
+            
             if let weekday = calendar.date(byAdding: .day, value: day, to: firstWeekDay){
-                    currentWeek.append(weekday)
-                    currentWeek.removeAll(where: {$0 == Date.today().next(.saturday) })
+                currentWeek.append(weekday)
+                currentWeek.removeAll(where: {$0 == Date.today().next(.saturday) })
             }
-           
+            
         }
     }
     
@@ -276,52 +276,52 @@ struct schoolIdModel{
 }
 
 extension Date {
-
-  static func today() -> Date {
-      return Date()
-  }
-
-  func next(_ weekday: Weekday, considerToday: Bool = false) -> Date {
-      return get(.next,
-               weekday,
-               considerToday: considerToday)
-  }
-
-  func previous(_ weekday: Weekday, considerToday: Bool = false) -> Date {
-    return get(.previous,
-               weekday,
-               considerToday: considerToday)
-  }
-
-  func get(_ direction: SearchDirection,
-           _ weekDay: Weekday,
-           considerToday consider: Bool = false) -> Date {
-
-    let dayName = weekDay.rawValue
-
-    let weekdaysName = getWeekDaysInEnglish().map { $0.lowercased() }
-
-    assert(weekdaysName.contains(dayName), "weekday symbol should be in form \(weekdaysName)")
-
-    let searchWeekdayIndex = weekdaysName.firstIndex(of: dayName)! + 1
-
-    let calendar = Calendar(identifier: .gregorian)
-
-    if consider && calendar.component(.weekday, from: self) == searchWeekdayIndex {
-      return self
+    
+    static func today() -> Date {
+        return Date()
     }
-
-    var nextDateComponent = calendar.dateComponents([.hour, .minute, .second], from: self)
-    nextDateComponent.weekday = searchWeekdayIndex
-
-    let date = calendar.nextDate(after: self,
-                                 matching: nextDateComponent,
-                                 matchingPolicy: .nextTime,
-                                 direction: direction.calendarSearchDirection)
-
-    return date!
-  }
-
+    
+    func next(_ weekday: Weekday, considerToday: Bool = false) -> Date {
+        return get(.next,
+                   weekday,
+                   considerToday: considerToday)
+    }
+    
+    func previous(_ weekday: Weekday, considerToday: Bool = false) -> Date {
+        return get(.previous,
+                   weekday,
+                   considerToday: considerToday)
+    }
+    
+    func get(_ direction: SearchDirection,
+             _ weekDay: Weekday,
+             considerToday consider: Bool = false) -> Date {
+        
+        let dayName = weekDay.rawValue
+        
+        let weekdaysName = getWeekDaysInEnglish().map { $0.lowercased() }
+        
+        assert(weekdaysName.contains(dayName), "weekday symbol should be in form \(weekdaysName)")
+        
+        let searchWeekdayIndex = weekdaysName.firstIndex(of: dayName)! + 1
+        
+        let calendar = Calendar(identifier: .gregorian)
+        
+        if consider && calendar.component(.weekday, from: self) == searchWeekdayIndex {
+            return self
+        }
+        
+        var nextDateComponent = calendar.dateComponents([.hour, .minute, .second], from: self)
+        nextDateComponent.weekday = searchWeekdayIndex
+        
+        let date = calendar.nextDate(after: self,
+                                     matching: nextDateComponent,
+                                     matchingPolicy: .nextTime,
+                                     direction: direction.calendarSearchDirection)
+        
+        return date!
+    }
+    
 }
 
 // MARK: Helper methods

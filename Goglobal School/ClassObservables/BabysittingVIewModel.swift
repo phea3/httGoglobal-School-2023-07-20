@@ -99,7 +99,7 @@ class BadysittingViewModel: ObservableObject{
         
         return formatter.string(from: date)
     }
-        
+    
     // MARK: Checking id current Date is T
     func isToday(date: Date)->Bool{
         let calendar = NSCalendar.current

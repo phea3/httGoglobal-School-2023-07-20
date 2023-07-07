@@ -37,52 +37,52 @@ class InvoiceViewModel: ObservableObject{
             let string =  StringFormatter.string(from: date ?? Date())
             return string
         }
-            return "គ្មានកាលបរិច្ឆេទ"
+        return "គ្មានកាលបរិច្ឆេទ"
     }
 }
-    struct invoiceModel {
-        var invoice : GetInvoiceBystudentIdWithPaginationQuery.Data.GetInvoiceBystudentIdWithPagination.Invoice
-        
-        var Id: String {
-            invoice._id ?? ""
-        }
-        var Amount: Double {
-            invoice.amount ?? 0.0
-        }
-        var NetAmount: Double {
-            invoice.netAmount ?? 0.0
-        }
-        var GrossAmount: Double {
-            invoice.grossAmount ?? 0.0
-        }
-        var StartDate: String {
-            invoice.startDate ?? ""
-        }
-        var EndDate: String {
-            invoice.endDate ?? ""
-        }
-        var CreateAt: String {
-            invoice.createdAt ?? ""
-        }
-        var Month: String {
-            invoice.month ?? ""
-        }
-        var Quarter: String {
-            invoice.quarter ?? ""
-        }
-        var AcademicTermId: String {
-            invoice.academicTermId?._id ?? ""
-        }
-        var GroupFeeType: String {
-            invoice.groupFeeType ?? ""
-        }
-        var InvoiceId: Int {
-            invoice.invoiceId ?? 0
-        }
-        var AdditionalFee: [additionalFeeModel]{
-            invoice.additionalFee?.map(additionalFeeModel.init) ?? []
-        }
+struct invoiceModel {
+    var invoice : GetInvoiceBystudentIdWithPaginationQuery.Data.GetInvoiceBystudentIdWithPagination.Invoice
+    
+    var Id: String {
+        invoice._id ?? ""
     }
+    var Amount: Double {
+        invoice.amount ?? 0.0
+    }
+    var NetAmount: Double {
+        invoice.netAmount ?? 0.0
+    }
+    var GrossAmount: Double {
+        invoice.grossAmount ?? 0.0
+    }
+    var StartDate: String {
+        invoice.startDate ?? ""
+    }
+    var EndDate: String {
+        invoice.endDate ?? ""
+    }
+    var CreateAt: String {
+        invoice.createdAt ?? ""
+    }
+    var Month: String {
+        invoice.month ?? ""
+    }
+    var Quarter: String {
+        invoice.quarter ?? ""
+    }
+    var AcademicTermId: String {
+        invoice.academicTermId?._id ?? ""
+    }
+    var GroupFeeType: String {
+        invoice.groupFeeType ?? ""
+    }
+    var InvoiceId: Int {
+        invoice.invoiceId ?? 0
+    }
+    var AdditionalFee: [additionalFeeModel]{
+        invoice.additionalFee?.map(additionalFeeModel.init) ?? []
+    }
+}
 struct additionalFeeModel{
     
     var additionalFee : GetInvoiceBystudentIdWithPaginationQuery.Data.GetInvoiceBystudentIdWithPagination.Invoice.AdditionalFee?

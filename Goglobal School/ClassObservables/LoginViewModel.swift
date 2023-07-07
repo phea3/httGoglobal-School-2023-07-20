@@ -60,13 +60,13 @@ class LoginViewModel: ObservableObject{
                         if checkState{
                             UserDefaults.standard.set(self?.isAuthenticated, forKey: "isAuthenticated")
                         }
-//                        print(token)
+                        //                        print(token)
                     }
                 }
                 if let userId = graphQLResult.data?.login?.user?.parentId?._id{
                     DispatchQueue.main.async {
                         self?.userId = userId
-//                        print(self?.userId as Any)
+                        //                        print(self?.userId as Any)
                     }
                 }
                 if let userprofileId = graphQLResult.data?.login?.user?._id{

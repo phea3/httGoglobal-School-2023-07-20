@@ -18,7 +18,7 @@ class GetSchoolBusAttByIdViewModel: ObservableObject {
             case .success(let graphQLResult):
                 if let GraphQLError = graphQLResult.errors{
                     DispatchQueue.main.async {
-//                        print("\( GraphQLError.map({"\($0)"}).joined(separator:"-") )")
+                        //                        print("\( GraphQLError.map({"\($0)"}).joined(separator:"-") )")
                         self?.GraphQLError = GraphQLError.map{"\($0.message ?? "")"}.joined()
                     }
                 }
@@ -36,7 +36,7 @@ class GetSchoolBusAttByIdViewModel: ObservableObject {
     struct GraphQLError {
         let Error : GetSchoolBusAttByIdQuery
     }
-
+    
     
     struct GetSchoolBusAttByIdModel {
         let schoolBus: GetSchoolBusAttByIdQuery.Data.GetSchoolBusAttById?

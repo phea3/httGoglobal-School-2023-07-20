@@ -18,9 +18,9 @@ class GetTotalStudentViewModel: ObservableObject{
                 if let allTotal = graphQLResult.data?.getTotalStudentForApp {
                     DispatchQueue.main.async {
                         self?.allTotal = allTotal.map(GetTotalStudentModel.init)
-//                        print(self?.allTotal as Any)
+                        //                        print(self?.allTotal as Any)
                     }
-                   
+                    
                 }
             case .failure(_):
                 print("")

@@ -51,13 +51,13 @@ struct GetStudentAttendanceByStuIdModel{
     var data: [GetDataModel] {
         GetAllStudentAttendance?.info?.map(GetDataModel.init) ?? []
     }
-
+    
 }
 
 struct GetDataModel {
-
+    
     let getData: GetStudentAttendanceByStuIdQuery.Data.GetStudentAttendanceByStuId.Info?
-
+    
     var id: String {
         getData?.shiftId ?? ""
     }
@@ -65,19 +65,19 @@ struct GetDataModel {
     var status: String {
         getData?.status ?? ""
     }
-
+    
     var morningCheckIn: String {
         getData?.morningCheckIn ?? ""
     }
-
+    
     var morningCheckOut: String {
         getData?.morningCheckOut ?? ""
     }
-
+    
     var afternoonCheckIn: String {
         getData?.afternoonCheckIn ?? ""
     }
-
+    
     var afternoonCheckOut: String {
         getData?.afternoonCheckOut ?? ""
     }
