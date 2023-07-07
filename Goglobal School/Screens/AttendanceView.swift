@@ -206,16 +206,16 @@ struct AttendanceView: View {
                                             }
                                         }
                                         
-//                                        VStack(spacing: 0){
-//                                            ForEach(item.data, id: \.id) { medium in
-//                                                HStack{
-//                                                    Text(medium.id == "62e1fe1f3cdcd305193c1a98" ? "A.\(medium.status)" : medium.id == "62e1fe173cdcd305193c183e" ? "M.\(medium.status)" : medium.id == "61cc12c736a74a5ec1bce55a" ? "F.\(medium.status)" : "\(medium.status)" )
-//                                                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : prop.isiPhoneL ? 12 : 14 , relativeTo: .largeTitle))
-//                                                        .foregroundColor(medium.status == "LATE" ? .green : medium.status == "PERMISSION" ? .orange : medium.status == "ABSENT" ? .red :  medium.status == "PRESENT" ? .blue : .black)
-//                                                }
-//                                                .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 100.0 : 120.0, alignment: .center)
-//                                            }
-//                                        }
+                                        //                                        VStack(spacing: 0){
+                                        //                                            ForEach(item.data, id: \.id) { medium in
+                                        //                                                HStack{
+                                        //                                                    Text(medium.id == "62e1fe1f3cdcd305193c1a98" ? "A.\(medium.status)" : medium.id == "62e1fe173cdcd305193c183e" ? "M.\(medium.status)" : medium.id == "61cc12c736a74a5ec1bce55a" ? "F.\(medium.status)" : "\(medium.status)" )
+                                        //                                                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : prop.isiPhoneL ? 12 : 14 , relativeTo: .largeTitle))
+                                        //                                                        .foregroundColor(medium.status == "LATE" ? .green : medium.status == "PERMISSION" ? .orange : medium.status == "ABSENT" ? .red :  medium.status == "PRESENT" ? .blue : .black)
+                                        //                                                }
+                                        //                                                .frame(width: prop.isiPhoneS ? 70.0 : prop.isiPhoneM ? 80.0 : prop.isiPhoneL ? 100.0 : 120.0, alignment: .center)
+                                        //                                            }
+                                        //                                        }
                                     }
                                     Divider()
                                 }

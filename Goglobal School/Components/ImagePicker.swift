@@ -39,7 +39,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         }
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
+            
             if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
                 parent.selectedImage = image
             }
@@ -54,7 +54,7 @@ struct ImageModifier: ViewModifier {
     private var min: CGFloat = 1.0
     private var max: CGFloat = 3.0
     @State var currentScale: CGFloat = 1.0
-
+    
     init(contentSize: CGSize) {
         self.contentSize = contentSize
     }
@@ -87,7 +87,7 @@ class PinchZoomView: UIView {
     let scaleChange: (CGFloat) -> Void
     
     init(minScale: CGFloat,
-           maxScale: CGFloat,
+         maxScale: CGFloat,
          currentScale: CGFloat,
          scaleChange: @escaping (CGFloat) -> Void) {
         self.minScale = minScale

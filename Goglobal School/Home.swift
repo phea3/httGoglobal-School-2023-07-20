@@ -9,6 +9,7 @@ struct Home: View {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @Environment(\.openURL) var openURL
     @Environment(\.colorScheme) var colorScheme
+    @ObservedObject var appState = AppState.shared
     @StateObject var loginVM: LoginViewModel = LoginViewModel()
     @StateObject var addMobilUserToken: AddMobilUserToken = AddMobilUserToken()
     @StateObject var userProfile: MobileUserViewModel = MobileUserViewModel()
@@ -50,7 +51,6 @@ struct Home: View {
     enum Field {
         case gmail, pass
     }
-    
     @FocusState private var focusedField: Field?
     @State var focusEmail: Bool = false
     @State var focusPassword: Bool = false
@@ -83,7 +83,7 @@ struct Home: View {
                         }
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             if self.newToken != "" {
-                                addMobilUserToken.addMobileUserToken(user: loginVM.userprofileId, token: ApiTokenSingleton.shared.getFCMToken(), osType: "ios")
+                                addMobilUserToken.addMobileUserToken(user: loginVM.userId, token: ApiTokenSingleton.shared.getFCMToken(), osType: "ios")
                             }
                         }
                         
@@ -171,6 +171,11 @@ struct Home: View {
             TabView(selection: $currentTab){
                 Dashboard(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, bindingLanguage: $language,showTeacherImage: $showTeacherImage,UrlImg: $UrlImg, parentId: loginVM.userId, activeYear: academiclist.academicYearId, prop: prop, mobileUserId: loginVM.userprofileId, language: self.language)
                     .tag(Tab.dashboard)
+                    .onChange(of: appState.actionofnoty) { newValue in
+                        DispatchQueue.main.async {
+                            appState.actionofnoty == "transportaion" ? (currentTab = .bus) : (currentTab = .dashboard)
+                        }
+                    }
                 Education(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, bindingLanguage: $language,showTeacherImage: $showTeacherImage,UrlImg: $UrlImg, parentId: loginVM.userId, academicYearName: academiclist.khmerYear, language: self.language, prop: prop)
                     .tag(Tab.education)
                 CalendarViewModel(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, bindingLanguage: $language, language: self.language, prop: prop, activeYear: academiclist.academicYearId)
@@ -180,9 +185,8 @@ struct Home: View {
                 Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, hideTab: $hideTab, checkState: $checkState, showFlag: $showFlag, bindingLanguage: $language, prop: prop, devicetoken: self.newToken, language: self.language)
                     .tag(Tab.book)
             }
-            
             // MARK: Custom to Bar
-            CustomTabBar(currentTab: $currentTab,prop: prop)
+            CustomTabBar(currentTab: $currentTab, prop: prop)
                 .background(RoundedCorners(color: colorScheme == .dark ? .black :  .white, tl: 30, tr: 30, bl: 0, br: 0))
                 .frame(maxWidth: prop.isLandscape || prop.isSplit ? 400 : prop.isiPad ? 400 : .infinity, maxHeight: .infinity, alignment: .bottom)
                 .opacity( hideTab ? 0 : animationStarted ? 1:0)
@@ -194,7 +198,9 @@ struct Home: View {
                         }
                     }
                 }
-            
+        }
+        .onAppear{
+            ((AppState.shared.actionofnoty == "transportaion" ) && (AppState.shared.stu_id != nil)) ? (currentTab = .bus) : (currentTab = .dashboard)
         }
     }
     
@@ -277,15 +283,15 @@ struct Home: View {
                                 focusEmail = false
                             }
                         })
-                            .textContentType(.emailAddress)
-                            .focused($focusedField, equals: .gmail)
-                            .padding(prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)
-                            .cornerRadius(10)
-                            .submitLabel(.next)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(isempty ? .red:.blue.opacity(0.5), lineWidth: 1)
-                            )
+                        .textContentType(.emailAddress)
+                        .focused($focusedField, equals: .gmail)
+                        .padding(prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18)
+                        .cornerRadius(10)
+                        .submitLabel(.next)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(isempty ? .red:.blue.opacity(0.5), lineWidth: 1)
+                        )
                     }
                     
                     VStack(alignment: .leading, spacing: prop.isiPhoneS ? 4 : prop.isiPhoneM ? 6 : prop.isiPhoneL ? 8 : 10) {
@@ -327,7 +333,7 @@ struct Home: View {
                                             }else{
                                                 if self.newToken != "" {
                                                     UserDefaults.standard.set(self.newToken, forKey: "DeviceToken")
-                                                    addMobilUserToken.addMobileUserToken(user: loginVM.userprofileId, token: ApiTokenSingleton.shared.getFCMToken(), osType: "ios")
+                                                    addMobilUserToken.addMobileUserToken(user: loginVM.userId, token: ApiTokenSingleton.shared.getFCMToken(), osType: "ios")
                                                 }
                                                 if !loginVM.failLogin && loginVM.isAuthenticated{
                                                     DispatchQueue.main.async{

@@ -203,27 +203,27 @@ struct Dashboard: View {
                                                                 }
                                                             }
                                                         }
-                                                       
+                                                        
                                                     }
                                                 }
                                             }
                                             
                                         }
                                 }
-                                    .refreshable {
-                                        do {
-                                            AnnoucementList.clearCache()
-                                            try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                                        } catch {}
-                                        self.hidingDivider = true
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                            self.hidingDivider = false
-                                        }
-                                        refreshingView()
-                                        AnnoucementList.getAnnoucement()
-                                        academiclist.populateAllContinent(academicYearId: academiclist.academicYearId.isEmpty ? "62f079626cf8a36847d31d2d" : academiclist.academicYearId)
-                                        students.StundentAmount(parentId: parentId)
+                                .refreshable {
+                                    do {
+                                        AnnoucementList.clearCache()
+                                        try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                                    } catch {}
+                                    self.hidingDivider = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        self.hidingDivider = false
                                     }
+                                    refreshingView()
+                                    AnnoucementList.getAnnoucement()
+                                    academiclist.populateAllContinent(academicYearId: academiclist.academicYearId.isEmpty ? "62f079626cf8a36847d31d2d" : academiclist.academicYearId)
+                                    students.StundentAmount(parentId: parentId)
+                                }
                                 if onAppearImg{
                                     ZStack{
                                         Color(colorScheme == .dark ? "Black" : "BG")
@@ -421,27 +421,27 @@ struct Dashboard: View {
                                                                 }
                                                             }
                                                         }
-                                                       
+                                                        
                                                     }
                                                 }
                                             }
                                             
                                         }
                                 }
-                                    .refreshable {
-                                        do {
-                                            AnnoucementList.clearCache()
-                                            try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                                        } catch {}
-                                        self.hidingDivider = true
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                            self.hidingDivider = false
-                                        }
-                                        refreshingView()
-                                        AnnoucementList.getAnnoucement()
-                                        academiclist.populateAllContinent(academicYearId: academiclist.academicYearId.isEmpty ? "62f079626cf8a36847d31d2d" : academiclist.academicYearId)
-                                        students.StundentAmount(parentId: parentId)
+                                .refreshable {
+                                    do {
+                                        AnnoucementList.clearCache()
+                                        try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                                    } catch {}
+                                    self.hidingDivider = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        self.hidingDivider = false
                                     }
+                                    refreshingView()
+                                    AnnoucementList.getAnnoucement()
+                                    academiclist.populateAllContinent(academicYearId: academiclist.academicYearId.isEmpty ? "62f079626cf8a36847d31d2d" : academiclist.academicYearId)
+                                    students.StundentAmount(parentId: parentId)
+                                }
                                 if onAppearImg{
                                     ZStack{
                                         Color(colorScheme == .dark ? "Black" : "BG")
@@ -509,7 +509,7 @@ struct Dashboard: View {
                         .resizable()
                         .frame(width: 25, height: 25)
                 }
-               
+                
                 
             } label: {
                 
@@ -525,19 +525,19 @@ struct Dashboard: View {
             }
         }
     }
-
+    
     private func mainView()-> some View{
         VStack(alignment: .leading,spacing: 0 ){
             
-//            MarqueeText(
-//                text: "Our Vision to educate Cambodian future generations to become international human resources.".localizedLanguage(language: self.language),
-//                 font: UIFont(name: "Bayon", size:  prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16)!,
-//                 leftFade: 16,
-//                 rightFade: 16,
-//                 startDelay: 1
-//                 )
-//                .foregroundColor(.pink)
-//                .padding(.top)
+            //            MarqueeText(
+            //                text: "Our Vision to educate Cambodian future generations to become international human resources.".localizedLanguage(language: self.language),
+            //                 font: UIFont(name: "Bayon", size:  prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16)!,
+            //                 leftFade: 16,
+            //                 rightFade: 16,
+            //                 startDelay: 1
+            //                 )
+            //                .foregroundColor(.pink)
+            //                .padding(.top)
             
             Text("បុត្រធីតា".localizedLanguage(language: self.language))
                 .foregroundColor(.blue)
@@ -627,16 +627,16 @@ struct Dashboard: View {
             .hLeading()
             
             if !(prop.isLandscape || prop.isiPad){
-               VStack(spacing: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 17 : 18 ){
-                   ForEach(AnnoucementList.Annouces, id: \.id) { item in
-                       AnnouceButtonView(showingSheet: $showingSheet, detailId: $detailId, onAppearImg: $onAppearImg, itemImg: item.img, itemTitle: item.title, itemId: item.id, prop: prop, students: students, language: self.language)
-                           .buttonStyle(PlainButtonStyle())
-                           .sheet(isPresented: $showingSheet) {
-                               Annoucements(prop: prop, postId: $detailId, language: self.language)
-                           }
-                   }
-               }
-           }
+                VStack(spacing: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 17 : 18 ){
+                    ForEach(AnnoucementList.Annouces, id: \.id) { item in
+                        AnnouceButtonView(showingSheet: $showingSheet, detailId: $detailId, onAppearImg: $onAppearImg, itemImg: item.img, itemTitle: item.title, itemId: item.id, prop: prop, students: students, language: self.language)
+                            .buttonStyle(PlainButtonStyle())
+                            .sheet(isPresented: $showingSheet) {
+                                Annoucements(prop: prop, postId: $detailId, language: self.language)
+                            }
+                    }
+                }
+            }
             ZStack{
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16){
@@ -651,11 +651,11 @@ struct Dashboard: View {
                                         .foregroundColor(.blue)
                                 }
                                 .frame(maxWidth: .infinity, alignment: .center)
-                                    .onAppear{
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                                            self.reloadingAnn = false
-                                        }
+                                .onAppear{
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                                        self.reloadingAnn = false
                                     }
+                                }
                             } else {
                                 Button {
                                     self.showingSheet.toggle()
@@ -728,8 +728,8 @@ struct Dashboard: View {
                         .frame(maxWidth: .infinity,maxHeight: prop.isLandscape && prop.isiPhone ? 250 : prop.isiPad ? 300 :  250 )
                 }
             }
-                
-             
+            
+            
         }
     }
     
@@ -812,7 +812,7 @@ struct Dashboard: View {
                 .font(.custom("kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
                 .background(colorScheme == .dark ? .clear : .blue)
                 .cornerRadius(5)
-                .padding(.bottom, 10) 
+                .padding(.bottom, 10)
         }
         .background(.clear)
         .foregroundColor(.white)
@@ -851,11 +851,11 @@ struct AnnouceButtonView: View{
                         .foregroundColor(.blue)
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
-                    .onAppear{
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                            self.reloadingAnn = false
-                        }
+                .onAppear{
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                        self.reloadingAnn = false
                     }
+                }
             } else {
                 AsyncImage(url: URL(string: itemImg ), scale: 1){image in
                     switch  image {
@@ -908,7 +908,7 @@ struct AnnouceButtonView: View{
                                 if !itemImg.isEmpty{
                                     self.reloadingAnn = true
                                 }
-                               
+                                
                             }
                     @unknown default:
                         fatalError()

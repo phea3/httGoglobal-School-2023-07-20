@@ -25,7 +25,7 @@ struct Attendant: View {
         ScrollView(.vertical, showsIndicators: false){
             if loadingScreen{
                 ProgressView(value: currentProgress, total: 1000)
-                    Spacer()
+                Spacer()
                     .onAppear{
                         self.currentProgress = 250
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
@@ -38,7 +38,7 @@ struct Attendant: View {
                             self.currentProgress = 1000
                         }
                     }
-                   
+                
             }else{
                 VStack(spacing: 0){
                     CustomDatePicker(studentId: studentId, currentDate: $currentDate,sectionShiftId: AllClasses.id, prop: prop, language: self.language)

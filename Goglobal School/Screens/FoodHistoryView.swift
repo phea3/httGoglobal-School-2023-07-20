@@ -87,7 +87,7 @@ struct FoodHistoryView: View {
             
             // Day View...
             language == "en" ?
-                
+            
             HStack(spacing: 0){
                 ForEach(englishdays, id: \.self){ day in
                     Text(day)
@@ -108,7 +108,7 @@ struct FoodHistoryView: View {
                 }
                 
             }
-//            let columns = Array(repeating: GridItem(.flexible()), count: 7)
+            //            let columns = Array(repeating: GridItem(.flexible()), count: 7)
             
         }
         .padding(.bottom, 35)

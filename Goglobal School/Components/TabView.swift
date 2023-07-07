@@ -37,7 +37,7 @@ extension String {
                 return bundle.localizedString(forKey: self, value: self, table: nil)
             }
         }
-    
+        
         return self
     }
 }

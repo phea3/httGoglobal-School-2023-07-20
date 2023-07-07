@@ -20,7 +20,7 @@ struct Schedule: View {
     var academicYearId: String
     var programId: String
     var language: String
-//    let foo: String = "optional string"
+    //    let foo: String = "optional string"
     var body: some View {
         
         VStack(spacing:0){

@@ -110,8 +110,20 @@
 		9A74E00D29F76D820049C6DD /* GetStudentAttendancePermissionByIdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A74E00C29F76D820049C6DD /* GetStudentAttendancePermissionByIdViewModel.swift */; };
 		9ABE0A3D29E3B51000D2881B /* AskPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE0A3C29E3B51000D2881B /* AskPermission.swift */; };
 		9AC6CBAA2A2741080021D5BD /* TransportationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC6CBA92A2741080021D5BD /* TransportationView.swift */; };
-		9AE59A002A29D72900A34087 /* NotificationClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE599FF2A29D72900A34087 /* NotificationClass.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5C2BE18B2A565FC500762435 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0902C55728CF0C3500F2A956 /* MonitorNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorNetwork.swift; sourceTree = "<group>"; };
@@ -173,6 +185,8 @@
 		09FEBCAF28B70CD600E8B5B7 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		09FEBCB128B70CEC00E8B5B7 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		09FEBCB328B70D0000E8B5B7 /* Choosing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Choosing.swift; sourceTree = "<group>"; };
+		5C2BE1932A5676DC00762435 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		5C2BE1952A5676DC00762435 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		5C2F41392A5406AC0027EC7E /* GetStudentTransportationAttendancePagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStudentTransportationAttendancePagination.swift; sourceTree = "<group>"; };
 		5C3B440C2A402A0E00DF2364 /* AttendanceTransportaion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceTransportaion.swift; sourceTree = "<group>"; };
 		5C3B44102A403AE900DF2364 /* GetTransportationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTransportationViewModel.swift; sourceTree = "<group>"; };
@@ -206,7 +220,6 @@
 		9A74E00C29F76D820049C6DD /* GetStudentAttendancePermissionByIdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStudentAttendancePermissionByIdViewModel.swift; sourceTree = "<group>"; };
 		9ABE0A3C29E3B51000D2881B /* AskPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskPermission.swift; sourceTree = "<group>"; };
 		9AC6CBA92A2741080021D5BD /* TransportationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportationView.swift; sourceTree = "<group>"; };
-		9AE599FF2A29D72900A34087 /* NotificationClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationClass.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -281,7 +294,6 @@
 				09FEBC9928B70B8500E8B5B7 /* TabView.swift */,
 				09FEBC9728B70B6B00E8B5B7 /* ResponsiveContainer.swift */,
 				77DCF5A6292C6323008E1423 /* LocalizationService.swift */,
-				9AE599FF2A29D72900A34087 /* NotificationClass.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -319,6 +331,8 @@
 			isa = PBXGroup;
 			children = (
 				091B223528CC465400FE9DBB /* AuthenticationServices.framework */,
+				5C2BE1932A5676DC00762435 /* UserNotifications.framework */,
+				5C2BE1952A5676DC00762435 /* UserNotificationsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -449,6 +463,7 @@
 				09FEBC4728B704E400E8B5B7 /* Sources */,
 				09FEBC4828B704E400E8B5B7 /* Frameworks */,
 				09FEBC4928B704E400E8B5B7 /* Resources */,
+				5C2BE18B2A565FC500762435 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -483,7 +498,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1340;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					09FEBC4A28B704E400E8B5B7 = {
@@ -644,7 +659,6 @@
 				775BE506291CE12000A915B3 /* GetStudentCardByStudentIDViewModel.swift in Sources */,
 				09A060FD28BA199B00D1D1FA /* API.swift in Sources */,
 				09A060FB28BA18A200D1D1FA /* ScheduleViewModel.swift in Sources */,
-				9AE59A002A29D72900A34087 /* NotificationClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -796,6 +810,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Goglobal-School-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Go Global School";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "សូមធ្វើការយល់ព្រមការ Scan";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Allow access location";
@@ -838,6 +853,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Goglobal-School-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Go Global School";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "សូមធ្វើការយល់ព្រមការ Scan";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Allow access location";

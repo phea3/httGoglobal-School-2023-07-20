@@ -18,7 +18,7 @@ class GetStudentTransportationByMobileUser: ObservableObject {
                 if let students = graqhqlresult.data?.getStudentTransportationByMobileUser {
                     DispatchQueue.main.async {
                         self?.students = students.map(GetStudentTransportationByMobileUserModel.init)
-//                        print(self?.students as Any)
+                        //                        print(self?.students as Any)
                     }
                 }
             case .failure(_):

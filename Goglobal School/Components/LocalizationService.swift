@@ -14,10 +14,10 @@ enum Language: String {
 }
 
 class LocalizationService {
-
+    
     static let shared = LocalizationService()
     static let changedLanguage = Notification.Name("changedLanguage")
-
+    
     private init() {}
     
     var language: Language {

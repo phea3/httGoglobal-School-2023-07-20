@@ -17,7 +17,7 @@ class GetStudentTransportationAttendancePagination: ObservableObject {
             case .success(let graphqlresult):
                 if let attendances = graphqlresult.data?.getStudentTransportationAttendancePagination.data {
                     self?.attendances = attendances.map(GetStudentTransportationAttendancePaginationModel.init)
-//                    print(self?.attendances as Any)
+                    //                    print(self?.attendances as Any)
                 }
             case .failure(_):
                 print("GetStudentTransportationAttendancePaginationModel ERROR")

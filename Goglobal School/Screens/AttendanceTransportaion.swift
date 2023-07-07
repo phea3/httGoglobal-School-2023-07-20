@@ -10,6 +10,7 @@ import SwiftUI
 struct AttendanceTransportaion: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @ObservedObject var appState = AppState.shared
     @StateObject var SchoolBus: GetStudentTransportationAttendancePagination = GetStudentTransportationAttendancePagination()
     @State var userProfileImg: String
     @State private var startDate: Date = Calendar.current.date(byAdding: .hour, value: -12, to: Date())!
@@ -20,16 +21,17 @@ struct AttendanceTransportaion: View {
     @State var studentId: String
     @State var loadingScreen: Bool = false
     @State var currentProgress: CGFloat = 0
-    var studentName: String
-    var studentEnglishName: String
-    var classId: String
-    var academicYearId: String
-    var programId: String
     var barTitle: String
     var language: String
     var prop: Properties
     var btnBack : some View {
-        Button(action: { self.presentationMode.wrappedValue.dismiss()}) {
+        Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+            DispatchQueue.main.async {
+                appState.stu_id = nil
+                appState.actionofnoty = nil
+            }
+        }) {
             backButtonView(language: self.language, prop: prop, barTitle: barTitle.localizedLanguage(language: self.language))
         }
     }
@@ -138,7 +140,7 @@ struct AttendanceTransportaion: View {
                                         
                                         VStack(spacing: 0){
                                             Text(" ")
-                                            Text(item.checkIn.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: item.checkIn))
+                                            Text(item.checkIn.isEmpty ? "--:--" : item.checkIn)
                                             Text(" ")
                                         }
                                         .frame(width: prop.isiPhoneS ? 100.0 : prop.isiPhoneM ? 110.0 : prop.isiPhoneL ? 120.0 : 140.0, alignment: .center)
@@ -146,7 +148,7 @@ struct AttendanceTransportaion: View {
                                         
                                         VStack(spacing: 0){
                                             Text(" ")
-                                            Text(item.checkOut.isEmpty ? "--:--" : convertStringToDateAndBackToString(inputDate: item.checkOut))
+                                            Text(item.checkOut.isEmpty ? "--:--" : item.checkOut)
                                             Text(" ")
                                         }
                                         .frame(width: prop.isiPhoneS ? 95.0 : prop.isiPhoneM ? 105.0 : prop.isiPhoneL ? 115.0 : 135.0, alignment: .center)
@@ -156,7 +158,7 @@ struct AttendanceTransportaion: View {
                                     Divider()
                                 }
                             }
-
+                            
                             if (SchoolBus.attendances.count > 10) {
                                 Button {
                                     DispatchQueue.main.async {
@@ -273,39 +275,17 @@ struct AttendanceTransportaion: View {
         }
     }
     
-    private func convertStringToDateAndBackToString(inputDate: String) -> String{
-        let isoDate = inputDate
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let date = dateFormatter.date(from:isoDate)
-        let StringFormatter =  DateFormatter()
-        StringFormatter.locale = Locale(identifier: "en_US_POSIX")
-        StringFormatter.dateFormat = "HH:mm"
-        let stringed = StringFormatter.string(from: date ?? Date())
-        return stringed
-    }
-    
     private func convertDate(inputDate: String) -> String{
         let isoDate = inputDate
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let date = dateFormatter.date(from:isoDate)
+        guard let date = dateFormatter.date(from:isoDate) else { return "" }
         let StringFormatter =  DateFormatter()
         StringFormatter.locale = Locale(identifier: "en_US_POSIX")
         StringFormatter.dateFormat = "dd MMM yyyy"
-        let stringed = StringFormatter.string(from: date ?? Date())
+        let stringed = StringFormatter.string(from: date)
         return stringed
-    }
-    
-    private func convertStringToDate(inputDate: String) -> Date{
-        let isoDate = inputDate
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        let date = dateFormatter.date(from:isoDate)
-        return date ?? Date()
     }
     
     private func convertString(inputDate: Date) -> String{

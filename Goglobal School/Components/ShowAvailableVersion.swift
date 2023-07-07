@@ -24,13 +24,13 @@ class AppVersion {
 import Alamofire
 
 class VersionCheck {
-
+    
     public static let shared = VersionCheck()
-
+    
     var newVersionAvailable: Bool?
     var appStoreVersion: String?
     var appLinkToAppStore: String?
-
+    
     func checkAppStore(callback: ((_ versionAvailable: Bool?, _ version: String?, _ linking: String?)->Void)? = nil) {
         let ourBundleId = Bundle.main.infoDictionary!["CFBundleIdentifier"] as! String
         AF.request("https://itunes.apple.com/lookup?bundleId=\(ourBundleId)").responseData { response in
@@ -40,7 +40,7 @@ class VersionCheck {
             switch response.result {
             case .success(let value):
                 do {
-                        let asJSON = try JSONSerialization.jsonObject(with: value)
+                    let asJSON = try JSONSerialization.jsonObject(with: value)
                     if  let json = asJSON as? NSDictionary,
                         let results = json["results"] as? NSArray,
                         let entry = results.firstObject as? NSDictionary,
@@ -51,16 +51,16 @@ class VersionCheck {
                         isNew = ourVersion < appVersion
                         versionStr = appVersion
                         linker = appLink
-                     }
+                    }
                     self.appStoreVersion = versionStr
                     self.newVersionAvailable = isNew
                     self.appLinkToAppStore = linker
                     callback?(isNew, versionStr, linker)
-                               
-                           } catch {
-                               print("Error while decoding response:  from: iTune Apple")
-                           }
-
+                    
+                } catch {
+                    print("Error while decoding response:  from: iTune Apple")
+                }
+                
             case .failure(let error):
                 print(error)
             }

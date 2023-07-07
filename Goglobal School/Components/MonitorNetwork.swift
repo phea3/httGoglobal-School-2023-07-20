@@ -15,9 +15,9 @@ class Monitor: ObservableObject {
     func checkConnection() {
         monitor.pathUpdateHandler = { path in
             if path.status == .satisfied {
-                    self.connected = true
+                self.connected = true
             } else {
-                    self.connected = false
+                self.connected = false
             }
         }
         monitor.start(queue: queue)

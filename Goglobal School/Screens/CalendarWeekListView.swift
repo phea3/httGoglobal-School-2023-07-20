@@ -41,7 +41,7 @@ struct CalendarWeekListViewModel: View {
         self.stuId = stuId
         self.language = language
     }
-   
+    
     var body: some View {
         if restarting{
             ProgressView()
@@ -73,59 +73,59 @@ struct CalendarWeekListViewModel: View {
                                         .foregroundColor(.clear)
                                 }
                                 .padding(12)
-                                    .overlay(
-                                        Circle()
-//                                            .fill(Color(weekDayFormatter.string(from: date)))
-                                            .fill(.blue)
-                                            .foregroundColor(.white)
-                                            .opacity(calendar.isDate(date, inSameDayAs: selectDate) ? 1:0)
-                                    )
-                                    .overlay(
-                                        VStack{
-                                            Text(weekDayFormatter.string(from: date))
-                                                .fontWeight(.bold)
-                                                .font(.system(size: 13))
-        //                                        .foregroundColor(
-        //                                            Color(weekDayFormatter.string(from: date))
-        //                                        )
-                                                .foregroundColor(
-                                                    calendar.isDate(date, inSameDayAs: selectDate) ? .white : calendar.isDateInToday(date) ? .blue : colorScheme == .dark ? .white : .black
-                                                )
-                                            
-                                            Text(dayFormatter.string(from: date))
-                                                .fontWeight(.bold)
-                                                .font(.system(size: 15))
-    //                                            .foregroundColor(
-    //                                                calendar.isDate(date, inSameDayAs: selectDate) ? .white : calendar.isDateInToday(date) ? .blue : .black
-    //                                            )
-                                                .foregroundColor(
-                                                    calendar.isDate(date, inSameDayAs: selectDate) ? .white : calendar.isDateInToday(date) ? .blue : colorScheme == .dark ? .white : .black
-                                                )
-                                          
-                                        }
-                                    )
+                                .overlay(
+                                    Circle()
+                                    //                                            .fill(Color(weekDayFormatter.string(from: date)))
+                                        .fill(.blue)
+                                        .foregroundColor(.white)
+                                        .opacity(calendar.isDate(date, inSameDayAs: selectDate) ? 1:0)
+                                )
+                                .overlay(
+                                    VStack{
+                                        Text(weekDayFormatter.string(from: date))
+                                            .fontWeight(.bold)
+                                            .font(.system(size: 13))
+                                        //                                        .foregroundColor(
+                                        //                                            Color(weekDayFormatter.string(from: date))
+                                        //                                        )
+                                            .foregroundColor(
+                                                calendar.isDate(date, inSameDayAs: selectDate) ? .white : calendar.isDateInToday(date) ? .blue : colorScheme == .dark ? .white : .black
+                                            )
+                                        
+                                        Text(dayFormatter.string(from: date))
+                                            .fontWeight(.bold)
+                                            .font(.system(size: 15))
+                                        //                                            .foregroundColor(
+                                        //                                                calendar.isDate(date, inSameDayAs: selectDate) ? .white : calendar.isDateInToday(date) ? .blue : .black
+                                        //                                            )
+                                            .foregroundColor(
+                                                calendar.isDate(date, inSameDayAs: selectDate) ? .white : calendar.isDateInToday(date) ? .blue : colorScheme == .dark ? .white : .black
+                                            )
+                                        
+                                    }
+                                )
                                 
-                                    .overlay(
-                                        Circle()
-//                                            .stroke(Color(weekDayFormatter.string(from: date)), lineWidth: 1)
-                                            .stroke(.blue, lineWidth: 1)
-                                            .opacity(calendar.isDate(date, inSameDayAs: selectDate) ? 0:1)
-                                    )
+                                .overlay(
+                                    Circle()
+                                    //                                            .stroke(Color(weekDayFormatter.string(from: date)), lineWidth: 1)
+                                        .stroke(.blue, lineWidth: 1)
+                                        .opacity(calendar.isDate(date, inSameDayAs: selectDate) ? 0:1)
+                                )
                             }
                         }, header: { date in
                             Text("00")
                                 .font(.system(size: 13))
-//                                .padding(10)
+                            //                                .padding(10)
                                 .foregroundColor(.clear)
-//                                .overlay(
-//                                    Text(weekDayFormatter.string(from: date))
-//                                        .fontWeight(.bold)
-//                                        .font(.system(size: 15))
-//                                        .foregroundColor(
-//                                            Color(weekDayFormatter.string(from: date))
-//                                        )
-//                                        .foregroundColor(.blue)
-//                                )
+                            //                                .overlay(
+                            //                                    Text(weekDayFormatter.string(from: date))
+                            //                                        .fontWeight(.bold)
+                            //                                        .font(.system(size: 15))
+                            //                                        .foregroundColor(
+                            //                                            Color(weekDayFormatter.string(from: date))
+                            //                                        )
+                            //                                        .foregroundColor(.blue)
+                            //                                )
                             
                         }, title: { date in
                             HStack{
@@ -264,7 +264,7 @@ struct CalendarWeekListViewModel: View {
                     }
                 }
             }
-           
+            
             VStack{
                 titleView(title: "សកម្មភាព/Activities")
                 
@@ -306,7 +306,7 @@ struct CalendarWeekListViewModel: View {
                                         .padding(.bottom, 5)
                                         .foregroundColor(Color("bodyOrange"))
                                 }
-                               
+                                
                             }
                         }
                         HStack{
@@ -350,9 +350,9 @@ struct CalendarWeekListViewModel: View {
                             }
                         }
                         Text("ផ្សេងៗ/Other : \( parentComment.isEmpty ? task.atHome.description :  parentComment )")
-                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
-                                .foregroundColor(Color("bodyBlue"))
-                     
+                            .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                            .foregroundColor(Color("bodyBlue"))
+                        
                     }
                 }
                 .padding()
@@ -387,10 +387,10 @@ struct CalendarWeekListViewModel: View {
                     Image("parents")
                         .resizable()
                         .frame(width: 50, height: 50)
-                  
+                    
                     Text("មតិមាតាបិតា/Parents' comments: \(parentAlertCommentResult.isEmpty ? task.ParentsComment : parentAlertCommentResult )")
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
-                            .foregroundColor(Color("bodyBlue"))
+                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                        .foregroundColor(Color("bodyBlue"))
                 }
                 .padding()
                 .frame(maxWidth:.infinity,alignment: .leading)
@@ -409,7 +409,7 @@ struct CalendarWeekListViewModel: View {
                     }else{
                         Text("\("សូមមាតាបិតាជួយដាក់បន្ថែម ".localizedLanguage(language:self.language))\("\(task.ParentsRequest.map{$0!}.joined(separator:", "))".localizedLanguage(language: self.language))\(" ឱ្យកូន".localizedLanguage(language: self.language))")
                     }
-                   
+                    
                 }
                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
                 .foregroundColor(Color("bodyOrange"))
@@ -423,7 +423,7 @@ struct CalendarWeekListViewModel: View {
                 )
                 .opacity(task.ParentsRequest.isEmpty ? 0:1)
                 
-
+                
             }
             
             titleView(title: "ផ្នែកបញ្ចូលព៏ត៍មាន/ input information")
@@ -564,7 +564,7 @@ struct CalendarWeekListViewModel: View {
                         case .empty:
                             ProgressView()
                                 .frame(width: 50, height: 50)
-                               
+                            
                         case .success(let image):
                             image.resizable()
                                 .clipShape(Circle())
@@ -596,9 +596,9 @@ struct CalendarWeekListViewModel: View {
                         }
                     }
                 }
-              
+                
                 VStack(alignment:.leading){
-                       
+                    
                     Text(body)
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                         .listRowBackground(Color.yellow)
@@ -609,9 +609,9 @@ struct CalendarWeekListViewModel: View {
                         .foregroundColor(Color(index % 2 == 0 ?"bodyOrange":"bodyBlue"))
                     
                     Text(description)
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
-                            .listRowBackground(Color.yellow)
-                            .foregroundColor(Color(index % 2 == 0 ?"bodyOrange":"bodyBlue"))
+                        .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                        .listRowBackground(Color.yellow)
+                        .foregroundColor(Color(index % 2 == 0 ?"bodyOrange":"bodyBlue"))
                 }
             }
             .padding()
@@ -641,7 +641,7 @@ struct CalendarWeekListViewModel: View {
                         case .empty:
                             ProgressView()
                                 .frame(width: 50, height: 50)
-                               
+                            
                         case .success(let image):
                             image.resizable()
                                 .clipShape(Circle())
@@ -663,7 +663,7 @@ struct CalendarWeekListViewModel: View {
                                     if !imageURL.isEmpty{
                                         self.reloadingActionImg = true
                                     }
-                                   
+                                    
                                 }
                         @unknown default:
                             // Since the AsyncImagePhase enum isn't frozen,
@@ -674,9 +674,9 @@ struct CalendarWeekListViewModel: View {
                         }
                     }
                 }
-               
+                
                 VStack(alignment:.leading){
-
+                    
                     Text(body)
                         .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                         .listRowBackground(Color.yellow)
@@ -685,7 +685,7 @@ struct CalendarWeekListViewModel: View {
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                         .listRowBackground(Color.yellow)
                         .foregroundColor(Color(index % 2 == 0 ?"bodyOrange":"bodyBlue"))
-            
+                    
                     Text(description)
                         .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
                         .listRowBackground(Color.yellow)
@@ -784,7 +784,7 @@ private extension CalendarWeekListView {
     func makeDays()-> [Date]{
         guard
             let firstWeek = calendar.dateInterval(of: .weekOfMonth, for: date),
-              let lastWeek = calendar.dateInterval(of: .weekOfMonth, for: firstWeek.end - 1 )
+            let lastWeek = calendar.dateInterval(of: .weekOfMonth, for: firstWeek.end - 1 )
         else {
             return []
         }
@@ -806,7 +806,7 @@ private extension Calendar {
             matchingPolicy: .nextTime
         ) { date, _, stop in
             guard let date = date else  { return }
-               
+            
             guard date < dateInterval.end else {
                 stop = true
                 return
@@ -818,7 +818,7 @@ private extension Calendar {
     
     func generateDays(for dateInteval: DateInterval) -> [Date] {
         generateDates(for: dateInteval,
-                     matching: dateComponents([.hour, .minute, .second], from: dateInteval.start))
+                      matching: dateComponents([.hour, .minute, .second], from: dateInteval.start))
     }
 }
 

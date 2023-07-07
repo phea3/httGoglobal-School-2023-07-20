@@ -180,27 +180,27 @@ struct Education: View {
                                                                         }
                                                                 @unknown default:
                                                                     fatalError()
+                                                                }
                                                             }
                                                         }
                                                     }
                                                 }
                                             }
                                         }
-                                    }
                                 }
-                                    .refreshable {
-                                        do {
-                                            students.clearCache()
-                                            // Sleep for 2 seconds
-                                            try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                                        } catch {}
-                                        self.hidingDivider = true
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                            self.hidingDivider = false
-                                        }
-                                        refreshingView()
-                                        students.StundentAmount(parentId: parentId)
+                                .refreshable {
+                                    do {
+                                        students.clearCache()
+                                        // Sleep for 2 seconds
+                                        try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                                    } catch {}
+                                    self.hidingDivider = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        self.hidingDivider = false
                                     }
+                                    refreshingView()
+                                    students.StundentAmount(parentId: parentId)
+                                }
                                 if onAppearImg{
                                     ZStack{
                                         Color(colorScheme == .dark ? "Black" : "BG")
@@ -387,27 +387,27 @@ struct Education: View {
                                                                         }
                                                                 @unknown default:
                                                                     fatalError()
+                                                                }
                                                             }
                                                         }
                                                     }
                                                 }
                                             }
                                         }
-                                    }
                                 }
-                                    .refreshable {
-                                        do {
-                                            students.clearCache()
-                                            // Sleep for 2 seconds
-                                            try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                                        } catch {}
-                                        self.hidingDivider = true
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                            self.hidingDivider = false
-                                        }
-                                        refreshingView()
-                                        students.StundentAmount(parentId: parentId)
+                                .refreshable {
+                                    do {
+                                        students.clearCache()
+                                        // Sleep for 2 seconds
+                                        try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                                    } catch {}
+                                    self.hidingDivider = true
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        self.hidingDivider = false
                                     }
+                                    refreshingView()
+                                    students.StundentAmount(parentId: parentId)
+                                }
                                 if onAppearImg{
                                     ZStack{
                                         Color(colorScheme == .dark ? "Black" : "BG")
@@ -489,7 +489,7 @@ struct Education: View {
                 Divider()
             }
         }
-       
+        
     }
     func refreshingView(){
         self.refreshing = true
@@ -533,7 +533,7 @@ struct Education: View {
                             .aspectRatio(contentMode: .fill)
                             .padding(prop.isiPhoneS ? 20 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 24 : 25)
                             .onAppear{
-                                self.onAppearImg = false 
+                                self.onAppearImg = false
                             }
                     case .failure:
                         Image("student")
@@ -571,7 +571,7 @@ struct Education: View {
         .frame(width: prop.isiPhoneS ? 160 : prop.isiPhoneM ? 170 : prop.isiPhoneL ? 180 : 200, height: prop.isiPhoneS ? 185 : prop.isiPhoneM ? 200 : prop.isiPhoneL ? 220 : 220, alignment: .center)
         .addBorder(.orange,width: 1, cornerRadius: 20)
     }
-   
+    
     @ViewBuilder
     private func ChangeLanguage()-> some View {
         HStack{

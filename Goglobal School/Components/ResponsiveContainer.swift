@@ -117,7 +117,7 @@ extension UISplitViewController{
 }
 
 struct CustomTabBar: View {
-    
+    @ObservedObject var appState = AppState.shared
     @Binding var currentTab: Tab
     // MARK: to Animation like Cureve
     @State var yOffset: CGFloat = 0
@@ -131,7 +131,10 @@ struct CustomTabBar: View {
                             currentTab = tab
                             yOffset = -60
                         }
-                        
+                        DispatchQueue.main.async {
+                            appState.stu_id = nil
+                            appState.actionofnoty = nil
+                        }
                         // MARK: Resetting with Slight Delay
                         withAnimation(.easeInOut(duration: 0.1).delay(0.1)){
                             yOffset = 0

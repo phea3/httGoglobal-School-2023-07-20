@@ -74,7 +74,7 @@ struct CalendarViewModel: View {
                                         ChangeLanguage()
                                     }
                                     ToolbarItem(placement: .navigationBarTrailing) {
-                                        if prop.isLandscape{ 
+                                        if prop.isLandscape{
                                             HStack{
                                                 if self.reloadimgtoolbar{
                                                     ProgressView()
@@ -176,13 +176,13 @@ struct CalendarViewModel: View {
                                                                 }
                                                         @unknown default:
                                                             fatalError()
+                                                        }
                                                     }
                                                 }
                                             }
                                         }
                                     }
                                 }
-                            }
                         }
                         .refreshable {
                             do {
@@ -332,7 +332,7 @@ struct CalendarViewModel: View {
                     }
                     .padding(-5)
                     .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
-                    
+                
             }
         }
     }

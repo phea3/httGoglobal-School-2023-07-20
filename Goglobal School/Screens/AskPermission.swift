@@ -130,7 +130,7 @@ struct AskPermissionView: View {
                     }
                     .padding()
                     .offset(x:0,y: prop.isLandscape ? 0 : -80)
-//                    .shadow(color: .black, radius: 4, x: 0, y: 0)
+                    //                    .shadow(color: .black, radius: 4, x: 0, y: 0)
                 }
             }
             
@@ -187,7 +187,7 @@ struct PermissionView: View {
     var parentId: String
     var btnBack : some View { Button(action:{self.presentationMode.wrappedValue.dismiss()}) {backButtonView(language: self.language, prop: prop, barTitle: "ស្នើសុំច្បាប់".localizedLanguage(language: self.language))}}
     var body: some View{
-       
+        
         VStack{
             Divider()
             ScrollView(.vertical, showsIndicators: false) {
@@ -203,8 +203,8 @@ struct PermissionView: View {
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
                             Spacer()
                             Picker("Select type", selection: $shiftId) {
-//                                Text("ជ្រើសរើស".localizedLanguage(language: self.language))
-//                                    .tag(Optional<String>(nil))
+                                //                                Text("ជ្រើសរើស".localizedLanguage(language: self.language))
+                                //                                    .tag(Optional<String>(nil))
                                 ForEach(getStudentShift.GetAllShift, id: \.shiftId) { item in
                                     Text("\(item.shiftName)")
                                         .tag(Optional(item.shiftId))

@@ -99,19 +99,19 @@ struct Profile: View {
                                         }
                                         
                                     }
-                                        .refreshable {
-                                            do {
-                                                userProfile.clearCache()
-                                                // Sleep for 2 seconds
-                                                try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
-                                            } catch {}
-                                            self.hidingDivider = true
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                                self.hidingDivider = false
-                                            }
-                                            refreshingView()
-                                            userProfile.getProfileImage(mobileUserId: logout.userprofileId)
+                                    .refreshable {
+                                        do {
+                                            userProfile.clearCache()
+                                            // Sleep for 2 seconds
+                                            try await Task.sleep(nanoseconds: 2 * 1_000_000_000)
+                                        } catch {}
+                                        self.hidingDivider = true
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                            self.hidingDivider = false
                                         }
+                                        refreshingView()
+                                        userProfile.getProfileImage(mobileUserId: logout.userprofileId)
+                                    }
                                     if onAppearImg{
                                         ZStack{
                                             Color(colorScheme == .dark ? "Black" : "BG")
@@ -150,10 +150,10 @@ struct Profile: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .overlay(ImageViewerRemote(imageURL: .constant(userProfile.userProfileImg), viewerShown: self.$showImage, disableCache: true, closeButtonTopRight: true)
                             .onDisappear{
-                            DispatchQueue.main.async {
-                                self.hideTab = false
-                            }
-                        })
+                                DispatchQueue.main.async {
+                                    self.hideTab = false
+                                }
+                            })
                     }
                     
                     if logoutLoading{
@@ -183,7 +183,7 @@ struct Profile: View {
                 }
             }
         }
-       
+        
         .phoneOnlyStackNavigationView()
         .padOnlyStackNavigationView()
     }

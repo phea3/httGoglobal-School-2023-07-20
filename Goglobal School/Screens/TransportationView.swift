@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct TransportationView: View {
     @Environment(\.colorScheme) var colorScheme
+    @ObservedObject var appState = AppState.shared
     @StateObject var students: GetStudentTransportationByMobileUser = GetStudentTransportationByMobileUser()
-    @State var DummyBoolean: Bool = false
+    @State var gotStudentId: Bool = false
     @State var axcessPadding: CGFloat = 0
     @State var currentProgress: CGFloat = 0.0
     @State var userProfileImg: String
@@ -56,7 +58,6 @@ struct TransportationView: View {
                         Divider()
                             .opacity(hidingDivider ? 0:1)
                         if !refreshing{
-                            
                             ZStack{
                                 ScrollRefreshable(langauge: self.language,title: "កំពុងភ្ជាប់", tintColor: .blue) {
                                     mainView()
@@ -180,13 +181,13 @@ struct TransportationView: View {
                                                                         }
                                                                 @unknown default:
                                                                     fatalError()
+                                                                }
                                                             }
                                                         }
                                                     }
                                                 }
                                             }
                                         }
-                                    }
                                 }
                                 .refreshable {
                                     do {
@@ -241,7 +242,7 @@ struct TransportationView: View {
         } else {
             NavigationView  {
                 VStack(spacing: 0) {
-                    if DummyBoolean{
+                    if students.students.isEmpty{
                         ZStack{
                             if viewLoading{
                                 progressingView(prop: prop,language: self.language, colorScheme: colorScheme)
@@ -387,13 +388,13 @@ struct TransportationView: View {
                                                                         }
                                                                 @unknown default:
                                                                     fatalError()
+                                                                }
                                                             }
                                                         }
                                                     }
                                                 }
                                             }
                                         }
-                                    }
                                 }
                                 .refreshable {
                                     do {
@@ -443,16 +444,13 @@ struct TransportationView: View {
                 }
                 .setBG(colorScheme: colorScheme)
             }
-            
             .phoneOnlyStackNavigationView()
             .padOnlyStackNavigationView()
         }
     }
     
     private func getUserTrans() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-            students.getStudent(parentId: self.parentId)
-        }
+        students.getStudent(parentId: self.parentId)
     }
     
     private func mainView()-> some View {
@@ -481,11 +479,12 @@ struct TransportationView: View {
                             HStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : prop.isiPhoneL ? 12 : 14){
                                 ForEach(students.students, id: \.id){ student in
                                     NavigationLink(
-                                        destination: AttendanceTransportaion(userProfileImg: self.userProfileImg, studentId: student.id, studentName: "\(student.lastname) \(student.firstname)", studentEnglishName: student.englishname, classId: "", academicYearId: "", programId: "", barTitle: "សេវាកម្មដឹកជញ្ជូន", language: self.language, prop: prop),
+                                        destination: AttendanceTransportaion(userProfileImg: self.userProfileImg, studentId: student.id, barTitle: "សេវាកម្មដឹកជញ្ជូន", language: self.language, prop: prop),
                                         label: {
                                             widgetStu(ImageStudent: student.profileimage, Firstname: student.firstname, Lastname: student.lastname, prop: prop, Englishname: student.englishname)
                                         }
-                                    )                            }
+                                    )
+                                }
                             }
                             .frame(width: (prop.isLandscape && (prop.isiPhone || prop.isiPad)) || prop.isiPad ? prop.size.width : .infinity)
                         }
@@ -494,10 +493,25 @@ struct TransportationView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.bottom)
                 Divider()
+                NavigationLink(destination: AttendanceTransportaion(userProfileImg: self.userProfileImg, studentId: appState.stu_id ?? "", barTitle: "សេវាកម្មដឹកជញ្ជូន", language: self.language, prop: prop), isActive: $gotStudentId ){
+                    EmptyView()
+                }
             }
+            .onAppear{
+                if appState.stu_id != nil {
+                    DispatchQueue.main.async {
+                        self.gotStudentId = true
+                    }
+                }
+            }
+            .onChange(of: appState.stu_id, perform: { newValue in
+                DispatchQueue.main.async {
+                    self.gotStudentId = true
+                }
+            })
         }
     }
-   
+    
     private func refreshingView(){
         self.refreshing = true
         self.onAppearImg = true
@@ -622,4 +636,3 @@ struct TransportationView_Previews: PreviewProvider {
         TransportationView(userProfileImg: "", isLoading: .constant(false), bindingLanguage: .constant(""),showTeacherImage: .constant(false),UrlImg: .constant(""), parentId: "", academicYearName: "", language: "", prop: prop)
     }
 }
-

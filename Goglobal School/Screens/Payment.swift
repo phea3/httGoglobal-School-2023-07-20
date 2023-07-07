@@ -19,7 +19,7 @@ struct Payment: View {
         VStack{
             if loadingScreen{
                 ProgressView(value: currentProgress, total: 1000)
-                    Spacer()
+                Spacer()
                     .onAppear{
                         self.currentProgress = 250
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3){
@@ -32,7 +32,7 @@ struct Payment: View {
                             self.currentProgress = 1000
                         }
                     }
-                   
+                
             }else{
                 rowView(dater: "កាលបរិច្ឆេទ", pay: "បង់ថ្លៃ", period: "បរិយាយ", total: "សរុប")
                     .padding()
@@ -53,7 +53,7 @@ struct Payment: View {
                                             .foregroundColor(.blue)
                                     }
                                     Spacer()
-
+                                    
                                     if payment.NetAmount == 0.0 && payment.GrossAmount == 0.0 && payment.StartDate == "" && payment.EndDate == "" {
                                         VStack{
                                             ForEach(payment.AdditionalFee, id: \.Id) { task in
@@ -69,16 +69,16 @@ struct Payment: View {
                                                         .foregroundColor(.red)
                                                 }
                                                 .padding(5)
-//                                                    .overlay(
-//                                                        RoundedRectangle(cornerRadius: 5)
-//                                                            .stroke(Color.orange, lineWidth: 1)
-//                                                    )
+                                                //                                                    .overlay(
+                                                //                                                        RoundedRectangle(cornerRadius: 5)
+                                                //                                                            .stroke(Color.orange, lineWidth: 1)
+                                                //                                                    )
                                                 Rectangle()
                                                     .fill(.orange)
                                                     .frame(width: .infinity, height: 1)
                                             }
                                         }
-
+                                        
                                     } else {
                                         VStack{
                                             HStack{
@@ -87,7 +87,7 @@ struct Payment: View {
                                                 Spacer()
                                                 if !payment.Month.isEmpty{
                                                     Text("១ ខែ".localizedLanguage(language: self.language))
-                                                       .foregroundColor(.blue)
+                                                        .foregroundColor(.blue)
                                                 } else if !payment.Quarter.isEmpty {
                                                     Text("១ ត្រីមាស".localizedLanguage(language: self.language))
                                                         .foregroundColor(.blue)
@@ -103,16 +103,16 @@ struct Payment: View {
                                                     .foregroundColor(.red)
                                             }
                                             .padding(5)
-//                                                .overlay(
-//                                                    RoundedRectangle(cornerRadius: 5)
-//                                                        .stroke(Color.orange, lineWidth: 1)
-//                                                )
+                                            //                                                .overlay(
+                                            //                                                    RoundedRectangle(cornerRadius: 5)
+                                            //                                                        .stroke(Color.orange, lineWidth: 1)
+                                            //                                                )
                                             Rectangle()
                                                 .fill(.orange)
                                                 .frame(width: .infinity, height: 1)
-
+                                            
                                             if !payment.AdditionalFee.isEmpty{
-
+                                                
                                                 ForEach(payment.AdditionalFee, id: \.Id) { task in
                                                     HStack{
                                                         Text(task.IncomeHead.IncomeHead)
@@ -121,16 +121,16 @@ struct Payment: View {
                                                         Spacer()
                                                         Text("\(task.countMonth) \(task.IncomeHead.Unit)".localizedLanguage(language: self.language))
                                                             .foregroundColor(.blue)
-
+                                                        
                                                         Spacer()
                                                         Text("$\(getExactPrice(price: task.Total ))")
                                                             .foregroundColor(.red)
                                                     }
                                                     .padding(5)
-//                                                        .overlay(
-//                                                            RoundedRectangle(cornerRadius: 5)
-//                                                                .stroke(Color.orange, lineWidth: 1)
-//                                                        )
+                                                    //                                                        .overlay(
+                                                    //                                                            RoundedRectangle(cornerRadius: 5)
+                                                    //                                                                .stroke(Color.orange, lineWidth: 1)
+                                                    //                                                        )
                                                     Rectangle()
                                                         .fill(.orange)
                                                         .frame(width: .infinity, height: 1)
@@ -162,12 +162,15 @@ struct Payment: View {
             }
         }
     }
+    
     func getExactDate(date: String)-> String{
         paymentmethod.convertToExactForm(getDate: date)
     }
+    
     func getExactPrice(price: Double)-> String{
         String(format: "%.0f", price)
     }
+    
     func rowView(dater: String, pay: String, period: String, total: String)-> some View {
         HStack{
             Text(dater.localizedLanguage(language: self.language))
@@ -189,6 +192,7 @@ struct Payment: View {
                 .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
         )
     }
+    
     func rowdata(dater: String, pay: String, period: String, total: String)-> some View {
         HStack{
             Image(systemName: "calendar.badge.clock")
@@ -213,7 +217,7 @@ struct Payment: View {
         .background(Color("LightOrange").opacity(0.5))
         .cornerRadius(10)
         
-
+        
         
     }
 }

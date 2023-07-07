@@ -59,7 +59,7 @@ struct CustomDatePicker: View {
             
             // Day View...
             language == "en" ?
-                
+            
             HStack(spacing: 0){
                 ForEach(englishdays, id: \.self){ day in
                     Text(day)
@@ -113,7 +113,7 @@ struct CustomDatePicker: View {
         .onChange(of: currentMonth) { newValue in
             // Update Month...
             currentDate = getCurrentMont()
-//            print(currentDate)
+            //            print(currentDate)
         }
         .onAppear(perform: {
             Attendance.GetAllAttendance(studentId: studentId, sectionShiftId: self.sectionShiftId, currentDate: currentDate)

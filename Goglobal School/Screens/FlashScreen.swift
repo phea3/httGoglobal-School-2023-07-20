@@ -22,9 +22,9 @@ struct FlashScreen: View {
                 LogoGoglobal(prop:prop)
                 Spacer()
                 footer(prop: prop)
-//                if prop.isLandscape{
-//                    Spacer()
-//                }
+                //                if prop.isLandscape{
+                //                    Spacer()
+                //                }
             }
             .padding(prop.isiPhoneS ? 25: prop.isiPhoneM ? 30 : prop.isiPhoneL ? 35 : 40)
         }
