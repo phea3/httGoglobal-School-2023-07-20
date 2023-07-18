@@ -116,6 +116,7 @@ struct AttendanceTransportaion: View {
                             Text("មិនមានទិន្នន័យ!".localizedLanguage(language: self.language))
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 :  16 , relativeTo: .largeTitle))
                                 .padding()
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
                                 .onTapGesture(count: 2) {
                                     SchoolBus.getAttendances(page: self.page, limit: self.limit, start: "", end: "", busId: "", studentId: self.studentId)
                                 }
@@ -172,6 +173,14 @@ struct AttendanceTransportaion: View {
                                         .padding()
                                 }
                             }
+                        }
+                        .refreshable {
+                            do {
+                                // Sleep for 2 seconds
+                                SchoolBus.clear()
+                                try await Task.sleep(nanoseconds: 1 * 1_000_000_000)
+                            } catch {}
+                            SchoolBus.getAttendances(page: self.page, limit: self.limit, start: convertString(inputDate: self.startDate), end: convertString(inputDate: self.endDate), busId: "", studentId: self.studentId)
                         }
                     }
                 }

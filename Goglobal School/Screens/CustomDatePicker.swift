@@ -5,11 +5,13 @@
 //  Created by Leng Mouyngech on 25/8/22.
 //
 import SwiftUI
+import Liquid
 
 struct CustomDatePicker: View {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var Attendance: ListAttendanceViewModel = ListAttendanceViewModel()
     // Month update on arrow button clicks...
+    @State var loading: Bool = true
     @State var currentMonth: Int = 0
     @State var studentId: String
     @Binding var currentDate: Date
@@ -17,6 +19,7 @@ struct CustomDatePicker: View {
     var prop: Properties
     var language: String
     var body: some View {
+        
         VStack(spacing: 0){
             let days: [String] = ["អាទិត្យ","ចន្ទ","អង្គារ","ពុធ","ព្រហ","សុក្រ","សៅរ៍"]
             let englishdays: [String] = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
@@ -33,9 +36,18 @@ struct CustomDatePicker: View {
                 Spacer()
                 Button {
                     withAnimation {
-                        currentMonth -= 1
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
-                            Attendance.GetAllAttendance(studentId: studentId, sectionShiftId: self.sectionShiftId, currentDate: currentDate)
+                        DispatchQueue.main.async{
+                            if !Attendance.Attendances.isEmpty {
+                                self.loading = true
+                            }
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+                                currentMonth -= 1
+                                Attendance.resetAttendance()
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+                                    Attendance.GetAllAttendance(studentId: studentId, sectionShiftId: self.sectionShiftId, currentDate: currentDate)
+                                }
+                            }
                         }
                     }
                 } label: {
@@ -45,9 +57,18 @@ struct CustomDatePicker: View {
                 
                 Button {
                     withAnimation {
-                        currentMonth += 1
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
-                            Attendance.GetAllAttendance(studentId: studentId, sectionShiftId: self.sectionShiftId, currentDate: currentDate)
+                        DispatchQueue.main.async{
+                            if !Attendance.Attendances.isEmpty {
+                                self.loading = true
+                            }
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+                                currentMonth += 1
+                                Attendance.resetAttendance()
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+                                    Attendance.GetAllAttendance(studentId: studentId, sectionShiftId: self.sectionShiftId, currentDate: currentDate)
+                                }
+                            }
                         }
                     }
                 } label: {
@@ -82,24 +103,46 @@ struct CustomDatePicker: View {
             }
             // Dates...
             //Lazy Grid
-            
             let columns = Array(repeating: GridItem(.flexible()), count: 7)
-            
-            LazyVGrid(columns: columns, spacing: 0) {
-                
-                ForEach(extractDate()){ value in
+            ZStack{
+                LazyVGrid(columns: columns, spacing: 0) {
                     
-                    CardView(value: value)
+                    ForEach(extractDate()){ value in
+                        
+                        CardView(value: value)
+                        
+                    }
+                }
+                .padding(.top)
+                if loading{
+                    ZStack{
+                        Color(colorScheme == .dark ? "Black" : "BG")
+                            .opacity(1)
+                        ZStack {
+                            Liquid()
+                                .frame(width: 240, height: 240)
+                                .foregroundColor(.blue)
+                                .opacity(0.3)
+
+
+                            Liquid()
+                                .frame(width: 220, height: 220)
+                                .foregroundColor(.blue)
+                                .opacity(0.6)
+
+                            Liquid(samples: 5)
+                                .frame(width: 200, height: 200)
+                                .foregroundColor(.blue)
+                            
+                            Text("កំពុងភ្ជាប់".localizedLanguage(language: language))
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 36 : prop.isiPhoneM ? 38 : 40, relativeTo: .title))
+                                .foregroundColor(.white)
+                        }
+                    }
                 }
             }
-            .padding(.top)
-            
-            VStack( spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20) {
-                List(Attendance.Attendances, id: \.AttendanceId){ attend in
-                    Text(attend.AttendanceId)
-                }
-            }
-            
+           
+               
             VStack(spacing: prop.isiPhoneM ? 5 : prop.isiPhoneM ? 8 :  prop.isiPhoneL ? 10 : 12 ){
                 guildline(text: "វត្តមាន", color: .blue)
                 guildline(text: "មកយឺត", color: .green)
@@ -110,10 +153,11 @@ struct CustomDatePicker: View {
             .padding()
         }
         .padding(.bottom, 35)
+        
+        
         .onChange(of: currentMonth) { newValue in
             // Update Month...
             currentDate = getCurrentMont()
-            //            print(currentDate)
         }
         .onAppear(perform: {
             Attendance.GetAllAttendance(studentId: studentId, sectionShiftId: self.sectionShiftId, currentDate: currentDate)
@@ -136,7 +180,7 @@ struct CustomDatePicker: View {
         VStack{
             if value.day != -1 {
                 
-                if let attend = Attendance.modifiedAttendances.first(where: { attend in
+                if let attend = Attendance.Attendances.first(where: { attend in
                     return isSameDay(date1: convertDate(inputDate: attend.AttendanceDate), date2: value.date)
                 })
                 {
@@ -148,6 +192,11 @@ struct CustomDatePicker: View {
                             Circle()
                                 .foregroundColor(attend.Status == "ABSENT" ? Color.red : attend.Status == "LATE" ? .green : attend.Status == "PRESENT" ? .blue : attend.Status == "PERMISSION" ? .yellow : .clear)
                         )
+                        .onAppear{
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6){
+                                self.loading = false
+                            }
+                        }
                 }
                 else
                 {

@@ -24,6 +24,10 @@ class GetStudentTransportationAttendancePagination: ObservableObject {
             }
         }
     }
+    
+    func clear(){
+        Network2.shared.apollo.clearCache()
+    }
     struct GetStudentTransportationAttendancePaginationModel {
         let attendance: GetStudentTransportationAttendancePaginationQuery.Data.GetStudentTransportationAttendancePagination.Datum?
         

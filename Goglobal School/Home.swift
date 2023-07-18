@@ -178,10 +178,10 @@ struct Home: View {
                     }
                 Education(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, bindingLanguage: $language,showTeacherImage: $showTeacherImage,UrlImg: $UrlImg, parentId: loginVM.userId, academicYearName: academiclist.khmerYear, language: self.language, prop: prop)
                     .tag(Tab.education)
-                CalendarViewModel(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, bindingLanguage: $language, language: self.language, prop: prop, activeYear: academiclist.academicYearId)
-                    .tag(Tab.bag)
                 TransportationView(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, bindingLanguage: $language,showTeacherImage: $showTeacherImage,UrlImg: $UrlImg, parentId: loginVM.userId, academicYearName: academiclist.khmerYear, language: self.language, prop: prop)
                     .tag(Tab.bus)
+                CalendarViewModel(userProfileImg: loginVM.userProfileImg, isLoading: $isLoading, bindingLanguage: $language, language: self.language, prop: prop, activeYear: academiclist.academicYearId)
+                    .tag(Tab.bag)
                 Profile(logout: loginVM, uploadImg: UpdateMobileUserProfileImg(), Loading: $isLoading, hideTab: $hideTab, checkState: $checkState, showFlag: $showFlag, bindingLanguage: $language, prop: prop, devicetoken: self.newToken, language: self.language)
                     .tag(Tab.book)
             }
@@ -189,6 +189,7 @@ struct Home: View {
             CustomTabBar(currentTab: $currentTab, prop: prop)
                 .background(RoundedCorners(color: colorScheme == .dark ? .black :  .white, tl: 30, tr: 30, bl: 0, br: 0))
                 .frame(maxWidth: prop.isLandscape || prop.isSplit ? 400 : prop.isiPad ? 400 : .infinity, maxHeight: .infinity, alignment: .bottom)
+                .shadow(color: .gray, radius: 1, x: 0, y: 0)
                 .opacity( hideTab ? 0 : animationStarted ? 1:0)
                 .onAppear{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
@@ -432,19 +433,7 @@ struct Home: View {
             .padding(prop.isiPhoneS ? 25: prop.isiPhoneM ? 30 : prop.isiPhoneL ? 35 : 40)
             
             if isLoading{
-                ZStack{
-                    Rectangle()
-                        .fill(.blue)
-                        .frame(width: 100, height: 100, alignment: .center)
-                        .cornerRadius(20)
-                    VStack{
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                            .scaleEffect(prop.isiPhoneS ? 1 : prop.isiPhoneM ? 1: prop.isiPhoneL ? 1 : 1)
-                        Text("កំពុងភ្ជាប់".localizedLanguage(language: self.language))
-                            .foregroundColor(.white)
-                    }
-                }
+                progressingView(prop: prop, language: self.language, colorScheme: self.colorScheme)
             }
         }
         .onTapGesture {

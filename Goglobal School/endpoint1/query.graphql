@@ -52,14 +52,6 @@ query GetStudentsByParents($parentId: ID) {
   }
 }
 
-query GetAttendanceByStudentId($studentId: ID!) {
-  getAttendanceByStudentId(studentId: $studentId) {
-    attendanceId
-    attendanceDate
-    status
-  }
-}
-
 query GetMobileUserById($mobileUserId: ID) {
   getMobileUserById(mobileUserId: $mobileUserId) {
     _id

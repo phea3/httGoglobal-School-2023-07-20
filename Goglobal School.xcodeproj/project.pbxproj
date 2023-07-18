@@ -76,6 +76,9 @@
 		5C3B440D2A402A0E00DF2364 /* AttendanceTransportaion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B440C2A402A0E00DF2364 /* AttendanceTransportaion.swift */; };
 		5C3B44112A403AE900DF2364 /* GetTransportationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B44102A403AE900DF2364 /* GetTransportationViewModel.swift */; };
 		5C3B44132A404DEE00DF2364 /* GetSchoolBusAttByIdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3B44122A404DEE00DF2364 /* GetSchoolBusAttByIdViewModel.swift */; };
+		5C6BC2752A666979000C86CA /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 5C6BC2742A666979000C86CA /* ActivityIndicatorView */; };
+		5C6BC2782A666BD6000C86CA /* Tester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6BC2772A666BD6000C86CA /* Tester.swift */; };
+		5C6CE34A2A66484000E2099A /* Liquid in Frameworks */ = {isa = PBXBuildFile; productRef = 5C6CE3492A66484000E2099A /* Liquid */; };
 		5C872FF12A4EB5F400E6084E /* schema2.json in Resources */ = {isa = PBXBuildFile; fileRef = 5C872FF02A4EB5F400E6084E /* schema2.json */; };
 		5C872FF32A4EB6A500E6084E /* RemoveMobilUserToken.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 5C872FF22A4EB6A500E6084E /* RemoveMobilUserToken.graphql */; };
 		5C872FF52A4EB6C100E6084E /* AddMobilUserToken.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 5C872FF42A4EB6C100E6084E /* AddMobilUserToken.graphql */; };
@@ -191,6 +194,7 @@
 		5C3B440C2A402A0E00DF2364 /* AttendanceTransportaion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceTransportaion.swift; sourceTree = "<group>"; };
 		5C3B44102A403AE900DF2364 /* GetTransportationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTransportationViewModel.swift; sourceTree = "<group>"; };
 		5C3B44122A404DEE00DF2364 /* GetSchoolBusAttByIdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSchoolBusAttByIdViewModel.swift; sourceTree = "<group>"; };
+		5C6BC2772A666BD6000C86CA /* Tester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tester.swift; sourceTree = "<group>"; };
 		5C872FF02A4EB5F400E6084E /* schema2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema2.json; sourceTree = "<group>"; };
 		5C872FF22A4EB6A500E6084E /* RemoveMobilUserToken.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = RemoveMobilUserToken.graphql; sourceTree = "<group>"; };
 		5C872FF42A4EB6C100E6084E /* AddMobilUserToken.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = AddMobilUserToken.graphql; sourceTree = "<group>"; };
@@ -227,6 +231,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C6CE34A2A66484000E2099A /* Liquid in Frameworks */,
 				5C8808D92A53A1CC002A6EBC /* FirebaseMessaging in Frameworks */,
 				091B223628CC465400FE9DBB /* AuthenticationServices.framework in Frameworks */,
 				77E15DDE293DD26D00652690 /* MarqueeText in Frameworks */,
@@ -236,6 +241,7 @@
 				5C8808D52A53A1CC002A6EBC /* FirebaseAuth in Frameworks */,
 				7787C2F32930A394002DA96C /* DomainParser in Frameworks */,
 				093E9AFD28FE3F7900449E41 /* ImageViewerRemote in Frameworks */,
+				5C6BC2752A666979000C86CA /* ActivityIndicatorView in Frameworks */,
 				5C8808D72A53A1CC002A6EBC /* FirebaseFirestore in Frameworks */,
 				093E9AFB28FE3F7900449E41 /* ImageViewer in Frameworks */,
 				09F5198528D1E81D00C8B1FD /* KeychainSwift in Frameworks */,
@@ -357,6 +363,7 @@
 		09FEBC4D28B704E400E8B5B7 /* Goglobal School */ = {
 			isa = PBXGroup;
 			children = (
+				5C6BC2762A666BC3000C86CA /* Tester */,
 				7787C2EA2930693F002DA96C /* Goglobal-School-Info.plist */,
 				5C8808DA2A53AAB7002A6EBC /* GoogleService-Info.plist */,
 				7787C2E9293068F8002DA96C /* Goglobal School.entitlements */,
@@ -411,6 +418,14 @@
 				09FEBC7128B7070500E8B5B7 /* Kantumruy-Regular.ttf */,
 			);
 			path = Kantumruy;
+			sourceTree = "<group>";
+		};
+		5C6BC2762A666BC3000C86CA /* Tester */ = {
+			isa = PBXGroup;
+			children = (
+				5C6BC2772A666BD6000C86CA /* Tester.swift */,
+			);
+			path = Tester;
 			sourceTree = "<group>";
 		};
 		5C872FEE2A4EB40E00E6084E /* endpoint1 */ = {
@@ -486,6 +501,8 @@
 				5C8808D42A53A1CC002A6EBC /* FirebaseAuth */,
 				5C8808D62A53A1CC002A6EBC /* FirebaseFirestore */,
 				5C8808D82A53A1CC002A6EBC /* FirebaseMessaging */,
+				5C6CE3492A66484000E2099A /* Liquid */,
+				5C6BC2742A666979000C86CA /* ActivityIndicatorView */,
 			);
 			productName = "Goglobal School";
 			productReference = 09FEBC4B28B704E400E8B5B7 /* Goglobal School.app */;
@@ -525,6 +542,8 @@
 				7787C2F12930A394002DA96C /* XCRemoteSwiftPackageReference "SwiftDomainParser" */,
 				77E15DDC293DD26D00652690 /* XCRemoteSwiftPackageReference "MarqueeText" */,
 				5C8808CF2A53A1CC002A6EBC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				5C6CE3482A66484000E2099A /* XCRemoteSwiftPackageReference "liquid" */,
+				5C6BC2732A666979000C86CA /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 			);
 			productRefGroup = 09FEBC4C28B704E400E8B5B7 /* Products */;
 			projectDirPath = "";
@@ -570,7 +589,7 @@
 		09FEBC7E28B7080D00E8B5B7 /* Generate Apollo Graphql API */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -582,7 +601,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n# Don't run this during index builds\nif [ $ACTION = \"indexbuild\" ]; then exit 0; fi\n\n# Go to the build root and search up the chain to find the Derived Data Path where the source packages are checked out.\nDERIVED_DATA_CANDIDATE=\"${BUILD_ROOT}\"\n\nwhile ! [ -d \"${DERIVED_DATA_CANDIDATE}/SourcePackages\" ]; do\n  if [ \"${DERIVED_DATA_CANDIDATE}\" = / ]; then\n    echo >&2 \"error: Unable to locate SourcePackages directory from BUILD_ROOT: '${BUILD_ROOT}'\"\n    exit 1\n  fi\n\n  DERIVED_DATA_CANDIDATE=\"$(dirname \"${DERIVED_DATA_CANDIDATE}\")\"\ndone\n\n# Grab a reference to the directory where scripts are checked out\nSCRIPT_PATH=\"${DERIVED_DATA_CANDIDATE}/SourcePackages/checkouts/apollo-ios/scripts\"\n\nif [ -z \"${SCRIPT_PATH}\" ]; then\n    echo >&2 \"error: Couldn't find the CLI script in your checked out SPM packages; make sure to add the framework to your project.\"\n    exit 1\nfi\n\ncd \"${SRCROOT}/Goglobal School/endpoint1\"\n\"${SCRIPT_PATH}\"/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/*.graphql --localSchemaFile=\"schema.json\" API.swift\n\ncd \"${SRCROOT}/Goglobal School/endpoint2\"\n\"${SCRIPT_PATH}\"/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/*.graphql --localSchemaFile=\"schema2.json\" API2.swift\n";
 		};
@@ -621,6 +640,7 @@
 				0902C55828CF0C3500F2A956 /* MonitorNetwork.swift in Sources */,
 				09FEBC9828B70B6B00E8B5B7 /* ResponsiveContainer.swift in Sources */,
 				5C8808E02A53D175002A6EBC /* GetStudentTransportationByMobileUser.swift in Sources */,
+				5C6BC2782A666BD6000C86CA /* Tester.swift in Sources */,
 				09FEBC8428B709A300E8B5B7 /* Network.swift in Sources */,
 				0925213328EEB3B900363609 /* ProgrammePayment.swift in Sources */,
 				09FEBC9E28B70BCE00E8B5B7 /* RoundedCorners.swift in Sources */,
@@ -937,6 +957,22 @@
 				kind = branch;
 			};
 		};
+		5C6BC2732A666979000C86CA /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ActivityIndicatorView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		5C6CE3482A66484000E2099A /* XCRemoteSwiftPackageReference "liquid" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/maustinstar/liquid.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		5C8808CF2A53A1CC002A6EBC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1006,6 +1042,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 09F5198328D1E81D00C8B1FD /* XCRemoteSwiftPackageReference "keychain-swift" */;
 			productName = KeychainSwift;
+		};
+		5C6BC2742A666979000C86CA /* ActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C6BC2732A666979000C86CA /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
+			productName = ActivityIndicatorView;
+		};
+		5C6CE3492A66484000E2099A /* Liquid */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5C6CE3482A66484000E2099A /* XCRemoteSwiftPackageReference "liquid" */;
+			productName = Liquid;
 		};
 		5C8808D02A53A1CC002A6EBC /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -19,7 +19,6 @@ class GetStudentCardByStudentIDViewModel: ObservableObject{
                     DispatchQueue.main.async {
                         self?.Status = Status
                     }
-                    
                 }
                 if let studentId = graphQLResult.data?.getStudentCardByStudentId?._id {
                     self?.studentId = studentId

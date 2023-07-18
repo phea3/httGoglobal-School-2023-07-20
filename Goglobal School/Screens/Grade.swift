@@ -250,33 +250,33 @@ struct Grade: View {
                             .frame(width: .infinity, height: .infinity, alignment: .leading)
                             .backgroundRemover()
                             
-                            Button {
-                                self.isAttendance = true
-                            } label: {
-                                HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                                    Circle()
-                                        .fill(.white)
-                                        .frame(width: 49, height: 49, alignment: .center)
-                                        .overlay(
-                                            Image(systemName: "clock")
-                                                .font(.system(size: 30))
-                                                .frame(width: 50, height: 50, alignment: .center)
-                                        )
-                                    Text("សូមចុចទីនេះដើម្បីមើលវត្តមាន".localizedLanguage(language: self.language))
-                                        .listRowBackground(Color.yellow)
-                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-                                    
-                                }
-                                .foregroundColor(Color("bodyOrange"))
-                                .padding(20)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .background(Color(colorScheme == .dark ? "Black" : "LightOrange"))
-                                .cornerRadius(15)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
-                                )
-                            }.backgroundRemover()
+//                            Button {
+//                                self.isAttendance = true
+//                            } label: {
+//                                HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+//                                    Circle()
+//                                        .fill(.white)
+//                                        .frame(width: 49, height: 49, alignment: .center)
+//                                        .overlay(
+//                                            Image(systemName: "clock")
+//                                                .font(.system(size: 30))
+//                                                .frame(width: 50, height: 50, alignment: .center)
+//                                        )
+//                                    Text("សូមចុចទីនេះដើម្បីមើលវត្តមាន".localizedLanguage(language: self.language))
+//                                        .listRowBackground(Color.yellow)
+//                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+//
+//                                }
+//                                .foregroundColor(Color("bodyOrange"))
+//                                .padding(20)
+//                                .frame(maxWidth: .infinity, alignment: .leading)
+//                                .background(Color(colorScheme == .dark ? "Black" : "LightOrange"))
+//                                .cornerRadius(15)
+//                                .overlay(
+//                                    RoundedRectangle(cornerRadius: 15)
+//                                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+//                                )
+//                            }.backgroundRemover()
                             
                             Button {
                                 self.isAskingPermission = true
@@ -582,33 +582,33 @@ struct Grade: View {
                             .frame(width: .infinity, height: .infinity, alignment: .leading)
                             .backgroundRemover()
                             
-                            Button {
-                                self.isAttendance = true
-                            } label: {
-                                HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                                    Circle()
-                                        .fill(.white)
-                                        .frame(width: 49, height: 49, alignment: .center)
-                                        .overlay(
-                                            Image(systemName: "clock")
-                                                .font(.system(size: 30))
-                                                .frame(width: 50, height: 50, alignment: .center)
-                                        )
-                                    Text("វត្តមាន".localizedLanguage(language: self.language))
-                                        .listRowBackground(Color.yellow)
-                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-                                    
-                                }
-                                .foregroundColor(Color("bodyOrange"))
-                                .padding(20)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .background(Color(colorScheme == .dark ? "Black" : "LightOrange"))
-                                .cornerRadius(15)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
-                                )
-                            }.backgroundRemover()
+//                            Button {
+//                                self.isAttendance = true
+//                            } label: {
+//                                HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+//                                    Circle()
+//                                        .fill(.white)
+//                                        .frame(width: 49, height: 49, alignment: .center)
+//                                        .overlay(
+//                                            Image(systemName: "clock")
+//                                                .font(.system(size: 30))
+//                                                .frame(width: 50, height: 50, alignment: .center)
+//                                        )
+//                                    Text("វត្តមាន".localizedLanguage(language: self.language))
+//                                        .listRowBackground(Color.yellow)
+//                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+//
+//                                }
+//                                .foregroundColor(Color("bodyOrange"))
+//                                .padding(20)
+//                                .frame(maxWidth: .infinity, alignment: .leading)
+//                                .background(Color(colorScheme == .dark ? "Black" : "LightOrange"))
+//                                .cornerRadius(15)
+//                                .overlay(
+//                                    RoundedRectangle(cornerRadius: 15)
+//                                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+//                                )
+//                            }.backgroundRemover()
                             
                             Button {
                                 self.isAskingPermission = true
@@ -622,7 +622,7 @@ struct Grade: View {
                                                 .font(.system(size: 30))
                                                 .frame(width: 50, height: 50, alignment: .center)
                                         )
-                                    Text("សុំច្បាប់".localizedLanguage(language: self.language))
+                                    Text("សូមចុចទីនេះដើម្បីសុំច្បាប់".localizedLanguage(language: self.language))
                                         .listRowBackground(Color.yellow)
                                         .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
                                 }

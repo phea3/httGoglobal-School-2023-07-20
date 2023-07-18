@@ -36,6 +36,7 @@ class ScheduleViewModel: ObservableObject{
     }
     
     func getClasses(classId: String,academicYearId: String, programId: String){
+        print("classId: \(classId)academicYearId: \(academicYearId)programId: \(programId)")
         Network.shared.apollo.fetch(query: GetSectionShiftByClassIdQuery(classId: classId, academicYearId: academicYearId, programId: programId)){ [weak self] result in
             switch result{
             case .success(let graphQLResult):
@@ -134,7 +135,6 @@ class ScheduleViewModel: ObservableObject{
                 currentWeek.append(weekday)
                 currentWeek.removeAll(where: {$0 == Date.today().next(.saturday) })
             }
-            
         }
     }
     

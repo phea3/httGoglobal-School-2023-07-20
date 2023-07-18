@@ -11,8 +11,8 @@ import Foundation
 enum Tab: String, CaseIterable{
     case dashboard = "Dashboard"
     case education = "Education"
-    case bag = "Bag"
     case bus = "van"
+    case bag = "Bag"
     case book = "Book"
 }
 

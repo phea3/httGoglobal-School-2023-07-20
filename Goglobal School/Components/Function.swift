@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftUI
+import Liquid
+import ActivityIndicatorView
 
 //Extending Date to get Current Month Dates...
 extension Date{
@@ -101,19 +103,44 @@ extension View{
     }
     func progressingView(prop:Properties, language: String, colorScheme: ColorScheme) -> some View {
         ZStack{
+//            Liquid()
+//                .frame(width: 140, height: 140)
+//                .foregroundColor(.blue)
+//                .opacity(0.3)
+//            Liquid()
+//                .frame(width: 120, height: 120)
+//                .foregroundColor(.blue)
+//                .opacity(0.6)
+//            Liquid(samples: 5)
+//               .frame(width: 100, height: 100)
+//               .foregroundColor(.blue)
             Rectangle()
                 .fill(colorScheme == .dark ? .clear : .white)
                 .frame(width: 100, height: 100, alignment: .center)
                 .cornerRadius(20)
+                .shadow(color: .gray, radius: 1, x: 0, y: 0)
+               
             VStack{
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                    .scaleEffect(prop.isiPhoneS ? 1 : prop.isiPhoneM ? 1: prop.isiPhoneL ? 1 : 1)
+//                ProgressView()
+//                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+//                    .scaleEffect(prop.isiPhoneS ? 1 : prop.isiPhoneM ? 1: prop.isiPhoneL ? 1 : 1)
+                ActivityIndicatorView(isVisible: .constant(true), type: .arcs(count: 3, lineWidth: 2))
+                    .frame(width: 30, height: 30, alignment: .center)
+                    .foregroundColor(.blue)
                 Text("កំពុងភ្ជាប់".localizedLanguage(language: language))
                     .foregroundColor(.blue)
             }
         }
         
+    }
+    func progressingView2(prop:Properties, language: String, colorScheme: ColorScheme) -> some View {
+        VStack{
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                .scaleEffect(prop.isiPhoneS ? 1 : prop.isiPhoneM ? 1: prop.isiPhoneL ? 1 : 1)
+            Text("កំពុងភ្ជាប់".localizedLanguage(language: language))
+                .foregroundColor(.blue)
+        }
     }
     @ViewBuilder func phoneOnlyStackNavigationView() -> some View {
         if UIDevice.current.userInterfaceIdiom == .phone {

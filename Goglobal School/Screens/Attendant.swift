@@ -42,8 +42,6 @@ struct Attendant: View {
             }else{
                 VStack(spacing: 0){
                     CustomDatePicker(studentId: studentId, currentDate: $currentDate,sectionShiftId: AllClasses.id, prop: prop, language: self.language)
-                    
-                    
                 }
             }
         }

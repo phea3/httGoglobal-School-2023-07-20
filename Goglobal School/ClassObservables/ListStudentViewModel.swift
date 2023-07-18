@@ -26,7 +26,6 @@ class ListStudentViewModel: ObservableObject {
                     DispatchQueue.main.async {
                         self?.AllStudents = AllStudents.map(StudentsViewModel.init)
                         self?.loading = false
-                        //                        print(self?.AllStudents as Any)
                     }
                 }
             case.failure:

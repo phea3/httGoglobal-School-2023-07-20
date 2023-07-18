@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ActivityIndicatorView
 
 struct Education: View {
     @Environment(\.colorScheme) var colorScheme
@@ -520,9 +521,9 @@ struct Education: View {
                     switch  image {
                     case .empty:
                         VStack{
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                                .progressViewStyle(.circular)
+                            ActivityIndicatorView(isVisible: .constant(true), type: .rotatingDots(count: 5))
+                                 .frame(width: 50.0, height: 50.0)
+                                 .foregroundColor(.blue)
                             Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
                                 .foregroundColor(.blue)
                         }
@@ -532,6 +533,7 @@ struct Education: View {
                             .clipShape(Circle())
                             .aspectRatio(contentMode: .fill)
                             .padding(prop.isiPhoneS ? 20 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 24 : 25)
+                            .shadow(color: .gray, radius: 1, x: 0, y: 0)
                             .onAppear{
                                 self.onAppearImg = false
                             }

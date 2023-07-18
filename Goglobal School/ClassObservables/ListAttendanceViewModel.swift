@@ -11,7 +11,6 @@ import SwiftUI
 class ListAttendanceViewModel: ObservableObject {
     
     @Published var Attendances: [AttendanceViewModel] = []
-    @Published var modifiedAttendances: [AttendanceViewModel] = []
     @Published var Error: Bool = false
     
     // isSameMonth{
@@ -27,13 +26,9 @@ class ListAttendanceViewModel: ObservableObject {
             case .success(let graphQLResult):
                 if let Attendances = graphQLResult.data?.getAttendanceByStudentIdForMobile{
                     DispatchQueue.main.async {
-                        self?.Attendances = Attendances.map(AttendanceViewModel.init)
-                    }
-                    DispatchQueue.main.async{
-                        self?.modifiedAttendances = self?.Attendances.filter{ att in
-                            
+                        self?.Attendances = self?.removeDuplicateElements(items: (Attendances.map(AttendanceViewModel.init)).filter({ att in
                             return Calendar.current.isDate( convertDate(inputDate: att.AttendanceDate), equalTo: currentDate, toGranularity: Calendar.Component.month)
-                        } ?? []
+                        })) ?? []
                     }
                 }
             case .failure:
@@ -49,7 +44,19 @@ class ListAttendanceViewModel: ObservableObject {
         Network.shared.apollo.clearCache()
     }
     func resetAttendance(){
-        self.Attendances = []
+        DispatchQueue.main.async {
+            self.Attendances = []
+        }
+    }
+    
+    func removeDuplicateElements(items: [AttendanceViewModel]) -> [AttendanceViewModel] {
+        var uniqueAtt = [AttendanceViewModel]()
+        for item in items {
+            if !uniqueAtt.contains(where: {$0.AttendanceDate == item.AttendanceDate }) {
+                uniqueAtt.append(item)
+            }
+        }
+        return uniqueAtt
     }
 }
 
@@ -75,28 +82,29 @@ private func convertDate(inputDate: String) -> Date{
     return date
 }
 
-//stackoverflow
+//stackoverflow for sample
 
 extension Date {
-    
+
     func isEqual(to date: Date, toGranularity component: Calendar.Component, in calendar: Calendar = .current) -> Bool {
         calendar.isDate(self, equalTo: date, toGranularity: component)
     }
-    
+
     func isInSameYear(as date: Date) -> Bool { isEqual(to: date, toGranularity: .year) }
     func isInSameMonth(as date: Date) -> Bool { isEqual(to: date, toGranularity: .month) }
     func isInSameWeek(as date: Date) -> Bool { isEqual(to: date, toGranularity: .weekOfYear) }
-    
+
     func isInSameDay(as date: Date) -> Bool { Calendar.current.isDate(self, inSameDayAs: date) }
-    
+
     var isInThisYear:  Bool { isInSameYear(as: Date()) }
     var isInThisMonth: Bool { isInSameMonth(as: Date()) }
     var isInThisWeek:  Bool { isInSameWeek(as: Date()) }
-    
+
     var isInYesterday: Bool { Calendar.current.isDateInYesterday(self) }
     var isInToday:     Bool { Calendar.current.isDateInToday(self) }
     var isInTomorrow:  Bool { Calendar.current.isDateInTomorrow(self) }
-    
+
     var isInTheFuture: Bool { self > Date() }
     var isInThePast:   Bool { self < Date() }
 }
+
