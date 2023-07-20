@@ -93,9 +93,10 @@ struct TransportationView: View {
                                                                 switch  image {
                                                                     
                                                                 case .empty:
-                                                                    ProgressView()
-                                                                        .progressViewStyle(.circular)
-                                                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                                                    ActivityIndicatorView(isVisible: .constant(true), type: .flickeringDots(count: 8)
+                                                                    )
+                                                                        .foregroundColor(.blue)
+                                                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), height:  prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
                                                                 case .success(let image):
                                                                     image
                                                                         .resizable()
@@ -147,9 +148,10 @@ struct TransportationView: View {
                                                                 switch  image {
                                                                     
                                                                 case .empty:
-                                                                    ProgressView()
-                                                                        .progressViewStyle(.circular)
-                                                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                                                    ActivityIndicatorView(isVisible: .constant(true), type: .flickeringDots(count: 8)
+                                                                    )
+                                                                        .foregroundColor(.blue)
+                                                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), height:  prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
                                                                 case .success(let image):
                                                                     image
                                                                         .resizable()
@@ -300,9 +302,10 @@ struct TransportationView: View {
                                                                 switch  image {
                                                                     
                                                                 case .empty:
-                                                                    ProgressView()
-                                                                        .progressViewStyle(.circular)
-                                                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                                                    ActivityIndicatorView(isVisible: .constant(true), type: .flickeringDots(count: 8)
+                                                                    )
+                                                                        .foregroundColor(.blue)
+                                                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), height:  prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
                                                                 case .success(let image):
                                                                     image
                                                                         .resizable()
@@ -354,9 +357,10 @@ struct TransportationView: View {
                                                                 switch  image {
                                                                     
                                                                 case .empty:
-                                                                    ProgressView()
-                                                                        .progressViewStyle(.circular)
-                                                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                                                    ActivityIndicatorView(isVisible: .constant(true), type: .flickeringDots(count: 8)
+                                                                    )
+                                                                        .foregroundColor(.blue)
+                                                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), height:  prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
                                                                 case .success(let image):
                                                                     image
                                                                         .resizable()

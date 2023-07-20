@@ -203,8 +203,6 @@ struct PermissionView: View {
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14 , relativeTo: .largeTitle))
                             Spacer()
                             Picker("Select type", selection: $shiftId) {
-                                //                                Text("ជ្រើសរើស".localizedLanguage(language: self.language))
-                                //                                    .tag(Optional<String>(nil))
                                 ForEach(getStudentShift.GetAllShift, id: \.shiftId) { item in
                                     Text("\(item.shiftName)")
                                         .tag(Optional(item.shiftId))

@@ -85,6 +85,7 @@
 		5C872FF72A4EB6E700E6084E /* API2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C872FF62A4EB6E700E6084E /* API2.swift */; };
 		5C872FF92A4EB8E500E6084E /* AddMobilUserToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C872FF82A4EB8E500E6084E /* AddMobilUserToken.swift */; };
 		5C872FFB2A4EBA9800E6084E /* RemoveMobilUserToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C872FFA2A4EBA9800E6084E /* RemoveMobilUserToken.swift */; };
+		5C87AEA72A67D93D00E6640D /* ApproveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C87AEA62A67D93D00E6640D /* ApproveView.swift */; };
 		5C8808D12A53A1CC002A6EBC /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5C8808D02A53A1CC002A6EBC /* FirebaseAnalytics */; };
 		5C8808D32A53A1CC002A6EBC /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5C8808D22A53A1CC002A6EBC /* FirebaseAnalyticsSwift */; };
 		5C8808D52A53A1CC002A6EBC /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5C8808D42A53A1CC002A6EBC /* FirebaseAuth */; };
@@ -104,7 +105,6 @@
 		77AFD38A294812CA00CF2BB5 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD389294812CA00CF2BB5 /* LocationManager.swift */; };
 		77DCF5A1292C5B0B008E1423 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77DCF5A3292C5B0B008E1423 /* Localizable.strings */; };
 		77DCF5A7292C6323008E1423 /* LocalizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DCF5A6292C6323008E1423 /* LocalizationService.swift */; };
-		77E15DDE293DD26D00652690 /* MarqueeText in Frameworks */ = {isa = PBXBuildFile; productRef = 77E15DDD293DD26D00652690 /* MarqueeText */; };
 		9A3B362B29F26E48004DC68A /* ViewPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3B362A29F26E48004DC68A /* ViewPermission.swift */; };
 		9A6AB7C929F3D56D007BFD2D /* GetStudentAttendanceByStuIdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6AB7C829F3D56D007BFD2D /* GetStudentAttendanceByStuIdViewModel.swift */; };
 		9A74E00729F761600049C6DD /* leave.graphql in Resources */ = {isa = PBXBuildFile; fileRef = 9A74E00629F761600049C6DD /* leave.graphql */; };
@@ -201,6 +201,7 @@
 		5C872FF62A4EB6E700E6084E /* API2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API2.swift; sourceTree = "<group>"; };
 		5C872FF82A4EB8E500E6084E /* AddMobilUserToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMobilUserToken.swift; sourceTree = "<group>"; };
 		5C872FFA2A4EBA9800E6084E /* RemoveMobilUserToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveMobilUserToken.swift; sourceTree = "<group>"; };
+		5C87AEA62A67D93D00E6640D /* ApproveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApproveView.swift; sourceTree = "<group>"; };
 		5C8808DA2A53AAB7002A6EBC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5C8808DD2A53D131002A6EBC /* graphql.graphql */ = {isa = PBXFileReference; lastKnownFileType = text; path = graphql.graphql; sourceTree = "<group>"; };
 		5C8808DF2A53D175002A6EBC /* GetStudentTransportationByMobileUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStudentTransportationByMobileUser.swift; sourceTree = "<group>"; };
@@ -234,7 +235,6 @@
 				5C6CE34A2A66484000E2099A /* Liquid in Frameworks */,
 				5C8808D92A53A1CC002A6EBC /* FirebaseMessaging in Frameworks */,
 				091B223628CC465400FE9DBB /* AuthenticationServices.framework in Frameworks */,
-				77E15DDE293DD26D00652690 /* MarqueeText in Frameworks */,
 				5C8808D12A53A1CC002A6EBC /* FirebaseAnalytics in Frameworks */,
 				09F5197D28D1E80200C8B1FD /* ApolloSQLite in Frameworks */,
 				7787C2F02930A330002DA96C /* KeychainAccess in Frameworks */,
@@ -329,6 +329,7 @@
 				9A3B362A29F26E48004DC68A /* ViewPermission.swift */,
 				9AC6CBA92A2741080021D5BD /* TransportationView.swift */,
 				5C3B440C2A402A0E00DF2364 /* AttendanceTransportaion.swift */,
+				5C87AEA62A67D93D00E6640D /* ApproveView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -495,7 +496,6 @@
 				093E9AFC28FE3F7900449E41 /* ImageViewerRemote */,
 				7787C2EF2930A330002DA96C /* KeychainAccess */,
 				7787C2F22930A394002DA96C /* DomainParser */,
-				77E15DDD293DD26D00652690 /* MarqueeText */,
 				5C8808D02A53A1CC002A6EBC /* FirebaseAnalytics */,
 				5C8808D22A53A1CC002A6EBC /* FirebaseAnalyticsSwift */,
 				5C8808D42A53A1CC002A6EBC /* FirebaseAuth */,
@@ -540,7 +540,6 @@
 				093E9AF928FE3F7900449E41 /* XCRemoteSwiftPackageReference "swiftui-image-viewer" */,
 				7787C2EE2930A330002DA96C /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 				7787C2F12930A394002DA96C /* XCRemoteSwiftPackageReference "SwiftDomainParser" */,
-				77E15DDC293DD26D00652690 /* XCRemoteSwiftPackageReference "MarqueeText" */,
 				5C8808CF2A53A1CC002A6EBC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				5C6CE3482A66484000E2099A /* XCRemoteSwiftPackageReference "liquid" */,
 				5C6BC2732A666979000C86CA /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
@@ -620,6 +619,7 @@
 				9A74E00B29F769880049C6DD /* GetShiftByStudentIdViewModel.swift in Sources */,
 				0978AA2C28C5CBC400CD9222 /* ScrollRefreshable.swift in Sources */,
 				097A13522906869D008B253D /* BabysittingVIewModel.swift in Sources */,
+				5C87AEA72A67D93D00E6640D /* ApproveView.swift in Sources */,
 				5C3B44132A404DEE00DF2364 /* GetSchoolBusAttByIdViewModel.swift in Sources */,
 				09FEBCA628B70C5600E8B5B7 /* ImagePicker.swift in Sources */,
 				5C2F413A2A5406AC0027EC7E /* GetStudentTransportationAttendancePagination.swift in Sources */,
@@ -997,14 +997,6 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		77E15DDC293DD26D00652690 /* XCRemoteSwiftPackageReference "MarqueeText" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/joekndy/MarqueeText.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1087,11 +1079,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7787C2F12930A394002DA96C /* XCRemoteSwiftPackageReference "SwiftDomainParser" */;
 			productName = DomainParser;
-		};
-		77E15DDD293DD26D00652690 /* MarqueeText */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 77E15DDC293DD26D00652690 /* XCRemoteSwiftPackageReference "MarqueeText" */;
-			productName = MarqueeText;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

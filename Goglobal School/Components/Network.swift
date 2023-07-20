@@ -31,7 +31,7 @@ class Network2 {
     private(set) lazy var apollo: ApolloClient = {
         // MARK: Server
         let url = URL(string: "https://endpoint-visitor-school.go-globalit.com/graphql")!
-//        let url = URL(string: "http://192.168.2.110:4100/graphql")!
+//        let url = URL(string: "http://192.168.2.123:4100/graphql")!
         let cache = InMemoryNormalizedCache()
         let store = ApolloStore(cache: cache)
         let client = URLSessionClient()

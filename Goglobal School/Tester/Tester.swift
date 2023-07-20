@@ -10,9 +10,21 @@ import ActivityIndicatorView
 
 struct Tester: View {
     var body: some View {
-        ActivityIndicatorView(isVisible: .constant(true), type: .rotatingDots(count: 5))
-             .frame(width: 50.0, height: 50.0)
-             .foregroundColor(.blue)
+        VStack{
+            ActivityIndicatorView(isVisible: .constant(true), type: .flickeringDots(count: 8)
+            )
+                .frame(width: 20.0, height: 20.0)
+                .foregroundColor(.blue)
+            Image(systemName: "bell.fill")
+                .foregroundColor(Color.blue)
+                .overlay(alignment: .topTrailing) {
+                        Circle()
+                        .fill(.red)
+                        .frame(width: 8, height: 8)
+                }
+        }
+        .onAppear{
+        }
     }
 }
 

@@ -4,6 +4,7 @@ import Alamofire
 import ImageViewer
 import LocalAuthentication
 import ImageViewerRemote
+import ActivityIndicatorView
 
 struct Home: View {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -67,7 +68,10 @@ struct Home: View {
                     ZStack{
                         if !loggedIn{
                             // 3s progressing
-                            progressingView(prop: prop, language: self.language, colorScheme: colorScheme)
+//                            progressingView(prop: prop, language: self.language, colorScheme: colorScheme)
+                            ActivityIndicatorView(isVisible: .constant(true), type: .equalizer(count: 5))
+                                .frame(width: 50.0, height: 50.0)
+                                .foregroundColor(.blue)
                                 .setBG(colorScheme: colorScheme)
                         }else{
                             MainView(prop: prop)
