@@ -11,19 +11,6 @@ import ActivityIndicatorView
 struct Tester: View {
     var body: some View {
         VStack{
-            ActivityIndicatorView(isVisible: .constant(true), type: .flickeringDots(count: 8)
-            )
-                .frame(width: 20.0, height: 20.0)
-                .foregroundColor(.blue)
-            Image(systemName: "bell.fill")
-                .foregroundColor(Color.blue)
-                .overlay(alignment: .topTrailing) {
-                        Circle()
-                        .fill(.red)
-                        .frame(width: 8, height: 8)
-                }
-        }
-        .onAppear{
         }
     }
 }

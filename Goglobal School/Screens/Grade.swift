@@ -79,8 +79,8 @@ struct Grade: View {
                     ZStack{
                         if clasLoading{
                             ActivityIndicatorView(isVisible: .constant(true), type: .equalizer(count: 5))
-                                 .frame(width: 30.0, height: 30.0)
-                                 .foregroundColor(.blue)
+                                .frame(width: 30.0, height: 30.0)
+                                .foregroundColor(.blue)
                         }else{
                             Text("មិនមានទិន្ន័យ!".localizedLanguage(language: self.language))
                                 .foregroundColor(.blue)
@@ -204,43 +204,43 @@ struct Grade: View {
                                 
                             }
                             
-                            //                            HStack{
-                            //                                Text("\("ប្រវត្តិការទទួលទានអាហារ".localizedLanguage(language: self.language)) \(language == "en" ? StudentEnglishName : Student)")
-                            //                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
-                            //
-                            //                                Rectangle()
-                            //                                    .frame(maxWidth: .infinity,maxHeight: 1)
-                            //                            }
-                            //                            .foregroundColor(Color("Blue"))
-                            //                            .frame(width: .infinity, height: .infinity, alignment: .leading)
-                            //                            .backgroundRemover()
-                            //                            Button {
-                            //                                self.foodHistory = true
-                            //                            } label: {
-                            //                                HStack{
-                            //                                    Circle()
-                            //                                        .fill(.white)
-                            //                                        .frame(width: 49, height: 49, alignment: .center)
-                            //                                        .overlay(
-                            //                                            Image("dinner")
-                            //                                                .resizable()
-                            //                                                .frame(width: 30, height: 30)
-                            //                                        )
-                            //                                    Text("Please press here to see food monthly".localizedLanguage(language: self.language))
-                            //                                        .listRowBackground(Color.yellow)
-                            //                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-                            //                                        .foregroundColor(Color("bodyBlue"))
-                            //                                }
-                            //                                .padding(20)
-                            //                                .frame(maxWidth: .infinity, alignment: .leading)
-                            //                                .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
-                            //                                .cornerRadius(15)
-                            //                                .overlay(
-                            //                                    RoundedRectangle(cornerRadius: 15)
-                            //                                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
-                            //                                )
-                            //                            }
-                            //                            .backgroundRemover()
+                            HStack{
+                                Text("\("ប្រវត្តិការទទួលទានអាហារ".localizedLanguage(language: self.language)) \(language == "en" ? StudentEnglishName : Student)")
+                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                                
+                                Rectangle()
+                                    .frame(maxWidth: .infinity,maxHeight: 1)
+                            }
+                            .foregroundColor(Color("Blue"))
+                            .frame(width: .infinity, height: .infinity, alignment: .leading)
+                            .backgroundRemover()
+                            Button {
+                                self.foodHistory = true
+                            } label: {
+                                HStack{
+                                    Circle()
+                                        .fill(.white)
+                                        .frame(width: 49, height: 49, alignment: .center)
+                                        .overlay(
+                                            Image("dinner")
+                                                .resizable()
+                                                .frame(width: 30, height: 30)
+                                        )
+                                    Text("Please press here to see food monthly".localizedLanguage(language: self.language))
+                                        .listRowBackground(Color.yellow)
+                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                                        .foregroundColor(Color("bodyBlue"))
+                                }
+                                .padding(20)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
+                                .cornerRadius(15)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                                )
+                            }
+                            .backgroundRemover()
                             
                             HStack{
                                 Text("វត្តមាន និងសុំច្បាប់".localizedLanguage(language: self.language))
@@ -267,7 +267,7 @@ struct Grade: View {
                                     Text("សូមចុចទីនេះដើម្បីមើលវត្តមាន".localizedLanguage(language: self.language))
                                         .listRowBackground(Color.yellow)
                                         .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-
+                                    
                                 }
                                 .foregroundColor(Color("bodyOrange"))
                                 .padding(20)
@@ -526,53 +526,53 @@ struct Grade: View {
                                 
                             }
                             
-                            //                        if #available(iOS 16.0, *) {
-                            //                            QRView(stuName: Student, stuEngName: StudentEnglishName, studentQR: studentqr.studentId, prop: prop, language: self.language, showqr: $showqr)
-                            //                                .backgroundRemover()
-                            //                        } else {
-                            // Fallback on earlier versions
-                            //                        QrView(stuName: Student, stuEngName: StudentEnglishName, studentQR: studentqr.studentId, prop: prop, showqr: $showqr, language: self.language)
-                            //                            .backgroundRemover()
-                            //                        }
-                            //                            HStack{
-                            //                                //                            Text("QR កូដ".localizedLanguage(language: self.language))
-                            //                                //                                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
-                            //                                Text("\("ប្រវត្តិការទទួលទានអាហារ".localizedLanguage(language: self.language)) \(language == "en" ? StudentEnglishName : Student)")
-                            //                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
-                            //
-                            //                                Rectangle()
-                            //                                    .frame(maxWidth: .infinity,maxHeight: 1)
-                            //                            }
-                            //                            .foregroundColor(Color("Blue"))
-                            //                            .frame(width: .infinity, height: .infinity, alignment: .leading)
-                            //                            .backgroundRemover()
-                            //                            Button {
-                            //                                self.foodHistory = true
-                            //                            } label: {
-                            //                                HStack{
-                            //                                    Circle()
-                            //                                        .fill(.white)
-                            //                                        .frame(width: 49, height: 49, alignment: .center)
-                            //                                        .overlay(
-                            //                                            Image("dinner")
-                            //                                                .resizable()
-                            //                                                .frame(width: 30, height: 30)
-                            //                                        )
-                            //                                    Text("Please press here to see food monthly".localizedLanguage(language: self.language))
-                            //                                        .listRowBackground(Color.yellow)
-                            //                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-                            //                                        .foregroundColor(Color("bodyBlue"))
-                            //                                }
-                            //                                .padding(20)
-                            //                                .frame(maxWidth: .infinity, alignment: .leading)
-                            //                                .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
-                            //                                .cornerRadius(15)
-                            //                                .overlay(
-                            //                                    RoundedRectangle(cornerRadius: 15)
-                            //                                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
-                            //                                )
-                            //                            }
-                            //                            .backgroundRemover()
+                            if #available(iOS 16.0, *) {
+                                QRView(stuName: Student, stuEngName: StudentEnglishName, studentQR: studentqr.studentId, prop: prop, language: self.language, showqr: $showqr)
+                                    .backgroundRemover()
+                            } else {
+                                //                             Fallback on earlier versions
+                                QrView(stuName: Student, stuEngName: StudentEnglishName, studentQR: studentqr.studentId, prop: prop, showqr: $showqr, language: self.language)
+                                    .backgroundRemover()
+                            }
+                            HStack{
+                                //                            Text("QR កូដ".localizedLanguage(language: self.language))
+                                //                                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                                Text("\("ប្រវត្តិការទទួលទានអាហារ".localizedLanguage(language: self.language)) \(language == "en" ? StudentEnglishName : Student)")
+                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16))
+                                
+                                Rectangle()
+                                    .frame(maxWidth: .infinity,maxHeight: 1)
+                            }
+                            .foregroundColor(Color("Blue"))
+                            .frame(width: .infinity, height: .infinity, alignment: .leading)
+                            .backgroundRemover()
+                            Button {
+                                self.foodHistory = true
+                            } label: {
+                                HStack{
+                                    Circle()
+                                        .fill(.white)
+                                        .frame(width: 49, height: 49, alignment: .center)
+                                        .overlay(
+                                            Image("dinner")
+                                                .resizable()
+                                                .frame(width: 30, height: 30)
+                                        )
+                                    Text("Please press here to see food monthly".localizedLanguage(language: self.language))
+                                        .listRowBackground(Color.yellow)
+                                        .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
+                                        .foregroundColor(Color("bodyBlue"))
+                                }
+                                .padding(20)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
+                                .cornerRadius(15)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                                )
+                            }
+                            .backgroundRemover()
                             
                             HStack{
                                 Text("វត្តមាន និងសុំច្បាប់".localizedLanguage(language: self.language))
@@ -599,7 +599,7 @@ struct Grade: View {
                                     Text("វត្តមាន".localizedLanguage(language: self.language))
                                         .listRowBackground(Color.yellow)
                                         .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .largeTitle))
-
+                                    
                                 }
                                 .foregroundColor(Color("bodyOrange"))
                                 .padding(20)

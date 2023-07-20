@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ActivityIndicatorView
 
 struct ScrollRefreshable<Content: View>: View {
     var content: Content

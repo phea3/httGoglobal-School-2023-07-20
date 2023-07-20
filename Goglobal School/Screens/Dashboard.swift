@@ -108,10 +108,10 @@ struct Dashboard: View {
                                                     Image(systemName: "bell.fill")
                                                         .foregroundColor(Color.blue)
                                                         .overlay(alignment: .topTrailing) {
-                                                                Circle()
+                                                            Circle()
                                                                 .fill(.red)
                                                                 .frame(width: 10, height: 10)
-                                                    }
+                                                        }
                                                 }
                                             }
                                             ToolbarItem(placement: .navigationBarTrailing) {
@@ -133,8 +133,8 @@ struct Dashboard: View {
                                                                 case .empty:
                                                                     ActivityIndicatorView(isVisible: .constant(true), type: .flickeringDots(count: 8)
                                                                     )
-                                                                        .foregroundColor(.blue)
-                                                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), height:  prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                                                    .foregroundColor(.blue)
+                                                                    .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), height:  prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
                                                                 case .success(let image):
                                                                     image
                                                                         .resizable()
@@ -147,7 +147,7 @@ struct Dashboard: View {
                                                                         }
                                                                         .clipShape(Circle())
                                                                         .padding(-5)
-                                                                        .frame(width: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 :  20, alignment: .center)
+                                                                        .frame(width: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 :  20, alignment: .center)
                                                                 case .failure:
                                                                     Image(systemName: "person.fill")
                                                                         .padding(5)
@@ -188,8 +188,8 @@ struct Dashboard: View {
                                                                 case .empty:
                                                                     ActivityIndicatorView(isVisible: .constant(true), type: .flickeringDots(count: 8)
                                                                     )
-                                                                        .foregroundColor(.blue)
-                                                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), height:  prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                                                    .foregroundColor(.blue)
+                                                                    .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), height:  prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
                                                                 case .success(let image):
                                                                     image
                                                                         .resizable()
@@ -339,10 +339,10 @@ struct Dashboard: View {
                                                     Image(systemName: "bell.fill")
                                                         .foregroundColor(Color.blue)
                                                         .overlay(alignment: .topTrailing) {
-                                                                Circle()
+                                                            Circle()
                                                                 .fill(.red)
                                                                 .frame(width: 10, height: 10)
-                                                    }
+                                                        }
                                                 }
                                             }
                                             ToolbarItem(placement: .navigationBarTrailing) {
@@ -364,8 +364,8 @@ struct Dashboard: View {
                                                                 case .empty:
                                                                     ActivityIndicatorView(isVisible: .constant(true), type: .flickeringDots(count: 8)
                                                                     )
-                                                                        .foregroundColor(.blue)
-                                                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), height:  prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                                                    .foregroundColor(.blue)
+                                                                    .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), height:  prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
                                                                 case .success(let image):
                                                                     image
                                                                         .resizable()
@@ -419,8 +419,8 @@ struct Dashboard: View {
                                                                 case .empty:
                                                                     ActivityIndicatorView(isVisible: .constant(true), type: .flickeringDots(count: 8)
                                                                     )
-                                                                        .foregroundColor(.blue)
-                                                                        .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), height:  prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
+                                                                    .foregroundColor(.blue)
+                                                                    .frame(width: prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), height:  prop.isLandscape ? 30 : (prop.isiPhoneS ? 24 : prop.isiPhoneM ? 24 : 24), alignment: .center)
                                                                 case .success(let image):
                                                                     image
                                                                         .resizable()
@@ -433,7 +433,7 @@ struct Dashboard: View {
                                                                         }
                                                                         .clipShape(Circle())
                                                                         .padding(-5)
-                                                                        .frame(width: prop.isLandscape ? 14 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
+                                                                        .frame(width: prop.isLandscape ? 10 : (prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20), alignment: .center)
                                                                 case .failure:
                                                                     Image(systemName: "person.fill")
                                                                         .padding(5)
@@ -631,142 +631,269 @@ struct Dashboard: View {
                 }
             }
             
-            HStack(spacing: prop.isiPhoneS ? 2 : prop.isiPhoneM ? 3 : 5){
-                Image(systemName: "arrow.down.doc.fill")
-                    .font(.system(size:prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18))
-                    .foregroundColor(Color("News"))
-                Text("វត្តមាន និងសុំច្បាប់".localizedLanguage(language: self.language))
-                    .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
-                    .foregroundColor(Color("News"))
+            VStack(spacing:prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16 ){
+                HStack(spacing: prop.isiPhoneS ? 2 : prop.isiPhoneM ? 3 : 5){
+                    Image(systemName: "arrow.down.doc.fill")
+                        .font(.system(size:prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18))
+                        .foregroundColor(Color("News"))
+                    Text("វត្តមាន និងសុំច្បាប់".localizedLanguage(language: self.language))
+                        .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
+                        .foregroundColor(Color("News"))
+                }
+//                .padding(.vertical, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
+                .hLeading()
+                
+                Button {
+                    self.showAskPermission = true
+                } label: {
+                    HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                        graduatedLogo(colorScheme: colorScheme)
+                        Text("សូមចុចទីនេះដើម្បីសុំច្បាប់".localizedLanguage(language: self.language))
+                            .listRowBackground(Color.yellow)
+                            .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
+                    }
+                    .foregroundColor(Color("bodyBlue"))
+                    .padding(20)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
+                    .cornerRadius(15)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                    )
+                }
+                .buttonStyle(PlainButtonStyle())
+                .halfSheet(showSheet: $showAskPermission) {
+                    ZStack{
+                        VStack{
+                            HStack{
+                                Text("ការសុំច្បាប់របស់សិស្ស".localizedLanguage(language: self.language))
+                                    .textCase(.lowercase)
+                                    .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
+                                    .foregroundColor(.blue)
+                                Spacer()
+                                Image(systemName: "x.square.fill")
+                                    .font(.system(size: 30))
+                                    .foregroundColor(.red)
+                                    .opacity(prop.isLandscape ? 1:0)
+                            }
+                            VStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : prop.isiPhoneL ? 12 : 14){
+                                ForEach(Array(students.AllStudents.enumerated()),id: \.element.Id) { index, student in
+                                    Button {
+                                        self.showAskPermission = false
+                                        self.showAskPermissionForm = true
+                                        DispatchQueue.main.async{
+                                            self.stuFirstName = student.Firstname
+                                            self.stuLastName = student.Lastname
+                                        }
+                                    } label: {
+                                        HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                                            Circle()
+                                                .fill(.white)
+                                                .font(.system(size: 50))
+                                                .frame(width: 49, height: 49, alignment: .center)
+                                                .overlay(
+                                                    VStack{
+                                                        if attendanceImage {
+                                                            VStack{
+                                                                ActivityIndicatorView(isVisible: .constant(true), type: .rotatingDots(count: 5))
+                                                                    .frame(width: 20.0, height: 20.0)
+                                                                    .foregroundColor(.blue)
+                                                            }
+                                                            .onAppear{
+                                                                self.attendanceImage = false
+                                                            }
+                                                        } else {
+                                                            AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(student.profileImage)"), scale: 2){image in
+                                                                switch  image {
+                                                                case .empty:
+                                                                    VStack{
+                                                                        ActivityIndicatorView(isVisible: .constant(true), type: .rotatingDots(count: 5))
+                                                                            .frame(width: 20.0, height: 20.0)
+                                                                            .foregroundColor(.blue)
+                                                                    }
+                                                                case .success(let image):
+                                                                    image
+                                                                        .resizable()
+                                                                        .clipShape(Circle())
+                                                                        .aspectRatio(contentMode: .fill)
+                                                                        .shadow(color: .gray, radius: 1, x: 0, y: 0)
+                                                                        .onAppear{
+                                                                            
+                                                                        }
+                                                                case .failure:
+                                                                    Image("student")
+                                                                        .resizable()
+                                                                        .clipShape(Circle())
+                                                                        .aspectRatio(contentMode: .fit)
+                                                                        .onAppear{
+                                                                            self.attendanceImage = true
+                                                                        }
+                                                                @unknown default:
+                                                                    fatalError()
+                                                                }
+                                                            }
+                                                            .frame(width: 50, height: 50, alignment: .center)
+                                                        }
+                                                    }
+                                                )
+                                            VStack(alignment: .leading){
+                                                Text("\(student.Lastname) \(student.Firstname)")
+                                                    .listRowBackground(Color.yellow)
+                                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
+                                                Text("ថ្នាក់ទី ៥ ក, Year 5 A")
+                                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : 15, relativeTo: .body))
+                                                    .listRowBackground(Color.yellow)
+                                                    .fixedSize(horizontal: false, vertical: true)
+                                            }
+                                        }
+                                        .foregroundColor(index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
+                                        .padding(prop.isiPhoneS ? 12 : prop.isiPhoneM ? 15 : prop.isiPhoneL ? 16 :  20)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .background(Color(colorScheme == .dark ? "Black" : index % 2 == 0 ?  colorOrg : colorBlue))
+                                        .cornerRadius(20)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 15)
+                                                .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                                        )
+                                    }
+                                    .buttonStyle(PlainButtonStyle())
+                                }
+                            }
+                            .frame(width: (prop.isLandscape && (prop.isiPhone || prop.isiPad)) || prop.isiPad ? prop.size.width : .infinity)
+                        }
+                        .padding()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                    .background(.white)
+                } onEnd: {
+                    print("showAttendance on closed")
+                }
+                
+                Button {
+                    
+                } label: {
+                    HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
+                        graduatedLogo(colorScheme: colorScheme)
+                        Text("សូមចុចទីនេះដើម្បីមើលវត្តមាន".localizedLanguage(language: self.language))
+                            .listRowBackground(Color.yellow)
+                            .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
+                    }
+                    .foregroundColor(Color("bodyOrange"))
+                    .padding(20)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color(colorScheme == .dark ? "Black" : "LightOrange"))
+                    .cornerRadius(15)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
+                    )
+                }
             }
             .padding(.vertical, prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16)
             .hLeading()
-            
-            Button {
-                self.showAskPermission = true
-            } label: {
-                HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                    graduatedLogo(colorScheme: colorScheme)
-                    Text("សូមចុចទីនេះដើម្បីសុំច្បាប់".localizedLanguage(language: self.language))
-                        .listRowBackground(Color.yellow)
-                        .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
+            if !(prop.isLandscape || prop.isiPad){
+                VStack(spacing: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 17 : 18 ){
+                    ForEach(AnnoucementList.Annouces, id: \.id) { item in
+                        AnnouceButtonView(showingSheet: $showingSheet, detailId: $detailId, onAppearImg: $onAppearImg, itemImg: item.img, itemTitle: item.title, itemId: item.id, prop: prop, students: students, language: self.language)
+                            .buttonStyle(PlainButtonStyle())
+                            .sheet(isPresented: $showingSheet) {
+                                Annoucements(prop: prop, postId: $detailId, language: self.language)
+                            }
+                    }
                 }
-                .foregroundColor(Color("bodyBlue"))
-                .padding(20)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color(colorScheme == .dark ? "Black" : "LightBlue"))
-                .cornerRadius(15)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 15)
-                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
-                )
             }
-            .buttonStyle(PlainButtonStyle())
-            .halfSheet(showSheet: $showAskPermission) {
-                ZStack{
-                    VStack{
-                        HStack{
-                            Text("ការសុំច្បាប់របស់សិស្ស".localizedLanguage(language: self.language))
-                                .textCase(.lowercase)
-                                .font(.custom("Bayon", size:prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
-                                .foregroundColor(.blue)
-                            Spacer()
-                            Image(systemName: "x.square.fill")
-                                .font(.system(size: 30))
-                                .foregroundColor(.red)
-                                .opacity(prop.isLandscape ? 1:0)
-                        }
-                        VStack(spacing: prop.isiPhoneS ? 8 : prop.isiPhoneM ? 10 : prop.isiPhoneL ? 12 : 14){
-                            ForEach(Array(students.AllStudents.enumerated()),id: \.element.Id) { index, student in
-                                Button {
-                                    self.showAskPermission = false
-                                    self.showAskPermissionForm = true
-                                    DispatchQueue.main.async{
-                                        self.stuFirstName = student.Firstname
-                                        self.stuLastName = student.Lastname
+            
+            ZStack{
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16){
+                        ForEach(AnnoucementList.Annouces, id: \.id) { item in
+                            
+                            if reloadingAnn{
+                                VStack{
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                        .progressViewStyle(.circular)
+                                    Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
+                                        .foregroundColor(.blue)
+                                }
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .onAppear{
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                                        self.reloadingAnn = false
                                     }
+                                }
+                            } else {
+                                Button {
+                                    self.showingSheet.toggle()
+                                    detailId = item.id
                                 } label: {
-                                    HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-                                        Circle()
-                                            .fill(.white)
-                                            .font(.system(size: 50))
-                                            .frame(width: 49, height: 49, alignment: .center)
+                                    
+                                    AsyncImage(url: URL(string: item.img ), scale: 2){image in
+                                        
+                                        switch  image {
+                                            
+                                        case .empty:
+                                            VStack{
+                                                ProgressView()
+                                                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                                    .progressViewStyle(.circular)
+                                                Text("សូមរងចាំ".localizedLanguage(language: self.language))
+                                                    .foregroundColor(.blue)
+                                            }
+                                        case .success(let image):
+                                            ZStack(alignment: .bottomLeading) {
+                                                image
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                                    .cornerRadius(20)
+                                                Rectangle()
+                                                    .foregroundColor(.clear)
+                                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                                    .overlay(
+                                                        getGradientOverlay()
+                                                            .cornerRadius(20)
+                                                    )
+                                            }
+                                            
                                             .overlay(
-                                                VStack{
-                                                    if attendanceImage {
-                                                        VStack{
-                                                            ActivityIndicatorView(isVisible: .constant(true), type: .rotatingDots(count: 5))
-                                                                .frame(width: 20.0, height: 20.0)
-                                                                .foregroundColor(.blue)
-                                                        }
-                                                        .onAppear{
-                                                            self.attendanceImage = false
-                                                        }
-                                                    } else {
-                                                        AsyncImage(url: URL(string: "https://storage.go-globalschool.com/api\(student.profileImage)"), scale: 2){image in
-                                                            switch  image {
-                                                            case .empty:
-                                                                VStack{
-                                                                    ActivityIndicatorView(isVisible: .constant(true), type: .rotatingDots(count: 5))
-                                                                        .frame(width: 20.0, height: 20.0)
-                                                                        .foregroundColor(.blue)
-                                                                }
-                                                            case .success(let image):
-                                                                image
-                                                                    .resizable()
-                                                                    .clipShape(Circle())
-                                                                    .aspectRatio(contentMode: .fill)
-                                                                    .shadow(color: .gray, radius: 1, x: 0, y: 0)
-                                                                    .onAppear{
-                                                                        
-                                                                    }
-                                                            case .failure:
-                                                                Image("student")
-                                                                    .resizable()
-                                                                    .clipShape(Circle())
-                                                                    .aspectRatio(contentMode: .fit)
-                                                                    .onAppear{
-                                                                        self.attendanceImage = true
-                                                                    }
-                                                            @unknown default:
-                                                                fatalError()
-                                                            }
-                                                        }
-                                                        .frame(width: 50, height: 50, alignment: .center)
+                                                Text(item.title)
+                                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
+                                                    .foregroundColor(.blue)
+                                                    .multilineTextAlignment(.leading)
+                                                    .padding()
+                                                , alignment: .bottomLeading
+                                                
+                                            )
+                                            
+                                        case .failure:
+                                            Text("មិនរកដំណឹងថ្មីៗបាន".localizedLanguage(language: self.language))
+                                                .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
+                                                .foregroundColor(.pink)
+                                                .onAppear{
+                                                    if !item.img.isEmpty{
+                                                        self.reloadingAnn = true
                                                     }
                                                 }
-                                            )
-                                        VStack(alignment: .leading){
-                                            Text("\(student.Lastname) \(student.Firstname)")
-                                                .listRowBackground(Color.yellow)
-                                                .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
-                                            Text("ថ្នាក់ទី ៥ ក, Year 5 A")
-                                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 11 : prop.isiPhoneM ? 13 : 15, relativeTo: .body))
-                                                .listRowBackground(Color.yellow)
-                                                .fixedSize(horizontal: false, vertical: true)
+                                        @unknown default:
+                                            fatalError()
                                         }
                                     }
-                                    .foregroundColor(index % 2 == 0 ?  Color("bodyOrange") : Color("bodyBlue"))
-                                    .padding(prop.isiPhoneS ? 12 : prop.isiPhoneM ? 15 : prop.isiPhoneL ? 16 :  20)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .background(Color(colorScheme == .dark ? "Black" : index % 2 == 0 ?  colorOrg : colorBlue))
-                                    .cornerRadius(20)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 15)
-                                            .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
-                                    )
+                                    
                                 }
-                                .buttonStyle(PlainButtonStyle())
+                                .sheet(isPresented: $showingSheet) {
+                                    Annoucements(prop: prop, postId: $detailId, language: self.language)
+                                }
                             }
                         }
-                        .frame(width: (prop.isLandscape && (prop.isiPhone || prop.isiPad)) || prop.isiPad ? prop.size.width : .infinity)
                     }
-                    .padding()
+                    .frame(maxWidth: .infinity,maxHeight: prop.isLandscape && prop.isiPhone ? 250 : prop.isiPad ? 300 :  250 )
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-                .background(.white)
-            } onEnd: {
-                print("showAttendance on closed")
+                if !(prop.isLandscape || prop.isiPad){
+                    Color( colorScheme == .dark ? "Black" : "BG")
+                        .frame(maxWidth: .infinity,maxHeight: prop.isLandscape && prop.isiPhone ? 250 : prop.isiPad ? 300 :  250 )
+                }
             }
         }
         .sheet(isPresented: $showAskPermissionForm, onDismiss: {
@@ -776,111 +903,111 @@ struct Dashboard: View {
             }
         }){
             if #available(iOS 16.0, *) {
-            ZStack{
-                VStack{
-                    HStack{
-                        Text("ការសុំច្បាប់របស់សិស្ស".localizedLanguage(language: self.language))
-                            .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
-                            .foregroundColor(.blue)
-                        Text("\(stuLastName) \(stuFirstName)")
-                            .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
-                            .foregroundColor(.blue)
-                        Spacer()
-                        Image(systemName: "x.square.fill")
-                            .font(.system(size: 30))
-                            .foregroundColor(.red)
-                            .opacity(prop.isLandscape ? 1:0)
-                    }
-                    .padding(.bottom, 10)
-                    VStack(alignment: .leading, spacing: 0){
-                        Text("ជ្រើសរើសថ្នាក់រៀន".localizedLanguage(language: self.language))
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .body))
-                            .foregroundColor(.blue)
-                        let colors = ["Red", "Green", "Blue"]
+                ZStack{
+                    VStack{
                         HStack{
-                            Text("ថ្នាក់រៀន:")
-                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .body))
+                            Text("ការសុំច្បាប់របស់សិស្ស".localizedLanguage(language: self.language))
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
+                                .foregroundColor(.blue)
+                            Text("\(stuLastName) \(stuFirstName)")
+                                .font(.custom("Bayon", size: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : prop.isiPhoneL ? 20 : 22, relativeTo: .largeTitle))
+                                .foregroundColor(.blue)
                             Spacer()
-                            Picker("", selection: $selectedColor) {
-                                ForEach(colors, id: \.self) { color in
-                                   Text(color)
-                               }
-                             }
-                             .buttonStyle(PlainButtonStyle())
-                             .pickerStyle(.menu)
-                             .labelsHidden()
-                        }
-                        .padding(6)
-                        .frame(maxWidth: .infinity)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(.blue, lineWidth: 1)
-                        )
-                    }
-                    VStack(alignment: .leading, spacing: 0){
-                        Text("កាលបរិច្ឆេទ".localizedLanguage(language: self.language))
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .body))
-                            .foregroundColor(.blue)
-                        HStack{
-                            DatePicker("", selection: $startDate, in: ...endDate, displayedComponents: .date)
-                                .datePickerStyle(.compact)
-                                .labelsHidden()
-                            
-                            DatePicker("", selection: $endDate, in: startDate..., displayedComponents: .date)
-                                .datePickerStyle(.compact)
-                                .labelsHidden()
-                            
-                            Spacer()
-                            Image(systemName: "calendar.badge.clock")
-                                .foregroundColor(Color("Blue"))
+                            Image(systemName: "x.square.fill")
                                 .font(.system(size: 30))
+                                .foregroundColor(.red)
+                                .opacity(prop.isLandscape ? 1:0)
                         }
-                        .padding(10)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(.blue, lineWidth: 1)
-                        )
-                    }
-                    VStack(alignment: .leading, spacing: 0){
-                        Text("មូលហេតុ".localizedLanguage(language: self.language))
-                            .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .body))
-                            .foregroundColor(.blue)
-                        HStack{
-                            TextField("Enter your reason", text: $reason)
-                                .padding(5)
-                                .background(Color("LightGray"))
-                                .cornerRadius(5)
+                        .padding(.bottom, 10)
+                        VStack(alignment: .leading, spacing: 0){
+                            Text("ជ្រើសរើសថ្នាក់រៀន".localizedLanguage(language: self.language))
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .body))
+                                .foregroundColor(.blue)
+                            let colors = ["Red", "Green", "Blue"]
+                            HStack{
+                                Text("ថ្នាក់រៀន:")
+                                    .font(.custom("Kantumruy", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16, relativeTo: .body))
+                                Spacer()
+                                Picker("", selection: $selectedColor) {
+                                    ForEach(colors, id: \.self) { color in
+                                        Text(color)
+                                    }
+                                }
+                                .buttonStyle(PlainButtonStyle())
+                                .pickerStyle(.menu)
+                                .labelsHidden()
+                            }
+                            .padding(6)
+                            .frame(maxWidth: .infinity)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.blue, lineWidth: 1)
+                            )
                         }
-                        .padding(14)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(.blue, lineWidth: 1)
-                        )
-                    }
-                    .padding(.bottom, 10)
-                    Spacer()
-                    Button {
-                        
-                    } label: {
-                        HStack{
-                            Text("សុំច្បាប់".localizedLanguage(language: self.language))
-                                .foregroundColor(.white)
-                                .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20, relativeTo: .largeTitle))
+                        VStack(alignment: .leading, spacing: 0){
+                            Text("កាលបរិច្ឆេទ".localizedLanguage(language: self.language))
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .body))
+                                .foregroundColor(.blue)
+                            HStack{
+                                DatePicker("", selection: $startDate, in: ...endDate, displayedComponents: .date)
+                                    .datePickerStyle(.compact)
+                                    .labelsHidden()
+                                
+                                DatePicker("", selection: $endDate, in: startDate..., displayedComponents: .date)
+                                    .datePickerStyle(.compact)
+                                    .labelsHidden()
+                                
+                                Spacer()
+                                Image(systemName: "calendar.badge.clock")
+                                    .foregroundColor(Color("Blue"))
+                                    .font(.system(size: 30))
+                            }
+                            .padding(10)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.blue, lineWidth: 1)
+                            )
                         }
-                        .padding(10)
-                        .frame(maxWidth: .infinity)
-                        .background(Color("Blue"))
-                        .cornerRadius(10)
+                        VStack(alignment: .leading, spacing: 0){
+                            Text("មូលហេតុ".localizedLanguage(language: self.language))
+                                .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .body))
+                                .foregroundColor(.blue)
+                            HStack{
+                                TextField("Enter your reason", text: $reason)
+                                    .padding(5)
+                                    .background(Color("LightGray"))
+                                    .cornerRadius(5)
+                            }
+                            .padding(14)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.blue, lineWidth: 1)
+                            )
+                        }
+                        .padding(.bottom, 10)
+                        Spacer()
+                        Button {
+                            
+                        } label: {
+                            HStack{
+                                Text("សុំច្បាប់".localizedLanguage(language: self.language))
+                                    .foregroundColor(.white)
+                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 18 : 20, relativeTo: .largeTitle))
+                            }
+                            .padding(10)
+                            .frame(maxWidth: .infinity)
+                            .background(Color("Blue"))
+                            .cornerRadius(10)
+                        }
                     }
+                    .padding()
                 }
-                .padding()
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-            .background(.white)
-            .presentationDetents([.large ,.medium ])
-            .presentationDragIndicator(.visible)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                .background(.white)
+                .presentationDetents([.large ,.medium ])
+                .presentationDragIndicator(.visible)
             } else {
                 // Fallback on earlier versions
                 ZStack{
@@ -900,16 +1027,16 @@ struct Dashboard: View {
                         }
                         .padding(.bottom, 20)
                         VStack(alignment: .leading, spacing: 0){
-                           
+                            
                             Text("ជ្រើសរើសថ្នាក់រៀន".localizedLanguage(language: self.language))
                                 .font(.custom("Kantumruy", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : prop.isiPhoneL ? 16 : 18, relativeTo: .body))
                                 .foregroundColor(.blue)
                             let colors = ["Red", "Green", "Blue"]
                             Text(selectedColor)
-                           Picker("Choose a color", selection: $selectedColor) {
-                               ForEach(colors, id: \.self) { color in
-                                  Text(color)
-                              }
+                            Picker("Choose a color", selection: $selectedColor) {
+                                ForEach(colors, id: \.self) { color in
+                                    Text(color)
+                                }
                             }
                             .buttonStyle(PlainButtonStyle())
                             .pickerStyle(.menu)
@@ -977,14 +1104,13 @@ struct Dashboard: View {
                             .background(Color("Blue"))
                             .cornerRadius(10)
                         }
-
+                        
                     }
                     .padding()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 .background(.white)
             }
-//
         }
     }
     
@@ -998,139 +1124,6 @@ struct Dashboard: View {
     
     private func datingEditer(inputCode: String, inputAnotherDate: String) -> some View {
         language == "km-KH" ? Text(academiclist.convertDateFormater(inputDate: inputCode,inputAnotherDate: inputAnotherDate)) : Text(academiclist.convertDateFormaterForEnglish(inputDate: inputCode, inputAnotherDate: inputAnotherDate))
-    }
-    
-    @ViewBuilder
-    private func attButton()->some View {
-        VStack{
-            
-            //            Button {
-            //
-            //            } label: {
-            //                HStack(spacing: prop.isiPhoneS ? 16 : prop.isiPhoneM ? 18 : 20){
-            //                    graduatedLogo(colorScheme: colorScheme)
-            //                    Text("សូមចុចទីនេះដើម្បីមើលវត្តមាន".localizedLanguage(language: self.language))
-            //                        .listRowBackground(Color.yellow)
-            //                        .font(.custom("Bayon", size: prop.isiPhoneS ? 12 : prop.isiPhoneM ? 14 : 16, relativeTo: .largeTitle))
-            //                }
-            //                .foregroundColor(Color("bodyOrange"))
-            //                .padding(20)
-            //                .frame(maxWidth: .infinity, alignment: .leading)
-            //                .background(Color(colorScheme == .dark ? "Black" : "LightOrange"))
-            //                .cornerRadius(15)
-            //                .overlay(
-            //                    RoundedRectangle(cornerRadius: 15)
-            //                        .stroke(.orange, lineWidth: colorScheme == .dark ? 1 : 0)
-            //                )
-            //            }
-            
-            
-            
-            
-            //        if !(prop.isLandscape || prop.isiPad){
-            //            VStack(spacing: prop.isiPhoneS ? 15 : prop.isiPhoneM ? 16 : prop.isiPhoneL ? 17 : 18 ){
-            //                ForEach(AnnoucementList.Annouces, id: \.id) { item in
-            //                    AnnouceButtonView(showingSheet: $showingSheet, detailId: $detailId, onAppearImg: $onAppearImg, itemImg: item.img, itemTitle: item.title, itemId: item.id, prop: prop, students: students, language: self.language)
-            //                        .buttonStyle(PlainButtonStyle())
-            //                        .sheet(isPresented: $showingSheet) {
-            //                            Annoucements(prop: prop, postId: $detailId, language: self.language)
-            //                        }
-            //                }
-            //            }
-            //        }
-            
-            //        ZStack{
-            //            ScrollView(.horizontal, showsIndicators: false) {
-            //                HStack(spacing: prop.isiPhoneS ? 20 : prop.isiPhoneM ? 12 : prop.isiPhoneL ? 14 : 16){
-            //                    ForEach(AnnoucementList.Annouces, id: \.id) { item in
-            //
-            //                        if reloadingAnn{
-            //                            VStack{
-            //                                ProgressView()
-            //                                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-            //                                    .progressViewStyle(.circular)
-            //                                Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
-            //                                    .foregroundColor(.blue)
-            //                            }
-            //                            .frame(maxWidth: .infinity, alignment: .center)
-            //                            .onAppear{
-            //                                DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-            //                                    self.reloadingAnn = false
-            //                                }
-            //                            }
-            //                        } else {
-            //                            Button {
-            //                                self.showingSheet.toggle()
-            //                                detailId = item.id
-            //                            } label: {
-            //
-            //                                AsyncImage(url: URL(string: item.img ), scale: 2){image in
-            //
-            //                                    switch  image {
-            //
-            //                                    case .empty:
-            //                                        VStack{
-            //                                            ProgressView()
-            //                                                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-            //                                                .progressViewStyle(.circular)
-            //                                            Text("សូមរងចាំ".localizedLanguage(language: self.language))
-            //                                                .foregroundColor(.blue)
-            //                                        }
-            //                                    case .success(let image):
-            //                                        ZStack(alignment: .bottomLeading) {
-            //                                            image
-            //                                                .resizable()
-            //                                                .aspectRatio(contentMode: .fill)
-            //                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            //                                                .cornerRadius(20)
-            //                                            Rectangle()
-            //                                                .foregroundColor(.clear)
-            //                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            //                                                .overlay(
-            //                                                    getGradientOverlay()
-            //                                                        .cornerRadius(20)
-            //                                                )
-            //                                        }
-            //
-            //                                        .overlay(
-            //                                            Text(item.title)
-            //                                                .font(.custom("Bayon", size: prop.isiPhoneS ? 10 : prop.isiPhoneM ? 12 : 14, relativeTo: .body))
-            //                                                .foregroundColor(.blue)
-            //                                                .multilineTextAlignment(.leading)
-            //                                                .padding()
-            //                                            , alignment: .bottomLeading
-            //
-            //                                        )
-            //
-            //                                    case .failure:
-            //                                        Text("មិនរកដំណឹងថ្មីៗបាន".localizedLanguage(language: self.language))
-            //                                            .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
-            //                                            .foregroundColor(.pink)
-            //                                            .onAppear{
-            //                                                if !item.img.isEmpty{
-            //                                                    self.reloadingAnn = true
-            //                                                }
-            //                                            }
-            //                                    @unknown default:
-            //                                        fatalError()
-            //                                    }
-            //                                }
-            //
-            //                            }
-            //                            .sheet(isPresented: $showingSheet) {
-            //                                Annoucements(prop: prop, postId: $detailId, language: self.language)
-            //                            }
-            //                        }
-            //                    }
-            //                }
-            //                .frame(maxWidth: .infinity,maxHeight: prop.isLandscape && prop.isiPhone ? 250 : prop.isiPad ? 300 :  250 )
-            //            }
-            //            if !(prop.isLandscape || prop.isiPad){
-            //                Color( colorScheme == .dark ? "Black" : "BG")
-            //                    .frame(maxWidth: .infinity,maxHeight: prop.isLandscape && prop.isiPhone ? 250 : prop.isiPad ? 300 :  250 )
-            //            }
-            //        }
-        }
     }
     
     @ViewBuilder
@@ -1218,95 +1211,95 @@ struct Dashboard_Previews: PreviewProvider {
     }
 }
 
-//struct AnnouceButtonView: View{
-//    @Binding var showingSheet: Bool
-//    @Binding var detailId: String
-//    @Binding var onAppearImg: Bool
-//    @State private var reloadingAnn: Bool = false
-//    var itemImg: String
-//    var itemTitle: String
-//    var itemId: String
-//    var prop: Properties
-//    var students: ListStudentViewModel
-//    var language: String
-//    var body: some View{
-//        Button {
-//            self.showingSheet.toggle()
-//            detailId = itemId
-//        } label: {
-//            if reloadingAnn{
-//                VStack{
-//                    ProgressView()
-//                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-//                        .progressViewStyle(.circular)
-//                    Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
-//                        .foregroundColor(.blue)
-//                }
-//                .frame(maxWidth: .infinity, alignment: .center)
-//                .onAppear{
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-//                        self.reloadingAnn = false
-//                    }
-//                }
-//            } else {
-//                AsyncImage(url: URL(string: itemImg ), scale: 1){image in
-//                    switch  image {
-//
-//                    case .empty:
-//                        VStack{
-//                            ProgressView()
-//                                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-//                                .progressViewStyle(.circular)
-//                            Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
-//                                .foregroundColor(.blue)
-//                        }
-//                        .frame(maxWidth: .infinity, alignment: .center)
-//                    case .success(let image):
-//                        ZStack(alignment:.bottom){
-//                            image
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fill)
-//                                .frame(maxWidth: .infinity,maxHeight: .infinity)
-//                                .cornerRadius(30)
-//                            Rectangle()
-//                                .frame(maxWidth: .infinity, maxHeight: prop.isiPhoneS ? 80 : prop.isiPhoneM ? 90 : prop.isiPhoneL ? 150 : 120)
-//                                .foregroundColor(.clear)
-//                                .overlay(
-//                                    getGradientOverlay()
-//                                        .cornerRadius(30)
-//                                )
-//                            HStack(spacing: 0){
-//                                Text(itemTitle)
-//                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18, relativeTo: .body))
-//                                    .foregroundColor(.blue)
-//                                    .padding()
-//                                    .frame(maxWidth:.infinity, alignment: .leading)
-//
-//                            }
-//                        }
-//                        .onAppear{
-//                            if students.AllStudents.isEmpty{
-//                                self.onAppearImg = false
-//                            }
-//                        }
-//                    case .failure:
-//                        Text("មិនអាចទាញទិន្ន័យបាន".localizedLanguage(language: self.language))
-//                            .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
-//                            .foregroundColor(.pink)
-//                            .onAppear{
-//                                if students.AllStudents.isEmpty{
-//                                    self.onAppearImg = false
-//                                }
-//                                if !itemImg.isEmpty{
-//                                    self.reloadingAnn = true
-//                                }
-//
-//                            }
-//                    @unknown default:
-//                        fatalError()
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
+struct AnnouceButtonView: View{
+    @Binding var showingSheet: Bool
+    @Binding var detailId: String
+    @Binding var onAppearImg: Bool
+    @State private var reloadingAnn: Bool = false
+    var itemImg: String
+    var itemTitle: String
+    var itemId: String
+    var prop: Properties
+    var students: ListStudentViewModel
+    var language: String
+    var body: some View{
+        Button {
+            self.showingSheet.toggle()
+            detailId = itemId
+        } label: {
+            if reloadingAnn{
+                VStack{
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                        .progressViewStyle(.circular)
+                    Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
+                        .foregroundColor(.blue)
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+                .onAppear{
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                        self.reloadingAnn = false
+                    }
+                }
+            } else {
+                AsyncImage(url: URL(string: itemImg ), scale: 1){image in
+                    switch  image {
+
+                    case .empty:
+                        VStack{
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                .progressViewStyle(.circular)
+                            Text("សូមរង់ចាំ".localizedLanguage(language: self.language))
+                                .foregroundColor(.blue)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    case .success(let image):
+                        ZStack(alignment:.bottom){
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(maxWidth: .infinity,maxHeight: .infinity)
+                                .cornerRadius(30)
+                            Rectangle()
+                                .frame(maxWidth: .infinity, maxHeight: prop.isiPhoneS ? 80 : prop.isiPhoneM ? 90 : prop.isiPhoneL ? 150 : 120)
+                                .foregroundColor(.clear)
+                                .overlay(
+                                    getGradientOverlay()
+                                        .cornerRadius(30)
+                                )
+                            HStack(spacing: 0){
+                                Text(itemTitle)
+                                    .font(.custom("Bayon", size: prop.isiPhoneS ? 14 : prop.isiPhoneM ? 16 : 18, relativeTo: .body))
+                                    .foregroundColor(.blue)
+                                    .padding()
+                                    .frame(maxWidth:.infinity, alignment: .leading)
+
+                            }
+                        }
+                        .onAppear{
+                            if students.AllStudents.isEmpty{
+                                self.onAppearImg = false
+                            }
+                        }
+                    case .failure:
+                        Text("មិនអាចទាញទិន្ន័យបាន".localizedLanguage(language: self.language))
+                            .font(.custom("Bayon", size:prop.isiPhoneS ? 18 : prop.isiPhoneM ? 20 : prop.isiPhoneL ? 22 : 26, relativeTo: .largeTitle))
+                            .foregroundColor(.pink)
+                            .onAppear{
+                                if students.AllStudents.isEmpty{
+                                    self.onAppearImg = false
+                                }
+                                if !itemImg.isEmpty{
+                                    self.reloadingAnn = true
+                                }
+
+                            }
+                    @unknown default:
+                        fatalError()
+                    }
+                }
+            }
+        }
+    }
+}
